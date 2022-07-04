@@ -1,0 +1,456 @@
+.TH utftex 1 "05 Jan 2019"
+.SH NAME
+utftex \- An UTF-8 unicode equation renderer
+.SH SYNOPSIS
+.B utftex
+.I [options] [equation] ...
+.SH DESCRIPTION
+The aim of utftex is to use the possibilities unicode provides to display math in simple UTF-8 encoded text. 
+utftex renders mathematical equations in mono-space unicode characters, i.e. unicode-art. It is intended
+to insert equations in source code, e-mails, and man-pages. It generally works without introducing additional 
+dependencies as most text editors and e-mail programs already support UTF-8 encoding out of the box.
+
+Unicode provides many code-points which are intended for mathematical expressions. It even supplies some 
+characters which are intended to "draw" math such as the top (⌠) and bottom (⌡) of an integral symbol. This way 
+you can draw an integral symbol such as this:
+.br
+⌠
+.br
+⎮
+.br
+⌡
+.br
+
+.B utftex
+uses an (ASCII or UTF-8 encoded) input with a syntax similar to LaTeX and outputs an UTF-8 encoded text.
+
+.SH OPTIONS
+All arguments are optional.
+If no arguments are passed utftex will read one equation from stdin.
+.br
+
+.B [equation]
+.br
+Each [equation] argument is parsed as one latex equation (i.e. more than one equation may be passed).
+
+.B [--line-width -l]
+.br
+Define the output line width. If it is 0 the line width is unlimited (default). This causes utftex to insert line breaks 
+at suitable places to divide the expression over multiple lines. It is not guaranteed that suitable locations are found 
+to insert line breaks and thus the actual line length may exceed the specified one.
+
+.B [--symbol-list -s]
+List all symbols supported by this version of utftex. Supported in this case means that an input command exists to 
+generate the symbol as output, e.g. \ealpha as input generates α as output
+
+.B [--verbose -v]
+.br
+Print version and exit
+
+.B [--show-input -i]
+.br
+Print input before the rendered results. 
+
+.B [--wchar-width -w]
+.br
+Specify the size of wide characters. Valid sizes are 1 and 2. Default is 2. 
+
+.B [--fchar-width -f]
+.br
+Specify the size of full width characters. Valid sizes are 1 and 2. Default is 2. 
+
+.B [--default-font -F]
+.br
+Specify the default font style to use. See the Fonts below. The font names correspond to the font commands minus the slash and the argument.
+e.g. one could pass "-F mathnormal". Without this option the default font is set to "text" as not all fonts support the other font styles.
+
+.SH SYNTAX
+
+.B Fonts:
+Unicode defines various font styles which may be accessed with utftex. For this the following commands are available
+.br
+.B \emathsfbfit{...}\t
+Mathematical sans-serif bold italic fonts
+.br
+.B \emathsfbf{...}\t\t
+Mathematical sans-serif bold fonts
+.br
+.B \emathfrak{...}\t\t
+Fraktur caligraphic script
+.br
+.B \emathbfit{...}\t\t
+Mathematical serif bold italic fonts
+.br
+.B \emathsfit{...}\t\t
+Mathematical sans-serif italic fonts
+.br
+.B \emathcal{...}\t\t
+Mathematical caligraphic fonts
+.br
+.B \emathscr{...}\t\t
+Euler script fonts
+.br
+.B \emathbf{...}\t\t
+Mathematical serif bold fonts
+.br
+.B \emathbb{...}\t\t
+Mathematical black-board bold fonts
+.br
+.B \emathsf{...}\t\t
+Mathematical sans-serif fonts
+.br
+.B \emathtt{...}\t\t
+Mathematical typewriter fonts
+.br
+.B \emathnormal{...}\t
+Normal Mathematical fonts
+.br
+.B \etext{...}\t\t
+Roman fonts (plain font style)
+.br
+.B \eit\t\t\t\t
+Switch current block to italic fonts
+.br
+.B \ebf\t\t\t\t
+Switch current block to bold fonts
+.br
+.B \erm\t\t\t\t
+Switch current block to roman fonts
+.br
+
+.B commands to insert symbols, special characters, and operators
+.br
+There is a large set of symbols that may be inserted with the usual (or sometimes less usual) LaTeX commands. 
+You can list the available symbols and corresponding commands by running 
+.B utftex
+with the --symbol-list option
+
+.B \efrac{a}{b}, a\eover b
+.br
+A fraction of a and b.
+
+.B a^{b}
+.br
+super-script
+One can also omit the braces. 
+In this case the first character following ^ will be in super-scripted.
+
+.B a_{b}
+.br
+sub-script
+Works just like super-script only now it is a sub-script.
+
+.B \esqrt[n]{a}
+.br
+A n-th root of a, the argument [n] is optional. 
+Without it it produces the square root of a. Note that these commands draw a variable size 
+radix. The unicode radix signs (one character sized) are available as \eutfsqrt \eutfsqrt[3] and \eutfsqrt[4]
+
+.B \esum
+.br
+Expands to a large sigma symbol. The unicode sum symbol can be generated using \eutfsum.
+
+.B \eprod
+.br
+Expands to the product symbol. The unicode product symbol can be generated using \eutfprod.
+
+
+.B \eint[S]
+.br
+Expands to the integral symbol. The optional argument [S] makes the symbol scale with the height of the integrand. The 
+unicode integral symbol can be generated using \eutfint.
+
+
+.B \eiint[S]
+.br
+Expands to a double integral symbol. The optional argument [S] makes the symbol scale with the height of the integrand. The 
+unicode double integral symbol can be generated using \eutfiint.
+
+.B \eiiint[S]
+.br
+Expands to a triple integral symbol. The optional argument [S] makes the symbol scale with the height of the integrand. The 
+unicode triple integral symbol can be generated using \eutfiint.
+
+.B \eiiiint[S]
+.br
+Expands to a quadruple integral symbol. The optional argument [S] makes the symbol scale with the height of the integrand. The 
+unicode quadruple integral symbol can be generated using \eutfiint.
+
+.B \eidotsint[S]
+.br
+Expands to two integral symbols with dots in between. The optional argument [S] makes the symbol scale with the height of the integrand.
+
+.B \eoint[S]
+.br
+A contour integral. The optional argument [S] makes the symbol scale with the height of the integrand.
+
+.B \eoiint[S]
+.br
+A double contour integral. The optional argument [S] makes the symbol scale with the height of the integrand.
+
+.B \eoiiint[S]
+.br
+A tripple contour integral. The optional argument [S] makes the symbol scale with the height of the integrand.
+
+.B \eoiiiint[S]
+.br
+A quadruple contour integral. The optional argument [S] makes the symbol scale with the height of the integrand.
+
+.B \eoidotsint[S]
+.br
+Expands to two contour integral symbols with dots in between. The optional argument [S] makes the symbol scale with the height of the integrand.
+
+.B \eleft<delimiter>
+,
+.B \emiddle<delimiter>
+,
+.B \eright<delimiter>
+.br
+Creates variable sized delimiters around and in between content. 
+Available variable size delimiters are:
+.br
+.B ( ) [ ] { } < > | \e| 
+.br
+.B \euparrow \eUparrow \edownarrow \eDownarrow \eupdownarrow \eUpdownarrow 
+.br
+.B \elceil \erceil \elfloor \erfloor 
+.br
+.B/ \ebackslash .
+.br
+The \emiddle command is optional and may be omitted. The special dot (.) delimiter is a dummy delimiter that can be used to open 
+or close a \eleft ... \eright construct without a delimiter being shown.
+
+.B \elim
+.br
+Expands to a limit, i.e. \elim_{x \eto 0}.
+
+.B \eoverline{X}, \ebar{X}
+.br
+Draws a line above expression X
+
+.B \eunderline{X}
+.br
+Draws a line under expression X
+
+.B \e\e
+.br
+Insert a line break.
+
+.B \ea
+.br
+Escapes the character \fIa\fR. Useful for inserting characters like ^, and _ in your equation.  
+
+.B \elimits
+.br
+Controls the placements of sub and superscripts. Normally the sub and superscripts are places to 
+the left of its arguments. Using limits you can change this to centered below and above its argument,
+e.g. \eint\elimits_a^b
+
+.B \ebox{W}{H}
+.br
+Makes an empty box which is W characters wide and H characters high. This may be used to adjust spacing
+
+.B \eraisebox{off}{...}
+.br
+Makes a box and raises its contents bz off characters
+
+.B \eexp, \eln, \elog, \emin, \emax, \esin, \ecos, \etan, \ecot, \earcsin, \earccos, \earctan, \earccot, \esinh, \ecosh, \etanh, \ecoth, \esec, \ecsc
+.br
+Functions (function names are formatted in normal text fonts)
+
+.B Environments
+.br
+Several array-like environments are available. The most general form is the array environment
+.br 
+.B \ebegin{array}[pos]{column alignments}
+.br
+.I
+    a00 & a01 & ... a0n \e\e 
+.br 
+    a10 & a11 & ... a1n \e\e
+.br
+    ... & ... & ... ... \e\e
+.br
+    am0 & am1 & ... amn
+.br
+.B \eend{array}
+.br
+Makes an array. 
+The optional argument pos sets the alignment of the array to t(op), b(ottom) or c(enter). 
+The column alignments consist of one character per column, l(eft), c(enter), or r(ight). 
+Horizontal lines may be inserted with a \ehline command. Vertical lines may be inserted 
+by inserting |'s in the column alignment argument (as with LaTeX).
+.br
+.br
+Several derived environments are provided.
+.br
+.B \ebegin{cases}
+.br
+.I
+    a00 & ... a0n \e\e 
+.br
+    ... & ... ... \e\e
+.br
+    am0 & ... amn
+.br
+.B \eend{cases}
+.br
+Equivalent to \eleft{\ebegin{array}{c...c} ...\eend{array}\eright.
+.br
+.br
+
+.B \ebegin{pmatrix}
+.br
+.I
+    a00 & ... a0n \e\e 
+.br
+    ... & ... ... \e\e
+.br
+    am0 & ... amn
+.br
+.B \eend{pmatrix}
+.br
+Equivalent to \eleft(\ebegin{array}{c...c} ...\eend{array}\eright)
+.br
+.br
+
+.B \ebegin{vmatrix}
+.br
+.I
+    a00 & ... a0n \e\e 
+.br
+    ... & ... ... \e\e
+.br
+    am0 & ... amn
+.br
+.B \eend{vmatrix}
+.br
+Equivalent to \eleft|\ebegin{array}{c...c} ...\eend{array}\eright|
+.br
+.br
+
+.B \ebegin{bmatrix}
+.br
+.I
+    a00 & ... a0n \e\e 
+.br
+    ... & ... ... \e\e
+.br
+    am0 & ... amn
+.br
+.B \eend{bmatrix}
+.br
+Equivalent to \eleft[\ebegin{array}{c...c} ...\eend{array}\eright]
+.br
+.br
+
+.B \ebegin{Bmatrix}
+.br
+.I
+    a00 & ... a0n \e\e 
+.br
+    ... & ... ... \e\e
+.br
+    am0 & ... amn
+.br
+.B \eend{Bmatrix}
+.br
+Equivalent to \eleft{\ebegin{array}{c...c} ...\eend{array}\eright}
+.br
+.br
+
+.B \ebegin{matrix}
+.br
+.I
+    a00 & ... a0n \e\e 
+.br
+    ... & ... ... \e\e
+.br
+    am0 & ... amn
+.br
+.B \eend{matrix}
+.br
+Equivalent to \ebegin{array}{c...c} ...\eend{array}
+.br
+
+.SH A NOTE ON FONTS
+.B utftex
+depends on mono-space fonts. If your equations are all misaligned make sure you use a mono-space fonts. If you do specify a mono-spaced font, 
+be aware that most fonts do not support all defined unicode code-points. When a font does not provide a requested unicode code-point your 
+program/system may use a fall-back font or simply not display the character properly. This could also mean your math will still get misaligned, 
+despite using a monospace font, if the fall-back font is not mono-spaced. In this case make sure the fall-back font is mono-spaced and that the 
+spacing matches that of your primary font. I recommend "monospacifier" to generate an appropriate fall-back font for your primary font. 
+Get it at
+.br
+.B https://github.com/cpitclaudel/monospacifier
+
+.SH A NOTE ON COMBINING DIACRITICAL MARKS
+.B utftex
+provides commands to insert combining diacritical marks, e.g. \ehat for the Combining Circumflex Accent. In principle this system is great but 
+due to limitations in layout engine and/or the used fonts such combining characters do not always display properly and various glitches in 
+display may be the result. 
+
+.SH EXAMPLES
+If the following equations do not render properly make sure you read and understood the section "A NOTE ON FONTS".
+.B A simple fraction:
+.nf
+utftex "\efrac{1}{1+x}"
+ 1 
+───
+1+x
+
+.fi
+.B An arbitrary equation with the mathnormal font as default:
+.nf
+utftex -F mathnormal '\elfloor x\erfloor  = x - \efrac{1}{2} + \esum_{k=1}^{\einfty} 
+\efrac{\esin(2 \epi k x)}{\epi k}'
+               ∞             
+          1    ⎲  sin(2 π𝑘 𝑥)
+⌊𝑥⌋ = 𝑥 - ─ +  ⎳  ───────────
+          2   𝑘=1      π𝑘    
+
+.fi
+.B A small table of Laplace transforms:
+.nf
+utftex '\ebegin{array}{|l|l|}
+\ehline
+f(t) & \emathscr{L}[f(t)]=F(s) \e\e\ehline
+1 & \efrac{1}{s} \e\e\ehline
+e^{at}f(t) & F(s-a) \e\e\ehline
+\edelta(t) & 1 \e\e\ehline
+\edelta(t-t_0) & e^{-st_0} \e\e\ehline
+\eint_0^t f(x)g(t-x)dx & F(s)G(s) \ehline
+\eend{array}'
+┌────────────────┬──────────────┐
+│f(t)            │ 𝓛[f(t)]=F(s) │
+├────────────────┼──────────────┤
+│                │ 1            │
+│1               │ ─            │
+│                │ s            │
+├────────────────┼──────────────┤
+│ at             │              │
+│e  f(t)         │ F(s-a)       │
+├────────────────┼──────────────┤
+│δ(t)            │ 1            │
+├────────────────┼──────────────┤
+│                │  -st         │
+│                │     0        │
+│δ(t-t )         │ e            │
+│     0          │              │
+├────────────────┼──────────────┤
+│ t              │              │
+│⌠               │              │
+│⎮  f(x)g(t-x)dx │ F(s)G(s)     │
+│⌡               │              │
+│ 0              │              │
+└────────────────┴──────────────┘
+.fi
+.SH AUTHOR
+Bart Pieters
+.SH LICENSE
+GNU GENERAL PUBLIC LICENSE Version 3
+.SH VERSION
+1.0
+.SH SEE ALSO
+.B 
+

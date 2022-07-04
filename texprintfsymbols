@@ -1,0 +1,11 @@
+TEXPRINTF_LW
+TEXPRINTF_FONT
+TEXPRINTF_FCW
+TEXPRINTF_WCW
+TEXPRINTF_ERR
+texprintf
+stexprintf
+ftexprintf
+texboxtree
+texlistsymbols
+texerrors

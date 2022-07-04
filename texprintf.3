@@ -1,0 +1,80 @@
+.TH texprintf 1.0.0 "13 Jan 2019"
+.SH NAME
+texprintf, stexprintf, ftexprintf, texlistsymbols, texboxtree \- Extended formatted output functions
+.SH SYNOPSIS
+.nf
+.B #include <texprintf.h>
+.PP
+.BI "int texprintf(const char *format, ...);"
+.BI "char * stexprintf(const char *format, ...);"
+.BI "int ftexprintf(const char *format, ...);"
+.BI "void texlistsymbols();"
+.BI "void texboxtree(const char *format, ...);"
+.BI "void texlistsymbols();"
+.BI "void texerrors();"
+.fi
+.PP
+In adition to the above functions <texprintf.h> defines several variables:
+.nf
+.PP
+.BI "int TEXPRINTF_LW;"
+.BI "char * TEXPRINTF_FONT;"
+.BI "int TEXPRINTF_ERR;"
+.fi
+.PP
+
+.SH DESCRIPTION
+The functions in the texprintf family provide formatted output like the printf family of functions extended
+with a tex-like syntax. The functions generate UTF-8 encoded strings and assume that monospace fonts are used
+(also for symbols, beware of non-monospace fallback fonts).
+
+.br
+Please refer to the utftex man page for details on the tex-like syntax provided by these functions. Refer to
+the man page of printf for a description of the format.
+
+.br
+Upon successful return the functions texprintf, and ftexprintf return the number of characters
+printed (excluding the null byte used to end output to strings). The stexprintf function
+returns an allocated string containing the result. 
+
+.br
+With the integer TEXPRINTF_LW, the line width may be limited. Per default the line width is not limited 
+(TEXPRINTF_LW=0). If TEXPRINTF_LW is set to a positive integer, the texprintf functions will 
+.B try 
+to limit the line width to this number of characters, i.e., tt tries to break up the equation 
+over more than one line. To this end the texprinf engine must find suitable places to break the equation.
+As it is not guaranteed a suitable location is found, the line width is 
+.B not
+guaranteed.
+
+.br
+The string TEXPRINTF_FONT can be used to specify the default font. The available fonts are
+.nf
+.BI "mathsfbfit" 
+.BI "mathsfbf" 
+.BI "mathfrak" 
+.BI "mathbfit" 
+.BI "mathsfit" 
+.BI "mathcal" 
+.BI "mathscr" 
+.BI "mathbf" 
+.BI "mathbb" 
+.BI "mathsf" 
+.BI "mathtt" 
+.BI "mathnormal"
+.BI "text (default)"
+.fi
+.br
+The integer TEXPRINTF_ERR is an error flag. If its value is non zero after a call to any of the texprintf functions,
+an error has occurred in parsing the input. A call to texerrors() will print the corresponding error messages. 
+A call to texerrors() will print the related error messages.
+.br
+The function texlistsymbols() prints all symbols the texprintf system knows. 
+.br
+The texboxtree(const char *format, ...) is for debugginbg purposes. It takes the same arguments as texprintf, however,
+its output is a description of the resulting internal box datastructures.  
+
+
+.SH SEE ALSO
+printf(3), utftex(1)
+

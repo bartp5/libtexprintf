@@ -144,7 +144,7 @@ typedef struct {
 
 const Symbol  Symbols[] = {
 /* basic latin */
-	{"\\,",                    0x00020},
+//	{"\\,",                    0x00020}, /* take spacing out of the preprocessor */
 //	{"\\;",                    0x00020}, /* take spacing out of the preprocessor */
 	{"\\_",                    0x0005F},
 	{"\\{",                    0x0007B},

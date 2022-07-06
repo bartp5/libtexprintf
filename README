@@ -61,6 +61,14 @@ e^{at}f(t) & F(s-a) \\\hline
 Note that if the table borders do not properly align you ar not viewing 
 the table in monospace fonts. 
 
+utfstringinfo
+-------------
+Utility to analyze strings UTF-8 strings. The utfstringinfo  program 
+reads  arguments or, if no arguments are provided, stdin and for every 
+single character it finds it shows  the  UTF-8  character sequence, the 
+unicode code-point and, if applicable, the utftex command that can be 
+used to generate the symbol.  
+
 Questions One Might Ask (QOMA)
 ------------------------------
 

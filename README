@@ -24,8 +24,8 @@ with arrays, brackets, many symbols, and even fonts (unicode actually
 supports verious font styles). 
 
 A bit more elaborate example is this small table of Laplace transforms:
-utftex '\begin{array}{|l|l|}`  
-\hline`  
+utftex '\begin{array}{|l|l|}  
+\hline  
 f(t) & \mathscr{L}[f(t)]=F(s) \\\hline  
 1 & \frac{1}{s} \\\hline  
 e^{at}f(t) & F(s-a) \\\hline  
@@ -57,6 +57,7 @@ e^{at}f(t) & F(s-a) \\\hline
 │⌡               │              │  
 │ 0              │              │  
 └────────────────┴──────────────┘  
+
 
 Note that if the table borders do not properly align you ar not viewing 
 the table in monospace fonts. 
@@ -94,3 +95,29 @@ How do I specify the fallback fonts in <insert some program/system>?
 	-> This will depend on your system and/or program you are using. If 
 	   your system uses fontconfig you may try that to set up an 
 	   appropriate mono-space fallback font.
+
+How do I specify the fallback fonts in with fontconfig?
+	-> Let us assume you use some monospace font called "MONO" and we 
+	   have some symbol monospace fallback font for it "SYMBOLMONO". 
+	   Here are the steps:
+	   1: Install all fonts (e.g. copy font files to 
+	      ~/.local/share/fonts and run "fc-cache -f -v")
+	   2: Then create a fontconfig file in 
+	      ~/.config/fontconfig/fonts.conf
+	      It could look something like (replace the font names with the 
+	      approprate values):
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+<alias>
+   <family>monospace</family>
+   <prefer>
+     <family>MONO</family>
+     <family>SYMBOLMONO</family>
+   </prefer>
+ </alias>
+</fontconfig>
+	   
+	     
+
+

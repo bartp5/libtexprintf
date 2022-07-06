@@ -121,6 +121,12 @@ void DrawBoxTreeRec(box *b, int indent)
 		printf("(x,y)=(%d,%d)\n", b->ax, b->ay);
 	else
 		printf("(x,y)=(?,?)\n");
+	
+	Indent(indent+NIDENT);
+	if (b->S>=RELPOSKNOWN)
+		printf("(rx,ry)=(%d,%d)\n", b->rx, b->ry);
+		else
+			printf("(rx,ry)=(?,?)\n");	
 	if (b->S>=SIZEKNOWN)
 	{				
 		Indent(indent+NIDENT);

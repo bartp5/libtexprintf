@@ -42,8 +42,13 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 	b->Y=FIX; /* fix it */
 	if (subscript)
 	{
-		/* put the subscript contents in a second child of the posbox */
-		ParseStringRecursive(subscript, b, Font);
+		int *Ncol;		
+		/* create a line box for the subscript */
+		Ncol=malloc(sizeof(int));
+		Ncol[0]=0;
+		AddChild(b, B_LINE, (void *)Ncol);		
+		/* parse the line box into this box */
+		ParseStringRecursive(subscript, b->child+b->Nc-1, Font);
 		b->S=INIT;
 
 		BoxPos(b);
@@ -72,11 +77,17 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 	}
 	if (superscript)
 	{
-		ParseStringRecursive(superscript, b, Font);
+		int *Ncol;		
+		/* create a line box for the subscript */
+		Ncol=malloc(sizeof(int));
+		Ncol[0]=0;
+		AddChild(b, B_LINE, (void *)Ncol);		
+		/* parse the line box into this box */
+		ParseStringRecursive(superscript, b->child+b->Nc-1, Font);
 		b->S=INIT;
 
 		BoxPos(b);
-	
+		/* no need to shift the original box */
 	
 		
 		if (!limits)

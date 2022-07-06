@@ -1277,6 +1277,7 @@ TOKEN Lexer(char *begin, FONT F)
 {
 	TOKEN T;
 	T=SubLexer(begin, F);
+	
 	if (T.P==PD_BEGIN)
 		return BeginEnv(T);
 	return T;

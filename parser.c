@@ -47,7 +47,7 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 		Ncol=malloc(sizeof(int));
 		Ncol[0]=0;
 		AddChild(b, B_LINE, (void *)Ncol);		
-		/* parse the line box into this box */
+		/* parse the subscript into this line box */
 		ParseStringRecursive(subscript, b->child+b->Nc-1, Font);
 		b->S=INIT;
 
@@ -82,13 +82,12 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 		Ncol=malloc(sizeof(int));
 		Ncol[0]=0;
 		AddChild(b, B_LINE, (void *)Ncol);		
-		/* parse the line box into this box */
+		/* parse the superscript box into this line box */
 		ParseStringRecursive(superscript, b->child+b->Nc-1, Font);
 		b->S=INIT;
 
 		BoxPos(b);
 		/* no need to shift the original box */
-	
 		
 		if (!limits)
 			xy[bi*2]=w;
@@ -110,7 +109,7 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 	BoxSetState(b, SIZEKNOWN);
 }
 
-/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 // ERRORFLAG ERRSCALEDELPOSBOX  "Variable size delimiters need a posbox"
 /* scalable Delimiters */
 void LeftBrac(box *posbox, int h)
@@ -1000,7 +999,7 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 	}
 	if ((bi1<0)&&(bi2<0))
 	{	
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRNOBODYINLR  "Missing body argument in \\left ... \\right construct"
 		AddErr(ERRNOBODYINLR);
 		return;
@@ -2120,7 +2119,7 @@ void RescaleVsep(box *vsep, int h)
 	int i;
 	if (vsep->T!=B_POS)
 	{		
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRSCALEVPOSBOX  "RescaleVsep should only be used on a posbox"
 		AddErr(ERRSCALEVPOSBOX);
 		return;
@@ -2182,7 +2181,7 @@ void RescaleHsep(box *hsep, int w)
 	int i;
 	if (hsep->T!=B_POS)
 	{	
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRSCALEHPOSBOX  "RescaleHsep should only be used on a posbox"
 		AddErr(ERRSCALEHPOSBOX);
 		return;

@@ -73,7 +73,7 @@ int BoxInBox(box *b, boxtype T, void *content)
 	
 	if (!b->parent)
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRBOXINBOX  "BoxInBox cannot take the root box as an agument"
 		AddErr(ERRBOXINBOX);
 		return 1;
@@ -159,7 +159,7 @@ box *FindBoxAtPos(box *b, int x, int y)
 	}
 	else
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRBOXATPOS  "Box positions unknown in FindBoxAtPos"
 		AddErr(ERRBOXATPOS);
 		return NULL;
@@ -172,7 +172,7 @@ int UnitBoxSize(box *b)
 {
 	if (b->T!=B_UNIT)
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRUBOXSIZE  "Call of UnitBoxSize on something not a unit box"
 		AddErr(ERRUBOXSIZE);
 		return 1;
@@ -211,7 +211,7 @@ int ArrayBoxSize(box *b)
 	
 	if (b->T!=B_ARRAY)
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRABOXSIZE  "Call of ArrayBoxSize on something not an array box"
 		AddErr(ERRABOXSIZE);
 		return 1;
@@ -344,7 +344,7 @@ int PosBoxSize(box *b)
 	
 	if (b->T!=B_POS)
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRPBOXSIZE  "Call of PosBoxSize on something not a pos box"
 		AddErr(ERRPBOXSIZE);
 		return 1;
@@ -364,7 +364,7 @@ int PosBoxSize(box *b)
 	{
 		if ((xy[2*i]<0)||(xy[2*i+1]<0))
 		{
-			/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+			/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 			// ERRORFLAG ERRNEGRELPOS  "Relative positions may not be negative in PosBoxSize"
 			AddErr(ERRNEGRELPOS);
 			return 1;
@@ -414,7 +414,7 @@ int DummyBoxSize(box *b)
 {
 	if (b->T!=B_DUMMY)
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRDBOXSIZE  "Call of DummyBoxSize on something not a dummy box"
 		AddErr(ERRDBOXSIZE);
 		return 1;
@@ -428,7 +428,7 @@ int EndlineBoxSize(box *b)
 {
 	if (b->T!=B_ENDLINE)
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRELBOXSIZE  "Call of EndlineBoxSize on something not a endline box"
 		AddErr(ERRELBOXSIZE);
 		return 1;
@@ -450,7 +450,7 @@ int LineBoxSize(box *b)
 	
 	if (b->T!=B_LINE)
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG ERRLBOXSIZE "LineBoxSize can only be used on line boxes"
 		AddErr(ERRLBOXSIZE);
 		return 1;
@@ -599,7 +599,7 @@ int BoxSize_children(box *b) /* computes size of the children */
 					err+=EndlineBoxSize(ms);
 					break;
 				default:
-					/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+					/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 					// ERRORFLAG ERRUNKNOWNBOX "Unknown box type in BoxSize"
 					AddErr(ERRUNKNOWNBOX);
 					return 1;

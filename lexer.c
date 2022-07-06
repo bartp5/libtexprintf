@@ -12,7 +12,7 @@
 */
 
 
-/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 // ERRORFLAG LEXPREMATUREEND "Premature end of string"
 
 #define MAXSTRLEN 100000
@@ -122,7 +122,7 @@ PRSDEF  LookupFont(char *begin)
 				case PD_MATHNORMAL:
 					return Keys[j].P;
 				default:
-					/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+					/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 					// ERRORFLAG ERRUNKNOWNFONT  "Unknown font type, using text instead"
 					AddErr(ERRUNKNOWNFONT);
 					return PD_TEXT;
@@ -270,7 +270,7 @@ void LexAddScripts(TOKEN *T, char *begin)
 			if (T->sub)
 			{
 				
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRMULTISUB  "Multiple Subscripts"
 				AddErr(ERRMULTISUB);
 				/* now what? */
@@ -284,7 +284,7 @@ void LexAddScripts(TOKEN *T, char *begin)
 			begin++;
 			if (T->super)
 			{
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRMULTISUP  "Multiple Superscripts"
 				AddErr(ERRMULTISUP);
 			}
@@ -477,7 +477,7 @@ void PeekAhead(TOKEN *T, char *begin)
 }
 
 
-/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 // ERRORFLAG INVALIDDELIMITER  "Invalid Delimiter"
 void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **open, char **middle, char **close)
 {
@@ -560,7 +560,7 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 	}
 	else
 	{
-		/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+		/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 		// ERRORFLAG NORIGHTBRAC  "Premature end, no \\right found"
 		AddErr(NORIGHTBRAC);
 		/* we insert one, the show must go on */
@@ -605,7 +605,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 				{
 					if ((*hsep)[row-1]=='-')
 					{
-						/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+						/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 						// ERRORFLAG ERRDOUBLEHLINE  "Double \\hline"
 						AddErr(ERRDOUBLEHLINE);
 						/* ignore it by decreasing row */
@@ -636,7 +636,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 			}
 			else
 			{	
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRUNEXPHLINE  "unexpected \\hline in the middle of a row"
 				AddErr(ERRUNEXPHLINE);
 				/* just ignore */	
@@ -685,7 +685,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 							if (nc!=nnc)
 							{							
 								/* error is Fatal */	
-								/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+								/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 								// ERRORFLAG ERRNUMCOLMATCH  "Unequal number of columns in different rows"
 								AddErr(ERRNUMCOLMATCH);
 								
@@ -803,7 +803,7 @@ TOKEN BeginEnv(TOKEN T)
 			valign=Argument(begin, &end);
 			if (!valign)
 			{
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRVALIGHN  "\\begin{array} requires column-wise alignment info"
 				AddErr(ERRVALIGHN);
 				return R;
@@ -817,7 +817,7 @@ TOKEN BeginEnv(TOKEN T)
 				
 			if (strncmp(R.next+1, T.args[0], strlen(T.args[0]))!=0)
 			{
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRNOMATCHINEND  "\\begin does not match closed with \\end"
 				AddErr(ERRNOMATCHINEND);
 				return R;
@@ -839,7 +839,7 @@ TOKEN BeginEnv(TOKEN T)
 					n++;
 				else if (!IsInSet(*p, "|"))
 				{
-					/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+					/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 					// ERRORFLAG ERRNOVALIDALIGNC  "Illegal character in alignment info"
 					AddErr(ERRNOVALIDALIGNC);
 					*p='c'; /* set it to center as default */
@@ -886,7 +886,7 @@ TOKEN BeginEnv(TOKEN T)
 						k++;
 					if ((halign [k])||(halign[j]))
 					{
-						/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+						/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 						// ERRORFLAG ALROWSMATCH  "\\number of rows does not match the alignment inf"
 						AddErr(ALROWSMATCH);
 						return R;					
@@ -945,7 +945,7 @@ TOKEN BeginEnv(TOKEN T)
 				hsep[j]=hsep[i];
 				if (hsep[i]=='-')
 				{
-					/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+					/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 					// ERRORFLAG ERRHLINESINMATRIX  "no \\hline's allowed in the matrix environment"
 					AddErr(ERRHLINESINMATRIX);	
 				}
@@ -961,7 +961,7 @@ TOKEN BeginEnv(TOKEN T)
 			
 		}
 		default:
-			/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+			/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 			// ERRORFLAG ERRUNKNOWNENV  "Unknown environment"
 			AddErr(ERRUNKNOWNENV);	
 			return R;
@@ -1098,7 +1098,7 @@ TOKEN SubLexer(char *begin, FONT F)
 			l=strlen(begin);
 			if (l>MAXSTRLEN)
 			{
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRLINETOOLONG  "Input string is too long, truncated input"
 				AddErr(ERRLINETOOLONG);
 				l=MAXSTRLEN;
@@ -1141,7 +1141,7 @@ TOKEN SubLexer(char *begin, FONT F)
 			str=Option(begin, &end);
 			if (str)
 			{
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRTOOMANYOPTARG  "Too many optional arguments to command, excess ignored"
 				AddErr(ERRTOOMANYOPTARG);
 				free(str);
@@ -1173,7 +1173,7 @@ TOKEN SubLexer(char *begin, FONT F)
 			}
 			if (!(n==0))
 			{
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRTOOFEWMANDARG  "Too few mandatory arguments to command"
 				AddErr(ERRTOOFEWMANDARG);
 				R.P=PD_NONE; /* cancel this token, it is not working */
@@ -1203,7 +1203,7 @@ TOKEN SubLexer(char *begin, FONT F)
 			}
 			else
 			{
-				/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRUNKNOWNCOMM  "Unknown command"
 				AddErr(ERRUNKNOWNCOMM);
 				R.P=PD_NONE; /* cancel token */
@@ -1228,7 +1228,7 @@ TOKEN SubLexer(char *begin, FONT F)
 		}
 		if (brac)
 		{
-			/* The following comment line lest the gen_errorflags.sh script generate appropriate error flags and messages */
+			/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 			// ERRORFLAG ERRUNMATCHBRAC  "Missing } inserted"
 			AddErr(ERRUNKNOWNCOMM);
 		}

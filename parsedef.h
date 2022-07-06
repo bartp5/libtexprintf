@@ -70,6 +70,12 @@ const KEYWORD   Keys[] = {
 	{"^",      		PD_SUPER   	, 2, 0},
 	{"_",      		PD_SUB     	, 2, 0},
 	{"\\\\",      	PD_ENDLINE    	, 0, 0},
+	{"\\ ",      	PD_SPACE    	, 0, 0}, /* in monospace fonts small spacing is a minimal one space wide */
+	{"\\,",      	PD_NSPACE    	, 0, 0}, /* dummy for no space */
+	{"\\;",      	PD_SPACE    	, 0, 0},
+	{"\\:",      	PD_SPACE    	, 0, 0},
+	{"\\quad",      PD_DSPACE    	, 0, 0},
+	{"\\qquad",     PD_TSPACE    	, 0, 0},
 	{NULL, 			PD_NONE 		, 0, 0},
 };
 
@@ -139,7 +145,7 @@ typedef struct {
 const Symbol  Symbols[] = {
 /* basic latin */
 	{"\\,",                    0x00020},
-	{"\\;",                    0x00020},
+//	{"\\;",                    0x00020}, /* take spacing out of the preprocessor */
 	{"\\_",                    0x0005F},
 	{"\\{",                    0x0007B},
 	{"\\}",                    0x0007D},
@@ -246,7 +252,7 @@ const Symbol  Symbols[] = {
 	{"\\Sampi",                0x003E0},
 	{"\\sampi",                0x003E1},
 /* general punktuation */
-	{"\\quad",                 0x02001},
+//	{"\\quad",                 0x02001},
 	{"\\|",                    0x02016},
 	{"\\dagger",               0x02020},
 	{"\\ddagger",              0x02021},
@@ -257,7 +263,8 @@ const Symbol  Symbols[] = {
 	{"\\backprime",            0x02035},
 	{"\\cat",                  0x02040},
 	{"\\fourth",               0x02057},
-	{"\\:",                    0x02001}, /* this should be medspace U0x0205F, however, I need fixed spaced fonts so we make it a full space */
+//	{"\\:",                    0x02001}, /* this should be medspace U0x0205F, however, I need fixed spaced fonts so we make it a full space */
+//	{"\\ ",                    0x02001}, 
 /* combining diacritical marks for symbols, it seems with me these symbols are treated as full chacaters and not combining marks as should be */
 	{"\\lvec",                 0x020D0},
 	{"\\Lvec",                 0x020D6},

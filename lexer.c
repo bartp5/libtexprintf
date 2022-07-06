@@ -977,7 +977,7 @@ TOKEN BeginEnv(TOKEN T)
 TOKEN SubLexer(char *begin, FONT F)
 {
 	/* fetch a new token and its arguments */
-	int n, j;
+	int n, j,i,k, nsp;
 	char *end;
 	KEYWORD K;
 	char c, *p;
@@ -1257,7 +1257,7 @@ TOKEN SubLexer(char *begin, FONT F)
 	p=begin+1;
 	while ((*p)&&(!IsInSet(*p, "\\_^/*{ +-")))
 		p++;
-	if (*p==' ')
+	while (*p==' ')
 		p++;
 	c=*p;
 	*p='\0';
@@ -1265,6 +1265,26 @@ TOKEN SubLexer(char *begin, FONT F)
 	R.args[0]=malloc((j+1)*sizeof(char));
 	strncpy(R.args[0], begin, j+1);
 	*p=c;
+	// strip multiple spaces
+	k=0;
+	nsp=0;
+	for (i=0;i<=j;i++)
+	{
+		R.args[0][k]=R.args[0][i];
+		
+		if (IsInSet(R.args[0][i], " \t"))
+		{
+			if (nsp==0)
+				k++;
+			nsp=1;
+		}
+		else
+		{
+			nsp=0;
+			k++;
+		}
+	}
+	
 	begin=p;
 	
 	PeekAhead(&R, begin);

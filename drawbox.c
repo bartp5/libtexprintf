@@ -5,6 +5,43 @@
 #include "boxes.h"
 #include "error.h"
 
+char *RemoveLineTrailingWhitespace(char *str)
+{
+	// search for whitespace ending with endline
+	char *p, *q;
+	p=str;
+	q=str;
+	while (*p)
+	{
+		if (*p==' ')
+		{
+			char *z;
+			z=p;
+			while(*z==' ')
+				z++;
+			if ((*z=='\n')||(*z=='\0'))
+				p=z;
+			else
+			{
+				while(p<z)
+				{
+					*q=*p;
+					p++;
+					q++;
+				}				
+			}
+		}
+		*q=*p;
+		p++;
+		q++;
+	}
+	*q='\0';
+	return str;
+}
+		
+	
+
+
 char * DrawBox(box *b)
 {
 	char *out;
@@ -87,7 +124,7 @@ char * DrawBox(box *b)
 		out[k-1]='\0';
 	else
 		out[k]='\0';
-	return out;
+	return RemoveLineTrailingWhitespace(out);
 }
 
 int PrintBox(box *b)

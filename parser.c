@@ -31,7 +31,11 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 	Nc+=(superscript!=NULL);
 	
 	/* put box b in a posbox */
-	
+	/* the posbox will have a maximum of 3 children
+	 * one original box
+	 * one subscript box
+	 * one superscript box
+	 */
 	xy=calloc(6, sizeof(int));	
 	if (BoxInBox(b, B_POS, (void *)xy))
 		return;/*BoxInBox failed, abort AddScripts */
@@ -2580,6 +2584,35 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				/* serious trouble, give up immediately */
 				FreeToken(T);
 				return;
+			case PD_TSPACE:
+				T.args=malloc(sizeof(char *));
+				T.Nargs=1;
+				T.args[0]=malloc(4*sizeof(char));
+				T.args[0][0]=' ';
+				T.args[0][1]=' ';
+				T.args[0][2]=' ';
+				T.args[0][3]='\0';
+				MakeSymbol(&T, b, Font);
+				break;
+			case PD_DSPACE:
+				T.args=malloc(sizeof(char *));
+				T.Nargs=1;
+				T.args[0]=malloc(3*sizeof(char));
+				T.args[0][0]=' ';
+				T.args[0][1]=' ';
+				T.args[0][2]='\0';
+				MakeSymbol(&T, b, Font);
+				break;
+			case PD_SPACE:
+				T.args=malloc(sizeof(char *));
+				T.Nargs=1;
+				T.args[0]=malloc(2*sizeof(char));
+				T.args[0][0]=' ';
+				T.args[0][1]='\0';
+				MakeSymbol(&T, b, Font);
+				break;
+			case PD_NSPACE:
+				break;
 			default:
 				break;
 		

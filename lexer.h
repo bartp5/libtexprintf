@@ -55,6 +55,10 @@ typedef enum {
 	PD_SETROMAN,
 	PD_SETITALIC,
 	PD_SETBOLD,
+	PD_SPACE,
+	PD_DSPACE,
+	PD_TSPACE,
+	PD_NSPACE,
 	PD_NONE
 } PRSDEF;
 typedef enum {

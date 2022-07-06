@@ -1324,7 +1324,7 @@ char * PreProcessor(char *string)
 			if (S.name!=NULL)
 			{
 				str=Unicode2Utf8(S.unicode);
-				if ((S.unicode>=0x00300)&&(S.unicode<=0x0036F))
+				if(IsCombiningMark(S.unicode))
 				{
 						/* we need to swap order, i.e. combining diacritrical mark follows whatever it should be combined with, put it on the stack */
 						comb[Ncomb]=S.unicode;

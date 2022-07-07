@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 		
 		k=strlen(buffer);
 		j=0;
-		printf("Char\tUnicode\tUTF-8                    Latex\n", j);
+		printf("Char\tUnicode\tUTF-8                    Latex\n");
 		while(j<k)
 		{
 			int U, n;
@@ -71,20 +71,102 @@ int main(int argc, char **argv)
 			{
 				switch(buffer[j])
 				{
-					case '\n':
-						printf("\\n\t0x%05X\t", U);
+					// first the non printable ASCII stuff */
+					case 0x01:
+						printf("SOH\t0x%05X\t", U);
 						break;
-					case '\r':
-						printf("\\r\t0x%05X\t", U);
+					case 0x02:
+						printf("STX\t0x%05X\t", U);
 						break;
-					case '\f':
-						printf("\\f\t0x%05X\t", U);
+					case 0x03:
+						printf("ETX\t0x%05X\t", U);
+						break;
+					case 0x04:
+						printf("EOT\t0x%05X\t", U);
+						break;
+					case 0x05:
+						printf("ENQ\t0x%05X\t", U);
+						break;
+					case 0x06:
+						printf("ACK\t0x%05X\t", U);
+						break;
+					case '\a':
+						printf("\\a\t0x%05X\t", U);
 						break;
 					case '\b':
 						printf("\\b\t0x%05X\t", U);
 						break;
 					case '\t':
 						printf("\\t\t0x%05X\t", U);
+						break;
+					case '\n':
+						printf("\\n\t0x%05X\t", U);
+						break;
+					case '\v':
+						printf("\\t\t0x%05X\t", U);
+						break;
+					case '\f':
+						printf("\\f\t0x%05X\t", U);
+						break;
+					case '\r':
+						printf("\\r\t0x%05X\t", U);
+						break;
+					case 0x0E:
+						printf("SO\t0x%05X\t", U);
+						break;
+					case 0x0F:
+						printf("SI\t0x%05X\t", U);
+						break;
+					case 0x10:
+						printf("DLE\t0x%05X\t", U);
+						break;
+					case 0x11:
+						printf("DC1\t0x%05X\t", U);
+						break;
+					case 0x12:
+						printf("DC2\t0x%05X\t", U);
+						break;
+					case 0x13:
+						printf("DC3\t0x%05X\t", U);
+						break;
+					case 0x14:
+						printf("DC4\t0x%05X\t", U);
+						break;
+					case 0x15:
+						printf("NAK\t0x%05X\t", U);
+						break;
+					case 0x16:
+						printf("SYN\t0x%05X\t", U);
+						break;
+					case 0x17:
+						printf("ETB\t0x%05X\t", U);
+						break;
+					case 0x18:
+						printf("CAN\t0x%05X\t", U);
+						break;
+					case 0x19:
+						printf("EM\t0x%05X\t", U);
+						break;
+					case 0x1A:
+						printf("SUB\t0x%05X\t", U);
+						break;
+					case '\e':
+						printf("\\e\t0x%05X\t", U);
+						break;
+					case 0x1C:
+						printf("FS\t0x%05X\t", U);
+						break;
+					case 0x1D:
+						printf("GS\t0x%05X\t", U);
+						break;
+					case 0x1E:
+						printf("RS\t0x%05X\t", U);
+						break;
+					case 0x1F:
+						printf("US\t0x%05X\t", U);
+						break;
+					case 0x7F:
+						printf("DEL\t0x%05X\t", U);
 						break;
 					default:
 						printf("%s\t0x%05X\t", buffer+j, U);

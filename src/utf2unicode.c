@@ -58,6 +58,7 @@ int main(int argc, char **argv)
 		
 		k=strlen(buffer);
 		j=0;
+		printf("Char\tUnicode\tUTF-8                    Latex\n", j);
 		while(j<k)
 		{
 			int U, n;
@@ -65,20 +66,44 @@ int main(int argc, char **argv)
 			c=buffer[j+n];
 			buffer[j+n]='\0';
 			if (IsCombiningMark(U))
-				printf("%s%s\tUnicode:0x%05X\t\tUTF-8:", p, buffer+j, U);
+				printf("%s%s\t0x%05X\t", p, buffer+j, U);
 			else
-				printf("%s\tUnicode:0x%05X\t\tUTF-8:", buffer+j, U);
+			{
+				switch(buffer[j])
+				{
+					case '\n':
+						printf("\\n\t0x%05X\t", U);
+						break;
+					case '\r':
+						printf("\\r\t0x%05X\t", U);
+						break;
+					case '\f':
+						printf("\\f\t0x%05X\t", U);
+						break;
+					case '\b':
+						printf("\\b\t0x%05X\t", U);
+						break;
+					case '\t':
+						printf("\\t\t0x%05X\t", U);
+						break;
+					default:
+						printf("%s\t0x%05X\t", buffer+j, U);
+					break;
+				}
+			}
 			putchar('{');
 			printf("0x%02X", buffer[j]&0x000000FF);
 			for (l=1;l<n;l++)
 				printf(", 0x%02X", buffer[j+l]&0x000000FF);
 			putchar('}');
+			for (;l<4;l++) // fill up space to align table
+				printf("      ");
 			N=0;
 			S=LookupSymbol(U,N);
 			N++;
 			if (S.name)
 			{
-				printf("\tLatex: %s", S.name);
+				printf(" %s", S.name);
 				while (S.name)
 				{
 					S=LookupSymbol(U,N);

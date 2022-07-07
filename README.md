@@ -1,12 +1,22 @@
 libtexprintf & utftex
 =====================
 
-The libtexprintf library provides a set of formatted output functions 
-like printf, which in addition support a tex-like syntax to format math.
-The system is designed to output simple utf8 text in monospace fonts. 
-The texprintf library comes with extensive support for unicode. Use 
-libtexprintf to unlock the math capabilities of unicode in simple 
+The utftex program and underlying libtexprintf library provide tools to
+pretty print math in monospace fonts, using a tex-like syntax. It 
+produces UTF-8 encoded text. The program was inspired by 
+[asciiTeX](http://asciitex.sourceforge.net/), and the improved 
+[asciiTeX fork](https://github.com/larseggert/asciiTeX). However, 
+utftex supports much more TeX syntax and contains extensive unicode 
+tables to map latex commands to unicode symbols. Use 
+libtexprintf/utftex to unlock the math capabilities of unicode in 
 monospace text applications.
+
+libtexprintf
+------------
+The core library to pretty print math in monospace font. Use it to 
+enable your c or c++ code to print out formatted math. The calls are 
+moddeled after the printf family to produce formatted output.   
+
 
 utftex
 ------
@@ -64,7 +74,7 @@ A bit more elaborate example is this small table of Laplace transforms:
     └────────────────┴──────────────┘  
 
 
-Note that if the table borders do not properly align you ar not viewing 
+Note that if the table borders do not properly align you are not viewing 
 the table in monospace fonts. 
 
 utfstringinfo

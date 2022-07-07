@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 		
 		k=strlen(buffer);
 		j=0;
-		printf("Char\tUnicode\tUTF-8                    Latex\n");
+		printf("Char\tUnicode\tUTF-8                    texprintf\n");
 		while(j<k)
 		{
 			int U, n;

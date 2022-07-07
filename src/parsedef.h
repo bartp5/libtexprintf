@@ -863,5 +863,7 @@ const Symbol  Symbols[] = {
 	/* mathematical alphanumeric symbols */
 	{"\\partial", 0x1D715},
 	/* terminate the table */
+	/* modify some emojic characters to full blown emojis , e.g. ☠ → ☠️ (\skull  \rightarrow  \emojify \skull)*/
+	{"\\emojify", 0x0FE0F},	
 	{NULL,                     0x00000},
 };

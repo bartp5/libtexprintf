@@ -20,8 +20,10 @@ gives
 β+x  
 
 The texprintf library provides a fairly full featured tex-like syntax
-with arrays, brackets, many symbols, and even fonts (unicode actually 
-supports verious font styles). 
+with arrays, brackets, many symbols, and even font style (note that 
+texprintf outputs UTF-8 and as such cannot change the fonts. However,
+unicode does provide several font-styles like mathematical caligraphic
+style, or italic).
 
 A bit more elaborate example is this small table of Laplace transforms:
 utftex '\begin{array}{|l|l|}  

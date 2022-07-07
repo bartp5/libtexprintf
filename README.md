@@ -23,7 +23,7 @@ utftex
 The utftex program uses libtexprinf to implement a commandline utility 
 to format math. For example:  
 
-    utftex '\frac{\alpha}{\beta+x}'  
+    > utftex '\frac{\alpha}{\beta+x}'  
 gives
  
      α   
@@ -35,11 +35,25 @@ The texprintf library provides a fairly full featured tex-like syntax
 with arrays, brackets, many symbols, and even font style (note that 
 texprintf outputs UTF-8 and as such cannot change the fonts. However,
 unicode does provide several font-styles like mathematical caligraphic
-style, or italic).
+style, or italic). For example:
+
+    > utftex -F mathnormal '\frac{1}{a+x}' 
+gives  
+
+     1
+    ───
+    𝑎+𝑥
+
+It also supports some diacritical combining marks, to do things like
+
+    utftex '\vec x' 
+to get
+ 
+    x⃗.
 
 A bit more elaborate example is this small table of Laplace transforms:
 
-    utftex '\begin{array}{|l|l|}  
+    > utftex '\begin{array}{|l|l|}  
     \hline  
     f(t) & \mathscr{L}[f(t)]=F(s) \\\hline  
     1 & \frac{1}{s} \\\hline  

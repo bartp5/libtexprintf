@@ -3,7 +3,7 @@ AM_CFLAGS = -Wall
 
 # -- Top-level Makefile.am --
 lib_LTLIBRARIES = libtexprintf.la
-libtexprintf_la_SOURCES = boxes.c  drawbox.c  texprintf.c parser.c lexer.c boxes.h error.c drawbox.h  texprintf.h stringutils.h  unicodeblocks.h parser.h lexer.h parsedef.h mapunicode.h error.h gen_errorflags.sh texprintfsymbols texprintf.3
+libtexprintf_la_SOURCES = boxes.c  drawbox.c  texprintf.c parser.c lexer.c boxes.h error.c drawbox.h drawchars.h texprintf.h stringutils.h  unicodeblocks.h parser.h lexer.h parsedef.h mapunicode.h error.h gen_errorflags.sh texprintfsymbols texprintf.3
 nodist_libtexprintf_la_SOURCES = errorflags.h errormessages.h
 CLEANFILES = errorflags.h errormessages.h
 libtexprintf_la_LIBADD = libstringutils.la

@@ -5,6 +5,7 @@
 #include "lexer.h"
 #include "boxes.h"
 #include "parser.h"
+#include "drawchars.h"
 #include "stringutils.h"
 #include "drawbox.h"
 #include "mapunicode.h"
@@ -232,114 +233,7 @@ void AngleBrac(box *posbox, int h, int chars[], char lr)
 	}
 }
 
-
-/* plain brackets */
-int LBRACKCHAR_UTF[4]  = {0x28   ,0x0239D,0x0239C,0x0239B}; // single, lower, extender, upper
-int RBRACKCHAR_UTF[4]  = {0x29   ,0x023A0,0x0239F,0x0239E}; // single, lower, extender, upper
-int LSQUARECHAR_UTF[4] = {0x5B   ,0x023A3,0x023A2,0x023A1}; // single, lower, extender, upper
-int RSQUARECHAR_UTF[4] = {0x5D   ,0x023A6,0x023A5,0x023A4}; // single, lower, extender, upper
-int VBARCHAR_UTF[4]    = {0x023A2,0x023A2,0x023A2,0x023A2}; // single, lower, extender, upper
-int DVBARCHAR_UTF[4]   = {0x02016,0x02551,0x02551,0x02551}; // single, lower, extender, upper
-/* floor/ceil and up/down arrows */
-int LFLOORCHAR_UTF[4]     = {0x0230A,0x023A3,0x023A2,0x023A2};  // single, lower, extender, upper
-int RFLOORCHAR_UTF[4]     = {0x0230B,0x023A6,0x023A5,0x023A5};  // single, lower, extender, upper
-int LCEILCHAR_UTF[4]      = {0x02308,0x023A2,0x023A2,0x023A1};  // single, lower, extender, upper
-int RCEILCHAR_UTF[4]      = {0x02309,0x023A5,0x023A5,0x023A4};  // single, lower, extender, upper
-int UPARROWCHAR_UTF[4]    = {0x02191,0x023A2,0x023A2,0x025B2};  // single, lower, extender, upper
-int DUPARROWCHAR_UTF[4]   = {0x021D1,0x02551,0x02551,0x025B2};  // single, lower, extender, upper
-int DOWNARROWCHAR_UTF[4]  = {0x02193,0x025BC,0x023A2,0x023A2};  // single, lower, extender, upper
-int DDOWNARROWCHAR_UTF[4] = {0x021D3,0x025BC,0x02551,0x02551};  // single, lower, extender, upper
-int UPDOWNARROWCHAR_UTF[4]  = {0x02195,0x025BC,0x023A2,0x025B2}; // single, lower head, line, upper head
-int DUPDOWNARROWCHAR_UTF[4] = {0x021D5,0x025BC,0x02551,0x025B2}; // single, lower head, line, upper head
-
-void LeftBrac(box *posbox, int h)
-{
-	Brac(posbox, h, LBRACKCHAR_UTF);
-}
-void RightBrac(box *posbox, int h)
-{
-	Brac(posbox, h, RBRACKCHAR_UTF);
-}
-void LeftSquare(box *posbox, int h)
-{
-	Brac(posbox, h, LSQUARECHAR_UTF);
-}
-void RightSquare(box *posbox, int h)
-{
-	Brac(posbox, h, RSQUARECHAR_UTF);
-}
-void LeftRightVbar(box *posbox, int h)
-{
-	Brac(posbox, h, VBARCHAR_UTF);
-}
-void LeftRightDVbar(box *posbox, int h)
-{
-	Brac(posbox, h, DVBARCHAR_UTF);
-}
-void LeftRightUpdownarrow(box *posbox, int h)
-{
-	Brac(posbox, h, UPDOWNARROWCHAR_UTF);
-}
-void LeftRightDupdownarrow(box *posbox, int h)
-{
-	Brac(posbox, h, DUPDOWNARROWCHAR_UTF);
-}
-void LeftFloor(box *posbox, int h)
-{
-	Brac(posbox,h,LFLOORCHAR_UTF);
-}
-void RightFloor(box *posbox, int h)
-{
-	Brac(posbox,h,RFLOORCHAR_UTF);
-}
-void LeftCeil(box *posbox, int h)
-{
-	Brac(posbox,h,LCEILCHAR_UTF);
-}
-void RightCeil(box *posbox, int h)
-{
-	Brac(posbox,h,RCEILCHAR_UTF);
-}
-void LeftRightUparrow(box *posbox, int h)
-{
-	Brac(posbox, h, UPARROWCHAR_UTF);
-}
-void LeftRightDuparrow(box *posbox, int h)
-{
-	Brac(posbox, h, DUPARROWCHAR_UTF);
-}
-void LeftRightDownarrow(box *posbox, int h)
-{
-	Brac(posbox, h, DOWNARROWCHAR_UTF);
-}
-void LeftRightDdownarrow(box *posbox, int h)
-{
-	Brac(posbox, h, DDOWNARROWCHAR_UTF);
-}
-/* symmetrical brackets */
-int LCURLYCHAR_UTF[5]  = {0x7B   ,0x023A9,0x023A8,0x023AA,0x023A7}; // single, lower, center, extender, upper
-int RCURLYCHAR_UTF[5]  = {0x7D   ,0x023AD,0x023AC,0x023AE,0x023AB}; // single, lower, center, extender, upper
-void LeftCurly(box *posbox, int h)
-{
-	SymBrac(posbox, h, LCURLYCHAR_UTF);
-}
-void RightCurly(box *posbox, int h)
-{
-	SymBrac(posbox, h, RCURLYCHAR_UTF);
-}
-
-/* angle brackets */
-int ANGLECHAR_UTF[2]  = {0x02572,0x02571}; // downward, upward
-void LeftAngle(box *posbox, int h)
-{
-	AngleBrac(posbox, h, ANGLECHAR_UTF, 'l');
-}
-void RightAngle(box *posbox, int h)
-{
-	AngleBrac(posbox, h, ANGLECHAR_UTF, 'r');
-}
-
-void LeftRightSlash(box *posbox, int h)
+void Slash(box *posbox, int h, int slashchar, char fb)
 {
 	int *xy;
 	int i;
@@ -354,31 +248,17 @@ void LeftRightSlash(box *posbox, int h)
 	xy=(int *)posbox->content;
 	for (i=0;i<h;i++)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=i;
-		xy[2*i+1]=i;
-	}
-}
-
-void LeftRightBackslash(box *posbox, int h)
-/* make a left scaling angle bracket */
-{
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	for (i=0;i<h;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));	
-		xy[2*i]=h-i-1;
-		xy[2*i+1]=i;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(slashchar));	
+		if (fb=='f')
+		{
+			xy[2*i]=i;
+			xy[2*i+1]=i;
+		}
+		else
+		{
+			xy[2*i]=h-i-1;
+			xy[2*i+1]=i;
+		}
 	}
 }
 
@@ -387,70 +267,70 @@ void DrawScalableDelim(SCALABLE_DELIMITER D, box *b, int h)
 	switch(D)
 	{
 		case DEL_LCURL:
-			LeftCurly(b, h);
+			SymBrac(b,h,LCURLYCHAR_UTF);
 			break;
 		case DEL_RCURL:
-			RightCurly(b, h);
+			SymBrac(b,h,RCURLYCHAR_UTF);
 			break;
 		case DEL_LSQ:
-			LeftSquare(b, h);
+			Brac(b,h,LSQUARECHAR_UTF);
 			break;
 		case DEL_RSQ:
-			RightSquare(b, h);
+			Brac(b,h,RSQUARECHAR_UTF);
 			break;
 		case DEL_L:
-			LeftBrac(b, h);
+			Brac(b,h,LBRACKCHAR_UTF);
 			break;
 		case DEL_R:
-			RightBrac(b, h);
+			Brac(b,h,RBRACKCHAR_UTF);
 			break;
 		case DEL_VBAR:
-			LeftRightVbar(b, h);
-			break;
-		case DEL_LANGLE:
-			LeftAngle(b, h);
-			break;
-		case DEL_RANGLE:
-			RightAngle(b, h);
+			Brac(b,h,VBARCHAR_UTF);
 			break;
 		case DEL_DVBAR:
-			LeftRightDVbar(b, h);
+			Brac(b,h,DVBARCHAR_UTF);
+			break;
+		case DEL_LANGLE:
+			AngleBrac(b,h,ANGLECHAR_UTF,'l');
+			break;
+		case DEL_RANGLE:
+			AngleBrac(b,h,ANGLECHAR_UTF,'r');
 			break;
 		case DEL_UPARROW:
-			LeftRightUparrow(b, h);
+			Brac(b,h,UPARROWCHAR_UTF);
 			break;
 		case DEL_DOWNARROW:
-			LeftRightDownarrow(b, h);
+			Brac(b,h,DOWNARROWCHAR_UTF);
 			break;
 		case DEL_UPDOWNARROW:
-			LeftRightUpdownarrow(b, h);
+			Brac(b,h,UPDOWNARROWCHAR_UTF);
 			break;
 		case DEL_BACKSLASH:
-			LeftRightBackslash(b, h);
+			Slash(b,h,BSLASH_UTF,'b');
 			break;
 		case DEL_SLASH:
-			LeftRightSlash(b, h);
+			Slash(b,h,FSLASH_UTF,'f');
 			break;
 		case DEL_DUPARROW:
-			LeftRightDuparrow(b, h);
+			Brac(b,h,DUPARROWCHAR_UTF);
 			break;
 		case DEL_DDOWNARROW:
-			LeftRightDdownarrow(b, h);
+			Brac(b,h,DDOWNARROWCHAR_UTF);
 			break;
 		case DEL_DUPDOWNARROW:
-			LeftRightDupdownarrow(b, h);
+			Brac(b,h,DUPDOWNARROWCHAR_UTF);
 			break;
 		case DEL_LFLOOR:
-			LeftFloor(b, h);
+			Brac(b,h,LFLOORCHAR_UTF);
 			break;
 		case DEL_RFLOOR:	
-			RightFloor(b, h);
+			Brac(b,h,RFLOORCHAR_UTF);
 			break;
 		case DEL_LCEIL:
-			LeftCeil(b, h);
+			Brac(b,h,LCEILCHAR_UTF);
 			break;
 		case DEL_RCEIL:	
-			RightCeil(b, h);
+			Brac(b,h,RCEILCHAR_UTF);
 			break;
 		default:
 			break;
@@ -600,9 +480,10 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 
 void AddBraces(char *lbrace, char *rbrace, box *b)
 /* this routine also puts things between brackets but works differently from the routine above
- * This routine takes the box b, places a new box around it (i.e. b with be the child of this box)
+ * This routine takes the box b, places a new box around it (i.e. b will be the child of this box)
  * and then places the contents of b between brackets, i.e. this puts an *existing* element between 
- * brackets where the above routine creates a *new* element between brackets */
+ * brackets where the above routine creates a *new* element between brackets 
+ * AddBraces only does left and right braces and is used to put arrays between braces */
 {
 
 	int *Ncol, *xy;

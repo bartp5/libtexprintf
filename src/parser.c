@@ -116,11 +116,12 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 /* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 // ERRORFLAG ERRSCALEDELPOSBOX  "Variable size delimiters need a posbox"
 /* scalable Delimiters */
-void LeftBrac(box *posbox, int h)
-/* make a left scaling bracket */
+void Brac(box *posbox, int h, int chars[])
+/* make regular brackets (a) |a| [a] ‖a‖ */
 {
 	int *xy;
 	int i;
+	
 	if (posbox->T!=B_POS)
 	{		
 		AddErr(ERRSCALEDELPOSBOX);
@@ -134,25 +135,106 @@ void LeftBrac(box *posbox, int h)
 	xy[1]=0;		
 	if (h==1)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x28)); /* bracket */
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0])); /* single */
 		return;
 	}
 	
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x0239D)); /* lower end of bracket */	
+	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1])); /* lower */	
 	for (i=1;i<h-1;i++)
 	{			
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x0239C)); /* extender */
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2])); /* extender */
 		xy[2*i]=0;
 		xy[2*i+1]=i;
 	}	
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x0239B)); /* upper part */
+	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3])); /* upper */
 	xy[2*h-2]=0;
 	xy[2*h-1]=h-1;
 }
 
+void SymBrac(box *posbox, int h, int chars[])
+/* symmetrical bracket with a center char {a}*/
+{
+	int *xy;
+	int i;
+	if (posbox->T!=B_POS)
+	{
+		AddErr(ERRSCALEDELPOSBOX);
+		return;
+	}
+	if (h%2!=1)
+		h=h+1;
+	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
+	xy=(int *)posbox->content;
+	xy[0]=0;
+	xy[1]=0;		
+	if (h==1)
+	{
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0])); /* bracket */
+		return;
+	}
+	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1])); // lower
+	for (i=1;i<h-1;i++)
+	{
+		if (i==h/2)
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2])); // center
+		else
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3])); // extender
+		xy[2*i]=0;
+		xy[2*i+1]=i;
+	}
+	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[4])); // top
+	xy[2*h-2]=0;
+	xy[2*h-1]=h-1;
+}
 
-void RightBrac(box *posbox, int h)
-/* make a right scaling bracket */
+void AngleBrac(box *posbox, int h, int chars[], char lr)
+/* make a scaling angle bracket <a>*/
+{
+	int *xy;
+	int i;
+	if (posbox->T!=B_POS)
+	{
+		AddErr(ERRSCALEDELPOSBOX);
+		return;
+	}
+	if (h%2!=0)
+		h=h+1;
+	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
+	xy=(int *)posbox->content;
+	
+	for (i=0;i<h/2;i++)
+	{
+		xy[2*i+1]=i;
+		if (lr=='l')
+		{	
+			xy[2*i]=h/2-i-1;
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));	
+		}
+		else
+		{
+			xy[2*i]=i;
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1]));
+		}
+	}
+	for (i=h/2;i<h;i++)
+	{	
+		if (lr=='l')
+		{
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1]));	
+			xy[2*i]=i-h/2;
+		}
+		else
+		{
+			xy[2*i]=h-1-i;
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));	
+		}
+		xy[2*i+1]=i;
+	}
+}
+
+
+void Uparrow(box *posbox, int h, int chars[])
+/* make a left or right scaling vertical delimiter */
 {
 	int *xy;
 	int i;
@@ -163,28 +245,34 @@ void RightBrac(box *posbox, int h)
 	}
 	if (h<1)
 		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
+	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+2))*sizeof(int));
 	xy=(int *)posbox->content;
-	xy[0]=0;
-	xy[1]=0;		
 	if (h==1)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x29)); /* bracket */
-		return;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));	// single
+		xy[0]=0;
+		xy[1]=0;
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A0));
-	for (i=1;i<h-1;i++)
-	{			
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x0239F));
+	else
+	{
+		for (i=0;i<h;i++)
+		{
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1])); // arrow line 	
+			xy[2*i]=1;
+			xy[2*i+1]=i;
+		}
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2])); // head left	
 		xy[2*i]=0;
-		xy[2*i+1]=i;
+		xy[2*i+1]=h-1;
+		i++;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3])); // head right
+		xy[2*i]=2;
+		xy[2*i+1]=h-1;	
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x0239E));
-	xy[2*h-2]=0;
-	xy[2*h-1]=h-1;
 }
-void LeftCurly(box *posbox, int h)
-/* make a left scaling curly bracket */
+
+void Downarrow(box *posbox, int h, int chars[])
+/* make a left or right scaling vertical delimiter */
 {
 	int *xy;
 	int i;
@@ -193,35 +281,36 @@ void LeftCurly(box *posbox, int h)
 		AddErr(ERRSCALEDELPOSBOX);
 		return;
 	}
-	if (h%2!=1)
-		h=h+1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
+	if (h<1)
+		h=1;
+	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+2))*sizeof(int));
 	xy=(int *)posbox->content;
-	xy[0]=0;
-	xy[1]=0;		
 	if (h==1)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x7B)); /* bracket */
-		return;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));		//single
+		xy[0]=0;
+		xy[1]=0;
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A9));
-	for (i=1;i<h-1;i++)
+	else
 	{
-		if (i==h/2)
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A8));
-		else
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023AA));
+		for (i=0;i<h;i++)
+		{
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1]));	//arrow line
+			xy[2*i]=1;
+			xy[2*i+1]=i;
+		}
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3]));	// arrow head right
+		xy[2*i]=2;
+		xy[2*i+1]=0;
+		i++;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2]));	// arrow head left
 		xy[2*i]=0;
-		xy[2*i+1]=i;
+		xy[2*i+1]=0;	
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A7));
-	xy[2*h-2]=0;
-	xy[2*h-1]=h-1;
 }
 
-
-void RightCurly(box *posbox, int h)
-/* make a right scaling curly bracket */
+void Updownarrow(box *posbox, int h, int chars[])
+/* make a left or right scaling vertical delimiter */
 {
 	int *xy;
 	int i;
@@ -230,32 +319,43 @@ void RightCurly(box *posbox, int h)
 		AddErr(ERRSCALEDELPOSBOX);
 		return;
 	}
-	if (h%2!=1)
-		h=h+1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
+	if (h<1)
+		h=1;
+	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+4))*sizeof(int));
 	xy=(int *)posbox->content;
-	xy[0]=0;
-	xy[1]=0;		
 	if (h==1)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x7D)); /* bracket */
-		return;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));		/* normal updownarrow character */
+		xy[0]=0;
+		xy[1]=0;
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023AD));
-	for (i=1;i<h-1;i++)
+	else
 	{
-		if (i==h/2)
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023AC));
-		else
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023AE));
+		for (i=0;i<h;i++)
+		{
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1]));	
+			xy[2*i]=1;
+			xy[2*i+1]=i;
+		}
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2]));	
+		xy[2*i]=2;
+		xy[2*i+1]=0;
+		i++;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3]));
 		xy[2*i]=0;
-		xy[2*i+1]=i;
+		xy[2*i+1]=0;	
+		i++;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2]));	
+		xy[2*i]=0;
+		xy[2*i+1]=h-1;
+		i++;
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3]));
+		xy[2*i]=2;
+		xy[2*i+1]=h-1;	
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023AB));
-	xy[2*h-2]=0;
-	xy[2*h-1]=h-1;
 }
-void LeftSquare(box *posbox, int h)
+
+void Floor(box *posbox, int h, int chars[])
 /* make a left scaling square bracket */
 {
 	int *xy;
@@ -273,24 +373,19 @@ void LeftSquare(box *posbox, int h)
 	xy[1]=0;		
 	if (h==1)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x5B)); /* bracket */
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0])); //single
 		return;
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A3));
-	for (i=1;i<h-1;i++)
+	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1])); // bottom
+	for (i=1;i<h;i++)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A2));	
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2]));// line
 		xy[2*i]=0;
 		xy[2*i+1]=i;
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A1));
-	xy[2*h-2]=0;
-	xy[2*h-1]=h-1;
 }
-
-
-void RightSquare(box *posbox, int h)
-/* make a right scaling square bracket */
+void Ceil(box *posbox, int h, int chars[])
+/* make a left scaling square bracket */
 {
 	int *xy;
 	int i;
@@ -307,376 +402,133 @@ void RightSquare(box *posbox, int h)
 	xy[1]=0;		
 	if (h==1)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x5D)); /* bracket */
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0])); // single
 		return;
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A6));
-	for (i=1;i<h-1;i++)
+	for (i=0;i<h-1;i++)
 	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A5));
+		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1])); // line
 		xy[2*i]=0;
 		xy[2*i+1]=i;
 	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A4));
+	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2]));   // top
 	xy[2*h-2]=0;
 	xy[2*h-1]=h-1;
 }
-
-void LeftRightVbar(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
+/* plain brackets */
+int LBRACKCHAR_UTF[4]  = {0x28   ,0x0239D,0x0239C,0x0239B}; // single, lower, extender, upper
+int RBRACKCHAR_UTF[4]  = {0x29   ,0x023A0,0x0239F,0x0239E}; // single, lower, extender, upper
+int LSQUARECHAR_UTF[4] = {0x5B   ,0x023A3,0x023A2,0x023A1}; // single, lower, extender, upper
+int RSQUARECHAR_UTF[4] = {0x5D   ,0x023A6,0x023A5,0x023A4}; // single, lower, extender, upper
+int VBARCHAR_UTF[4]    = {0x023A2,0x023A2,0x023A2,0x023A2}; // single, lower, extender, upper
+int DVBARCHAR_UTF[4]   = {0x02016,0x02551,0x02551,0x02551}; // single, lower, extender, upper
+void LeftBrac(box *posbox, int h)
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	for (i=0;i<h;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A2));	
-		xy[2*i]=0;
-		xy[2*i+1]=i;
-	}
+	Brac(posbox, h, LBRACKCHAR_UTF);
+}
+void RightBrac(box *posbox, int h)
+{
+	Brac(posbox, h, RBRACKCHAR_UTF);
+}
+void LeftSquare(box *posbox, int h)
+{
+	Brac(posbox, h, LSQUARECHAR_UTF);
+}
+void RightSquare(box *posbox, int h)
+{
+	Brac(posbox, h, RSQUARECHAR_UTF);
+}
+void LeftRightVbar(box *posbox, int h)
+{
+	Brac(posbox, h, VBARCHAR_UTF);
 }
 void LeftRightDVbar(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02016));		/* normal \| character */
-		xy[0]=0;
-		xy[1]=0;
-	}
-	else
-		for (i=0;i<h;i++)
-		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02551));	/* box drawing double line */
-			xy[2*i]=0;
-			xy[2*i+1]=i;
-		}
+	Brac(posbox, h, DVBARCHAR_UTF);
 }
 
+/* symmetrical brackets */
+int LCURLYCHAR_UTF[5]  = {0x7B   ,0x023A9,0x023A8,0x023AA,0x023A7}; // single, lower, center, extender, upper
+int RCURLYCHAR_UTF[5]  = {0x7D   ,0x023AD,0x023AC,0x023AE,0x023AB}; // single, lower, center, extender, upper
+void LeftCurly(box *posbox, int h)
+{
+	SymBrac(posbox, h, LCURLYCHAR_UTF);
+}
+void RightCurly(box *posbox, int h)
+{
+	SymBrac(posbox, h, RCURLYCHAR_UTF);
+}
+
+/* angle brackets */
+int ANGLECHAR_UTF[2]  = {0x02572,0x02571}; // downward, upward
 void LeftAngle(box *posbox, int h)
-/* make a left scaling angle bracket */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h%2!=0)
-		h=h+1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	for (i=0;i<h/2;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));	
-		xy[2*i]=h/2-i-1;
-		xy[2*i+1]=i;
-	}
-	for (i=h/2;i<h;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=i-h/2;
-		xy[2*i+1]=i;
-	}
+	AngleBrac(posbox, h, ANGLECHAR_UTF, 'l');
 }
-
-
 void RightAngle(box *posbox, int h)
-/* make a right scaling angle bracket */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h%2!=0)
-		h=h+1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	for (i=0;i<h/2;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=i;
-		xy[2*i+1]=i;
-	}	
-	for (i=h/2;i<h;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));	
-		xy[2*i]=h-1-i;
-		xy[2*i+1]=i;
-	}
+	AngleBrac(posbox, h, ANGLECHAR_UTF, 'r');
 }
 
+/* arrow brackets */
+int UPARROWCHAR_UTF[4]  = {0x02191,0x023A2,0x02571,0x02572}; // single, arrow line, head left, head right
+int DUPARROWCHAR_UTF[4]  = {0x021D1,0x02551,0x02571,0x02572}; // single, arrow line, head left, head right
+int DOWNARROWCHAR_UTF[4]  = {0x02193,0x023A2,0x02572,0x02571}; // single, arrow line, head left, head right
+int DDOWNARROWCHAR_UTF[4]  = {0x021D3,0x02551,0x02572,0x02571}; // single, arrow line, head left, head right
+
+/* updown arrow brackets */
+int UPDOWNARROWCHAR_UTF[4]  = {0x02195,0x023A2,0x02571,0x02572}; // single, arrow line, head left, head right
+int DUPDOWNARROWCHAR_UTF[4]  = {0x021D5,0x02551,0x02571,0x02572}; // single, arrow line, head left, head right
 
 void LeftRightUparrow(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+2))*sizeof(int));
-	xy=(int *)posbox->content;
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02191));		/* normal uparrow character */
-		xy[0]=0;
-		xy[1]=0;
-	}
-	else
-	{
-		for (i=0;i<h;i++)
-		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A2));	
-			xy[2*i]=1;
-			xy[2*i+1]=i;
-		}
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=0;
-		xy[2*i+1]=h-1;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=2;
-		xy[2*i+1]=h-1;	
-	}
+	Uparrow(posbox, h, UPARROWCHAR_UTF);
 }
-
 void LeftRightDuparrow(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+2))*sizeof(int));
-	xy=(int *)posbox->content;
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x021D1));		/* normal double uparrow character */
-		xy[0]=0;
-		xy[1]=0;
-	}
-	else
-	{
-		for (i=0;i<h;i++)
-		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02551));	/* box drawing double line */
-			xy[2*i]=1;
-			xy[2*i+1]=i;
-		}
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=0;
-		xy[2*i+1]=h-1;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=2;
-		xy[2*i+1]=h-1;	
-	}
+	Uparrow(posbox, h, DUPARROWCHAR_UTF);
 }
-
-
 void LeftRightDownarrow(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+2))*sizeof(int));
-	xy=(int *)posbox->content;
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02193));		/* normal downarrow character */
-		xy[0]=0;
-		xy[1]=0;
-	}
-	else
-	{
-		for (i=0;i<h;i++)
-		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A2));	
-			xy[2*i]=1;
-			xy[2*i+1]=i;
-		}
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=2;
-		xy[2*i+1]=0;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=0;
-		xy[2*i+1]=0;	
-	}
+	Downarrow(posbox, h, DOWNARROWCHAR_UTF);
 }
-
 void LeftRightDdownarrow(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+2))*sizeof(int));
-	xy=(int *)posbox->content;
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x021D3));		/* normal double downarrow character */
-		xy[0]=0;
-		xy[1]=0;
-	}
-	else
-	{
-		for (i=0;i<h;i++)
-		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02551));	/* box drawing double line */
-			xy[2*i]=1;
-			xy[2*i+1]=i;
-		}
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=2;
-		xy[2*i+1]=0;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=0;
-		xy[2*i+1]=0;	
-	}
+	Downarrow(posbox, h, DDOWNARROWCHAR_UTF);
 }
-
-
 void LeftRightUpdownarrow(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+4))*sizeof(int));
-	xy=(int *)posbox->content;
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02195));		/* normal updownarrow character */
-		xy[0]=0;
-		xy[1]=0;
-	}
-	else
-	{
-		for (i=0;i<h;i++)
-		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A2));	
-			xy[2*i]=1;
-			xy[2*i+1]=i;
-		}
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=2;
-		xy[2*i+1]=0;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=0;
-		xy[2*i+1]=0;	
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=0;
-		xy[2*i+1]=h-1;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=2;
-		xy[2*i+1]=h-1;	
-	}
+	Updownarrow(posbox, h, UPDOWNARROWCHAR_UTF);
+}
+void LeftRightDupdownarrow(box *posbox, int h)
+{
+	Updownarrow(posbox, h, DUPDOWNARROWCHAR_UTF);
 }
 
-void LeftRightDupdownarrow(box *posbox, int h)
-/* make a left or right scaling vertical delimiter */
+/* floor/ceil */
+int LFLOORCHAR_UTF[3]  = {0x0230A,0x023A3,0x023A2}; // single, bottom, line 
+int RFLOORCHAR_UTF[3]  = {0x0230B,0x023A6,0x023A5}; // single, bottom, line
+int LCEILCHAR_UTF[3]  = {0x02308,0x023A2,0x023A1}; // single, line, top 
+int RCEILCHAR_UTF[3]  = {0x02309,0x023A5,0x023A4}; // single, line, top
+
+void LeftFloor(box *posbox, int h)
 {
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc+4))*sizeof(int));
-	xy=(int *)posbox->content;
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x021D5));		/* normal double updownarrow character */
-		xy[0]=0;
-		xy[1]=0;
-	}
-	else
-	{
-		for (i=0;i<h;i++)
-		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02551));	/* box drawing double line */
-			xy[2*i]=1;
-			xy[2*i+1]=i;
-		}
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=2;
-		xy[2*i+1]=0;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=0;
-		xy[2*i+1]=0;		
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02571));	
-		xy[2*i]=0;
-		xy[2*i+1]=h-1;
-		i++;
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02572));
-		xy[2*i]=2;
-		xy[2*i+1]=h-1;	
-	}
+	Floor(posbox,h,LFLOORCHAR_UTF);
 }
+void RightFloor(box *posbox, int h)
+{
+	Floor(posbox,h,RFLOORCHAR_UTF);
+}
+void LeftCeil(box *posbox, int h)
+{
+	Ceil(posbox,h,LCEILCHAR_UTF);
+}
+void RightCeil(box *posbox, int h)
+{
+	Ceil(posbox,h,RCEILCHAR_UTF);
+}
+
 void LeftRightSlash(box *posbox, int h)
-/* make a scaling slash delimiter */
 {
 	int *xy;
 	int i;
@@ -717,135 +569,6 @@ void LeftRightBackslash(box *posbox, int h)
 		xy[2*i]=h-i-1;
 		xy[2*i+1]=i;
 	}
-}
-
-
-void LeftFloor(box *posbox, int h)
-/* make a left scaling square bracket */
-{
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	xy[0]=0;
-	xy[1]=0;		
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x0230A)); /* bracket */
-		return;
-	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A3));
-	for (i=1;i<h;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A2));	
-		xy[2*i]=0;
-		xy[2*i+1]=i;
-	}
-}
-
-
-void RightFloor(box *posbox, int h)
-/* make a right scaling square bracket */
-{
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	xy[0]=0;
-	xy[1]=0;		
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x0230B)); /* bracket */
-		return;
-	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A6));
-	for (i=1;i<h;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A5));
-		xy[2*i]=0;
-		xy[2*i+1]=i;
-	}
-}
-
-
-
-void LeftCeil(box *posbox, int h)
-/* make a left scaling square bracket */
-{
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	xy[0]=0;
-	xy[1]=0;		
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02308)); /* bracket */
-		return;
-	}
-	for (i=0;i<h-1;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A2));	
-		xy[2*i]=0;
-		xy[2*i+1]=i;
-	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A1));
-	xy[2*h-2]=0;
-	xy[2*h-1]=h-1;
-}
-
-
-void RightCeil(box *posbox, int h)
-/* make a right scaling square bracket */
-{
-	int *xy;
-	int i;
-	if (posbox->T!=B_POS)
-	{
-		AddErr(ERRSCALEDELPOSBOX);
-		return;
-	}
-	if (h<1)
-		h=1;
-	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
-	xy=(int *)posbox->content;
-	xy[0]=0;
-	xy[1]=0;		
-	if (h==1)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x02309)); /* bracket */
-		return;
-	}
-	for (i=0;i<h-1;i++)
-	{
-		AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A5));
-		xy[2*i]=0;
-		xy[2*i+1]=i;
-	}
-	AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(0x023A4));
-	xy[2*h-2]=0;
-	xy[2*h-1]=h-1;
 }
 
 void DrawScalableDelim(SCALABLE_DELIMITER D, box *b, int h)
@@ -928,16 +651,17 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 /* make a box between brackets for the token T */
 {
 	int *Ncol, *xy;
-	box *B;
+	box *B, *B1, *B2;
 	int h, hh1, hh2, yc, li=-1, ri=-1, mi=-1, bi1=-1, bi2=-1;	
 	SCALABLE_DELIMITER DL, DM, DR;
 	
 	/* array box for the body */
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=0;
-	/* create a line box for the body and brackets*/
+	/* create a line box for the brackets and body*/
 	AddChild(b, B_LINE, (void *)Ncol);
 	B=b->child+b->Nc-1;
+	
 	
 	
 	DL=LookupDelimiter(T->args[2], NULL); /* opening delimiter */
@@ -950,10 +674,15 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 		li=B->Nc-1;
 	}
 	
-	/* the body, part1 */
 	if (strlen(T->args[0]))
 	{
-		ParseStringRecursive(T->args[0], B, Font);
+		/* the body, part1 */
+		Ncol=malloc(sizeof(int));
+		Ncol[0]=0;
+		AddChild(B, B_LINE, (void *)Ncol);
+		B1=B->child+B->Nc-1;
+		
+		ParseStringRecursive(T->args[0], B1, Font);
 		bi1=B->Nc-1;
 	}
 	
@@ -970,7 +699,11 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 	/* the body, part2 */
 	if (strlen(T->args[1]))
 	{
-		ParseStringRecursive(T->args[1], B, Font);
+		Ncol=malloc(sizeof(int));
+		Ncol[0]=0;
+		AddChild(B, B_LINE, (void *)Ncol);
+		B2=B->child+B->Nc-1;
+		ParseStringRecursive(T->args[1], B2, Font);
 		bi2=B->Nc-1;
 	}
 	

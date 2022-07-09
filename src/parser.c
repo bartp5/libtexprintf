@@ -91,7 +91,7 @@ Style STYLE_ASC={
 	 *│      ─      ┌      ┬      ┐      ├      ┼      ┤      └      ┴      ┘       */
 	{'|',   '-',   '+',   '+',   '+',   '+',   '+',   '+',   '+',    '+',  '+'},
 	/* integrals and sqrt */
-	{'\\','|','+','-','+'}, // downward diagonal, vertical, left top corner, horizontal, right top corner
+	{'\\','|','_','_','_'}, // downward diagonal, vertical, left top corner, horizontal, right top corner
 	{'/','|','/'}, // bottom, extender, top
 	{0x0222B,0x0222C,0x0222D,0x022EF}, // single, double, tripple, dots
 	{'(',')'}, // quasi-circle

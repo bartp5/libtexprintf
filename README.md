@@ -2,25 +2,25 @@ libtexprintf & utftex
 =====================
 
 The utftex program and underlying libtexprintf library provide tools to
-pretty print math in monospace fonts, using a tex-like syntax. It 
+pretty print math in mono-space fonts, using a tex-like syntax. It 
 produces UTF-8 encoded text. The program was inspired by 
 [asciiTeX](http://asciitex.sourceforge.net/), and the improved 
 [asciiTeX fork](https://github.com/larseggert/asciiTeX). However, 
 utftex supports much more TeX syntax and contains extensive unicode 
 tables to map latex commands to unicode symbols. Use 
 libtexprintf/utftex to unlock the math capabilities of unicode in 
-monospace text applications.
+mono-space text applications.
 
 libtexprintf
 ------------
-The core library to pretty print math in monospace font. Use it to 
+The core library to pretty print math in mono-space font. Use it to 
 enable your c or c++ code to print out formatted math. The calls are 
-moddeled after the printf family to produce formatted output.   
+modeled after the printf family to produce formatted output.   
 
 
 utftex
 ------
-The utftex program uses libtexprinf to implement a commandline utility 
+The utftex program uses libtexprinf to implement a command-line utility 
 to format math. For example:  
 
     > utftex '\frac{\alpha}{\beta+x}'  
@@ -34,7 +34,7 @@ gives
 The texprintf library provides a fairly full featured tex-like syntax
 with arrays, brackets, many symbols, and even font style (note that 
 texprintf outputs UTF-8 and as such cannot change the fonts. However,
-unicode does provide several font-styles like mathematical caligraphic
+unicode does provide several font-styles like mathematical calligraphic
 style, or italic). For example:
 
     > utftex -F mathnormal '\frac{1}{a+x}' 
@@ -104,9 +104,9 @@ Questions One Might Ask (QOMA)
 ------------------------------
 
 * Why is my equation all misaligned?
-	- Make sure you are using monospace fonts.
+	- Make sure you are using mono-space fonts.
 	
-* I am using monospace fonts, why are my equations still poorly aligned?
+* I am using mono-space fonts, why are my equations still poorly aligned?
 	- Most fonts do not support all unicode characters. Your program 
 	   may use some variable-width fallback fonts.
 	   
@@ -116,8 +116,8 @@ Questions One Might Ask (QOMA)
 	   combining diacritical marks. Find the right set of font engine 
 	   and fonts to use.
 	   
-* Can you recommend a good monospace symbol font?
-	- Make your own out of your favorite (non-monospace) fonts! The 
+* Can you recommend a good mono-space symbol font?
+	- Make your own out of your favorite (variable-space) fonts! The 
 	   great "monospacifier" will do that for you. Get it at 
 	   https://github.com/cpitclaudel/monospacifier
 
@@ -127,15 +127,15 @@ Questions One Might Ask (QOMA)
 	   appropriate mono-space fallback font.
 
 * How do I specify the fallback fonts in with fontconfig?
-	- Let us assume you use some monospace font called "MONO" and we 
-	   have some symbol monospace fallback font for it "SYMBOLMONO". 
+	- Let us assume you use some mono-space font called "MONO" and we 
+	   have some symbol mono-space fallback font for it "SYMBOLMONO". 
 	   Here are the steps:
 	   1. Install all fonts (e.g. copy font files to 
 	      ~/.local/share/fonts and run "fc-cache -f -v")
 	   2. Then create a fontconfig file in 
 	      ~/.config/fontconfig/fonts.conf
 	      It could look something like (replace the font names with the 
-	      approprate values):
+	      appropriate values):
 	      
 ```
 <?xml version="1.0"?>

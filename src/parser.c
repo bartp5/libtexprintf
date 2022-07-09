@@ -560,9 +560,11 @@ void MakeBox(TOKEN *T, box *b, int Font)
 void MakeFrac(TOKEN *T, box *b, int Font)
 {
 	unsigned char *str;
+	char *line;
+	int n;
 	int *Ncol;
 	box *frac;
-	int i, yc;	
+	int i, j,yc;	
 	
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=1;
@@ -585,18 +587,20 @@ void MakeFrac(TOKEN *T, box *b, int Font)
 	/* get box sizes */
 	BoxPos(frac);
 	yc=frac->child[1].ry;
-			
+	
+	line=Unicode2Utf8(FRACLINE_UTF);	
+	n=NumByte(line);
 	/* the width of the box frac is now the desired width for the horizonatal bar */
 	/* str=(unsigned char *)frac->child[1].content;*/
-	frac->child[1].content=realloc(frac->child[1].content, (3*frac->w+1)*sizeof(char));
+	frac->child[1].content=realloc(frac->child[1].content, (n*frac->w+1)*sizeof(char));
 	str=(unsigned char *)frac->child[1].content;
 	for (i=0;i<frac->w;i++)
 	{
-		str[3*i]=0xE2;
-		str[3*i+1]=0x94;
-		str[3*i+2]=0x80;
+		for (j=0;j<n;j++)
+			str[n*i+j]=line[j];	
 	}
-	str[3*frac->w]='\0';
+	str[n*frac->w]='\0';
+	free(line);
 	frac->child[1].w=frac->w;
 	frac->child[1].xc=frac->xc;
 	frac->S=INIT;
@@ -612,9 +616,11 @@ void MakeFrac(TOKEN *T, box *b, int Font)
 void MakeOverline(TOKEN *T, box *b, int Font)
 {
 	unsigned char *str;
+	char *line;
+	int n;
 	int *Ncol;
 	box *over;
-	int i, yc;	
+	int i, j, yc;	
 	
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=1;
@@ -634,18 +640,19 @@ void MakeOverline(TOKEN *T, box *b, int Font)
 	/* get box sizes */
 	BoxPos(over);
 	yc=over->child[1].ry;
-			
+		
+	line=Unicode2Utf8(OVERLINE_UTF);	
+	n=NumByte(line);	
 	/* the width of the box over is now the desired width for the horizonatal bar */
 	/* str=(unsigned char *)over->child[1].content;*/
-	over->child[0].content=realloc(over->child[0].content, (3*over->w+1)*sizeof(char));
+	over->child[0].content=realloc(over->child[0].content, (n*over->w+1)*sizeof(char));
 	str=(unsigned char *)over->child[0].content;
 	for (i=0;i<over->w;i++)
 	{
-		str[3*i]=0xE2;
-		str[3*i+1]=0x94;
-		str[3*i+2]=0x80;
+		for (j=0;j<n;j++)
+			str[n*i+j]=line[j];	
 	}
-	str[3*over->w]='\0';
+	str[n*over->w]='\0';
 	over->child[0].w=over->w;
 	over->child[0].xc=over->xc;
 	over->S=INIT;
@@ -684,9 +691,11 @@ void MakeBlock(TOKEN *T, box *b, int Font)
 void MakeUnderline(TOKEN *T, box *b, int Font)
 {
 	unsigned char *str;
+	char *line;
+	int n;
 	int *Ncol;
 	box *under;
-	int i, yc;	
+	int i, j, yc;	
 	
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=1;
@@ -704,18 +713,19 @@ void MakeUnderline(TOKEN *T, box *b, int Font)
 	/* get box sizes */
 	BoxPos(under);
 	yc=under->child[0].ry;
-			
+		
+	line=Unicode2Utf8(UNDERLINE_UTF);	
+	n=NumByte(line);		
 	/* the width of the box under is now the desired width for the horizonatal bar */
 	/* str=(unsigned char *)under->child[1].content;*/
-	under->child[1].content=realloc(under->child[1].content, (3*under->w+1)*sizeof(char));
+	under->child[1].content=realloc(under->child[1].content, (n*under->w+1)*sizeof(char));
 	str=(unsigned char *)under->child[1].content;
 	for (i=0;i<under->w;i++)
 	{
-		str[3*i]=0xE2;
-		str[3*i+1]=0x94;
-		str[3*i+2]=0x80;
+		for (j=0;j<n;j++)
+			str[n*i+j]=line[j];	
 	}
-	str[3*under->w]='\0';
+	str[n*under->w]='\0';
 	under->child[1].w=under->w;
 	under->child[1].xc=under->xc;
 	under->S=INIT;
@@ -729,9 +739,8 @@ void MakeUnderline(TOKEN *T, box *b, int Font)
 }
 void MakeSqrt(TOKEN *T, box *b, int Font)
 {
-	unsigned char *str;
 	int *xy;
-	int i,j;
+	int i;
 	int wo,  w, h, xoff=0, ioff=0;
 	box *sqrt;
 	int Nc=1;
@@ -757,7 +766,7 @@ void MakeSqrt(TOKEN *T, box *b, int Font)
 	}
 	
 	
-	ParseStringInBox(T->args[0], sqrt, Font);/* ads a box for the radicant */
+	ParseStringInBox(T->args[0], sqrt, Font);/* adds a box for the radicant */
 	/* now we have to draw the radical sign */
 	/* first get the get box sizes */
 	BoxPos(sqrt->child+ioff);
@@ -766,7 +775,7 @@ void MakeSqrt(TOKEN *T, box *b, int Font)
 	
 	/* we will add many unit boxes to the posbox to draw the radical sign, allocate the offset coordinate array of the posbox */
 	
-	sqrt->content=realloc(sqrt->content, 2*(h+(h/2+1)+1+sqrt->Nc)*sizeof(int));
+	sqrt->content=realloc(sqrt->content, (2*(h+(h/2+1)+3+w)+sqrt->Nc)*sizeof(int));
 	xy=(int *)sqrt->content;
 	if (ioff)
 	{
@@ -778,37 +787,29 @@ void MakeSqrt(TOKEN *T, box *b, int Font)
 	xy[2*ioff+1]=0; /* shift main box to make room for the sqrt sign */
 	for (i=0;i<h;i++)
 	{				
-		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(0x02502));
+		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[1])); // upward vertical
 		xy[2*(i+1+ioff)]=h/2+xoff+1;
 		xy[2*(i+1+ioff)+1]=i;
 	}
 		
 	for (i=0;i<h/2+1;i++)
 	{
-		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(0x02572));
+		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[0])); // downward diagonal
 		xy[2*(i+1+h+ioff)]=i+xoff;
 		xy[2*(i+1+h+ioff)+1]=h/2-i;
 	}
 	
-		
-	j=0;	
-	str=malloc((3*(w+2)+1)*sizeof(char));
-			
-	str[j++]=0xE2;
-	str[j++]=0x94;
-	str[j++]=0x8C;
-	for (i=1;i<w+1;i++)
-	{
-		str[j++]=0xE2;
-		str[j++]=0x94;
-		str[j++]=0x80;
-	}
-	str[j++]=0xE2;
-	str[j++]=0x94;
-	str[j++]=0x90;
-	str[j++]='\0';
-	AddChild(sqrt, B_UNIT, (void *)str);
+	AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[2])); // left top corner
 	xy[2*(sqrt->Nc-1)]=h/2+1+xoff;
+	xy[2*(sqrt->Nc-1)+1]=h;
+	for (i=0;i<w;i++) // horizontal
+	{
+		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[3])); // left top corner
+		xy[2*(sqrt->Nc-1)]=h/2+2+xoff+i;
+		xy[2*(sqrt->Nc-1)+1]=h;
+	}
+	AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[4])); // right top corner
+	xy[2*(sqrt->Nc-1)]=h/2+2+xoff+w;
 	xy[2*(sqrt->Nc-1)+1]=h;
 	
 	BoxSetState(sqrt, RELPOSKNOWN);	
@@ -836,22 +837,22 @@ void DrawInt(box *b, int n, int size)
 		switch(n)
 		{
 			case 2:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222C));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[1]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
 			case 3:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222D));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[2]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
 			case 4:
 				integ->content=realloc(integ->content, (8*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222B));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222B));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222B));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222B));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -864,9 +865,9 @@ void DrawInt(box *b, int n, int size)
 			case 5:
 				integ->content=realloc(integ->content, (6*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222B));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x022EF));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222B));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[3]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -876,7 +877,7 @@ void DrawInt(box *b, int n, int size)
 				break;
 			case 1:
 			default:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222B));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
@@ -890,26 +891,26 @@ void DrawInt(box *b, int n, int size)
 			integ->content=realloc(integ->content, (2*(2*size+integ->Nc+1)*sizeof(int)));
 			xy=(int *)integ->content;
 			j=0;
-			for (k=0;k<2;k++)
+			for (k=0;k<2;k++) // two integral signs
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2321));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
 				xy[2*j]=2*k;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x023AE));
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
 					xy[2*j]=2*k;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2320));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
 				xy[2*j]=2*k;
 				xy[2*j+1]=size-1;
 				j++;
 			}
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x22EF));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[3])); // dots inbetween
 			xy[2*j]=1;
 			xy[2*j+1]=size/2;		
 				
@@ -921,19 +922,19 @@ void DrawInt(box *b, int n, int size)
 			j=0;
 			for (k=0;k<n;k++)
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2321));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
 				xy[2*j]=k;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x023AE));
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
 					xy[2*j]=k;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2320));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
 				xy[2*j]=k;
 				xy[2*j+1]=size-1;
 				j++;
@@ -961,12 +962,12 @@ void DrawOInt(box *b, int n, int size)
 		switch(n)
 		{
 			case 2:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222F));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[1]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
 			case 3:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x02230));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[2]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
@@ -974,10 +975,10 @@ void DrawOInt(box *b, int n, int size)
 				/* there is no pretty solution I can think of */
 				integ->content=realloc(integ->content, (8*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222E));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222E));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222E));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222E));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -990,9 +991,9 @@ void DrawOInt(box *b, int n, int size)
 			case 5:
 				integ->content=realloc(integ->content, (6*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222E));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x022EF));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222E));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[3]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -1002,7 +1003,7 @@ void DrawOInt(box *b, int n, int size)
 				break;
 			case 1:
 			default:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x0222E));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
@@ -1018,32 +1019,32 @@ void DrawOInt(box *b, int n, int size)
 			j=0;
 			for (k=0;k<2;k++)
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2321));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
 				xy[2*j]=2*k+1;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x023AE));
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
 					xy[2*j]=2*k+1;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2320));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
 				xy[2*j]=2*k+1;
 				xy[2*j+1]=size-1;
 				j++;
 			}
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x22EF));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[3]));
 			xy[2*j]=2;
 			xy[2*j+1]=size/2;	
 			j++;	
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2E26));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[0]));
 			xy[2*j]=0;
 			xy[2*j+1]=size/2;	
 			j++;		
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2E27));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[1]));
 			xy[2*j]=4;
 			xy[2*j+1]=size/2;		
 				
@@ -1055,28 +1056,28 @@ void DrawOInt(box *b, int n, int size)
 			j=0;
 			for (k=0;k<n;k++)
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2321));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
 				xy[2*j]=k+1;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x023AE));
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
 					xy[2*j]=k+1;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2320));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
 				xy[2*j]=k+1;
 				xy[2*j+1]=size-1;
 				j++;
 			}
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2E26));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[0]));
 			xy[2*j]=0;
 			xy[2*j+1]=size/2;	
 			j++;		
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(0x2E27));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[1]));
 			xy[2*j]=n+1;
 			xy[2*j+1]=size/2;	
 			
@@ -1173,114 +1174,51 @@ void MakeInt(TOKEN *T, box *b, int n, int o, int Font)
 	MakeFixInt(T,b, n, o, Font);	
 }
 
+
+void DrawSymbol(box *b, int chars[])
+{
+	int *xy;
+	box *c;
+	int i,j;
+	xy=malloc(2*chars[0]*chars[1]*sizeof(int));
+	for (i=0;i<chars[1];i++)
+		for (j=0;j<chars[0];j++)
+		{
+			xy[2*(chars[0]*i+j)]=j;
+			xy[2*(chars[0]*i+j)+1]=i;
+		}
+	AddChild(b, B_POS, (void *)xy);
+	c=b->child+b->Nc-1;
+	
+	/* draw the symbol */
+	for (i=0;i<chars[0]*chars[1];i++)
+		AddChild(c, B_UNIT, (void *)Unicode2Utf8(chars[i+2]));	
+}
+
+
 void MakeSum(TOKEN *T, box *b, int Font)
 /* 
- * makes:
- * ⎲     
- * ⎳  
- * */
+ * Draws Sum Symbol
+ */
 {
-	int *xy;
-	box *sum;
+	box *c;
 	
-	xy=malloc(4*sizeof(int));
-	xy[0]=0;
-	xy[1]=0;
-	xy[2]=0;
-	xy[3]=1;
-	/* add a posbox */
-	AddChild(b, B_POS, (void *)xy);
+	DrawSymbol(b, SUMCHAR_UTF);	
+	c=b->child+b->Nc-1;
 	
-	sum=b->child+b->Nc-1;
-	
-	
-	/* draw the sum sign */
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x023B3));/* lower half */
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x023B2));/* upper half */
-	
-	AddScripts(T->sub, T->super, sum, 1, Font);
+	AddScripts(T->sub, T->super, c, 1, Font);
 }
-void MakeSum_(TOKEN *T, box *b, int Font)
-/* this is the ugly way to make a sum
- * makes :  
- * ⎯⎯     
- * ╲      
- * ╱  
- * ⎺⎺ 
- * 
- * */
-{
-	int *xy;
-	box *sum;
-	
-	xy=malloc(12*sizeof(int));
-	xy[0]=0;
-	xy[1]=0;
-	xy[2]=1;
-	xy[3]=0;
-	
-	xy[4]=0;
-	xy[5]=1;
-	xy[6]=0;
-	xy[7]=2;
-	
-	xy[8]=0;
-	xy[9]=3;
-	xy[10]=1;
-	xy[11]=3;
-	/* add a posbox */
-	AddChild(b, B_POS, (void *)xy);
-	
-	sum=b->child+b->Nc-1;
-	
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x023BA));
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x023BA));
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x02571));
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x02572));
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x023AF));
-	AddChild(sum, B_UNIT, (void *)Unicode2Utf8(0x023AF));
-	
-	AddScripts(T->sub, T->super, sum, 1, Font);
-}
+
 void MakeProd(TOKEN *T, box *b, int Font)
 /* Makes a product sign
- * There does not seem to be unicode characters intended for this like with the sum sigma and integral signs
- * We do with box drawing characters
- * ┬─┬
- * │ │
- * */
+*/
 {
-	int *xy;
-	box *prod;
+	box *c;
 	
-	xy=malloc(10*sizeof(int));
-	xy[0]=0;
-	xy[1]=0;
+	DrawSymbol(b, PRODCHAR_UTF);	
+	c=b->child+b->Nc-1;
 	
-	xy[2]=0;
-	xy[3]=1;
-	
-	xy[4]=1;
-	xy[5]=1;
-	
-	xy[6]=2;
-	xy[7]=1;
-	
-	xy[8]=2;
-	xy[9]=0;
-	/* add a posbox */
-	AddChild(b, B_POS, (void *)xy);
-	
-	prod=b->child+b->Nc-1;
-	
-	
-	AddChild(prod, B_UNIT, (void *)Unicode2Utf8(0x02502));
-	AddChild(prod, B_UNIT, (void *)Unicode2Utf8(0x0252C));
-	AddChild(prod, B_UNIT, (void *)Unicode2Utf8(0x02500));
-	AddChild(prod, B_UNIT, (void *)Unicode2Utf8(0x0252C));
-	AddChild(prod, B_UNIT, (void *)Unicode2Utf8(0x02502));
-	
-	AddScripts(T->sub, T->super, prod, 1, Font);
+	AddScripts(T->sub, T->super, c, 1, Font);
 }
 
 int AZToFontUnicode(int base, char c)
@@ -1538,7 +1476,7 @@ void InitVsep(box *b, int h)
 	AddChild(b, B_POS, (void *)xy);
 	vsep=b->child+b->Nc-1;
 	for (i=0;i<h;i++)
-		AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(0x2502));
+		AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[0]));
 }
 
 void RescaleVsep(box *vsep, int h)
@@ -1570,7 +1508,7 @@ void RescaleVsep(box *vsep, int h)
 	if (vsep->Nc<h)
 	{
 		for (i=vsep->Nc;i<h;i++)
-			AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(0x2502));
+			AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[0]));
 	}
 	else
 	{
@@ -1601,7 +1539,7 @@ void InitHsep(box *b, int w)
 	AddChild(b, B_POS, (void *)xy);
 	hsep=b->child+b->Nc-1;
 	for (i=0;i<w;i++)
-		AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(0x2500));
+		AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[1]));
 }
 void RescaleHsep(box *hsep, int w)
 {
@@ -1632,7 +1570,7 @@ void RescaleHsep(box *hsep, int w)
 	if (hsep->Nc<w)
 	{
 		for (i=hsep->Nc;i<w;i++)
-			AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(0x2500));
+			AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[1]));
 	}
 	else
 	{
@@ -1677,21 +1615,21 @@ void MakeArrayBody(TOKEN *T, box *b, int Font)
 						{
 							/* top row junction */
 							if (k==0) /* upper left corner */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x250C));	
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[2]));	
 							else if (k==Nc-1) /* upper right corner */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x2510));
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[4]));
 							else /* T junction */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x252C));
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[3]));
 						}
 						else
 						{
 							/* middle row junction */
 							if (k==0)/* left T */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x251C));	
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[5]));	
 							else if (k==Nc-1)/* Right T */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x2524));								
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[7]));								
 							else /* + junction */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x253C));
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[6]));
 						}
 				}
 				else
@@ -1770,11 +1708,11 @@ void MakeArrayBody(TOKEN *T, box *b, int Font)
 			{
 				/* bottom row junction */
 				if (k==0) /* bottom left corner */
-					AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x2514));	
+					AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[8]));	
 				else if (k==Nc-1) /* bottom right corner */
-					AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x2518));
+					AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[10]));
 				else /* upside down T junction */
-					AddChild(array, B_UNIT, (void *)Unicode2Utf8(0x2534));
+					AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[9]));
 			}
 			else
 				InitHsep(array,1);

@@ -11,9 +11,101 @@
 #include "mapunicode.h"
 #include "error.h"
 
+
+Style STYLE_UNI={
+	/* plain brackets */
+	{0x28   ,0x0239D,0x0239C,0x0239B}, // single, lower, extender, upper
+	{0x29   ,0x023A0,0x0239F,0x0239E}, 
+	{0x5B   ,0x023A3,0x023A2,0x023A1},
+	{0x5D   ,0x023A6,0x023A5,0x023A4},
+	{0x023A2,0x023A2,0x023A2,0x023A2},
+	{0x02016,0x02551,0x02551,0x02551},
+	/* floor/ceil and up/down arrows */
+	{0x0230A,0x023A3,0x023A2,0x023A2}, // single, lower, extender, upper
+	{0x0230B,0x023A6,0x023A5,0x023A5},
+	{0x02308,0x023A2,0x023A2,0x023A1},
+	{0x02309,0x023A5,0x023A5,0x023A4},
+	{0x02191,0x023A2,0x023A2,0x025B2}, // single, lower, extender, extender
+	{0x021D1,0x02551,0x02551,0x025B2},
+	{0x02193,0x025BC,0x023A2,0x023A2}, // single, extender, extender, upper
+	{0x021D3,0x025BC,0x02551,0x02551},
+	{0x02195,0x025BC,0x023A2,0x025B2}, // single, lower, extender, upper
+	{0x021D5,0x025BC,0x02551,0x025B2},
+	/* symmetrical brackets (for use with SymBrac)*/
+	{0x7B   ,0x023A9,0x023A8,0x023AA,0x023A7}, // single, lower, center, extender, upper
+	{0x7D   ,0x023AD,0x023AC,0x023AE,0x023AB}, // single, lower, center, extender, upper
+	/* angle brackets (for use with AngleBrac) */
+	{0x02572,0x02571}, // downward, upward
+	0x02571,    // forward slash
+	0x02572,	   // backward slash
+	/* fraction, overline, underline */ 
+	0x02500,
+	0x02581,
+	0x02500,
+	/* array characters 
+	 *                     0      1      2      3      4      5      6      7      8      9      10
+	 *                     │      ─      ┌      ┬      ┐      ├      ┼      ┤      └      ┴      ┘       */
+	{0x2502,0x2500,0x250C,0x252C,0x2510,0x251C,0x253C,0x2524,0x2514,0x2534,0x2518},
+	/* integrals and sqrt */
+	{0x02572,0x02502,0x0250C,0x02500,0x02510}, // downward diagonal, vertical, left top corner, horizontal, right top corner
+	{0x02321,0x023AE,0x02320}, // bottom, extender, top
+	{0x0222B,0x0222C,0x0222D,0x022EF}, // single, double, tripple, dots
+	{0x02E26,0x02E27}, // quasi-circle
+	{0x0222E,0x0222F,0x02230,0x022EF}, // single, double, tripple, dots
+	/* row mayor character arrays for drawing large symbols */
+	{2,4,0x023BA,0x023BA,0x02571,0x00020,0x02572,0x00020,0x023AF,0x023AF}, // width, height, start lower left, end upper right
+	{3,2,0x02502,0x00020,0x02502,0x0252C,0x02500,0x0252C}, // width, height, start lower left, end upper right
+};
+Style STYLE_ASC={
+	/* plain brackets */
+	{0x28   ,'\\' ,'|','/'}, // single, lower, extender, upper
+	{0x29   ,'/','|','\\'}, 
+	{0x5B   ,'+','|','+'},
+	{0x5D   ,'+','|','+'},
+	{'|','|','|','|'},
+	{0x02016,0x02551,0x02551,0x02551}, // no reasonable ASCII version
+	/* floor/ceil and up/down arrows */
+	{0x0230A,0x023A3,0x023A2,0x023A2}, // single, lower, extender, upper// no reasonable ASCII version
+	{0x0230B,0x023A6,0x023A5,0x023A5},
+	{0x02308,0x023A2,0x023A2,0x023A1},
+	{0x02309,0x023A5,0x023A5,0x023A4},
+	{0x02191,0x023A2,0x023A2,0x025B2}, // single, lower, extender, extender
+	{0x021D1,0x02551,0x02551,0x025B2},
+	{0x02193,0x025BC,0x023A2,0x023A2}, // single, extender, extender, upper
+	{0x021D3,0x025BC,0x02551,0x02551},
+	{0x02195,0x025BC,0x023A2,0x025B2}, // single, lower, extender, upper
+	{0x021D5,0x025BC,0x02551,0x025B2},	
+	/* symmetrical brackets (for use with SymBrac)*/
+	{0x7B   ,'\\','<','|','/'}, // single, lower, center, extender, upper
+	{0x7D   ,'/','>','|','\\'}, // single, lower, center, extender, upper
+	/* angle brackets (for use with AngleBrac) */
+	{'\\','/'}, // downward, upward
+	'/',    // forward slash
+	'\\',	   // backward slash
+	/* fraction, overline, underline */ 
+	'-',
+	'_',
+	'-',
+	/* array characters 
+	 *0      1      2      3      4      5      6      7      8      9      10
+	 *│      ─      ┌      ┬      ┐      ├      ┼      ┤      └      ┴      ┘       */
+	{'|',   '-',   '+',   '+',   '+',   '+',   '+',   '+',   '+',    '+',  '+'},
+	/* integrals and sqrt */
+	{'\\','|','+','-','+'}, // downward diagonal, vertical, left top corner, horizontal, right top corner
+	{'/','|','/'}, // bottom, extender, top
+	{0x0222B,0x0222C,0x0222D,0x022EF}, // single, double, tripple, dots
+	{'(',')'}, // quasi-circle
+	{0x0222E,0x0222F,0x02230,0x022EF}, // single, double, tripple, dots
+	/* row mayor character arrays for drawing large symbols */
+	{2,3,'/','_','\\',' ','_','_'}, // width, height, start lower left, end upper right
+	{3,2,'|',' ','|','+','-','+'}, // width, height, start lower left, end upper right
+};
+
+
 void ParseStringRecursive(char *B, box *parent, int Font);
 void ParseStringInBox(char *B, box *parent, int Font);
 
+Style *style=&STYLE_UNI;
 void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font)
 /* adds sub and/or super scripts to a box */
 {
@@ -267,70 +359,70 @@ void DrawScalableDelim(SCALABLE_DELIMITER D, box *b, int h)
 	switch(D)
 	{
 		case DEL_LCURL:
-			SymBrac(b,h,LCURLYCHAR_UTF);
+			SymBrac(b,h,style->LCURLYCHAR);
 			break;
 		case DEL_RCURL:
-			SymBrac(b,h,RCURLYCHAR_UTF);
+			SymBrac(b,h,style->RCURLYCHAR);
 			break;
 		case DEL_LSQ:
-			Brac(b,h,LSQUARECHAR_UTF);
+			Brac(b,h,style->LSQUARECHAR);
 			break;
 		case DEL_RSQ:
-			Brac(b,h,RSQUARECHAR_UTF);
+			Brac(b,h,style->RSQUARECHAR);
 			break;
 		case DEL_L:
-			Brac(b,h,LBRACKCHAR_UTF);
+			Brac(b,h,style->LBRACKCHAR);
 			break;
 		case DEL_R:
-			Brac(b,h,RBRACKCHAR_UTF);
+			Brac(b,h,style->RBRACKCHAR);
 			break;
 		case DEL_VBAR:
-			Brac(b,h,VBARCHAR_UTF);
+			Brac(b,h,style->VBARCHAR);
 			break;
 		case DEL_DVBAR:
-			Brac(b,h,DVBARCHAR_UTF);
+			Brac(b,h,style->DVBARCHAR);
 			break;
 		case DEL_LANGLE:
-			AngleBrac(b,h,ANGLECHAR_UTF,'l');
+			AngleBrac(b,h,style->ANGLECHAR,'l');
 			break;
 		case DEL_RANGLE:
-			AngleBrac(b,h,ANGLECHAR_UTF,'r');
+			AngleBrac(b,h,style->ANGLECHAR,'r');
 			break;
 		case DEL_UPARROW:
-			Brac(b,h,UPARROWCHAR_UTF);
+			Brac(b,h,style->UPARROWCHAR);
 			break;
 		case DEL_DOWNARROW:
-			Brac(b,h,DOWNARROWCHAR_UTF);
+			Brac(b,h,style->DOWNARROWCHAR);
 			break;
 		case DEL_UPDOWNARROW:
-			Brac(b,h,UPDOWNARROWCHAR_UTF);
+			Brac(b,h,style->UPDOWNARROWCHAR);
 			break;
 		case DEL_BACKSLASH:
-			Slash(b,h,BSLASH_UTF,'b');
+			Slash(b,h,style->BSLASH,'b');
 			break;
 		case DEL_SLASH:
-			Slash(b,h,FSLASH_UTF,'f');
+			Slash(b,h,style->FSLASH,'f');
 			break;
 		case DEL_DUPARROW:
-			Brac(b,h,DUPARROWCHAR_UTF);
+			Brac(b,h,style->DUPARROWCHAR);
 			break;
 		case DEL_DDOWNARROW:
-			Brac(b,h,DDOWNARROWCHAR_UTF);
+			Brac(b,h,style->DDOWNARROWCHAR);
 			break;
 		case DEL_DUPDOWNARROW:
-			Brac(b,h,DUPDOWNARROWCHAR_UTF);
+			Brac(b,h,style->DUPDOWNARROWCHAR);
 			break;
 		case DEL_LFLOOR:
-			Brac(b,h,LFLOORCHAR_UTF);
+			Brac(b,h,style->LFLOORCHAR);
 			break;
 		case DEL_RFLOOR:	
-			Brac(b,h,RFLOORCHAR_UTF);
+			Brac(b,h,style->RFLOORCHAR);
 			break;
 		case DEL_LCEIL:
-			Brac(b,h,LCEILCHAR_UTF);
+			Brac(b,h,style->LCEILCHAR);
 			break;
 		case DEL_RCEIL:	
-			Brac(b,h,RCEILCHAR_UTF);
+			Brac(b,h,style->RCEILCHAR);
 			break;
 		default:
 			break;
@@ -588,7 +680,7 @@ void MakeFrac(TOKEN *T, box *b, int Font)
 	BoxPos(frac);
 	yc=frac->child[1].ry;
 	
-	line=Unicode2Utf8(FRACLINE_UTF);	
+	line=Unicode2Utf8(style->FRACLINE);	
 	n=NumByte(line);
 	/* the width of the box frac is now the desired width for the horizonatal bar */
 	/* str=(unsigned char *)frac->child[1].content;*/
@@ -641,7 +733,7 @@ void MakeOverline(TOKEN *T, box *b, int Font)
 	BoxPos(over);
 	yc=over->child[1].ry;
 		
-	line=Unicode2Utf8(OVERLINE_UTF);	
+	line=Unicode2Utf8(style->OVERLINE);	
 	n=NumByte(line);	
 	/* the width of the box over is now the desired width for the horizonatal bar */
 	/* str=(unsigned char *)over->child[1].content;*/
@@ -714,7 +806,7 @@ void MakeUnderline(TOKEN *T, box *b, int Font)
 	BoxPos(under);
 	yc=under->child[0].ry;
 		
-	line=Unicode2Utf8(UNDERLINE_UTF);	
+	line=Unicode2Utf8(style->UNDERLINE);	
 	n=NumByte(line);		
 	/* the width of the box under is now the desired width for the horizonatal bar */
 	/* str=(unsigned char *)under->child[1].content;*/
@@ -787,28 +879,28 @@ void MakeSqrt(TOKEN *T, box *b, int Font)
 	xy[2*ioff+1]=0; /* shift main box to make room for the sqrt sign */
 	for (i=0;i<h;i++)
 	{				
-		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[1])); // upward vertical
+		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(style->SQRTCHAR[1])); // upward vertical
 		xy[2*(i+1+ioff)]=h/2+xoff+1;
 		xy[2*(i+1+ioff)+1]=i;
 	}
 		
 	for (i=0;i<h/2+1;i++)
 	{
-		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[0])); // downward diagonal
+		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(style->SQRTCHAR[0])); // downward diagonal
 		xy[2*(i+1+h+ioff)]=i+xoff;
 		xy[2*(i+1+h+ioff)+1]=h/2-i;
 	}
 	
-	AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[2])); // left top corner
+	AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(style->SQRTCHAR[2])); // left top corner
 	xy[2*(sqrt->Nc-1)]=h/2+1+xoff;
 	xy[2*(sqrt->Nc-1)+1]=h;
 	for (i=0;i<w;i++) // horizontal
 	{
-		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[3])); // left top corner
+		AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(style->SQRTCHAR[3])); // left top corner
 		xy[2*(sqrt->Nc-1)]=h/2+2+xoff+i;
 		xy[2*(sqrt->Nc-1)+1]=h;
 	}
-	AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(SQRTCHAR_UTF[4])); // right top corner
+	AddChild(sqrt, B_UNIT, (void *)Unicode2Utf8(style->SQRTCHAR[4])); // right top corner
 	xy[2*(sqrt->Nc-1)]=h/2+2+xoff+w;
 	xy[2*(sqrt->Nc-1)+1]=h;
 	
@@ -837,22 +929,22 @@ void DrawInt(box *b, int n, int size)
 		switch(n)
 		{
 			case 2:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[1]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[1]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
 			case 3:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[2]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[2]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
 			case 4:
 				integ->content=realloc(integ->content, (8*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -865,9 +957,9 @@ void DrawInt(box *b, int n, int size)
 			case 5:
 				integ->content=realloc(integ->content, (6*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[3]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[3]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -877,7 +969,7 @@ void DrawInt(box *b, int n, int size)
 				break;
 			case 1:
 			default:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
@@ -893,24 +985,24 @@ void DrawInt(box *b, int n, int size)
 			j=0;
 			for (k=0;k<2;k++) // two integral signs
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[0]));// bottom
 				xy[2*j]=2*k;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[1]));// extender
 					xy[2*j]=2*k;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[2]));// top
 				xy[2*j]=2*k;
 				xy[2*j+1]=size-1;
 				j++;
 			}
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(IINTCHAR_UTF[3])); // dots inbetween
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->IINTCHAR[3])); // dots inbetween
 			xy[2*j]=1;
 			xy[2*j+1]=size/2;		
 				
@@ -922,19 +1014,19 @@ void DrawInt(box *b, int n, int size)
 			j=0;
 			for (k=0;k<n;k++)
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[0]));// bottom
 				xy[2*j]=k;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[1]));// extender
 					xy[2*j]=k;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[2]));// top
 				xy[2*j]=k;
 				xy[2*j+1]=size-1;
 				j++;
@@ -962,12 +1054,12 @@ void DrawOInt(box *b, int n, int size)
 		switch(n)
 		{
 			case 2:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[1]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[1]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
 			case 3:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[2]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[2]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
@@ -975,10 +1067,10 @@ void DrawOInt(box *b, int n, int size)
 				/* there is no pretty solution I can think of */
 				integ->content=realloc(integ->content, (8*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -991,9 +1083,9 @@ void DrawOInt(box *b, int n, int size)
 			case 5:
 				integ->content=realloc(integ->content, (6*sizeof(int)));
 				xy=(int *)integ->content;
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[3]));
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[3]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				xy[2]=1;
@@ -1003,7 +1095,7 @@ void DrawOInt(box *b, int n, int size)
 				break;
 			case 1:
 			default:
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[0]));
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[0]));
 				xy[0]=0;
 				xy[1]=0;	
 				break;
@@ -1019,32 +1111,32 @@ void DrawOInt(box *b, int n, int size)
 			j=0;
 			for (k=0;k<2;k++)
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[0]));// bottom
 				xy[2*j]=2*k+1;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[1]));// extender
 					xy[2*j]=2*k+1;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[2]));// top
 				xy[2*j]=2*k+1;
 				xy[2*j+1]=size-1;
 				j++;
 			}
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OIINTCHAR_UTF[3]));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OIINTCHAR[3]));
 			xy[2*j]=2;
 			xy[2*j+1]=size/2;	
 			j++;	
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[0]));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OINTCHAR[0]));
 			xy[2*j]=0;
 			xy[2*j+1]=size/2;	
 			j++;		
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[1]));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OINTCHAR[1]));
 			xy[2*j]=4;
 			xy[2*j+1]=size/2;		
 				
@@ -1056,28 +1148,28 @@ void DrawOInt(box *b, int n, int size)
 			j=0;
 			for (k=0;k<n;k++)
 			{
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[0]));// bottom
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[0]));// bottom
 				xy[2*j]=k+1;
 				xy[2*j+1]=0;		
 				j++;
 				for (i=1;i<size-1;i++)
 				{	
-					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[1]));// extender
+					AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[1]));// extender
 					xy[2*j]=k+1;
 					xy[2*j+1]=i;	
 					j++;
 				}
 			
-				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(INTCHAR_UTF[2]));// top
+				AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->INTCHAR[2]));// top
 				xy[2*j]=k+1;
 				xy[2*j+1]=size-1;
 				j++;
 			}
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[0]));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OINTCHAR[0]));
 			xy[2*j]=0;
 			xy[2*j+1]=size/2;	
 			j++;		
-			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(OINTCHAR_UTF[1]));
+			AddChild(integ, B_UNIT, (void *)Unicode2Utf8(style->OINTCHAR[1]));
 			xy[2*j]=n+1;
 			xy[2*j+1]=size/2;	
 			
@@ -1203,7 +1295,7 @@ void MakeSum(TOKEN *T, box *b, int Font)
 {
 	box *c;
 	
-	DrawSymbol(b, SUMCHAR_UTF);	
+	DrawSymbol(b, style->SUMCHAR);	
 	c=b->child+b->Nc-1;
 	
 	AddScripts(T->sub, T->super, c, 1, Font);
@@ -1215,7 +1307,7 @@ void MakeProd(TOKEN *T, box *b, int Font)
 {
 	box *c;
 	
-	DrawSymbol(b, PRODCHAR_UTF);	
+	DrawSymbol(b, style->PRODCHAR);	
 	c=b->child+b->Nc-1;
 	
 	AddScripts(T->sub, T->super, c, 1, Font);
@@ -1476,7 +1568,7 @@ void InitVsep(box *b, int h)
 	AddChild(b, B_POS, (void *)xy);
 	vsep=b->child+b->Nc-1;
 	for (i=0;i<h;i++)
-		AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[0]));
+		AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[0]));
 }
 
 void RescaleVsep(box *vsep, int h)
@@ -1508,7 +1600,7 @@ void RescaleVsep(box *vsep, int h)
 	if (vsep->Nc<h)
 	{
 		for (i=vsep->Nc;i<h;i++)
-			AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[0]));
+			AddChild(vsep, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[0]));
 	}
 	else
 	{
@@ -1539,7 +1631,7 @@ void InitHsep(box *b, int w)
 	AddChild(b, B_POS, (void *)xy);
 	hsep=b->child+b->Nc-1;
 	for (i=0;i<w;i++)
-		AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[1]));
+		AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[1]));
 }
 void RescaleHsep(box *hsep, int w)
 {
@@ -1570,7 +1662,7 @@ void RescaleHsep(box *hsep, int w)
 	if (hsep->Nc<w)
 	{
 		for (i=hsep->Nc;i<w;i++)
-			AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[1]));
+			AddChild(hsep, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[1]));
 	}
 	else
 	{
@@ -1615,21 +1707,21 @@ void MakeArrayBody(TOKEN *T, box *b, int Font)
 						{
 							/* top row junction */
 							if (k==0) /* upper left corner */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[2]));	
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[2]));	
 							else if (k==Nc-1) /* upper right corner */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[4]));
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[4]));
 							else /* T junction */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[3]));
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[3]));
 						}
 						else
 						{
 							/* middle row junction */
 							if (k==0)/* left T */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[5]));	
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[5]));	
 							else if (k==Nc-1)/* Right T */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[7]));								
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[7]));								
 							else /* + junction */
-								AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[6]));
+								AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[6]));
 						}
 				}
 				else
@@ -1708,11 +1800,11 @@ void MakeArrayBody(TOKEN *T, box *b, int Font)
 			{
 				/* bottom row junction */
 				if (k==0) /* bottom left corner */
-					AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[8]));	
+					AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[8]));	
 				else if (k==Nc-1) /* bottom right corner */
-					AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[10]));
+					AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[10]));
 				else /* upside down T junction */
-					AddChild(array, B_UNIT, (void *)Unicode2Utf8(ARRAYCHAR_UTF[9]));
+					AddChild(array, B_UNIT, (void *)Unicode2Utf8(style->ARRAYCHAR[9]));
 			}
 			else
 				InitHsep(array,1);

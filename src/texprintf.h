@@ -22,3 +22,5 @@ int ftexprintf(FILE *f, const char *format, ...);		/* prints to file */
 void texboxtree(const char *format, ...);				/* print the box-tree, for debugging purposes */
 void texlistsymbols();
 void texerrors();
+void SetStyleASCII();
+void SetStyleUNICODE();

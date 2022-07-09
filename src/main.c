@@ -34,10 +34,11 @@ int main(int argc, char **argv)
 			{"default-font",required_argument, 0, 'F'},
 			{"box-tree",          no_argument, 0, 'B'},
 			{"test-fonts",  required_argument, 0, 't'},
+			{"ascii",             no_argument, 0, 'A'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long (argc, argv, "l:sviw:f:F:Bt",long_options, &option_index);
+		c = getopt_long (argc, argv, "l:sviw:f:F:BtA",long_options, &option_index);
 		
 		if (c == -1)
 			break;
@@ -103,6 +104,9 @@ int main(int argc, char **argv)
 				break;
 			case 'B':
 				boxtree=1;
+				break;
+			case 'A':
+				SetStyleASCII();
 				break;
 			case '?':
 			default:

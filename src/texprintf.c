@@ -57,6 +57,7 @@ int texprintf(const char *format, ...)
 	return np;
 }
 
+
 char * stexprintf(const char *format, ...)
 {
    	va_list ap;
@@ -197,4 +198,13 @@ void texerrors()
 	ERRORSTATE=TEXPRINTF_ERR;
 	E_Messages();						/* link to error.o */
 	ResetErrors();
+}
+
+void SetStyleASCII()
+{
+	style=&STYLE_ASC;
+}
+void SetStyleUNICODE()
+{
+	style=&STYLE_UNI;
 }

@@ -101,6 +101,11 @@ char * stexprintf(const char *format, ...)
 	return res;
 }
 
+void texfree(void *ptr)
+{
+    free(ptr);
+}
+
 int ftexprintf(FILE *f, const char *format, ...)
 {
    	va_list ap;

@@ -9,5 +9,6 @@ ftexprintf
 texboxtree
 texlistsymbols
 texerrors
+texfree
 SetStyleASCII
 SetStyleUNICODE

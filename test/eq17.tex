@@ -1,0 +1,9 @@
+% example of binomial
+\binom{a}{b} = \frac{a!}{(a-b)!b!}
+\\
+\sum_{i=6}^{10}\left[\binom{A}{i} \binom{L}{10-i}\right]
+\\
+\sum_{i=6}^{10}{\frac{\binom{A}{i} \binom{L}{10-i}}{\binom{L + A}{10}}}
+\\
+C(N) = \binom{L}{10 - N} \sum_{i=0}^{min(N,2)}\left[\binom{B}{i} \sum_{j=0}^{min(2,
+N-i)}\left(\binom{B}{j} \binom{B}{min(2, N-i-j)}\right)\right]

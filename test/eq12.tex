@@ -1,0 +1,6 @@
+target = \left\{
+\begin{array}{ll}
+cwnd                          & \text{if } \mathrm{W_{cubic}}(t + RTT) <= cwnd \\
+1.5 * cwnd                    & \text{if } \mathrm{W_{cubic}}(t + RTT) != 1.5 * cwnd \\
+\mathrm{W_{cubic}}(t + RTT)   & \text{otherwise} \\
+\end{array} \right.

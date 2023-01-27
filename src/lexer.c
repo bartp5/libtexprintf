@@ -616,7 +616,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 						na+=10;
 						res[i]=realloc(res[i],na*sizeof(char));
 					}
-					for (k=0;k<4;k++)
+					for (k=0;k<3;k++)
 					{
 						begin++;
 						res[i][j]=(*begin);
@@ -627,28 +627,21 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 							res[i]=realloc(res[i],na*sizeof(char));
 						}
 					}
-					do
-					{
-						begin++;
-						res[i][j]=(*begin);
-						j++;
-						if (j==na)
-						{
-							na+=10;
-							res[i]=realloc(res[i],na*sizeof(char));
-						}
-					} while((*begin)&&(*begin!='}'));
 					if (*begin)
 					{
-						begin++;
-						res[i][j]=(*begin);
-						j++;
-						if (j==na)
+						do
 						{
-							na+=10;
-							res[i]=realloc(res[i],na*sizeof(char));
-						}
+							begin++;
+							res[i][j]=(*begin);
+							j++;
+							if (j==na)
+							{
+								na+=10;
+								res[i]=realloc(res[i],na*sizeof(char));
+							}
+						} while((begin)&&(*begin!='}'));
 					}
+					begin++;
 					K.P=PD_NONE;
 				} 
 				else
@@ -717,53 +710,45 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 			}
 			begin+=6;
 		}
-		else
+		else 
 		{
 			if (b==0)
 				go=0;
 			else
-			{
-				switch (*begin)
+			{				
+				K=LookupKey(begin, Keys);
+				if (K.P==PD_LEFTRIGHT)
 				{
-					case '&': /* next column */
-						res[i][j]='\0';
-						nc++;
-						i++;
-						if (i==Na)
+					// avoid the { in \left{ frome being misinterpreted as starting a block
+					int k=0;			
+					line=1;
+					res[i][j]=(*begin);
+					j++;
+					if (j==na)
+					{
+						na+=10;
+						res[i]=realloc(res[i],na*sizeof(char));
+					}
+					while ((*begin)&&(k<5))
+					{
+						begin++;
+						res[i][j]=(*begin);
+						j++;
+						if (j==na)
 						{
-							Na+=10;
-							res=realloc(res,Na*sizeof(char*));
+							na+=10;
+							res[i]=realloc(res[i],na*sizeof(char));
 						}
-						na=10;
-						res[i]=calloc(na,sizeof(char));
-						j=0;
-						line=1;
-						break;
-					case '\\': 
-						if (begin[1]=='\\')/* next row */
-						{
-							line=0;
-							begin++;
+						k++;
+					}
+				}
+				else
+				{
+					switch (*begin)
+					{
+						case '&': /* next column */
 							res[i][j]='\0';
-							row++;
-							if (row==nasep)
-							{
-								nasep+=10;
-								*hsep=realloc(*hsep, nasep*sizeof(char));						
-							}
-							(*hsep)[row]='c';
-							
-							nr++;
-							if (nnc<0)
-								nnc=nc;
-							if (nc!=nnc)
-							{							
-								/* error is Fatal */	
-								/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
-								// ERRORFLAG ERRNUMCOLMATCH  "Unequal number of columns in different rows"
-								AddErr(ERRNUMCOLMATCH);
-								
-							}
+							nc++;
 							i++;
 							if (i==Na)
 							{
@@ -771,13 +756,61 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 								res=realloc(res,Na*sizeof(char*));
 							}
 							na=10;
-							res[i]=calloc(na,sizeof(char));	
+							res[i]=calloc(na,sizeof(char));
 							j=0;
-							nc=0;
-						}
-						else
-						{
 							line=1;
+							break;
+						case '\\': 
+							if (begin[1]=='\\')/* next row */
+							{
+								line=0;
+								begin++;
+								res[i][j]='\0';
+								row++;
+								if (row==nasep)
+								{
+									nasep+=10;
+									*hsep=realloc(*hsep, nasep*sizeof(char));						
+								}
+								(*hsep)[row]='c';
+								
+								nr++;
+								if (nnc<0)
+									nnc=nc;
+								if (nc!=nnc)
+								{							
+									/* error is Fatal */	
+									/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
+									// ERRORFLAG ERRNUMCOLMATCH  "Unequal number of columns in different rows"
+									AddErr(ERRNUMCOLMATCH);
+									
+								}
+								i++;
+								if (i==Na)
+								{
+									Na+=10;
+									res=realloc(res,Na*sizeof(char*));
+								}
+								na=10;
+								res[i]=calloc(na,sizeof(char));	
+								j=0;
+								nc=0;
+							}
+							else
+							{
+								line=1;
+								res[i][j]=(*begin);
+								j++;
+								if (j==na)
+								{
+									na+=10;
+									res[i]=realloc(res[i],na*sizeof(char));
+								}
+							}
+							break;
+						case '{':
+						{ /* read a block */
+							int br=1;
 							res[i][j]=(*begin);
 							j++;
 							if (j==na)
@@ -785,26 +818,26 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 								na+=10;
 								res[i]=realloc(res[i],na*sizeof(char));
 							}
+							line=1;
+							while ((*begin)&&(br))
+							{
+								begin++;
+								if (*begin=='{')
+									br++;
+								else if (*begin=='}')
+									br--;
+								res[i][j]=(*begin);
+								j++;
+								if (j==na)
+								{
+									na+=10;
+									res[i]=realloc(res[i],na*sizeof(char));
+								}
+							}
+							line=1;
+							break;
 						}
-						break;
-					case '{':
-					{ /* read a block */
-						int br=1;
-						res[i][j]=(*begin);
-						j++;
-						if (j==na)
-						{
-							na+=10;
-							res[i]=realloc(res[i],na*sizeof(char));
-						}
-						line=1;
-						while ((*begin)&&(br))
-						{
-							begin++;
-							if (*begin=='{')
-								br++;
-							else if (*begin=='}')
-								br--;
+						default:
 							res[i][j]=(*begin);
 							j++;
 							if (j==na)
@@ -812,21 +845,10 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 								na+=10;
 								res[i]=realloc(res[i],na*sizeof(char));
 							}
-						}
-						line=1;
-						break;
+							line=1;
+							break;
+						
 					}
-					default:
-						res[i][j]=(*begin);
-						j++;
-						if (j==na)
-						{
-							na+=10;
-							res[i]=realloc(res[i],na*sizeof(char));
-						}
-						line=1;
-						break;
-					
 				}
 				begin++;
 			}
@@ -886,8 +908,11 @@ TOKEN BeginEnv(TOKEN T)
 			begin=end;				
 			/* fetch body till \end{array} and put it in arguments or R */
 			R.args=TableRead(begin, &R.next, &Nc, &R.Nargs, &hsep, &Nha);
-			
-			
+			/*{
+				int i;
+				for (i=0;i<R.Nargs;i++)
+					printf("%d: %s\n", i,R.args[i]);
+			}*/
 			if (QueryErr(ERRNUMCOLMATCH))
 				return R;
 				
@@ -1071,6 +1096,8 @@ TOKEN SubLexer(char *begin, FONT F)
 	R.F=F; /* the current fonts */
 	if (*begin=='\\')
 	{
+		char *bb;
+		bb=begin;
 		/* we have something of the form \comm[]..{}.. */
 		K=LookupKey(begin, Keys);
 		if (K.P==PD_LEFTRIGHT)

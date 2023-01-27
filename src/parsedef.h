@@ -74,6 +74,7 @@ const KEYWORD   Keys[] = {
 	{"\\\\",      	PD_ENDLINE    	, 0, 0},
 	{"\\ ",      	PD_SPACE    	, 0, 0}, /* in monospace fonts small spacing is a minimal one space wide */
 	{"\\,",      	PD_NSPACE    	, 0, 0}, /* dummy for no space */
+	{"\\-",      	PD_NSPACE    	, 0, 0}, /* what is \- in latex math mode. with me it does not through an arror and I see no change */
 	{"\\;",      	PD_SPACE    	, 0, 0},
 	{"\\:",      	PD_SPACE    	, 0, 0},
 	{"\\quad",      PD_DSPACE    	, 0, 0},

@@ -147,8 +147,8 @@ int main(int argc, char **argv)
 		}
 		buffer[i]='\0';
 		if (printsource)
-			printf("%s\n",argv[optind]);			
-		texprintf("%s\n",argv[optind]);
+			printf("%s\n",buffer);			
+		texprintf("%s\n",buffer);
 		texerrors();
 		if (boxtree)
 			texboxtree("%s\n",argv[optind]);

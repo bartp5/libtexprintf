@@ -46,12 +46,12 @@ char * DrawBox(box *b)
 {
 	char *out;
 	int k=0;
-	out=malloc(sizeof(char));
+	out=calloc(1,sizeof(char));
 	if (b->S==ABSPOSKNOWN)
 	{
 		char *buffer;
-		int i, w;
-		int x, y, off, Na;
+		int i, w=0;
+		int x, y, off=0, Na;
 		box *bb;
 		if ((b->ax!=0)||(b->ay!=0))
 		{
@@ -102,7 +102,7 @@ char * DrawBox(box *b)
 					
 				}
 			}
-			out=realloc(out,(k+w+off+1)*sizeof(char));
+			out=realloc(out,(k+w+off+2)*sizeof(char));
 			for (i=0;i<w+off;i++)
 			{
 				out[k]=buffer[i];

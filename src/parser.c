@@ -705,6 +705,35 @@ void MakeFrac(TOKEN *T, box *b, int Font)
 	AddScripts(T->sub, T->super, frac, T->limits, Font);
 }
 
+void MakeBinom(TOKEN *T, box *b, int Font)
+{
+	unsigned char *str;
+	int *Ncol;
+	box *binom;
+	
+	Ncol=malloc(sizeof(int));
+	Ncol[0]=1;
+	/* create a array box and point to it with the box pointer binom */
+	AddChild(b, B_ARRAY, (void *)Ncol);
+	binom=b->child+b->Nc-1;
+		
+		
+	/* add two boxes to the array box  */
+	ParseStringInBox(T->args[0], binom, Font); 	/* n */	
+	str=calloc(1,sizeof(char));		/* add unit box for spacing*/
+	AddChild(binom, B_UNIT, str);
+	ParseStringInBox(T->args[1], binom, Font); 	/* k */
+	
+	binom->S=INIT;
+	BoxPos(binom);
+	BoxSetState(binom, SIZEKNOWN);
+	binom->yc=binom->child[1].ry;
+	binom->Y=FIX;
+	binom->S=SIZEKNOWN;
+	AddBraces("(", ")", binom);
+	AddScripts(T->sub, T->super, binom, T->limits, Font);
+}
+
 void MakeOverline(TOKEN *T, box *b, int Font)
 {
 	unsigned char *str;
@@ -1941,6 +1970,9 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				break;
 			case PD_FRAC: 
 				MakeFrac(&T, b, Font);
+				break;
+			case PD_BINOM: 
+				MakeBinom(&T, b, Font);
 				break;
 			case PD_SQRT: 
 				MakeSqrt(&T, b, Font);

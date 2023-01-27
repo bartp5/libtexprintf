@@ -591,7 +591,81 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 	{
 	    K=LookupKey(begin, Envs);
 	    if (K.P==PD_BEGIN)
+	    {
 			b++;
+			/* read a block */
+			res[i][j]=(*begin);
+			j++;
+			if (j==na)
+			{
+				na+=10;
+				res[i]=realloc(res[i],na*sizeof(char));
+			}
+			while ((*begin)&&(b>1))
+			{
+				begin++;
+				K=LookupKey(begin, Envs);
+				if (K.P==PD_END)
+				{
+					int k;
+					b--;
+					res[i][j]=(*begin);
+					j++;
+					if (j==na)
+					{
+						na+=10;
+						res[i]=realloc(res[i],na*sizeof(char));
+					}
+					for (k=0;k<4;k++)
+					{
+						begin++;
+						res[i][j]=(*begin);
+						j++;
+						if (j==na)
+						{
+							na+=10;
+							res[i]=realloc(res[i],na*sizeof(char));
+						}
+					}
+					do
+					{
+						begin++;
+						res[i][j]=(*begin);
+						j++;
+						if (j==na)
+						{
+							na+=10;
+							res[i]=realloc(res[i],na*sizeof(char));
+						}
+					} while((*begin)&&(*begin!='}'));
+					if (*begin)
+					{
+						begin++;
+						res[i][j]=(*begin);
+						j++;
+						if (j==na)
+						{
+							na+=10;
+							res[i]=realloc(res[i],na*sizeof(char));
+						}
+					}
+					K.P=PD_NONE;
+				} 
+				else
+				{
+					if (K.P==PD_BEGIN)
+						b++;
+					res[i][j]=(*begin);
+					j++;
+					if (j==na)
+					{
+						na+=10;
+						res[i]=realloc(res[i],na*sizeof(char));
+					}
+				}
+			}
+			line=1;
+		}
 		else if (K.P==PD_END)
 		{
 			b--;
@@ -765,7 +839,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 	*end=begin;
 	if (nnc<0)
 		nnc=nc;
-	if (nc!=nnc)
+	if ((nc) && (nc!=nnc))
 		AddErr(ERRNUMCOLMATCH);
 	*Nc=nnc+1;
 	*N=i+line;
@@ -812,6 +886,8 @@ TOKEN BeginEnv(TOKEN T)
 			begin=end;				
 			/* fetch body till \end{array} and put it in arguments or R */
 			R.args=TableRead(begin, &R.next, &Nc, &R.Nargs, &hsep, &Nha);
+			
+			
 			if (QueryErr(ERRNUMCOLMATCH))
 				return R;
 				

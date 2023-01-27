@@ -1096,8 +1096,6 @@ TOKEN SubLexer(char *begin, FONT F)
 	R.F=F; /* the current fonts */
 	if (*begin=='\\')
 	{
-		char *bb;
-		bb=begin;
 		/* we have something of the form \comm[]..{}.. */
 		K=LookupKey(begin, Keys);
 		if (K.P==PD_LEFTRIGHT)

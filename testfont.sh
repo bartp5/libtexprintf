@@ -1,18 +1,27 @@
 #!/bin/bash
 cd test
 f=0
+fonts="mathsfbfit mathsfbf mathfrak mathbfit mathsfit mathcal mathscr mathbf mathbb mathsf mathtt mathnormal text"
 if [ "$1" == "ref" ]
 then
-	utftex -t > font.ref
+	for i in $fonts
+	do
+		echo "$i" -- "font"$i".ref"
+		cat font.tex |grep -E '^[^%]' | utftex -F "$i" > "font"$i".ref"
+	done
 else
-	utftex -t > tmp
-	if ! cmp -s font.ref tmp
-	then
-		echo FAIL: fonts
-		f=1;
-	else
-		echo PASS: fonts
-	fi
+	for i in $fonts
+	do
+		cat font.tex |grep -E '^[^%]' | utftex -F "$i" > tmp
+		if ! cmp  "font"$i".ref" tmp
+		then
+			echo FAIL: "$i"
+			mv tmp "font"$i".new"
+			let "f++";
+		else
+			echo PASS: "$i"
+		fi
+	done
 	rm tmp
 fi
 if [ "$f" -gt 0 ]

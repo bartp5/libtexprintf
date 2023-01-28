@@ -1,5 +1,6 @@
 #!/bin/bash
 cd test
+f=0;
 if [ "$1" == "ref" ]
 then
 	for i in *.tex
@@ -7,14 +8,10 @@ then
 		echo "$i" -- ${i%%tex}"ref"
 		cat "$i"|grep -E '^[^%]' | utftex > ${i%%tex}"ref"
 	done
-	f=0;
 else
-	p=0;
-	f=0;
 	for i in *.tex
 	do
 		cat "$i"|grep -E '^[^%]' | utftex > tmp
-		cmp  ${i%%tex}"ref" tmp
 		if ! cmp -s ${i%%tex}"ref" tmp
 		then
 			echo FAIL: "$i"
@@ -22,7 +19,6 @@ else
 			let "f++";
 		else
 			echo PASS: "$i"
-			let "p++";
 		fi
 	done
 	rm tmp

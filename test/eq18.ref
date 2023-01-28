@@ -1,0 +1,8 @@
+ssthresh =  flight_size * β      new  ssthresh
+                           cubic
+cwnd      = cwnd                 save  cwnd
+    prior
+            ⎧
+            ⎨ max(ssthresh, 2)    reduction on loss, cwnd  is at least 2 MSS
+cwnd =      ⎩ max(ssthresh, 1)    reduction on ECE, cwnd  is at least 1 MSS
+ssthresh =  max(ssthresh, 2)     ssthresh  is at least 2 MSS

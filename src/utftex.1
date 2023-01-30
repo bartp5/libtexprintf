@@ -64,6 +64,11 @@ Specify the size of full width characters. Valid sizes are 1 and 2. Default is 2
 Specify the default font style to use. See the Fonts below. The font names correspond to the font commands minus the slash and the argument.
 e.g. one could pass "-F mathnormal". Without this option the default font is set to "text" as not all fonts support the other font styles.
 
+.B [--ascii -A]
+.br
+Try to stick to ASCII characters. This affects all "drawing" characters used for integral signs, brackets, fractions, and tables.
+It does not affect symbols like \alpha (The user can avoid those, and there is no ASCII equivalent for \alpha).
+
 .SH SYNTAX
 
 .B Fonts:

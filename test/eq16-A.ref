@@ -1,0 +1,9 @@
+                                \
+cwnd = prior_cwnd               |
+ssthresh = prior_ssthresh       |
+W    = prior_W                  |
+ max          max               >
+K = prior_K                     |if cwnd < prior_cwnd
+epoch_start = prior_epoch_start |
+W    = prior_W                  |
+ est          est               /

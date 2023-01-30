@@ -889,23 +889,39 @@ TOKEN BeginEnv(TOKEN T)
 	/* lex environment */
 	switch(K.P)
 	{
+		case PD_ALIGN:
 		case PD_ARRAY:
 		{
 			int Nc, Nha, n, nv;
 			char *valign, *halign, *hsep, *p;
-			
-			/* fetch alignment infos from TOKEN T */
-			halign=Option(T.next, &begin);	
-			valign=Argument(begin, &end);
-			if (!valign)
+			if (K.P==PD_ARRAY)
 			{
-				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
-				// ERRORFLAG ERRVALIGHN  "\\begin{array} requires column-wise alignment info"
-				AddErr(ERRVALIGHN);
-				return R;
+				/* fetch alignment infos from TOKEN T */
+				halign=Option(T.next, &begin);	
+				valign=Argument(begin, &end);
+				if (!valign)
+				{
+					/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
+					// ERRORFLAG ERRVALIGHN  "\\begin{array} requires column-wise alignment info"
+					AddErr(ERRVALIGHN);
+					return R;
+				}
+				begin=end;	
 			}
-			
-			begin=end;				
+			else
+			{
+				/* K.P=PD_ALIGN */
+				/* align implemented as a table with two columns, left column is right aligned 
+				 * right column is left aligned
+				 */
+				halign=NULL;
+				valign=malloc(3*sizeof(char));
+				valign[0]='r';
+				valign[1]='l';
+				valign[2]='\0';
+				begin=T.next;
+			}
+						
 			/* fetch body till \end{array} and put it in arguments or R */
 			R.args=TableRead(begin, &R.next, &Nc, &R.Nargs, &hsep, &Nha);
 			/*{
@@ -915,7 +931,7 @@ TOKEN BeginEnv(TOKEN T)
 			}*/
 			if (QueryErr(ERRNUMCOLMATCH))
 				return R;
-				
+			
 			if (strncmp(R.next+1, T.args[0], strlen(T.args[0]))!=0)
 			{
 				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */

@@ -1,0 +1,7 @@
+         /
+         |cwnd             if  W     (t + RTT) <= cwnd
+         |                      cubic
+         <1.5 * cwnd       if  W     (t + RTT) != 1.5 * cwnd
+target = |                      cubic
+         |W     (t + RTT)  otherwise
+         \ cubic

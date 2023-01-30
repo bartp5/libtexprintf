@@ -84,6 +84,9 @@ const KEYWORD   Keys[] = {
 
 /* context dependent keywords */
 const KEYWORD   Envs[] = {
+	{"aligned",  	PD_ALIGN     	, 0, 0},
+	{"align*",  	PD_ALIGN     	, 0, 0},
+	{"align",  		PD_ALIGN     	, 0, 0},
 	{"array",  		PD_ARRAY     	, 1, 1},
 	{"cases*",  	PD_CASES    	, 0, 1},
 	{"cases",  		PD_CASES    	, 0, 1},

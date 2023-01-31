@@ -534,10 +534,16 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 	/* some brackest need uneven heights, I want all delimiters to have the same height */
 	if ((DL==DEL_LCURL)||(DM==DEL_LCURL)||(DR==DEL_LCURL))
 		if (h%2!=1)
-			h=h+1;	
+		{
+			h=h+1;
+			yc++; // center character needs to align with yc
+		}	
 	if ((DL==DEL_RCURL)||(DM==DEL_RCURL)||(DR==DEL_RCURL))
 		if (h%2!=1)
+		{
 			h=h+1;	
+			yc++; // center character needs to align with yc
+		}	
 	/* some brackest need even heights, I want all delimiters to have the same height */
 	if ((DL==DEL_LANGLE)||(DM==DEL_LANGLE)||(DR==DEL_LANGLE))
 		if (h%2!=0)

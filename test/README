@@ -1,0 +1,30 @@
+directory with tests.
+the eqxx.tex are a rather arbitrary collection 
+of latex equations. The corresponding ref files 
+are libtexprintf renderings thereof, which at 
+some point in time I felt were OK.
+The font.tex file is used for testing the 
+different font styles. 
+
+Add tests:
+Before ypou add tests, make sure the current 
+tests are passed, i.e. run (in root directory) 
+>> make check
+Then add your xx.tex file, and run:
+>> ./runtest.sh ref
+and
+>> ./runtest.sh ASCII ref
+This will generate the corresponding ref files.
+Inspect the ref files whether the output is OK.
+If not either:
+- fix libtexprintf
+- fix the tex file
+- create an issue/bug report
+   
+Once the test runs correctly, add the test to 
+configure.ac. You need to create links to the 
+tex and ref files there. This is to ensure the 
+test also runs for out of source tree builds. 
+Do a "make distcheck" to ensure all things are 
+set up correctly.  
+

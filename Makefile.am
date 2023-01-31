@@ -8,4 +8,4 @@ EXTRA_DIST = runtest.sh testfont.sh test/eq1.tex test/eq2.tex test/eq3.tex test/
              test/eq15.ref test/eq16.ref test/eq17.ref test/eq18.ref test/font.ref test/fontmathbb.ref \
 			 test/fontmathbf.ref test/fontmathbfit.ref test/fontmathcal.ref test/fontmathfrak.ref \
 			 test/fontmathnormal.ref test/fontmathscr.ref test/fontmathsf.ref test/fontmathsfbf.ref \
-			 test/fontmathsfbfit.ref test/fontmathsfit.ref test/fontmathtt.ref test/fonttext.ref
+			 test/fontmathsfbfit.ref test/fontmathsfit.ref test/fontmathtt.ref test/fonttext.ref test/README

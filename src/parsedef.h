@@ -46,6 +46,7 @@ const KEYWORD   Keys[] = {
 	{"\\limits",  	PD_LIMITS      , 1, 0},
 	{"\\lim",  		PD_LIM   		, 0, 0},
 	{"\\over", 		PD_OVER   		, 0, 0},
+	{"\\choose", 	PD_CHOOSE  		, 0, 0},
 	{"\\exp",  		PD_FUNCTION   	, 0, 0},
 	{"\\ln",  		PD_FUNCTION   	, 0, 0},
 	{"\\log",  		PD_FUNCTION   	, 0, 0},

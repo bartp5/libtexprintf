@@ -7,6 +7,7 @@ typedef enum {
 	PD_FRAC,
 	PD_BINOM,
 	PD_OVER,
+	PD_CHOOSE,
 	PD_SQRT,
 	PD_INT,
 	PD_IINT,

@@ -104,7 +104,7 @@ Style STYLE_ASC={
 
 void ParseStringRecursive(char *B, box *parent, int Font);
 void ParseStringInBox(char *B, box *parent, int Font);
-
+int RootFont;
 Style *style=&STYLE_UNI;
 void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font)
 /* adds sub and/or super scripts to a box */
@@ -1408,9 +1408,9 @@ void MakeSymbol(TOKEN *T, box *b, int Font)
 	{				  /* otherwise we will use the inherited font from the box above */
 					  /* note that this is somewhat of a dirty hack
 					   * if the token has a font I set the Font variable to something corresponding to italic roman for bold
-					   * otherwise, for the commands like \text{..} \mathbfit{..}, etc, the token jas no font set!
+					   * otherwise, for the commands like \text{..} \mathbfit{..}, etc, the token has no font set!
 					   * then we only inherit fonts and the command itself triggers the creation of a box with the PRSDEF as font value
-					   * This is a sick construct in thorough need of fixin... */
+					   * This is a bad construct in thorough need of fixin... */
 		switch((FONT)T->F)
 		{
 			case F_ITALIC:
@@ -1423,7 +1423,7 @@ void MakeSymbol(TOKEN *T, box *b, int Font)
 				Font=PD_MATHBF;
 				break;
 			default:
-				Font=PD_MATHNORMAL;
+				Font=RootFont; /* is this better, I do not understand my own poorly written comment */
 				break;
 		}				
 	}
@@ -2121,8 +2121,8 @@ box ParseString(char *string, int LW, char *font)
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=LW;
 	root=InitBox(NULL, B_LINE, (void *)Ncol);
-	
-	ParseStringRecursive(B, &root, LookupFont(font));
+	RootFont=LookupFont(font);
+	ParseStringRecursive(B, &root, RootFont);
 	/* BoxSetState(&root, INIT);*/
 	free(B);
 	return root;

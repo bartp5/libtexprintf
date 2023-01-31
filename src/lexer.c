@@ -353,7 +353,22 @@ char *Option(char *begin, char **next)
 
 char *Argument(char *begin, char **next)
 {
-	return OptionArgument(begin, next, '{', '}');
+	char *r;
+	r=OptionArgument(begin, next, '{', '}');
+	if (r==NULL)
+	{
+		// no brackets, every char is an argument till we have some selimiter
+		if (!IsInSet(*begin, "\\ ^_+-*/()@#$%&{},;\n"))
+		{
+			r=malloc(2*sizeof(char));
+			r[0]=*begin;
+			r[1]='\0';
+			(*next)=begin+1;
+		}
+		else
+			return NULL;
+	}
+	return r;
 }
 
 /* some commands work on arguments before they are issued, we peek ahead to see if we need to do something */
@@ -400,6 +415,88 @@ void PeekAhead(TOKEN *T, char *begin)
 			
 			 /* move begin to skip '\over' */
 			begin+=5;
+			fflush(stdout);
+			p=begin;
+			while (*p && ((*p==' ')||(*p=='\t')))
+				p++;
+			if (*p=='{')
+			{			
+				str=Argument(p, &end);	
+				begin=end;
+			}
+			else
+			{
+				/* read till space */
+				begin=p;
+				if (*p=='\\')
+				{
+					/*we need to parse the command with all its arguments ... */
+					/*let's just say you need to put the argument betwene curly brackets then */
+					str=NULL;
+				}
+				else
+				{
+					while ((*p)&&(!IsInSet(*p, "\\ \t{")))
+						p++;
+					if (p-begin==0)
+						str=NULL;
+					else
+					{
+						str=malloc((p-begin+1)*sizeof(char));
+						end=p;
+						p=str;
+						while (begin<end)
+						{
+							*p=*begin;
+							begin++;
+							p++;
+						}
+						(*p)='\0';
+					}
+				}
+			}
+			if (!str)
+			{
+				AddErr(ERRTOOFEWMANDARG);
+				T->P=PD_NONE;
+				return;
+			}
+			T->args[1]=str;
+			/* recurse, do not set next string yet (an \over, _, or ^ may follow) */
+			PeekAhead(T, begin);
+			return;
+		}
+		case PD_CHOOSE: /* same as \frac but then after the fact */
+		{
+			char *str, *p, *b;
+			T->P=PD_BINOM;
+			/* get the two arguments */
+			/* the first argument was already lexed! */
+			if (!T->args)
+				T->args=malloc(2*sizeof(char *));
+			else
+			{
+				int i;
+				for (i=0;i<T->Nargs;i++)
+					free(T->args[i]);					
+				T->args=realloc(T->args, 2*sizeof(char *));
+			}
+			T->Nargs=2;
+			
+			str=malloc((begin-T->self+1)*sizeof(char));
+			p=str;
+			b=T->self;
+			while (b<begin)
+			{
+				*p=*b;
+				b++;
+				p++;
+			}
+			(*p)='\0';
+			T->args[0]=str;
+			
+			 /* move begin to skip '\choose' */
+			begin+=7;
 			fflush(stdout);
 			p=begin;
 			while (*p && ((*p==' ')||(*p=='\t')))

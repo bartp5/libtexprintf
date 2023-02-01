@@ -1319,7 +1319,8 @@ void DrawSymbol(box *b, int chars[])
 	
 	/* draw the symbol */
 	for (i=0;i<chars[0]*chars[1];i++)
-		AddChild(c, B_UNIT, (void *)Unicode2Utf8(chars[i+2]));	
+		AddChild(c, B_UNIT, (void *)Unicode2Utf8(chars[i+2]));
+	b->yc=chars[1]/2;
 }
 
 

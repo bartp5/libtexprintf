@@ -2,7 +2,7 @@
 cd test
 f=0;
 if [ "$1" == "ASCII" ]
-then 
+then
 	opt="-A"
 	shift
 else
@@ -14,12 +14,12 @@ then
 	for i in *.tex
 	do
 		echo "$i" -- ${i%%.tex}$opt".ref"
-		cat "$i"|grep -E '^[^%]' | utftex $opt > ${i%%.tex}$opt".ref"
+		cat "$i"|grep -E '^[^%]' | $utftex $opt > ${i%%.tex}$opt".ref"
 	done
 else
 	for i in *.tex
 	do
-		cat "$i"|grep -E '^[^%]' | utftex $opt > tmp
+		cat "$i"|grep -E '^[^%]' | $utftex $opt > tmp
 		if ! cmp -s ${i%%.tex}$opt".ref" tmp
 		then
 			echo FAIL: "$i"
@@ -30,8 +30,8 @@ else
 		fi
 	done
 	rm tmp
-	
-fi	
+
+fi
 if [ "$f" -gt 0 ]
 then
 	exit  1

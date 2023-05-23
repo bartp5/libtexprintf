@@ -1,5 +1,8 @@
 SUBDIRS = src
-TESTS=runtest.sh testfont.sh testascii.sh
+TESTS_ENVIRONMENT = \
+  utftex=$(abs_builddir)/src/utftex
+  export utftex;
+TESTS=runtest.sh testfont.sh testascii.sh testerrors.sh
 EXTRA_DIST = runtest.sh testfont.sh test/eq1.tex test/eq2.tex test/eq3.tex test/eq4.tex test/eq5.tex \
 			 test/eq6.tex test/eq7.tex test/eq8.tex test/eq9.tex test/eq10.tex test/eq11.tex test/eq12.tex \
 			 test/eq13.tex test/eq14.tex test/eq15.tex test/eq16.tex test/eq17.tex test/eq18.tex  \

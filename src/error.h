@@ -9,4 +9,5 @@ extern int ERRORSTATE;	/* signals error occurred, if 0 everything is OK */
 void AddErr(int ERRFLAG); /* call to set an error flag as defined in errorflags.h */
 int QueryErr(int ERRFLAG);
 void E_Messages();
+char *E_Messages_str();
 void ResetErrors();

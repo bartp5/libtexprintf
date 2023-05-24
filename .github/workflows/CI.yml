@@ -7,11 +7,7 @@ on:
     tags: '*'
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest]
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2

@@ -1,0 +1,27 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+    tags: '*'
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Autogen
+      run: sh autogen.sh && ./configure
+    - name: Build
+      run: make -j16
+    - name: Run tests
+      run: make check
+    - name: Run distcheck
+      run: make distcheck
+    - name: Clean
+      run: make maintainer-clean && rm *.gz && test "$(git status --ignored --porcelain | tr -d '\n!!')" = " Makefile.in aclocal.m4 compile config.guess config.sub configure depcomp install-sh ltmain.sh m4/ missing src/Makefile.in src/config.h.in test-driver"

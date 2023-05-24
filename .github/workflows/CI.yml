@@ -7,8 +7,14 @@ on:
     tags: '*'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }}
     steps:
+    - if :  matrix.os == 'macos-latest'
+      run:  brew install autoconf automake libtool
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Autogen

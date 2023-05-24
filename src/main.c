@@ -15,6 +15,7 @@ int main(int argc, char **argv)
 	int i, c;
 	int printsource=0;
 	int boxtree=0;
+	int test_stexprintf=0;
 	int done=0;
 	int combine_errors=0;
 	char *font=NULL;
@@ -35,13 +36,13 @@ int main(int argc, char **argv)
 			{"default-font",required_argument, 0, 'F'},
 			{"box-tree",          no_argument, 0, 'B'},
 			{"test-fonts",  required_argument, 0, 't'},
+			{"test-stexprintf",  required_argument, 0, 'S'},
 			{"ascii",             no_argument, 0, 'A'},
 			{"combine-errors",    no_argument, 0, 'E'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long (argc, argv, "l:sviw:f:F:BtAE",long_options, &option_index);
-
+		c = getopt_long (argc, argv, "l:sviw:f:F:BtSAE",long_options, &option_index);
 		if (c == -1)
 			break;
 
@@ -107,6 +108,9 @@ int main(int argc, char **argv)
 			case 'B':
 				boxtree=1;
 				break;
+			case 'S':
+				test_stexprintf=1;
+				break;
 			case 'A':
 				SetStyleASCII();
 				break;
@@ -125,7 +129,14 @@ int main(int argc, char **argv)
       {
 			if (printsource)
 				printf("%s\n",argv[optind]);
-			texprintf("%s\n",argv[optind]);
+			if (test_stexprintf) {
+				char *str = stexprintf("%s\n",argv[optind]);
+				puts(str);
+				texfree(str);
+			}
+			else
+				texprintf("%s\n",argv[optind]);
+				
 			if (combine_errors) {
 				char *err = texerrors_str();
 				fprintf(stderr, "ERRORS: %s\n", err);
@@ -159,10 +170,18 @@ int main(int argc, char **argv)
 		buffer[i]='\0';
 		if (printsource)
 			printf("%s\n",buffer);
-		texprintf("%s\n",buffer);
+			
+		if (test_stexprintf) {
+			char *str = stexprintf("%s\n",buffer);
+			puts(str);
+			texfree(str);
+		}
+		else
+			texprintf("%s\n",buffer);
+			
 		if (combine_errors) {
 			char *err = texerrors_str();
-			fprintf("ERRORS: %s\n", err);
+			fprintf(stderr, "ERRORS: %s\n", err);
 			texfree(err);
 		}
 		else

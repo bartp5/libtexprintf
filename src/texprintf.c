@@ -57,14 +57,10 @@ int texprintf(const char *format, ...)
 	return np;
 }
 
-
-char * stexprintf(const char *format, ...)
+char * texstring(const char *str)
 {
-   	va_list ap;
-   	char *res;
-   	char *str;
-   	int Na=255, np;
 	box root;
+	char *res;
 
 	ResetErrors();
 	FCSPACES=TEXPRINTF_FCW;
@@ -80,6 +76,23 @@ char * stexprintf(const char *format, ...)
 		exit(1);
 	}
 
+	root=ParseString(str, TEXPRINTF_LW, TEXPRINTF_FONT);
+	BoxPos(&root);
+	res=DrawBox(&root);
+	FreeBox(&root);
+	TEXPRINTF_ERR=ERRORSTATE;
+
+	return res;
+}
+
+
+char * stexprintf(const char *format, ...)
+{
+   	va_list ap;
+   	char *res;
+   	char *str;
+   	int Na=255, np;
+
    	str=malloc(Na*sizeof(char));
    	va_start (ap, format);
    	np=vsnprintf(str, Na*sizeof(char), format, ap);
@@ -91,13 +104,8 @@ char * stexprintf(const char *format, ...)
 		np=vsnprintf(str, Na*sizeof(char), format, ap);
 	}
 
-	root=ParseString(str, TEXPRINTF_LW, TEXPRINTF_FONT);
-	BoxPos(&root);
-	res=DrawBox(&root);
-	FreeBox(&root);
+	res = texstring(str);
 	free(str);
-	TEXPRINTF_ERR=ERRORSTATE;
-
 	return res;
 }
 

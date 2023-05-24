@@ -1,5 +1,6 @@
 libtexprintf & utftex
 =====================
+[![CI](https://github.com/bartp5/libtexprintf/workflows/CI/badge.svg)](https://github.com/bartp5/libtexprintf/actions?query=workflow%3ACI)
 
 The utftex program and underlying libtexprintf library provide tools to
 pretty print math in mono-space fonts, using a tex-like syntax. It 

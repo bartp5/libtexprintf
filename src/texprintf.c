@@ -22,7 +22,7 @@ int texprintf(const char *format, ...)
    	char *str;
    	int Na=255, np;
 	box root;
-   	
+
 	ResetErrors();
 	FCSPACES=TEXPRINTF_FCW;
 	WCSPACES=TEXPRINTF_WCW;
@@ -36,7 +36,7 @@ int texprintf(const char *format, ...)
 		fprintf(stderr,"Error: TEXPRINTF_FCW out of range, wide characters can occupy either 1 or 2 character spaces\n");
 		exit(1);
 	}
-	
+
    	str=malloc(Na*sizeof(char));
    	va_start (ap, format);
    	np=vsnprintf(str, Na*sizeof(char), format, ap);
@@ -47,7 +47,7 @@ int texprintf(const char *format, ...)
 		va_start (ap, format);
 		np=vsnprintf(str, Na*sizeof(char), format, ap);
 	}
-	
+
 	root=ParseString(str, TEXPRINTF_LW, TEXPRINTF_FONT);
 	BoxPos(&root);
 	np=PrintBox(&root);
@@ -57,15 +57,11 @@ int texprintf(const char *format, ...)
 	return np;
 }
 
-
-char * stexprintf(const char *format, ...)
+char * texstring(const char *str)
 {
-   	va_list ap;
-   	char *res;
-   	char *str;
-   	int Na=255, np;
 	box root;
-   	
+	char *res;
+
 	ResetErrors();
 	FCSPACES=TEXPRINTF_FCW;
 	WCSPACES=TEXPRINTF_WCW;
@@ -79,7 +75,24 @@ char * stexprintf(const char *format, ...)
 		fprintf(stderr,"Error: TEXPRINTF_FCW out of range, wide characters can occupy either 1 or 2 character spaces\n");
 		exit(1);
 	}
-   	
+
+	root=ParseString(str, TEXPRINTF_LW, TEXPRINTF_FONT);
+	BoxPos(&root);
+	res=DrawBox(&root);
+	FreeBox(&root);
+	TEXPRINTF_ERR=ERRORSTATE;
+
+	return res;
+}
+
+
+char * stexprintf(const char *format, ...)
+{
+   	va_list ap;
+   	char *res;
+   	char *str;
+   	int Na=255, np;
+
    	str=malloc(Na*sizeof(char));
    	va_start (ap, format);
    	np=vsnprintf(str, Na*sizeof(char), format, ap);
@@ -90,14 +103,9 @@ char * stexprintf(const char *format, ...)
 		va_start (ap, format);
 		np=vsnprintf(str, Na*sizeof(char), format, ap);
 	}
-	
-	root=ParseString(str, TEXPRINTF_LW, TEXPRINTF_FONT);
-	BoxPos(&root);
-	res=DrawBox(&root);
-	FreeBox(&root);
-	free(str);	
-	TEXPRINTF_ERR=ERRORSTATE;
 
+	res = texstring(str);
+	free(str);
 	return res;
 }
 
@@ -113,7 +121,7 @@ int ftexprintf(FILE *f, const char *format, ...)
    	char *str;
    	int Na=255, np;
 	box root;
-   	
+
 	ResetErrors();
 	FCSPACES=TEXPRINTF_FCW;
 	WCSPACES=TEXPRINTF_WCW;
@@ -127,7 +135,7 @@ int ftexprintf(FILE *f, const char *format, ...)
 		fprintf(stderr,"Error: TEXPRINTF_FCW out of range, wide characters can occupy either 1 or 2 character spaces\n");
 		exit(1);
 	}
-   	
+
    	str=malloc(Na*sizeof(char));
    	va_start (ap, format);
    	np=vsnprintf(str, Na*sizeof(char), format, ap);
@@ -138,7 +146,7 @@ int ftexprintf(FILE *f, const char *format, ...)
 		va_start (ap, format);
 		np=vsnprintf(str, Na*sizeof(char), format, ap);
 	}
-	
+
 	root=ParseString(str, TEXPRINTF_LW, TEXPRINTF_FONT);
 	BoxPos(&root);
 	res=DrawBox(&root);
@@ -146,7 +154,7 @@ int ftexprintf(FILE *f, const char *format, ...)
 	free(str);
 	np=strlen(res);
 	fprintf(f,"%s",res);
-	free(res);	
+	free(res);
 	TEXPRINTF_ERR=ERRORSTATE;
 
 	return np;
@@ -158,7 +166,7 @@ void texboxtree(const char *format, ...)
    	char *str;
    	int Na=255, np;
 	box root;
-   	
+
 	ResetErrors();
 	FCSPACES=TEXPRINTF_FCW;
 	WCSPACES=TEXPRINTF_WCW;
@@ -172,7 +180,7 @@ void texboxtree(const char *format, ...)
 		fprintf(stderr,"Error: TEXPRINTF_FCW out of range, wide characters can occupy either 1 or 2 character spaces\n");
 		exit(1);
 	}
-	
+
    	str=malloc(Na*sizeof(char));
    	va_start (ap, format);
    	np=vsnprintf(str, Na*sizeof(char), format, ap);
@@ -183,7 +191,7 @@ void texboxtree(const char *format, ...)
 		va_start (ap, format);
 		np=vsnprintf(str, Na*sizeof(char), format, ap);
 	}
-	
+
 	root=ParseString(str, TEXPRINTF_LW, TEXPRINTF_FONT);
 	BoxPos(&root);
 	DrawBoxTree(&root);

@@ -15,10 +15,11 @@ int main(int argc, char **argv)
 	int i, c;
 	int printsource=0;
 	int boxtree=0;
+	int test_stexprintf=0;
 	int done=0;
 	char *font=NULL;
 #ifdef __MINGW32__
-	UINT oldcp = GetConsoleOutputCP();	
+	UINT oldcp = GetConsoleOutputCP();
 	SetConsoleOutputCP(CP_UTF8);
 #endif
 	while (1)
@@ -34,24 +35,25 @@ int main(int argc, char **argv)
 			{"default-font",required_argument, 0, 'F'},
 			{"box-tree",          no_argument, 0, 'B'},
 			{"test-fonts",  required_argument, 0, 't'},
+			{"test-stexprintf",  required_argument, 0, 'S'},
 			{"ascii",             no_argument, 0, 'A'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long (argc, argv, "l:sviw:f:F:BtA",long_options, &option_index);
-		
+		c = getopt_long (argc, argv, "l:sviw:f:F:BtSA",long_options, &option_index);
+
 		if (c == -1)
 			break;
-			
+
 		switch (c)
 		{
 			case 'l':
 				if (!optarg)
 				{
 					fprintf(stderr, "Error: --line-width requires an integer as argument\n");
-					return 1;	
+					return 1;
 				}
-				
+
 				TEXPRINTF_LW=atoi(optarg);
 				break;
 			case 's':
@@ -71,32 +73,32 @@ int main(int argc, char **argv)
 				printf("This is utftex version %s\nPowered by %s\n", UTFTEXVERSION, PACKAGE_STRING);
 				done++;
 				break;
-			case 'i':				
+			case 'i':
 				printsource=1;
 				break;
 			case 'w':
 				if (!optarg)
 				{
 					fprintf(stderr, "Error: --wchar-width requires the number of spaces for a wide character (1 or 2)\n");
-					return 1;	
+					return 1;
 				}
-				
+
 				TEXPRINTF_WCW=atoi(optarg);
 				break;
 			case 'f':
 				if (!optarg)
 				{
 					fprintf(stderr, "Error: --fchar-width requires the number of spaces for a full width character (1 or 2)\n");
-					return 1;	
+					return 1;
 				}
-				
+
 				TEXPRINTF_FCW=atoi(optarg);
 				break;
 			case 'F':
 				if (!optarg)
 				{
 					fprintf(stderr, "Error: --default-font requires the default font style name\n");
-					return 1;	
+					return 1;
 				}
 				font=malloc((strlen(optarg)+1)*sizeof(char));
 				strcpy(font, optarg);
@@ -104,6 +106,9 @@ int main(int argc, char **argv)
 				break;
 			case 'B':
 				boxtree=1;
+				break;
+			case 'S':
+				test_stexprintf=1;
 				break;
 			case 'A':
 				SetStyleASCII();
@@ -119,8 +124,14 @@ int main(int argc, char **argv)
       while (optind < argc)
       {
 			if (printsource)
-				printf("%s\n",argv[optind]);			
-			texprintf("%s\n",argv[optind]);
+				printf("%s\n",argv[optind]);
+			if (test_stexprintf) {
+				char *str = stexprintf("%s\n",argv[optind]);
+				puts(str);
+				texfree(str);
+			}
+			else
+				texprintf("%s\n",argv[optind]);
 			texerrors();
 			if (boxtree)
 				texboxtree("%s\n",argv[optind]);
@@ -128,7 +139,7 @@ int main(int argc, char **argv)
 			optind++;
 		}
 	}
-	
+
 	if (!done)
 	{
 		char *buffer;
@@ -147,13 +158,19 @@ int main(int argc, char **argv)
 		}
 		buffer[i]='\0';
 		if (printsource)
-			printf("%s\n",buffer);			
-		texprintf("%s\n",buffer);
+			printf("%s\n",buffer);
+		if (test_stexprintf) {
+			char *str = stexprintf("%s\n",buffer);
+			puts(str);
+			texfree(str);
+		}
+		else
+			texprintf("%s\n",buffer);
 		texerrors();
 		if (boxtree)
 			texboxtree("%s\n",argv[optind]);
 	}
-	
+
 #ifdef __MINGW32__
 	SetConsoleOutputCP(oldcp);
 #endif

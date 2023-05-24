@@ -1,26 +1,31 @@
 #!/bin/bash
 cd test
 f=0;
+opt=""
+fopt=""
 if [ "$1" == "ASCII" ]
-then 
+then
 	opt="-A"
+	fopt="-A"
 	shift
-else
-	opt=""
+elif [ "$1" == "SPRINTF" ]
+then
+	opt="-S"
+	shift
 fi
 
 if [ "$1" == "ref" ]
 then
 	for i in *.tex
 	do
-		echo "$i" -- ${i%%.tex}$opt".ref"
-		cat "$i"|grep -E '^[^%]' | utftex $opt > ${i%%.tex}$opt".ref"
+		echo "$i" -- ${i%%.tex}$fopt".ref"
+		cat "$i"|grep -E '^[^%]' | utftex $opt > ${i%%.tex}$fopt".ref"
 	done
 else
 	for i in *.tex
 	do
 		cat "$i"|grep -E '^[^%]' | utftex $opt > tmp
-		if ! cmp -s ${i%%.tex}$opt".ref" tmp
+		if ! cmp -s ${i%%.tex}$fopt".ref" tmp
 		then
 			echo FAIL: "$i"
 			mv tmp ${i%%.tex}$opt".new"
@@ -30,8 +35,8 @@ else
 		fi
 	done
 	rm tmp
-	
-fi	
+
+fi
 if [ "$f" -gt 0 ]
 then
 	exit  1

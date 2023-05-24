@@ -21,6 +21,7 @@ extern int TEXPRINTF_WCW;								/* wide character width */
 extern int TEXPRINTF_ERR;
 int texprintf(const char *format, ...);					/* prints to stdout */
 char * stexprintf(const char *format, ...);				/* prints to string */
+char * texstring(const char *str);                      /* stextprintf, but no printf formatting */
 void texfree(void *ptr);								/* free memory from results */
 int ftexprintf(FILE *f, const char *format, ...);		/* prints to file */
 void texboxtree(const char *format, ...);				/* print the box-tree, for debugging purposes */

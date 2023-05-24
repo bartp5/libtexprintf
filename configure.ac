@@ -1,8 +1,8 @@
-AC_INIT([libtexprintf], [1.17])
+AC_INIT([libtexprintf],[1.18])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_PROG_LIBTOOL()
+LT_INIT([])
 AC_ENABLE_SHARED
-AM_ENABLE_SHARED
+AC_ENABLE_SHARED([])
 LT_INIT()
 AM_INIT_AUTOMAKE()
 AC_PROG_CC
@@ -21,7 +21,7 @@ case "$host_os" in
     AC_MSG_RESULT([no])
     ;;
 esac
-AC_DEFINE([UTFTEXVERSION], ["1.12"], [utftex version string])
+AC_DEFINE([UTFTEXVERSION], ["1.13"], [utftex version string])
 AC_CONFIG_SRCDIR([src/boxes.c])
 AC_CONFIG_HEADERS([src/config.h])
 ## for testing out-of-tree we create links to the

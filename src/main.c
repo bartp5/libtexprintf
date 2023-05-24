@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 	int done=0;
 	int combine_errors=0;
 	char *font=NULL;
+	char *symbols=NULL;
 #ifdef __MINGW32__
 	UINT oldcp = GetConsoleOutputCP();
 	SetConsoleOutputCP(CP_UTF8);
@@ -29,6 +30,7 @@ int main(int argc, char **argv)
 		{
 			{"line-width",  required_argument, 0, 'l'},
 			{"symbol-list",       no_argument, 0, 's'},
+			{"test-texsymbols",   no_argument, 0, 'T'},
 			{"version",           no_argument, 0, 'v'},
 			{"show-input",        no_argument, 0, 'i'},
 			{"wchar-width", required_argument, 0, 'w'},
@@ -42,7 +44,7 @@ int main(int argc, char **argv)
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long (argc, argv, "l:sviw:f:F:BtSAE",long_options, &option_index);
+		c = getopt_long (argc, argv, "l:sTviw:f:F:BtSAE",long_options, &option_index);
 		if (c == -1)
 			break;
 
@@ -59,6 +61,12 @@ int main(int argc, char **argv)
 				break;
 			case 's':
 				texlistsymbols();
+				done++;
+				break;
+			case 'T':
+				symbols = texsymbols_str();
+				puts(symbols);
+				texfree(symbols);
 				done++;
 				break;
 			case 't':
@@ -125,8 +133,8 @@ int main(int argc, char **argv)
 
 	if (optind < argc)
 	{
-      while (optind < argc)
-      {
+		while (optind < argc)
+		{
 			if (printsource)
 				printf("%s\n",argv[optind]);
 			if (test_stexprintf) {

@@ -3,11 +3,11 @@ SUBDIRS = src
 TESTS_ENVIRONMENT = \
   utftex=$(abs_builddir)/src/utftex
   export utftex;
-TESTS=runtest.sh testfont.sh testascii.sh testerrors.sh testsprintf.sh
+TESTS=runtest.sh testfont.sh testascii.sh testerrors.sh testsprintf.sh testtexsymbols.sh
 
-EXTRA_DIST = runtest.sh testfont.sh  testascii.sh testerrors.sh testsprintf.sh test/eq1.tex test/eq2.tex \
-			 test/eq3.tex test/eq4.tex test/eq5.tex test/eq6.tex test/eq7.tex test/eq8.tex test/eq9.tex \
-			 test/eq10.tex test/eq11.tex test/eq12.tex test/eq13.tex test/eq14.tex test/eq15.tex \
+EXTRA_DIST = runtest.sh testfont.sh  testascii.sh testerrors.sh testsprintf.sh testtexsymbols.sh test/eq1.tex \
+			 test/eq2.tex test/eq3.tex test/eq4.tex test/eq5.tex test/eq6.tex test/eq7.tex test/eq8.tex \
+			 test/eq9.tex test/eq10.tex test/eq11.tex test/eq12.tex test/eq13.tex test/eq14.tex test/eq15.tex \
 			 test/eq16.tex test/eq17.tex test/eq18.tex test/mathjax_examples.tex test/font.tex \
              test/eq1.ref test/eq2.ref test/eq3.ref test/eq4.ref test/eq5.ref test/eq6.ref test/eq7.ref \
              test/eq8.ref test/eq9.ref test/eq10.ref test/eq11.ref test/eq12.ref test/eq13.ref test/eq14.ref \

@@ -996,7 +996,7 @@ TOKEN BeginEnv(TOKEN T)
 				/* fetch alignment infos from TOKEN T */
 				halign=Option(T.next, &begin);	
 				valign=Argument(begin, &end);
-				if (!valign)
+				if ((!valign)||(*valign=='\0'))
 				{
 					/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 					// ERRORFLAG ERRVALIGHN  "\\begin{array} requires column-wise alignment info"

@@ -28,5 +28,10 @@ EXTRA_DIST = utftex.1 utfstringinfo.1 gen_errorflags.sh
 
 BUILT_SOURCES = errorflags.h errormessages.h
 
-errorflags.h errormessages.h: gen_errorflags.sh boxes.c drawbox.c lexer.c parser.c
+errorflags.h: gen_errorflags.sh boxes.c drawbox.c lexer.c parser.c
 	${SHELL} ${srcdir}/gen_errorflags.sh ${srcdir}/boxes.c ${srcdir}/drawbox.c ${srcdir}/lexer.c ${srcdir}/parser.c
+
+# see https://www.gnu.org/software/automake/manual/html_node/Multiple-Outputs.html
+errormessages.h: errorflags.h
+	@test -f $@ || rm -f errorflags.h
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) errorflags.h

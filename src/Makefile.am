@@ -26,7 +26,7 @@ man1_MANS = utftex.1 utfstringinfo.1
 
 EXTRA_DIST = utftex.1 utfstringinfo.1 gen_errorflags.sh
 
-BUILT_SOURCES = errorflags.h
+BUILT_SOURCES = errorflags.h errormessages.h
 
 errorflags.h errormessages.h: gen_errorflags.sh boxes.c drawbox.c lexer.c parser.c
 	${SHELL} ${srcdir}/gen_errorflags.sh ${srcdir}/boxes.c ${srcdir}/drawbox.c ${srcdir}/lexer.c ${srcdir}/parser.c

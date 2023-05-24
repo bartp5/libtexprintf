@@ -32,6 +32,24 @@ void E_Messages()
 			fprintf(stderr,"ERROR: %s (%dx)\n",  EMessages[i], ERRORS[i]);
 }
 
+/* as above, but return "; "-delimited string instead of stderr output */
+char *E_Messages_str()
+{
+	int i;
+	size_t slen = 0;
+	char *s, *p;
+	for (i=1;i<NERR;i++)
+		if (ERRORS[i])
+			slen += (size_t) snprintf(NULL, 0, "%s (%dx); ", EMessages[i], ERRORS[i]);
+	s = p = (char *) malloc(slen + 1);
+	*s = 0;
+	for (i=1;i<NERR;i++)
+		if (ERRORS[i])
+			p += sprintf(p, "%s (%dx); ", EMessages[i], ERRORS[i]);
+	if (p > s) *(p - 2) = 0; /* chomp trailing ; */
+	return s;
+}
+
 void ResetErrors()
 {
 	int i;

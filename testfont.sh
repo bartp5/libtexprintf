@@ -7,12 +7,12 @@ then
 	for i in $fonts
 	do
 		echo "$i" -- "font"$i".ref"
-		cat font.tex |grep -E '^[^%]' | utftex -F "$i" > "font"$i".ref"
+		cat font.tex |grep -E '^[^%]' | $utftex -F "$i" > "font"$i".ref"
 	done
 else
 	for i in $fonts
 	do
-		cat font.tex |grep -E '^[^%]' | utftex -F "$i" > tmp
+		cat font.tex |grep -E '^[^%]' | $utftex -F "$i" > tmp
 		if ! cmp  "font"$i".ref" tmp
 		then
 			echo FAIL: "$i"

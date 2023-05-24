@@ -20,6 +20,7 @@ src/.deps/
 src/.libs/
 compile
 configure
+configure~
 depcomp
 install-sh
 libtool

@@ -19,3 +19,6 @@ EXTRA_DIST = runtest.sh testfont.sh  testascii.sh testerrors.sh testsprintf.sh t
              test/fontmathfrak.ref test/fontmathnormal.ref test/fontmathscr.ref test/fontmathsf.ref \
              test/fontmathsfbf.ref test/fontmathsfbfit.ref test/fontmathsfit.ref test/fontmathtt.ref \
              test/fonttext.ref test/README
+
+CLEANFILES = test/eq1-A.new test/eq1.new test/eq10-A.new test/eq10.new test/eq11-A.new test/eq11.new test/eq12-A.new test/eq12.new test/eq13-A.new test/eq13.new test/eq14-A.new test/eq14.new test/eq15-A.new test/eq15.new test/eq16-A.new test/eq16.new test/eq17-A.new test/eq17.new test/eq18-A.new test/eq18.new test/eq19-A.new test/eq19.new test/eq2-A.new test/eq2.new test/eq3-A.new test/eq3.new test/eq4-A.new test/eq4.new test/eq5-A.new test/eq5.new test/eq6-A.new test/eq6.new test/eq7-A.new test/eq7.new test/eq8-A.new test/eq8.new test/eq9-A.new test/eq9.new test/font-A.new test/font.new test/fontmathbb.new test/fontmathbf.new test/fontmathbfit.new test/fontmathcal.new test/fontmathfrak.new test/fontmathnormal.new test/fontmathscr.new test/fontmathsf.new test/fontmathsfbf.new test/fontmathsfbfit.new test/fontmathsfit.new test/fontmathtt.new test/fonttext.new test/mathjax_examples-A.new test/mathjax_examples.new
+DISTCLEANFILES = configure~ src/config.h.in~

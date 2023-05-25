@@ -24,7 +24,7 @@ utfstringinfo_SOURCES = stringutils.h unicodeblocks.h utf2unicode.c parsedef.h
 utfstringinfo_LDADD = libstringutils.la
 man1_MANS = utftex.1 utfstringinfo.1
 
-EXTRA_DIST = utftex.1 utfstringinfo.1 gen_errorflags.sh
+EXTRA_DIST = utftex.1 utfstringinfo.1 gen_errorflags.sh gentexprintfsymbols.sh
 
 BUILT_SOURCES = errorflags.h errormessages.h texprintfsymbols
 

@@ -874,3 +874,4 @@ const Symbol  Symbols[] = {
 	{"\\emojify", 0x0FE0F},	
 	{NULL,                     0x00000},
 };
+const Symbol * TEXPRINTF_SYMBOLS=Symbols;

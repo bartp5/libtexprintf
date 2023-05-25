@@ -113,6 +113,7 @@ typedef struct {
 } TOKEN;
 
 void ListSymbols();
+char * Symbols_Str();
 TOKEN Lexer(char *begin, FONT F);
 void FreeToken(TOKEN T);
 void PrintToken(TOKEN T);

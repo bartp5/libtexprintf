@@ -206,6 +206,11 @@ void texlistsymbols()
 	ListSymbols();								/* link to lexer.o */
 }
 
+char *texsymbols_str()
+{
+	return Symbols_Str();								/* link to lexer.o */
+}
+
 void texerrors()
 {
 	ERRORSTATE=TEXPRINTF_ERR;

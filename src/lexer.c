@@ -52,6 +52,43 @@ void ListSymbols()
 		free(str);
 		j++;
 	}
+	free(p);
+}
+
+char * Symbols_Str()
+{
+	int j=0, ln=0, s=1;
+	size_t slen=0;
+	char *str, *p;
+	char *line=calloc(s, 1);
+	p=Unicode2Utf8(0x25CC); /*dotted circle for combining marks */
+	j=0;
+	while(Symbols[j].name)
+	{
+		str=Unicode2Utf8(Symbols[j].unicode);
+		if(IsCombiningMark(Symbols[j].unicode))
+		{
+			slen=(size_t)snprintf(NULL, 0, "%s %s:%s%s;", Symbols[j].name, p, str, p);
+			while (s < (ln+slen+1))
+				s*=2;
+			line=realloc(line, s);
+			snprintf(line+ln, slen+1, "%s %s:%s%s;", Symbols[j].name, p, str, p);
+			ln+=slen;
+		}
+		else
+		{
+			slen = (size_t) snprintf(NULL, 0, "%s:%s;", Symbols[j].name, str);
+			while (s < (ln+slen+1))
+				s*=2;
+			line=realloc(line, s);
+			snprintf(line+ln, slen+1, "%s:%s;", Symbols[j].name, str);
+			ln+=slen;
+		}
+		free(str);
+		j++;
+	}
+	free(p);
+	return realloc(line, ln+1);
 }
 
 Symbol IsSymbol(char *begin, const Symbol Symbols[])
@@ -164,7 +201,6 @@ void PrintToken(TOKEN T)
 		printf("--> superscript \'%s\'\n", T.super);
 	if (T.limits)
 		printf("--> limits set\n");
-		
 }
 
 void FreeToken(TOKEN T)

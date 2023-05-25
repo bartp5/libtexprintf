@@ -1,3 +1,4 @@
+TEXPRINTF_SYMBOLS
 TEXPRINTF_LW
 TEXPRINTF_FONT
 TEXPRINTF_FCW
@@ -5,9 +6,11 @@ TEXPRINTF_WCW
 TEXPRINTF_ERR
 texprintf
 stexprintf
+texstring
 ftexprintf
 texboxtree
 texlistsymbols
+texsymbols_str
 texerrors
 texerrors_str
 texfree

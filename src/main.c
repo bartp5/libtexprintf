@@ -41,10 +41,11 @@ int main(int argc, char **argv)
 			{"test-stexprintf",  required_argument, 0, 'S'},
 			{"ascii",             no_argument, 0, 'A'},
 			{"combine-errors",    no_argument, 0, 'E'},
+			{"mapsupersub",       no_argument, 0, 'm'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long (argc, argv, "l:sTviw:f:F:BtSAE",long_options, &option_index);
+		c = getopt_long (argc, argv, "l:sTviw:f:F:BtSAEm",long_options, &option_index);
 		if (c == -1)
 			break;
 
@@ -124,6 +125,9 @@ int main(int argc, char **argv)
 				break;
 			case 'E':
 				combine_errors = 1;
+				break;
+			case 'm':
+				ToggleMapSuperSub();
 				break;
 			case '?':
 			default:

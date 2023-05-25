@@ -13,6 +13,7 @@
 
 
 Style STYLE_UNI={
+	1,
 	/* plain brackets */
 	{0x28   ,0x0239D,0x0239C,0x0239B}, // single, lower, extender, upper
 	{0x29   ,0x023A0,0x0239F,0x0239E}, 
@@ -61,6 +62,7 @@ Style STYLE_UNI={
 	{1,1,0x02057},  // quadruple prime
 };
 Style STYLE_ASC={
+	0,
 	/* plain brackets */
 	{0x28   ,'\\' ,'|','/'}, // single, lower, extender, upper
 	{0x29   ,'/','|','\\'}, 
@@ -114,6 +116,56 @@ void ParseStringRecursive(char *B, box *parent, int Font);
 void ParseStringInBox(char *B, box *parent, int Font);
 int RootFont;
 Style *style=&STYLE_UNI;
+
+// this function tests whether the boxtree forms a line of mappable characters
+int IsMappableLineBoxtree(box *b, int (*testmapper)(char *))
+{
+	// returns true if the box tree renders to a line of characters
+	// boxes may be line boxes, unit boxes and posboxes with 1 child
+	if (b->T==B_UNIT)
+		return testmapper((char *) b->content);
+	if (b->T==B_LINE) // decent into the line
+	{
+		int r=1;
+		int i=0;
+		for (i=0;i<b->Nc;i++)
+		{
+			r*=IsMappableLineBoxtree(b->child+i, testmapper);
+			if (!r)
+				break;
+		}
+		return r;
+	}
+	if (b->T==B_POS)
+	{
+		if (b->Nc!=1)
+			return 0;
+		else
+			return IsMappableLineBoxtree(b->child, testmapper); // decend into the posbox
+	}
+	return 0;
+}
+
+// this function maps all characters
+void MapBoxtree(box *b, char * (*mapper)(char *))
+{
+	// decend into the boxtree and replace all mappable characters
+	// to superscripts
+	if (b->T==B_UNIT)
+	{
+		char *str;
+		str=mapper((char *) b->content);
+		free(b->content);
+		b->content=(void *) str;
+	}
+	else
+	{
+		int i=0;
+		for (i=0;i<b->Nc;i++)
+			MapBoxtree(b->child+i, mapper);
+	}
+}
+
 void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font)
 /* adds sub and/or super scripts to a box */
 {
@@ -121,6 +173,7 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 	int Nc=1;
 	int w,h, yoff=0;
 	int bi=1,i;
+	int msub=0; // subscripts are mapped
 	
 	if (!subscript&&!superscript)
 		return;
@@ -158,27 +211,38 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 
 		BoxPos(b);
 		
-		/* shift the original box up by the height of the posbox */
-		xy[0]=0;
-		yoff+=b->child[bi].h;
-		xy[1]=yoff;
-		if (!limits)
+		// check if we can use subscript characters for the boxtree
+		if ((style->mapsupersub)&&(!limits)&&(IsMappableLineBoxtree(b->child+b->Nc-1, &MappableSub)))
+		{
+			MapBoxtree(b->child+b->Nc-1, &MapSubScript);
+			/* no change in y coodirdinate of the box */	
 			xy[bi*2]=w;
+			xy[bi*2+1]=0;
+			bi++;		
+			msub=1;	
+		}
 		else
 		{
-			xy[bi*2]=(w-b->child[bi].w)/2;
-			if (xy[bi*2]<0)
+			/* shift the original box up by the height of the posbox */
+			yoff+=b->child[bi].h;
+			xy[1]=yoff;
+			if (!limits)
+				xy[bi*2]=w;
+			else
 			{
-				for (i=0;i<bi;i++)
-					xy[2*i]=-xy[bi*2];
-				xy[bi*2]=0;
-				w=b->child[bi].w;
+				xy[bi*2]=(w-b->child[bi].w)/2;
+				if (xy[bi*2]<0)
+				{
+					for (i=0;i<bi;i++)
+						xy[2*i]=-xy[bi*2];
+					xy[bi*2]=0;
+					w=b->child[bi].w;
+				}
 			}
+			xy[bi*2+1]=0;
+			bi++;
+			b->yc+=b->child[b->Nc-1].h;
 		}
-		xy[bi*2+1]=0;
-		bi++;
-		b->yc+=b->child[b->Nc-1].h;
-		
 	}
 	if (superscript)
 	{
@@ -192,22 +256,30 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 		b->S=INIT;
 
 		BoxPos(b);
-		/* no need to shift the original box */
 		
-		if (!limits)
+		// check if we can use superscript characters for the boxtree
+		if ((style->mapsupersub)&&(!msub)&&(!limits)&&(IsMappableLineBoxtree(b->child+b->Nc-1, &MappableSuper)))
+		{
+			MapBoxtree(b->child+b->Nc-1, &MapSuperScript);
 			xy[bi*2]=w;
+		}
 		else
 		{
-			xy[bi*2]=(w-b->child[bi].w)/2;
-			if (xy[bi*2]<0)
+			if (!limits)
+				xy[bi*2]=w;
+			else
 			{
-				for (i=0;i<bi;i++)
-					xy[2*i]=-xy[bi*2];
-				xy[bi*2]=0;
-				w=b->child[bi].w;
+				xy[bi*2]=(w-b->child[bi].w)/2;
+				if (xy[bi*2]<0)
+				{
+					for (i=0;i<bi;i++)
+						xy[2*i]=-xy[bi*2];
+					xy[bi*2]=0;
+					w=b->child[bi].w;
+				}
 			}
+			xy[bi*2+1]=xy[1]+h;
 		}
-		xy[bi*2+1]=xy[1]+h;
 	}
 	b->S=INIT;
 	BoxPos(b);

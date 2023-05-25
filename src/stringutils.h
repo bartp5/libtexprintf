@@ -9,3 +9,8 @@ int IsInSet(char c, const char *set);
 int Unicode(char *p, int *N);
 int IsCombiningMark(int ch);
 char * UnicodeMapper(char *in);
+
+int MappableSuper(char *super);
+char *MapSuperScript(char *super);
+int MappableSub(char *sub);
+char *MapSubScript(char *sub);

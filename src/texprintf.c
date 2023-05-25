@@ -237,3 +237,7 @@ void SetStyleUNICODE()
 {
 	style=&STYLE_UNI;
 }
+void ToggleMapSuperSub()
+{
+	style->mapsupersub=!style->mapsupersub;
+}

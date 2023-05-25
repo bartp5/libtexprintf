@@ -5,7 +5,8 @@
  * Currently we have a "UNI" style, which will use unicode for 
  * everything, and an "ASC" style, which preferrs ASCII when possible.
  */
-typedef struct Style {
+typedef struct Style {	
+	int mapsupersub; 
 	int LBRACKCHAR[4]; // single, lower, extender, upper
 	int RBRACKCHAR[4]; 
 	int LSQUARECHAR[4];

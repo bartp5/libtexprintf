@@ -208,23 +208,23 @@ const UniMap Mappings[] = {
 	{0x1D551, 0x2124}, /* Mathematical double stroke capital Z */
 };
 
-int MapU(int in)
+int MapU(int in, const UniMap M[], int N)
 {
-	int i, min=0, max=Nmap-1;
+	int i, min=0, max=N-1;
 	do
 	{
 		i=(min+max)/2;
-		if (Mappings[i].point==in)
-			return Mappings[i].mapped;
-		else if (Mappings[i].point<in)
+		if (M[i].point==in)
+			return M[i].mapped;
+		else if (M[i].point<in)
 			min=i;
 		else
 			max=i;
 	} while (max-min>1);
-	if (Mappings[min].point==in)
-		return Mappings[min].mapped;
-	if (Mappings[max].point==in)
-		return Mappings[max].mapped;
+	if (M[min].point==in)
+		return M[min].mapped;
+	if (M[max].point==in)
+		return M[max].mapped;
 	return in;
 }
 
@@ -242,7 +242,7 @@ char * UnicodeMapper(char *in)
 		U=Unicode(p, &Nin);
 		p+=Nin;
 		
-		Um=MapU(U);
+		Um=MapU(U,Mappings,Nmap);
 		if (U!=Um)
 		{
 			u=Unicode2Utf8(Um);
@@ -262,4 +262,185 @@ char * UnicodeMapper(char *in)
 		free(u);
 	}		
 	return out;	
+}
+
+
+/* map sub/super scripts 
+ */
+typedef struct {
+	const char *c; // quick search whether the character is mappable
+	const int N;
+	const UniMap Map[];  // map table
+} MapScriptTable;
+
+MapScriptTable SuperScriptMap = {
+	"231hjrwylsxABDEGHIJKLMNOPRTUWabdegkmoptuvcfz0i456789+-=()nV! ", // note we add a space
+	60,
+	{
+		{0x00021,0x0A71D},
+		{0x00028,0x0207D},
+		{0x00029,0x0207E},
+		{0x0002B,0x0207A},
+		{0x0002D,0x0207B},
+		{0x00030,0x02070},
+		{0x00031,0x000B9},					// 1 -> ¹
+		{0x00032,0x000B2},					// 2 -> ²
+		{0x00033,0x000B3},					// 3 -> ³
+		{0x00034,0x02074},
+		{0x00035,0x02075},
+		{0x00036,0x02076},
+		{0x00037,0x02077},
+		{0x00038,0x02078},
+		{0x00039,0x02079},
+		{0x0003D,0x0207C},
+		{0x00041,0x01D2C},
+		{0x00042,0x01D2E},
+		{0x00044,0x01D30},
+		{0x00045,0x01D31},
+		{0x00047,0x01D33},
+		{0x00048,0x01D34},
+		{0x00049,0x01D35},
+		{0x0004A,0x01D36},
+		{0x0004B,0x01D37},
+		{0x0004C,0x01D38},
+		{0x0004D,0x01D39},
+		{0x0004E,0x01D3A},
+		{0x0004F,0x01D3C},
+		{0x00050,0x01D3E},
+		{0x00052,0x01D3F},
+		{0x00054,0x01D40},
+		{0x00055,0x01D41},
+		{0x00056,0x02C7D},
+		{0x00057,0x01D42},
+		{0x00061,0x01D43},
+		{0x00062,0x01D47},
+		{0x00063,0x01D9C},
+		{0x00064,0x01D48},
+		{0x00065,0x01D49},
+		{0x00066,0x01DA0},
+		{0x00067,0x01D4D},
+		{0x00068,0x002B0},
+		{0x00069,0x02071},
+		{0x0006A,0x002B2},
+		{0x0006B,0x01D4F},
+		{0x0006C,0x002E1},
+		{0x0006D,0x01D50},
+		{0x0006E,0x0207F},
+		{0x0006F,0x01D52},
+		{0x00070,0x01D56},
+		{0x00072,0x002B3},
+		{0x00073,0x002E2},
+		{0x00074,0x01D57},
+		{0x00075,0x01D58},
+		{0x00076,0x01D5B},
+		{0x00077,0x002B7},
+		{0x00078,0x002E3},
+		{0x00079,0x002B8},
+		{0x0007A,0x01DBB},
+	}
+};
+
+MapScriptTable SubScriptMap = {
+	"iruv0123456789+-=()aeoxhklmnpstj ",// note we add a space
+	32,
+	{
+		{0x00028,0x0208D},
+		{0x00029,0x0208E},
+		{0x0002B,0x0208A},
+		{0x0002D,0x0208B},
+		{0x00030,0x02080},
+		{0x00031,0x02081},
+		{0x00032,0x02082},
+		{0x00033,0x02083},
+		{0x00034,0x02084},
+		{0x00035,0x02085},
+		{0x00036,0x02086},
+		{0x00037,0x02087},
+		{0x00038,0x02088},
+		{0x00039,0x02089},
+		{0x0003D,0x0208C},
+		{0x00061,0x02090},
+		{0x00065,0x02091},
+		{0x00068,0x02095},
+		{0x00069,0x01D62},
+		{0x0006A,0x02C7C},
+		{0x0006B,0x02096},
+		{0x0006C,0x02097},
+		{0x0006D,0x02098},
+		{0x0006E,0x02099},
+		{0x0006F,0x02092},
+		{0x00070,0x0209A},
+		{0x00072,0x01D63},
+		{0x00073,0x0209B},
+		{0x00074,0x0209C},
+		{0x00075,0x01D64},
+		{0x00076,0x01D65},
+		{0x00078,0x02093},
+	}
+};
+
+int MappableScript(char *script, MapScriptTable *S)
+{
+	char *p;
+	int r=1;
+	p=script;
+	while ((*p)&&(r))
+	{
+		r*=IsInSet(*p,S->c);
+		p++;
+	}
+	return r;
+}
+
+char *MapScript(char *script, MapScriptTable *S)
+{
+	char *out;
+	char *p, *u;
+	int na=2*strlen(script), len, pos=0;
+	int Nin, Nout, U, Um;
+	out=malloc(na*sizeof(char));
+	p=script;
+	len=strlen(script);
+	while (*p)
+	{
+		U=Unicode(p, &Nin);
+		p+=Nin;
+		
+		Um=MapU(U,S->Map,S->N);
+		if (U!=Um)
+		{
+			u=Unicode2Utf8(Um);
+			Unicode(u, &Nout);
+			len+=(Nout-Nin);
+			Nin=Nout;
+			if (len>na)
+			{
+				na=len+10;
+				out=realloc(out,na*sizeof(char));
+			}
+		}
+		else
+			u=Unicode2Utf8(Um);
+		strcpy(out+pos,u);
+		pos+=Nin;
+		free(u);
+	}		
+	return out;
+}
+
+int MappableSuper(char *super)
+{
+	return MappableScript(super, &SuperScriptMap);
+}
+char *MapSuperScript(char *super)
+{
+	return MapScript(super, &SuperScriptMap);
+}
+int MappableSub(char *sub)
+{
+	return MappableScript(sub, &SubScriptMap);
+}
+char *MapSubScript(char *sub)
+{
+	return MapScript(sub, &SubScriptMap);
 }

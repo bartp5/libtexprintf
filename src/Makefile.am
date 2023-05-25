@@ -36,5 +36,5 @@ errormessages.h: errorflags.h
 	@test -f $@ || rm -f errorflags.h
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) errorflags.h
 
-texprintfsymbols:
+texprintfsymbols: gentexprintfsymbols.sh texprintf.h
 	${SHELL} ${srcdir}/gentexprintfsymbols.sh

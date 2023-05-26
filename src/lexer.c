@@ -1503,18 +1503,23 @@ TOKEN SubLexer(char *begin, FONT F)
 		R.P=PD_PRIME;
 		j=1;
 		p=begin+1;
-		while ((j<4)&&(*p=='\''))
+		while ((j<255)&&(*p=='\''))
 		{
 			j++;
 			p++;
 		}
-		c=*p;
-		*p='\0';
+		if (j==255)
+		{
+			/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
+			// ERRORFLAG ERRTOOMANYPRIMES  "Too many primes"
+			AddErr(ERRTOOMANYPRIMES);
+		}
 		R.args=malloc(2*sizeof(char *));
 		R.Nargs=1;
-		R.args[0]=malloc((j+1)*sizeof(char));
-		strncpy(R.args[0], begin, j+1);
-		*p=c;		
+		R.args[0]=malloc(2*sizeof(char));
+		R.args[0][0]=(char)j;
+		R.args[0][1]='\0';
+			
 		begin=p;
 		PeekAhead(&R, begin);
 		return R;		

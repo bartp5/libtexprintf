@@ -1363,10 +1363,11 @@ void MakePrime(TOKEN *T, box *b, int Font)
  */
 {
 	box *c;
-	int l;
-	l=strlen(T->args[0]);
-	switch(l)
+	switch(T->args[0][0])
 	{
+		case 1:
+			DrawSymbol(b, style->prime);
+			break;	
 		case 2:
 			DrawSymbol(b, style->dprime);
 			break;		
@@ -1377,7 +1378,11 @@ void MakePrime(TOKEN *T, box *b, int Font)
 			DrawSymbol(b, style->qprime);
 			break;	
 		default:
-			DrawSymbol(b, style->prime);
+			while(T->args[0][0])
+			{
+				DrawSymbol(b, style->prime);
+				T->args[0][0]--;
+			}
 			break;
 	}
 	c=b->child+b->Nc-1;	

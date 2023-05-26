@@ -55,6 +55,10 @@ Style STYLE_UNI={
 	/* row mayor character arrays for drawing large symbols */
 	{2,4,0x023BA,0x023BA,0x02571,0x00020,0x02572,0x00020,0x023AF,0x023AF}, // width, height, start lower left, end upper right
 	{3,2,0x02502,0x00020,0x02502,0x0252C,0x02500,0x0252C}, // width, height, start lower left, end upper right
+	{1,1,0x02032}, // prime
+	{1,1,0x02033},  // double prime
+	{1,1,0x02034},  // triple prime
+	{1,1,0x02057},  // quadruple prime
 };
 Style STYLE_ASC={
 	/* plain brackets */
@@ -99,6 +103,10 @@ Style STYLE_ASC={
 	/* row mayor character arrays for drawing large symbols */
 	{2,3,'/','_','\\',' ','_','_'}, // width, height, start lower left, end upper right
 	{3,2,'|',' ','|','+','-','+'}, // width, height, start lower left, end upper right
+	{1,1,'\''}, // prime
+	{2,1,'\'','\''},  // double prime
+	{3,1,'\'','\'','\''},  // triple prime
+	{4,1,'\'','\'','\'','\''},  // quadruple prime
 };
 
 
@@ -1349,6 +1357,33 @@ void MakeProd(TOKEN *T, box *b, int Font)
 	AddScripts(T->sub, T->super, c, 1, Font);
 }
 
+void MakePrime(TOKEN *T, box *b, int Font)
+/* 
+ * Draws Prime Symbol
+ */
+{
+	box *c;
+	int l;
+	l=strlen(T->args[0]);
+	switch(l)
+	{
+		case 2:
+			DrawSymbol(b, style->dprime);
+			break;		
+		case 3:
+			DrawSymbol(b, style->tprime);
+			break;		
+		case 4:
+			DrawSymbol(b, style->qprime);
+			break;	
+		default:
+			DrawSymbol(b, style->prime);
+			break;
+	}
+	c=b->child+b->Nc-1;	
+	AddScripts(T->sub, T->super, c, 1, Font);
+}
+
 int AZToFontUnicode(int base, char c)
 {
 	int u;
@@ -2106,6 +2141,9 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				MakeSymbol(&T, b, Font);
 				break;
 			case PD_NSPACE:
+				break;
+			case PD_PRIME:
+				MakePrime(&T, b, Font);
 				break;
 			default:
 				break;

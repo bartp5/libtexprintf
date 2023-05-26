@@ -1498,6 +1498,27 @@ TOKEN SubLexer(char *begin, FONT F)
 		PeekAhead(&R, begin);
 		return R;
 	}
+	else if (*begin=='\'')
+	{
+		R.P=PD_PRIME;
+		j=1;
+		p=begin+1;
+		while ((j<4)&&(*p=='\''))
+		{
+			j++;
+			p++;
+		}
+		c=*p;
+		*p='\0';
+		R.args=malloc(2*sizeof(char *));
+		R.Nargs=1;
+		R.args[0]=malloc((j+1)*sizeof(char));
+		strncpy(R.args[0], begin, j+1);
+		*p=c;		
+		begin=p;
+		PeekAhead(&R, begin);
+		return R;		
+	}
 	/* we have a plain character */
 	if (R.P==PD_NONE)
 		R.P=PD_SYMBOL;
@@ -1505,7 +1526,7 @@ TOKEN SubLexer(char *begin, FONT F)
 	R.Nargs=1;
 		
 	p=begin+1;
-	while ((*p)&&(!IsInSet(*p, "\\_^/*{ +-")))
+	while ((*p)&&(!IsInSet(*p, "\\_^/*{ +-\'")))
 		p++;
 	while (*p==' ')
 		p++;

@@ -265,11 +265,16 @@ const Symbol  Symbols[] = {
 	{"\\ddagger",              0x02021},
 	{"\\ldots",                0x02026},
 	{"\\prime",                0x02032},
+	{"\\pprime",               0x02033},
 	{"\\second",               0x02033},
 	{"\\third",                0x02034},
+	{"\\ppprime",               0x02034},
 	{"\\backprime",            0x02035},
+	{"\\backpprime",           0x02036},
+	{"\\backppprime",          0x02037},
 	{"\\cat",                  0x02040},
 	{"\\fourth",               0x02057},
+	{"\\pppprime",             0x02057}, 
 //	{"\\:",                    0x02001}, /* this should be medspace U0x0205F, however, I need fixed spaced fonts so we make it a full space */
 //	{"\\ ",                    0x02001}, 
 /* combining diacritical marks for symbols, it seems with me these symbols are treated as full chacaters and not combining marks as should be */

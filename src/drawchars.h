@@ -46,7 +46,11 @@ typedef struct Style {
 	int OIINTCHAR[4]; // single, double, tripple, dots	
 	/* row mayor arrays of characters to draw symbols*/
 	int SUMCHAR[10]; // width, height, start lower left, end upper right
-	int PRODCHAR[8]; // width, height, start lower left, end upper right	
+	int PRODCHAR[8]; // width, height, start lower left, end upper right
+	int prime[3]; // prime width, height, start lower left, end upper right
+	int dprime[4]; 
+	int tprime[5]; 	
+	int qprime[6]; 
 } Style;
 
 #endif //#ifndef DRAWCHAR_H

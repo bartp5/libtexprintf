@@ -62,6 +62,7 @@ typedef enum {
 	PD_DSPACE,
 	PD_TSPACE,
 	PD_NSPACE,
+	PD_PRIME,
 	PD_NONE
 } PRSDEF;
 typedef enum {

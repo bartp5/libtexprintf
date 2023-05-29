@@ -221,6 +221,25 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 			bi++;		
 			msub=1;	
 		}
+		else if ((style->mapsupersub)&&(limits)&&(IsMappableLineBoxtree(b->child+b->Nc-1, &MappableSuper)))
+		{
+			// make the subscripted a superscript below
+			yoff+=b->child[bi].h;
+			xy[1]=yoff;
+			MapBoxtree(b->child+b->Nc-1, &MapSuperScript);
+			xy[bi*2]=(w-b->child[bi].w)/2;
+			if (xy[bi*2]<0)
+			{
+				for (i=0;i<bi;i++)
+					xy[2*i]=-xy[bi*2];
+				xy[bi*2]=0;
+				w=b->child[bi].w;
+			}
+			xy[bi*2+1]=0;
+			bi++;
+			b->yc+=b->child[b->Nc-1].h;
+			
+		}
 		else
 		{
 			/* shift the original box up by the height of the posbox */
@@ -262,6 +281,21 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 		{
 			MapBoxtree(b->child+b->Nc-1, &MapSuperScript);
 			xy[bi*2]=w;
+		}
+		else if ((style->mapsupersub)&&(limits)&&(IsMappableLineBoxtree(b->child+b->Nc-1, &MappableSub)))
+		{
+			// make the subperscripted a subscript below
+			MapBoxtree(b->child+b->Nc-1, &MapSubScript);
+			xy[bi*2]=(w-b->child[bi].w)/2;
+			if (xy[bi*2]<0)
+			{
+				for (i=0;i<bi;i++)
+					xy[2*i]=-xy[bi*2];
+				xy[bi*2]=0;
+				w=b->child[bi].w;
+			}
+			xy[bi*2+1]=xy[1]+h;
+			
 		}
 		else
 		{

@@ -44,6 +44,9 @@ typedef enum {
 	PD_BEGIN,
 	PD_END,
 	PD_BOX, /* custom command to make a box of some size */
+	PD_PHANTOM,
+	PD_VPHANTOM,
+	PD_HPHANTOM,
 /*	subsection for \begin ... \end sections */
 	PD_ALIGN,
 	PD_ARRAY,

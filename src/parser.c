@@ -757,7 +757,7 @@ void AddBraces(char *lbrace, char *rbrace, box *b)
 }
 
 void MakeBox(TOKEN *T, box *b, int Font)
-/* just makes and empty box. a bummy box may have any non negative size, i.e. it may be 0 sized 
+/* just makes and empty box. a dummy box may have any non negative size, i.e. it may be 0 sized 
  * It is useful as a placeholder*/
 {
 	int *dim;
@@ -767,6 +767,61 @@ void MakeBox(TOKEN *T, box *b, int Font)
 	
 	AddChild(b, B_DUMMY, (void*)dim);
 	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
+}
+
+void MakeAPhantom(TOKEN *T, box *b, int Font, int v, int h)
+/* just makes and empty box. a dummy box may have any non negative size, i.e. it may be 0 sized 
+ * It is useful as a placeholder*/
+{
+	int *dim;
+	int LW;
+	box *B;
+	box dummy;
+	char *str;
+	int *Ncol;
+	
+	B=b;
+	while (B->parent)
+		B=B->parent;
+	// the root box is a line box with LW in it contents	
+	LW=*((int *)B->content);
+	
+	// preprocess
+	str=PreProcessor(T->args[0]);
+	
+	// make dummy box
+	Ncol=malloc(sizeof(int));
+	Ncol[0]=LW;
+	dummy=InitBox(NULL, B_LINE, (void *)Ncol);
+	ParseStringRecursive(str, &dummy, Font);
+	free(str);
+	BoxPos(&dummy);
+	
+	dim=malloc(2*sizeof(int));
+	if (h)
+		dim[0]=dummy.w;
+	else
+		dim[0]=0;
+	if (v)
+		dim[1]=dummy.h;
+	else
+		dim[1]=0;
+	FreeBox(&dummy);
+	
+	AddChild(b, B_DUMMY, (void*)dim);
+	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
+}
+void MakePhantom(TOKEN *T, box *b, int Font)
+{
+	MakeAPhantom(T, b, Font, 1, 1);
+}
+void MakeVPhantom(TOKEN *T, box *b, int Font)
+{
+	MakeAPhantom(T, b, Font, 1, 0);
+}
+void MakeHPhantom(TOKEN *T, box *b, int Font)
+{
+	MakeAPhantom(T, b, Font, 0, 1);
 }
 
 void MakeFrac(TOKEN *T, box *b, int Font)
@@ -2195,6 +2250,15 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				break;
 			case PD_BOX: 
 				MakeBox(&T, b, Font);
+				break;
+			case PD_PHANTOM: 
+				MakePhantom(&T, b, Font);
+				break;
+			case PD_VPHANTOM: 
+				MakeVPhantom(&T, b, Font);
+				break;
+			case PD_HPHANTOM: 
+				MakeHPhantom(&T, b, Font);
 				break;
 			case PD_BLOCK:
 				MakeBlock(&T, b, Font);

@@ -1,5 +1,4 @@
-W    = cwnd                       // save cwnd before reduction
- max
+Wₘₐₓ = cwnd                       // save cwnd before reduction
 ssthresh = max(cwnd * β     , 2)  // new ssthresh (at least 2 MSS)
                        cubic
 cwnd = ssthresh                   // window reduction

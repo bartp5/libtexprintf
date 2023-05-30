@@ -1,7 +1,7 @@
                     ⎧ ╱             1 + β     ╲
                     ⎪╱                   cubic ╲
-                    ⎪╲ W   , W    * ────────── ╱  if  W    < W
-╱W        , W   ╲ = ⎨ ╲ max   max       2     ╱        max    last_max
-╲ last_max   max╱   ⎪╱W   , W   ╲                otherwise
-                    ⎪╲ max   max╱
+                    ⎪╲ Wₘₐₓ, Wₘₐₓ * ────────── ╱  if  Wₘₐₓ < W
+╱W        , Wₘₐₓ╲ = ⎨ ╲                 2     ╱               last_max
+╲ last_max      ╱   ⎪╱          ╲
+                    ⎪╲Wₘₐₓ, Wₘₐₓ╱                otherwise
                     ⎩

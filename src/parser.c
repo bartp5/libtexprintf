@@ -281,6 +281,7 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 		{
 			MapBoxtree(b->child+b->Nc-1, &MapSuperScript);
 			xy[bi*2]=w;
+			xy[bi*2+1]=xy[1]+h-1;
 		}
 		else if ((style->mapsupersub)&&(limits)&&(IsMappableLineBoxtree(b->child+b->Nc-1, &MappableSub)))
 		{
@@ -967,8 +968,8 @@ void MakeBlock(TOKEN *T, box *b, int Font)
 	box *block;	
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=0;
-	/* create a array box and point to it with the box pointer over */
-	AddChild(b, B_ARRAY, (void *)Ncol);
+	/* create a line box and point to it with the box pointer */
+	AddChild(b, B_LINE, (void *)Ncol);
 	block=b->child+b->Nc-1;
 	if (strlen(T->args[0])==0)
 	{

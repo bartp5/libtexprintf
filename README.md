@@ -12,6 +12,11 @@ tables to map latex commands to unicode symbols. Use
 libtexprintf/utftex to unlock the math capabilities of unicode in 
 mono-space text applications.
 
+Note that how the equations look depends strongly on the font you use. 
+Naturally, one needs a monospace font with good unicode support for the 
+symbols you use. A good monospace font for math is, for example,  
+[JuliaMono](https://juliamono.netlify.app/).
+
 libtexprintf
 ------------
 The core library to pretty print math in mono-space font. Use it to 

@@ -54,7 +54,7 @@ Style STYLE_UNI={
 	{0x02E26,0x02E27}, // quasi-circle
 	{0x0222E,0x0222F,0x02230,0x022EF}, // single, double, tripple, dots
 	/* row mayor character arrays for drawing large symbols */
-	{2,4,0x023BA,0x023BA,0x02571,0x00020,0x02572,0x00020,0x023AF,0x023AF}, // width, height, start lower left, end upper right
+	{1,2,0x023B3,0x023B2}, // width, height, start lower left, end upper right
 	{3,2,0x02502,0x00020,0x02502,0x0252C,0x02500,0x0252C}, // width, height, start lower left, end upper right
 	{1,1,0x02032}, // prime
 	{1,1,0x02033},  // double prime

@@ -15,7 +15,7 @@ jobs:
     name: ${{ matrix.os }}
     steps:
     - if :  matrix.os == 'macos-latest'
-      run:  brew install autoconf automake libtool
+      run:  brew install automake
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Autogen

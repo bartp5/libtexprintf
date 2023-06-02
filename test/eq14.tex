@@ -1,5 +1,0 @@
-\begin{array}[b]{ll}
-W_{max} = cwnd & \text{// save cwnd before reduction} \\
-ssthresh = \mathrm{max}(cwnd * \beta_{cubic}, 2) & \text{// new ssthresh (at least 2 MSS)} \\
-cwnd = ssthresh & \text{// window reduction} \\
-\end{array}

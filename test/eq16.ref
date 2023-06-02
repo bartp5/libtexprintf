@@ -1,7 +1,0 @@
-cwnd = prior_cwnd               ⎫
-ssthresh = prior_ssthresh       ⎮
-Wₘₐₓ = prior_Wₘₐₓ               ⎮
-K = prior_K                     ⎬if cwnd < prior_cwnd
-epoch_start = prior_epoch_start ⎮
-Wₑₛₜ = prior_Wₑₛₜ               ⎮
-                                ⎭

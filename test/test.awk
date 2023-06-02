@@ -1,7 +1,7 @@
 #!/usr/bin/awk -f
 # awk script to run tests
 # test format:
-# A text file where a start of a block is indicates with a line: 
+# A text file where a start of a block is indicated with a line: 
 # <input>
 # The rest is considered input untill the keyword <ref> is encountered
 # <ref> arg1 | arg2 | ...
@@ -10,7 +10,7 @@
 # For each argument for the reference block (arg1, arg2, ...) utftex is 
 # called with the input and the specified argument. Note that if a 
 # reference block has more than one argument, it means you expect the 
-# output to be independent of the argument
+# output to be independent of the provided arguments
 
 function test()
 {

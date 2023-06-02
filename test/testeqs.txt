@@ -1,0 +1,569 @@
+################# random equations
+
+<input> eq1
+\mathrm{W_{cubic}}(t) = C * (t - K)^3 + W_{max}
+<ref> |-S
+W     (t) = C * (t - K)³ + Wₘₐₓ
+ cubic
+<ref> -A
+                       3
+W     (t) = C * (t - K)  + W
+ cubic                      max
+<end>
+
+<input> eq2
+K = \sqrt[3]{\frac{W_{max} - cwnd}{C}}
+<ref> |-S
+      ┌───────────┐
+    3 │Wₘₐₓ - cwnd
+K = ╲ │───────────
+     ╲│     C
+<ref> -A
+       _____________
+    3  |W    - cwnd
+    \  | max
+K =  \ |-----------
+      \|     C
+<end>
+
+<input> eq3
+target = \left\{
+\begin{array}{ll}
+cwnd                          & \text{if } \mathrm{W_{cubic}}(t + RTT) <= cwnd \\
+1.5 * cwnd                    & \text{if } \mathrm{W_{cubic}}(t + RTT) != 1.5 * cwnd \\
+\mathrm{W_{cubic}}(t + RTT)   & \text{otherwise} \\
+\end{array} \right.
+<ref> |-S
+         ⎧cwnd             if  W     (t + RTT) <= cwnd
+         ⎪                      cubic
+         ⎪1.5 * cwnd       if  W     (t + RTT) != 1.5 * cwnd
+target = ⎨                      cubic
+         ⎪W     (t + RTT)  otherwise
+         ⎪ cubic
+         ⎩
+<ref> -A
+         /cwnd             if  W     (t + RTT) <= cwnd
+         |                      cubic
+         |1.5 * cwnd       if  W     (t + RTT) != 1.5 * cwnd
+target = <                      cubic
+         |W     (t + RTT)  otherwise
+         | cubic
+         \
+<end>
+
+<input> eq4
+\mathrm{AIMD}(\alpha_{aimd}, \beta_{aimd}) =
+    \sqrt{\frac{\alpha_{aimd} * (1 + \beta_{aimd})}{2 * (1 - \beta_{aimd}) * p}}
+<ref> |-S
+                        ┌───────────────────┐
+                        │α     * (1 + β    )
+                        │ aimd         aimd
+AIMD(α    , β    ) = ╲  │───────────────────
+      aimd   aimd     ╲ │2 * (1 - β    ) * p
+                       ╲│          aimd
+<ref> -A
+                        _____________________
+                        |α     * (1 + β    )
+                        | aimd         aimd
+AIMD(α    , β    ) = \  |-------------------
+      aimd   aimd     \ |2 * (1 - β    ) * p
+                       \|          aimd
+<end>
+
+<input> eq5
+\begin{array}[b]{ll}
+W_{max} = cwnd & \text{// save cwnd before reduction} \\
+ssthresh = \mathrm{max}(cwnd * \beta_{cubic}, 2) & \text{// new ssthresh (at least 2 MSS)} \\
+cwnd = ssthresh & \text{// window reduction} \\
+\end{array}
+<ref> |-S
+Wₘₐₓ = cwnd                       // save cwnd before reduction
+ssthresh = max(cwnd * β     , 2)  // new ssthresh (at least 2 MSS)
+                       cubic
+cwnd = ssthresh                   // window reduction
+<ref> -A
+W    = cwnd                       // save cwnd before reduction
+ max
+ssthresh = max(cwnd * β     , 2)  // new ssthresh (at least 2 MSS)
+                       cubic
+cwnd = ssthresh                   // window reduction
+<end>
+
+<input> eq6
+\left<W_{last\_max}, W_{max}\right> = \left\{
+\begin{array}{ll}
+\left<W_{max}, W_{max} * \frac{1 + \beta_{cubic}}{2}\right>  & \text{if } W_{max} < W_{last\_max} \\
+\left<W_{max}, W_{max}\right>                            &\text{otherwise} \\
+\end{array} \right.
+<ref> |-S
+                    ⎧ ╱             1 + β     ╲
+                    ⎪╱                   cubic ╲
+                    ⎪╲ Wₘₐₓ, Wₘₐₓ * ────────── ╱  if  Wₘₐₓ < W
+╱W        , Wₘₐₓ╲ = ⎨ ╲                 2     ╱               last_max
+╲ last_max      ╱   ⎪╱          ╲
+                    ⎪╲Wₘₐₓ, Wₘₐₓ╱                otherwise
+                    ⎩
+<ref> -A
+                    / /             1 + β     \
+                    |/                   cubic \
+                    |\ W   , W    * ---------- /  if  W    < W
+/W        , W   \ = < \ max   max       2     /        max    last_max
+\ last_max   max/   |/W   , W   \                otherwise
+                    |\ max   max/
+                    \
+<end>
+
+<input> eq7
+\left.
+\begin{array}{l}
+cwnd = prior\_cwnd \\
+ssthresh = prior\_ssthresh \\
+W_{max} = prior\_W_{max} \\
+K = prior\_K \\
+epoch\_start = prior\_epoch\_start \\
+W_{est} = prior\_W_{est} \\
+\end{array}
+\right\}
+\text{if }cwnd < prior\_cwnd
+<ref> |-S
+cwnd = prior_cwnd               ⎫
+ssthresh = prior_ssthresh       ⎮
+Wₘₐₓ = prior_Wₘₐₓ               ⎮
+K = prior_K                     ⎬if cwnd < prior_cwnd
+epoch_start = prior_epoch_start ⎮
+Wₑₛₜ = prior_Wₑₛₜ               ⎮
+                                ⎭
+<ref> -A
+cwnd = prior_cwnd               \
+ssthresh = prior_ssthresh       |
+W    = prior_W                  |
+ max          max               |
+K = prior_K                     >if cwnd < prior_cwnd
+epoch_start = prior_epoch_start |
+W    = prior_W                  |
+ est          est               |
+                                /
+<end>
+
+
+<input> eq8
+\begin{array}{lll}
+ssthresh = &
+flight\_size * \beta_{cubic} &
+\text{new } ssthresh \\
+cwnd_{prior} = &
+cwnd &
+\text{save } cwnd \\
+cwnd = &
+\left\{
+\begin{array}{ll}
+ \mathrm{max}(ssthresh, 2) & \\
+ \mathrm{max}(ssthresh, 1) & \\
+\end{array}
+\right. &
+\begin{array}{ll}
+ \text{reduction on loss}, cwnd \text{ is at least 2 MSS} & \\
+ \text{reduction on ECE}, cwnd \text{ is at least 1 MSS} & \\
+\end{array}
+\\
+ssthresh = &
+\mathrm{max}(ssthresh, 2) &
+ssthresh \text{ is at least 2 MSS} \\
+\end{array}
+<ref> |-S
+ssthresh =  flight_size * β      new  ssthresh
+                           cubic
+cwndₚᵣᵢₒᵣ = cwnd                 save  cwnd
+            ⎧ max(ssthresh, 2)    reduction on loss, cwnd  is at least 2 MSS
+cwnd =      ⎨ max(ssthresh, 1)    reduction on ECE, cwnd  is at least 1 MSS
+            ⎩
+ssthresh =  max(ssthresh, 2)     ssthresh  is at least 2 MSS
+<ref> -A
+ssthresh =  flight_size * β      new  ssthresh
+                           cubic
+cwnd      = cwnd                 save  cwnd
+    prior
+            / max(ssthresh, 2)    reduction on loss, cwnd  is at least 2 MSS
+cwnd =      < max(ssthresh, 1)    reduction on ECE, cwnd  is at least 1 MSS
+            \
+ssthresh =  max(ssthresh, 2)     ssthresh  is at least 2 MSS
+<end>
+
+<input> eq9
+\begin{align}
+f(x) & = \sin(x) \\
+gobo(x) & = \arctan(\sin(x))
+\end{align}
+<ref> |-S
+   f(x)  = sin(x)
+gobo(x)  = arctan(sin(x))
+<ref> -A
+   f(x)  = sin(x)
+gobo(x)  = arctan(sin(x))
+<end>
+
+
+
+
+Shockly-Read-Hall recombination over depletion width
+<input> SRH
+\int_0^W \frac{np}{n+p}dx = \int_0^W \frac{n_0}{exp \left( \frac{E_0(x-x_0)}{kT} \right)+exp \left( -\frac{E_0(x-x_0)}{kT}\right)}dx=\frac{n_0kT}{E_0} \left[ arctan \left( exp \left[\frac{E_0(x-x_0)}{kT}\right]\right)\right]^{x=W}_{x=0} \approx  \frac{n_0kT}{E_0} pi
+<ref> |-S
+ W          W                                                                     x=W
+⌠   np     ⌠                  n₀                  n₀kT ⎡        ⎛     ⎡E₀(x-x₀)⎤⎞⎤      n₀kT
+⎮  ───dx = ⎮  ─────────────────────────────────dx=──── ⎢ arctan ⎜ exp ⎢────────⎥⎟⎥    ≈ ──── pi
+⌡₀ n+p     ⌡₀     ⎛ E₀(x-x₀) ⎞     ⎛  E₀(x-x₀)⎞    E₀  ⎣        ⎝     ⎣   kT   ⎦⎠⎦ₓ₌₀    E₀
+              exp ⎜ ──────── ⎟+exp ⎜ -────────⎟
+                  ⎝    kT    ⎠     ⎝     kT   ⎠
+<ref> -A
+                                                                                  x=W
+ W          W                 n                   n kT +        /     +E (x-x )+\+      n kT
+/   np     /                   0                   0   |        |     | 0    0 |||       0
+|  ---dx = |  ---------------------------------dx=---- | arctan | exp |--------|||    ≈ ---- pi
+/  n+p     /      / E (x-x ) \     /  E (x-x )\    E   +        \     +   kT   +/+       E
+ 0          0     |  0    0  |     |   0    0 |     0                             x=0     0
+              exp | -------- |+exp | ---------|
+                  \    kT    /     \     kT   /
+<end>
+
+<input> cases
+f(x) = \left{\begin{array}{lr}
+        \frac{1}{x+1} +12 & -12<x<0\\
+         & \\ 13-x & x<-12, x>0
+\end{array}\right.
+<ref> |-S
+       ⎧  1
+       ⎪ ─── +12     -12<x<0
+f(x) = ⎨ x+1
+       ⎪
+       ⎩ 13-x     x<-12, x>0
+<ref> -A
+       /  1
+       | --- +12     -12<x<0
+f(x) = < x+1
+       |
+       \ 13-x     x<-12, x>0
+<end>
+
+Continues fraction
+<input> contfraction
+a = \frac{1}{\sqrt{2} +
+\frac{1}{\sqrt{2} +
+\frac{1}{\sqrt{2} +
+\frac{1}{\sqrt{2} + ...
+}}}}
+<ref> |-S
+                 1
+a = ────────────────────────────
+     ┌─┐            1
+    ╲│2  +──────────────────────
+           ┌─┐         1
+          ╲│2  +────────────────
+                 ┌─┐      1
+                ╲│2  +──────────
+                       ┌─┐
+                      ╲│2  + ...
+<ref> -A
+                 1
+a = ----------------------------
+     ___            1
+    \|2  +----------------------
+           ___         1
+          \|2  +----------------
+                 ___      1
+                \|2  +----------
+                       ___
+                      \|2  + ...
+<end>
+
+<input> eq29
+\prod_{i=1}^{\infty} \sqrt{
+  a_{ala}+b^{ela}- \frac{
+    \left[
+      a+\frac{
+        a+b^{
+          \left(
+            3+4a
+          \right)
+        }
+      }{
+        4a-3c
+      }
+    \right]
+  }{
+    a_1-\sqrt{2}
+  }
+}
++
+\left|
+\begin{array}{ccc}
+\frac{8}{2} &1 &3 \\
+2 &3 & 
+\left|
+\begin{array}{cc}
+1 &2 \\
+3 &4 
+\end{array}
+\right| \\
+3 &\sqrt{5} &12
+\end{array}
+\right|
+<ref> |-S
+        ┌───────────────────────────────────┐
+        │             ⎡    a+b ⁽ ³⁺⁴ᵃ ⁾   ⎤   ⎢8              ⎢
+ ∞      │             ⎢ a+─────────────── ⎥   ⎢─   1     3    ⎢
+┬─┬ ╲   │             ⎣        4a-3c      ⎦   ⎢2              ⎢
+│ │  ╲  │ aₐₗₐ+bᵉˡᵃ- ─────────────────────── +⎢        ⎢1 2 ⎢ ⎢
+ⁱ⁼¹   ╲ │                        ┌─┐          ⎢2   3   ⎢3 4 ⎢ ⎢
+       ╲│                    a₁-╲│2           ⎢   ┌─┐         ⎢
+                                              ⎢3 ╲│5     12   ⎢
+<ref> -A
+         _____________________________________
+         |             +        ( 3+4a )   +
+         |             |    a+b            |   |8              |
+ ∞       |             | a+--------------- |   |-   1     3    |
++-+ \    |       ela   +        4a-3c      +   |2              |
+| |  \   | a   +b   - ----------------------- +|        |1 2 | |
+i=1   \  |  ala                   ___          |2   3   |3 4 | |
+       \ |                    a -\|2           |   ___         |
+        \|                     1               |3 \|5     12   |
+<end>
+
+<input> Taylor
+f(x) = \sum^{\infty}_{i=0} \frac{f^{(i)}(a)}{i!}(x-a)^i
+<ref> |-S
+        ∞
+        ⎲  f⁽ⁱ⁾(a)
+f(x) =  ⎳  ───────(x-a)ⁱ
+       ⁱ⁼⁰    i!
+<ref> -A
+       ∞    (i)
+       __  f   (a)     i
+f(x) = \   -------(x-a)
+       /_     i!
+       i=0
+<end>
+
+
+<input> binom1
+\binom{a}{b} = \frac{a!}{(a-b)!b!}
+<ref> |-S
+⎛a⎞      a!
+⎜ ⎟ = ────────
+⎝b⎠   (a-b)!b!
+<ref> -A
+/a\      a!
+| | = --------
+\b/   (a-b)!b!
+<end>
+
+
+<input> binom2
+\sum_{i=6}^{10}\left[\binom{A}{i} \binom{L}{10-i}\right]
+<ref> |-S
+₁₀
+ ⎲ ⎡⎛A⎞ ⎛ L  ⎞⎤
+ ⎳ ⎢⎜ ⎟ ⎜    ⎟⎥
+ⁱ⁼⁶⎣⎝i⎠ ⎝10-i⎠⎦
+<ref> -A
+10
+__ +/A\ / L  \+
+\  || | |    ||
+/_ +\i/ \10-i/+
+i=6
+<end>
+
+
+<input> binom3
+\sum_{i=6}^{10}{\frac{\binom{A}{i} \binom{L}{10-i}}{\binom{L + A}{10}}}
+<ref> |-S
+   ⎛A⎞ ⎛ L  ⎞
+₁₀ ⎜ ⎟ ⎜    ⎟
+ ⎲ ⎝i⎠ ⎝10-i⎠
+ ⎳ ──────────
+ⁱ⁼⁶ ⎛L + A⎞
+    ⎜     ⎟
+    ⎝  10 ⎠
+<ref> -A                   
+   /A\ / L  \
+10 | | |    |
+__ \i/ \10-i/
+\  ----------
+/_  /L + A\
+i=6 |     |
+    \  10 /
+<end>
+                   
+
+<input> binom4
+C(N) = \binom{L}{10 - N} \sum_{i=0}^{min(N,2)}\left[\binom{B}{i} \sum_{j=0}^{min(2,
+N-i)}\left(\binom{B}{j} \binom{B}{min(2, N-i-j)}\right)\right]
+<ref> |-S
+                min(N,2)⎡    min(2,N-i)                     ⎤
+       ⎛  L   ⎞   ⎲     ⎢⎛B⎞    ⎲      ⎛⎛B⎞ ⎛      B      ⎞⎞⎥
+C(N) = ⎜      ⎟   ⎳     ⎢⎜ ⎟    ⎳      ⎜⎜ ⎟ ⎜             ⎟⎟⎥
+       ⎝10 - N⎠   ⁱ⁼⁰   ⎣⎝i⎠    ʲ⁼⁰    ⎝⎝j⎠ ⎝min(2, N-i-j)⎠⎠⎦
+<ref> -A      
+                min(N,2)+    min(2,N-i)                     +
+       /  L   \    __   |/B\     __    //B\ /      B      \\|
+C(N) = |      |    \    || |     \     || | |             |||
+       \10 - N/    /_   |\i/     /_    \\j/ \min(2, N-i-j)//|
+                   i=0  +        j=0                        +
+<end>
+Lorenz Equations
+<input> Lorenz
+\begin{aligned} 
+\dot{x} & = \sigma(y-x) \\ 
+\dot{y} & = \rho x - y - xz \\ 
+\dot{z} & = -\beta z + xy 
+\end{aligned}
+<ref> |-S|-A
+ ̇x  = σ(y-x)
+ ̇y  = ρx - y - xz
+ ̇z  = -βz + xy
+<end>
+
+Cauchy-Schwarz Inequality
+<input> CauchySchwarz
+\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) 
+<ref> |-S
+⎛  ₙ        ⎞²  ⎛  ₙ     ⎞ ⎛  ₙ     ⎞
+⎜  ⎲        ⎟   ⎜  ⎲   2 ⎟ ⎜  ⎲   2 ⎟
+⎜  ⎳  aₖ bₖ ⎟  ≤⎜  ⎳  aₖ ⎟ ⎜  ⎳  bₖ ⎟
+⎝ ᵏ⁼¹       ⎠   ⎝ ᵏ⁼¹    ⎠ ⎝ ᵏ⁼¹    ⎠
+<ref> -A
+             2
+/ n         \   / n      \ / n      \
+| __        |   | __   2 | | __   2 |
+| \   a  b  |  ≤| \   a  | | \   b  |
+| /_   k  k |   | /_   k | | /_   k |
+\ k=1       /   \ k=1    / \ k=1    /
+<end>
+
+cross-product
+<input> CrossProd
+\mathbf{V}_1 \times \mathbf{V}_2 = \begin{vmatrix} \mathbf{i} & \mathbf{j} & \mathbf{k} \\ \frac{\partial X}{\partial u} & \frac{\partial Y}{\partial u} & 0 \\ \frac{\partial X}{\partial v} & \frac{\partial Y}{\partial v} & 0 \end{vmatrix}
+<ref> |-S
+         ⎢ 𝐢   𝐣   𝐤 ⎢
+         ⎢ 𝜕X  𝜕Y    ⎢
+         ⎢ ──  ──  0 ⎢
+𝐕₁ ×𝐕₂ = ⎢ 𝜕u  𝜕u    ⎢
+         ⎢ 𝜕X  𝜕Y    ⎢
+         ⎢ ──  ──  0 ⎢
+         ⎢ 𝜕v  𝜕v    ⎢
+<ref> -A
+         | 𝐢   𝐣   𝐤 |
+         | 𝜕X  𝜕Y    |
+         | --  --  0 |
+𝐕  ×𝐕  = | 𝜕u  𝜕u    |
+ 1   2   | 𝜕X  𝜕Y    |
+         | --  --  0 |
+         | 𝜕v  𝜕v    |
+<end>
+
+The probability of getting k heads when flipping a coin n times
+<input> HeadProbability
+P(E) = {n\choose k} p^k (1-p)^{ n-k} 
+<ref> |-S
+       ⎛n⎞
+P(E) = ⎜ ⎟ pᵏ (1-p) ⁿ⁻ᵏ
+       ⎝k⎠
+<ref> -A
+       /n\  k       n-k
+P(E) = | | p  (1-p)
+       \k/
+<end>
+
+An Identity of Ramanujan
+<input> Ramanujan
+\frac{1}{\left(\sqrt{\phi \sqrt{5}}-\phi\right) e^{\frac25 \pi}} = 1+\frac{e^{-2\pi}}{1+\frac{e^{-4\pi}}{1+\frac{e^{-6\pi}}{1+\frac{e^{-8\pi}}{1+\ldots}}}}
+<ref> |-S
+                           -2π
+        1                 e
+────────────────── = 1+──────────
+               2            -4π
+⎛  ┌─────┐  ⎞  ─ π         e
+⎜╲ │  ┌─┐   ⎟  5       1+────────
+⎝ ╲│ϕ╲│5  -ϕ⎠ e              -6π
+                            e
+                         1+──────
+                              -8π
+                             e
+                           1+────
+                             1+…
+<ref> -A
+                           -2π
+        1                 e
+------------------ = 1+----------
+               2            -4π
+/  _______  \  - π         e
+|\ |  ___   |  5       1+--------
+\ \|ϕ\|5  -ϕ/ e              -6π
+                            e
+                         1+------
+                              -8π
+                             e
+                           1+----
+                             1+…
+<end>
+
+A Rogers-Ramanujan Identity. 
+Issue: utftex does not switch to a math environment from within a \text{}
+modified \text{for $|q|<1$} to \text{for} |q|<1
+<input> Rogers-Ramanujan
+1 + \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for} |q|<1. 
+<ref> |-S
+                          ∞
+      q²       q⁶        ┬─┬        1
+1 + ─────+───────────+⋯= │ │──────────────────,      for |q|<1.
+    (1-q) (1-q)(1-q²)    ʲ⁼⁰(1-q⁵ʲ⁺²)(1-q⁵ʲ⁺³)
+<ref> -A
+       2        6         ∞
+      q        q         +-+        1
+1 + -----+-----------+⋯= | |------------------,      for |q|<1.
+    (1-q)          2     j=0    5j+2     5j+3
+          (1-q)(1-q )       (1-q    )(1-q    )
+<end>
+
+Maxwell’s Equations
+<input> Maxwell
+\begin{aligned}
+\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & = \frac{4\pi}{c}\vec{\mathbf{j}} \\ 
+\nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\ 
+\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\ 
+\nabla \cdot \vec{\mathbf{B}} & = 0 
+\end{aligned}
+<ref> |-S
+       1 𝜕𝐄    4π
+ ∇×𝐁 - ─ ──  = ──𝐣
+       c 𝜕t    c
+        ∇⋅𝐄  = 4 πρ
+       1 𝜕𝐁
+ ∇×𝐄 + ─ ──  = 𝟎
+       c 𝜕t
+        ∇⋅𝐁  = 0
+<ref> -A
+       1 𝜕𝐄    4π
+ ∇×𝐁 - - --  = --𝐣
+       c 𝜕t    c
+        ∇⋅𝐄  = 4 πρ
+       1 𝜕𝐁
+ ∇×𝐄 + - --  = 𝟎
+       c 𝜕t
+        ∇⋅𝐁  = 0
+<end>
+
+One-Diode solar cell equation
+<input> Diode
+I(V) = I_{00}\left(\frac{T}{T_0}\right)^3 \exp\left(\frac{E_\text{x}(T-T_0)}{kTT_0}\right) \left[\exp\left(\frac{V-I(V)R_\text{s}}{nkT}\right) - 1\right] - I_\text{ph} + \frac{V}{R_\text{sh}}
+<ref> |-S
+          ⎛T ⎞³    ⎛Eₓ(T-T₀)⎞ ⎡   ⎛V-I(V)Rₛ⎞    ⎤          V
+I(V) = I₀₀⎜──⎟  exp⎜────────⎟ ⎢exp⎜────────⎟ - 1⎥ - Iₚₕ + ───
+          ⎝T₀⎠     ⎝  kTT₀  ⎠ ⎣   ⎝  nkT   ⎠    ⎦         Rₛₕ
+<ref> -A
+              3    /E (T-T )\ +   /V-I(V)R \    +
+          /T \     | x    0 | |   |       s|    |          V
+I(V) = I  |--|  exp|--------| |exp|--------| - 1| - I   + ---
+        00|T |     |  kTT   | +   \  nkT   /    +    ph   R
+          \ 0/     \     0  /                              sh
+<end>

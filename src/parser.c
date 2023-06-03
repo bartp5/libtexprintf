@@ -277,7 +277,7 @@ void AddScripts(char *subscript, char *superscript, box *b, int limits, int Font
 		BoxPos(b);
 		
 		// check if we can use superscript characters for the boxtree
-		if ((style->mapsupersub)&&(!msub)&&(!limits)&&(IsMappableLineBoxtree(b->child+b->Nc-1, &MappableSuper)))
+		if ((style->mapsupersub)&&(!msub||(h>1))&&(!limits)&&(IsMappableLineBoxtree(b->child+b->Nc-1, &MappableSuper)))
 		{
 			MapBoxtree(b->child+b->Nc-1, &MapSuperScript);
 			xy[bi*2]=w;

@@ -45,8 +45,7 @@ test integrals
 <input> integral
 \int_a^b f(x) dx
 <ref> |-S
- b
-⌠
+⌠ᵇ
 ⎮  f(x) dx
 ⌡ₐ
 <ref> -A
@@ -156,8 +155,7 @@ n-dimensional integral
 <input> oint
 \oint_a^b f(x) dx
 <ref>  | -S
-   b
- ⌠
+ ⌠ ᵇ
 ⸦⎮⸧  f(x) dx
  ⌡ ₐ
 <ref> -A

@@ -214,13 +214,13 @@ Expands to two contour integral symbols with dots in between. The optional argum
 Creates variable sized delimiters around and in between content. 
 Available variable size delimiters are:
 .br
-.B ( ) [ ] { } < > | \e| 
+.B ( ), [ ], { }, < >, |, 
 .br
-.B \euparrow \eUparrow \edownarrow \eDownarrow \eupdownarrow \eUpdownarrow 
+.B \euparrow, \eUparrow, \edownarrow, \eDownarrow, \eupdownarrow, \eUpdownarrow ,
 .br
-.B \elceil \erceil \elfloor \erfloor 
+.B \elceil \erceil, \elfloor \erfloor, 
 .br
-.B/ \ebackslash .
+.B/ \ebackslash.
 .br
 The \emiddle command is optional and may be omitted. The special dot (.) delimiter is a dummy delimiter that can be used to open 
 or close a \eleft ... \eright construct without a delimiter being shown.
@@ -241,9 +241,9 @@ Draws a line under expression X
 .br
 Insert a line break.
 
-.B \ea
+.B \e
 .br
-Escapes the character \fIa\fR. Useful for inserting characters like ^, and _ in your equation.  
+Escapes the character.
 
 .B \elimits
 .br
@@ -257,7 +257,28 @@ Makes an empty box which is W characters wide and H characters high. This may be
 
 .B \eraisebox{off}{...}
 .br
-Makes a box and raises its contents bz off characters
+Makes a box and raises its contents by off characters
+
+.B \ephantom{...}
+.br
+Makes an empty box with the same width and height as its rendered argument would have. 
+
+.B \evphantom{...}
+.br
+Makes an empty box with 0 width and the same height as its rendered argument would have. 
+
+.B \ehphantom{...}
+.br
+Makes an empty box with 0 height and the same width as its rendered argument would have. 
+
+.B \eover
+.br
+Alternative way of making a fraction, e.g. "a \eover b". 
+
+.B \echoose
+.br
+Alternative way of making a binominal, e.g. "n \echoose k". 
+
 
 .B \eexp, \eln, \elog, \emin, \emax, \esin, \ecos, \etan, \ecot, \earcsin, \earccos, \earctan, \earccot, \esinh, \ecosh, \etanh, \ecoth, \esec, \ecsc
 .br
@@ -289,14 +310,20 @@ by inserting |'s in the column alignment argument (as with LaTeX).
 .br
 Several derived environments are provided.
 .br
+.B \ebegin{aligned}
+.br
+.B \eend{aligned}
+.br
+and
+.br
+.B \ebegin{align}
+.br
+.B \eend{align}
+.br
+to align equiations.
+.br
+
 .B \ebegin{cases}
-.br
-.I
-    a00 & ... a0n \e\e 
-.br
-    ... & ... ... \e\e
-.br
-    am0 & ... amn
 .br
 .B \eend{cases}
 .br
@@ -306,13 +333,6 @@ Equivalent to \eleft{\ebegin{array}{c...c} ...\eend{array}\eright.
 
 .B \ebegin{pmatrix}
 .br
-.I
-    a00 & ... a0n \e\e 
-.br
-    ... & ... ... \e\e
-.br
-    am0 & ... amn
-.br
 .B \eend{pmatrix}
 .br
 Equivalent to \eleft(\ebegin{array}{c...c} ...\eend{array}\eright)
@@ -320,13 +340,6 @@ Equivalent to \eleft(\ebegin{array}{c...c} ...\eend{array}\eright)
 .br
 
 .B \ebegin{vmatrix}
-.br
-.I
-    a00 & ... a0n \e\e 
-.br
-    ... & ... ... \e\e
-.br
-    am0 & ... amn
 .br
 .B \eend{vmatrix}
 .br
@@ -336,13 +349,6 @@ Equivalent to \eleft|\ebegin{array}{c...c} ...\eend{array}\eright|
 
 .B \ebegin{bmatrix}
 .br
-.I
-    a00 & ... a0n \e\e 
-.br
-    ... & ... ... \e\e
-.br
-    am0 & ... amn
-.br
 .B \eend{bmatrix}
 .br
 Equivalent to \eleft[\ebegin{array}{c...c} ...\eend{array}\eright]
@@ -351,13 +357,6 @@ Equivalent to \eleft[\ebegin{array}{c...c} ...\eend{array}\eright]
 
 .B \ebegin{Bmatrix}
 .br
-.I
-    a00 & ... a0n \e\e 
-.br
-    ... & ... ... \e\e
-.br
-    am0 & ... amn
-.br
 .B \eend{Bmatrix}
 .br
 Equivalent to \eleft{\ebegin{array}{c...c} ...\eend{array}\eright}
@@ -365,13 +364,6 @@ Equivalent to \eleft{\ebegin{array}{c...c} ...\eend{array}\eright}
 .br
 
 .B \ebegin{matrix}
-.br
-.I
-    a00 & ... a0n \e\e 
-.br
-    ... & ... ... \e\e
-.br
-    am0 & ... amn
 .br
 .B \eend{matrix}
 .br

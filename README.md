@@ -7,13 +7,13 @@ pretty print math in mono-space fonts, using a tex-like syntax. It
 produces UTF-8 encoded text. The program was inspired by 
 [asciiTeX](http://asciitex.sourceforge.net/), and the improved 
 [asciiTeX fork](https://github.com/larseggert/asciiTeX). However, 
-utftex supports much more TeX syntax and contains extensive unicode 
-tables to map latex commands to unicode symbols. Use 
-libtexprintf/utftex to unlock the math capabilities of unicode in 
+utftex supports much more TeX syntax and contains extensive Unicode 
+tables to map latex commands to Unicode symbols. Use 
+libtexprintf/utftex to unlock the math capabilities of Unicode in 
 mono-space text applications.
 
 Note that how the equations look depends strongly on the font you use. 
-Naturally, one needs a monospace font with good unicode support for the 
+Naturally, one needs a monospace font with good Unicode support for the 
 symbols you use. A good monospace font for math is, for example,  
 [JuliaMono](https://juliamono.netlify.app/).
 
@@ -40,7 +40,7 @@ gives
 The texprintf library provides a fairly full featured tex-like syntax
 with arrays, brackets, many symbols, and even font style (note that 
 texprintf outputs UTF-8 and as such cannot change the fonts. However,
-unicode does provide several font-styles like mathematical calligraphic
+Unicode does provide several font-styles like mathematical calligraphic
 style, or italic). For example:
 
     > utftex -F mathnormal '\frac{1}{a+x}' 
@@ -99,11 +99,11 @@ the table in monospace fonts.
 
 utfstringinfo
 -------------
-Utility to analyze strings UTF-8 strings. The utfstringinfo  program 
-reads  arguments or, if no arguments are provided, stdin and for every 
-single character it finds it shows  the  UTF-8  character sequence, the 
-unicode code-point and, if applicable, the utftex command that can be 
-used to generate the symbol.  
+Utility to analyze UTF-8 strings. The utfstringinfo  program reads 
+arguments or, if no arguments are provided, stdin and for every single 
+character it finds it shows  the  UTF-8  byte sequence, the Unicode 
+code-point and, if applicable, the utftex command that can be used to 
+generate the symbol.  
 
 
 Questions One Might Ask (QOMA)
@@ -113,16 +113,22 @@ Questions One Might Ask (QOMA)
 	- Make sure you are using mono-space fonts.
 	
 * I am using mono-space fonts, why are my equations still poorly aligned?
-	- Most fonts do not support all unicode characters. Your program 
+	- Most fonts do not support all Unicode characters. Your program 
 	   may use some variable-width fallback fonts.
 	   
 * Why are some symbols are not displayed (properly)?
-	- Most fonts do not support all unicode characters. Perhaps your 
+	- Most fonts do not support all Unicode characters. Perhaps your 
 	   font engine just gave up? This also often happens when using 
 	   combining diacritical marks. Find the right set of font engine 
 	   and fonts to use.
 	   
 * Can you recommend a good mono-space symbol font?
+	- Best is if the monospace font you use supports lots of symbols by
+	  itself. There are various fonts that support a great deal of 
+	  Unicode. See for example 
+	  [this discussion](https://stackoverflow.com/a/73313342/3662120).
+	  As mentioned before I recommend 
+	  [JuliaMono](https://juliamono.netlify.app/).
 	- Make your own out of your favorite (variable-space) fonts! The 
 	   great "monospacifier" will do that for you. Get it at 
 	   https://github.com/cpitclaudel/monospacifier

@@ -1,10 +1,10 @@
 libtexprintf/utftex test file
-run some specific and alos lots of random tests
+run some specific tests
 
 How this test file works:
 Each test consists of a named block with input and reference outputs
 Text inbetween blocks is ignored. One block may have more than one 
-reference outputs. To this end you can sepcify arguments for which the 
+reference outputs. To this end you can specify arguments for which the 
 reference should be obtained. If several arguments produce the same 
 reference you may specify several sets of arguments with one reference 
 output. The argument sets should be separated with '|'
@@ -18,9 +18,9 @@ abcd
 𝑎𝑏𝑐𝑑
 <end>
 
-This creates a block named example which tests the input "abcd" and has 
-two reference outputs, the first reference output is "abcd" and should 
-be obtained
+This creates a block named "example" which tests the input "abcd" and 
+has two reference outputs, the first reference output is "abcd" and 
+should be obtained
 - without arguments
 - with "-S"
 - with "-A"

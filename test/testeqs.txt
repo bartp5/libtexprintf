@@ -1,4 +1,4 @@
-################# random equations
+################# random equations to test
 
 <input> eq1
 \mathrm{W_{cubic}}(t) = C * (t - K)^3 + W_{max}

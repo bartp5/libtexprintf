@@ -404,7 +404,6 @@ char *Argument(char *begin, char **next)
 			r=malloc((l+1)*sizeof(char));
 			memcpy(r,begin,l*sizeof(char));
 			r[l]='\0';
-			printf("arg: %s \n", r);
 			(*next)=begin+l;
 		}
 		else

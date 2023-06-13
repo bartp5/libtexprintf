@@ -578,3 +578,41 @@ some of these in ASCII but I don't...
 ⎢  ⎥
 ⎣  ⎦
 <end>
+
+test argument parsing
+
+<input> argparse_space
+\frac  {1}{\alpha}
+<ref>  | -S | -m
+1
+─
+α
+<ref> -A
+1
+-
+α
+<end>
+
+<input> argparse_nobrac1
+\frac  {1}\alpha
+<ref>  | -S | -m
+1
+─
+α
+<ref> -A
+1
+-
+α
+<end>
+
+<input> argparse_nobrac2
+\frac1\alpha
+<ref>  | -S | -m
+1
+─
+α
+<ref> -A
+1
+-
+α
+<end>

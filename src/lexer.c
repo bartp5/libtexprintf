@@ -103,7 +103,9 @@ Symbol IsSymbol(char *begin, const Symbol Symbols[])
 	{		
 		if (*p)
 			p++;
-		while ((*p)&&(!IsInSet(*p, "\\ ^_+-*/()@#$%&{},;0123456789\n"))) /* I took out the { so I can overload symbols and scalable symbols */
+		
+		//while ((*p)&&(!IsInSet(*p, "\\ ^_+-*/()@#$%&{},;0123456789=\n"))) /* I took out the { so I can overload symbols and scalable symbols */
+		while ((*p)&&(((*p>='A')&&(*p<='Z'))||((*p>='a')&&(*p<='z'))))
 			p++;
 	}
 		

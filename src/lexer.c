@@ -390,16 +390,22 @@ char *Option(char *begin, char **next)
 char *Argument(char *begin, char **next)
 {
 	char *r;
+	
+	while((*begin)&&isspace(*begin))
+		begin++;
+	
 	r=OptionArgument(begin, next, '{', '}');
 	if (r==NULL)
 	{
-		// no brackets, every char is an argument till we have some selimiter
+		// no brackets, every char is an argument till we have some delimiter
 		if (!IsInSet(*begin, "\\ ^_+-*/()@#$%&{},;\n"))
 		{
-			r=malloc(2*sizeof(char));
-			r[0]=*begin;
-			r[1]='\0';
-			(*next)=begin+1;
+			int l=NumByte(begin);
+			r=malloc((l+1)*sizeof(char));
+			memcpy(r,begin,l*sizeof(char));
+			r[l]='\0';
+			printf("arg: %s \n", r);
+			(*next)=begin+l;
 		}
 		else
 			return NULL;

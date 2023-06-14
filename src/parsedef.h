@@ -102,6 +102,8 @@ const KEYWORD   Envs[] = {
 	{"Bmatrix",  	PD_BBMATRIX    , 0, 1},
 	{"vmatrix*",  	PD_VMATRIX    	, 0, 1},
 	{"vmatrix",  	PD_VMATRIX    	, 0, 1},
+	{"Vmatrix*",  	PD_VVMATRIX    	, 0, 1},
+	{"Vmatrix",  	PD_VVMATRIX    	, 0, 1},
 	{"matrix*",  	PD_MATRIX    	, 0, 1},
 	{"matrix",  	PD_MATRIX    	, 0, 1},
 	{"\\begin", 	PD_BEGIN   	, 0, 0},

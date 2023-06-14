@@ -51,7 +51,7 @@ typedef struct Style {
 	int prime[3]; // prime width, height, start lower left, end upper right
 	int dprime[4]; 
 	int tprime[5]; 	
-	int qprime[6]; 
+	int qprime[6];
 } Style;
 
 #endif //#ifndef DRAWCHAR_H

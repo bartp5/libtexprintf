@@ -2135,6 +2135,13 @@ void MakeArrayBrace(TOKEN *T, box *b, char *lbrace, char *rbrace, int Font)
 	AddBraces(lbrace, rbrace, b->child+b->Nc-1);
 	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
 }
+void MakeArrayDoubleBrace(TOKEN *T, box *b, char *lbrace, char *rbrace, int Font)
+{
+	MakeArrayBody(T, b, Font);
+	AddBraces(lbrace, rbrace, b->child+b->Nc-1);
+	AddBraces(lbrace, rbrace, b->child+b->Nc-1);
+	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
+}
 
 
 void ParseStringInBox(char *B, box *parent, int Font)
@@ -2245,6 +2252,9 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				break;
 			case PD_VMATRIX:
 				MakeArrayBrace(&T, b, "|", "|", Font);
+				break;
+			case PD_VVMATRIX:
+				MakeArrayBrace(&T, b, "‖", "‖", Font);	
 				break;
 			case PD_MATRIX:
 				MakeArrayBrace(&T, b, ".", ".", Font);

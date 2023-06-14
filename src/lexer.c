@@ -1159,6 +1159,7 @@ TOKEN BeginEnv(TOKEN T)
 		case PD_CASES:
 		case PD_MATRIX:
 		case PD_VMATRIX:
+		case PD_VVMATRIX:
 		case PD_BBMATRIX:
 		case PD_BMATRIX:
 		case PD_PMATRIX:

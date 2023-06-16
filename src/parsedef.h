@@ -1697,7 +1697,20 @@ const Symbol  Symbols[] = {
 	{"\\rightpentagonblack",0x2B53}, //  0x2B53 # black right-pointing pentagon
 	{"\\rightpentagon",0x2B54}, //  0x2B54 # white right-pointing pentagon
 	{"\\postalmark",0x03012}, //  〒 # postal mark
-	
+	{"\\triangleright",0x025B7}, //  ▷ # (large) right triangle, open; z notation range restriction
+	{"\\triangleleft",0x025C1}, //  ◁ # (large) left triangle, open; z notation domain restriction
+	{"\\leftouterjoin",0x027D5}, //  ⟕ # left outer join
+	{"\\rightouterjoin",0x027D6}, //  ⟖ # right outer join
+	{"\\fullouterjoin",0x027D7}, //  ⟗ # full outer join
+	{"\\join",0x02A1D}, //  ⨝ # join
+	{"\\underbar",0x00332}, //  ̲ # combining low line
+	{"\\underleftrightarrow",0x0034D}, //  ͍ # underleftrightarrow accent
+	{"\\leftwavearrow",0x0219C}, //  ↜ # left arrow-wavy
+	{"\\rightwavearrow",0x0219D}, //  ↝ # right arrow-wavy
+	{"\\varbarwedge",0x02305}, //  ⌅ # /barwedge b: logical and, bar above [projective (bar over small wedge)]
+	{"\\smallblacktriangleright",0x025B8}, //  ▸ # right triangle, filled
+	{"\\smallblacktriangleleft",0x025C2}, //  ◂ # left triangle, filled
+	{"\\tricolon",0x0205D}, //  ⁝ # tricolon
 	{NULL,                     0x00000},
 };
 const Symbol * TEXPRINTF_SYMBOLS=Symbols;

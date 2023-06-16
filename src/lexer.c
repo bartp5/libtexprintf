@@ -1532,6 +1532,21 @@ TOKEN SubLexer(char *begin, FONT F)
 		PeekAhead(&R, begin);
 		return R;		
 	}
+	else if ((*begin=='^')||(*begin=='_'))
+	{
+		// make a 0x1 box token with sub/superscripts
+		R.P=PD_BOX;
+		R.args=malloc(2*sizeof(char *));
+		R.Nargs=2;
+		R.args[0]=malloc(2*sizeof(char));
+		R.args[0][0]='0';
+		R.args[0][1]='\0';
+		R.args[1]=malloc(2*sizeof(char));
+		R.args[1][0]='1';
+		R.args[1][1]='\0';
+		PeekAhead(&R, begin);
+		return R;		
+	}
 	/* we have a plain character */
 	if (R.P==PD_NONE)
 		R.P=PD_SYMBOL;

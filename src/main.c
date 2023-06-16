@@ -17,6 +17,7 @@ int main(int argc, char **argv)
 	int boxtree=0;
 	int test_stexprintf=0;
 	int done=0;
+	int ret=0;
 	int combine_errors=0;
 	char *font=NULL;
 	char *symbols=NULL;
@@ -162,6 +163,7 @@ int main(int argc, char **argv)
 				texerrors();
 			if (boxtree)
 				texboxtree("%s\n",argv[optind]);
+			ret|=TEXPRINTF_ERR;
 			done++;
 			optind++;
 		}
@@ -204,9 +206,11 @@ int main(int argc, char **argv)
 			texerrors();
 		if (boxtree)
 			texboxtree("%s\n",argv[optind]);
+		ret|=TEXPRINTF_ERR;
 	}
 
 #ifdef __MINGW32__
 	SetConsoleOutputCP(oldcp);
 #endif
+	return ret;
 }

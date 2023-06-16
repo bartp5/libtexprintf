@@ -69,6 +69,9 @@ const KEYWORD   Keys[] = {
 	{"\\coth", 		PD_FUNCTION   	, 0, 0},
 	{"\\sec",  		PD_FUNCTION   	, 0, 0},
 	{"\\csc",  		PD_FUNCTION   	, 0, 0},
+	{"\\deg",  		PD_FUNCTION   	, 0, 0},
+	{"\\det",  		PD_FUNCTION   	, 0, 0},
+	{"\\arg",  		PD_FUNCTION   	, 0, 0},
 	{"\\it",		PD_SETITALIC	, 0, 0},
 	{"\\bf",  		PD_SETBOLD		, 0, 0},
 	{"\\rm",  		PD_SETROMAN	, 0, 0},
@@ -882,6 +885,819 @@ const Symbol  Symbols[] = {
 	/* terminate the table */
 	/* modify some emojic characters to full blown emojis , e.g. ☠ → ☠️ (\skull  \rightarrow  \emojify \skull)*/
 	{"\\emojify", 0x0FE0F},	
+	
+	/* whatever symbols that were not there but were in https://github.com/JuliaLang/julia/blob/master/stdlib/REPL/src/latex_symbols.jl */
+	{"\\cbrt",0x221B}, //  0x221B
+	{"\\mars",0x02642}, //  ♂
+	{"\\xor",0x022BB}, //  ⊻
+	{"\\nand",0x022BC}, //  ⊼
+	{"\\nor",0x022BD}, //  ⊽
+	{"\\iff",0x027FA}, //  ⟺
+	{"\\implies",0x027F9}, //  ⟹
+	{"\\impliedby",0x027F8}, //  ⟸
+	{"\\euler",0x0212F}, //  ℯ
+	{"\\ohm",0x02126}, //  Ω
+	{"\\hbar",0x00127}, //  ħ
+	{"\\del",0x02207}, //  ∇
+	{"\\sout",0x00336}, //  ̶ # ulem package same as Elzbar
+	{"\\euro",0x020AC}, //  €
+	{"\\exclamdown",0x000A1}, //  ¡
+	{"\\sterling",0x000A3}, //  £
+	{"\\brokenbar",0x000A6}, //  ¦
+	{"\\S",0x000A7}, //  §
+	{"\\copyright",0x000A9}, //  ©
+	{"\\ordfeminine",0x000AA}, //  ª
+	{"\\highminus",0x000AF}, //  ¯ # APL high minus or non-combining macron above
+	{"\\P",0x000B6}, //  ¶
+	{"\\cdotp",0x000B7}, //  ·
+	{"\\ordmasculine",0x000BA}, //  º
+	{"\\questiondown",0x000BF}, //  ¿
+	{"\\AA",0x000C5}, //  Å
+	{"\\AE",0x000C6}, //  Æ
+	{"\\DH",0x000D0}, //  Ð
+	{"\\O",0x000D8}, //  Ø
+	{"\\TH",0x000DE}, //  Þ
+	{"\\ss",0x000DF}, //  ß
+	{"\\aa",0x000E5}, //  å
+	{"\\ae",0x000E6}, //  æ
+	{"\\dh",0x000F0}, //  ð
+	{"\\o",0x000F8}, //  ø
+	{"\\th",0x000FE}, //  þ
+	{"\\DJ",0x00110}, //  Đ
+	{"\\dj",0x00111}, //  đ
+	{"\\L",0x00141}, //  Ł
+	{"\\NG",0x0014A}, //  Ŋ
+	{"\\ng",0x0014B}, //  ŋ
+	{"\\OE",0x00152}, //  Œ
+	{"\\oe",0x00153}, //  œ
+	{"\\hvlig",0x00195}, //  ƕ
+	{"\\nrleg",0x0019E}, //  ƞ
+	{"\\doublepipe",0x001C2}, //  ǂ
+	{"\\trna",0x00250}, //  ɐ
+	{"\\trnsa",0x00252}, //  ɒ
+	{"\\openo",0x00254}, //  ɔ
+	{"\\rtld",0x00256}, //  ɖ
+	{"\\schwa",0x00259}, //  ə
+	{"\\pgamma",0x00263}, //  ɣ
+	{"\\pbgam",0x00264}, //  ɤ
+	{"\\trnh",0x00265}, //  ɥ
+	{"\\btdl",0x0026C}, //  ɬ
+	{"\\rtll",0x0026D}, //  ɭ
+	{"\\trnm",0x0026F}, //  ɯ
+	{"\\trnmlr",0x00270}, //  ɰ
+	{"\\ltlmr",0x00271}, //  ɱ
+	{"\\ltln",0x00272}, //  ɲ
+	{"\\rtln",0x00273}, //  ɳ
+	{"\\clomeg",0x00277}, //  ɷ
+	{"\\ltphi",0x00278}, //  ɸ # latin ϕ
+	{"\\trnr",0x00279}, //  ɹ
+	{"\\trnrl",0x0027A}, //  ɺ
+	{"\\rttrnr",0x0027B}, //  ɻ
+	{"\\rl",0x0027C}, //  ɼ
+	{"\\rtlr",0x0027D}, //  ɽ
+	{"\\fhr",0x0027E}, //  ɾ
+	{"\\rtls",0x00282}, //  ʂ
+	{"\\esh",0x00283}, //  ʃ
+	{"\\trnt",0x00287}, //  ʇ
+	{"\\rtlt",0x00288}, //  ʈ
+	{"\\pupsil",0x0028A}, //  ʊ
+	{"\\pscrv",0x0028B}, //  ʋ
+	{"\\invv",0x0028C}, //  ʌ
+	{"\\invw",0x0028D}, //  ʍ
+	{"\\trny",0x0028E}, //  ʎ
+	{"\\rtlz",0x00290}, //  ʐ
+	{"\\yogh",0x00292}, //  ʒ
+	{"\\glst",0x00294}, //  ʔ
+	{"\\reglst",0x00295}, //  ʕ
+	{"\\inglst",0x00296}, //  ʖ
+	{"\\turnk",0x0029E}, //  ʞ
+	{"\\dyogh",0x002A4}, //  ʤ
+	{"\\tesh",0x002A7}, //  ʧ
+	{"\\rasp",0x002BC}, //  ʼ
+	{"\\verts",0x002C8}, //  ˈ
+	{"\\verti",0x002CC}, //  ˌ
+	{"\\lmrk",0x002D0}, //  ː
+	{"\\hlmrk",0x002D1}, //  ˑ
+	{"\\sbrhr",0x002D2}, //  ˒
+	{"\\sblhr",0x002D3}, //  ˓
+	{"\\rais",0x002D4}, //  ˔
+	{"\\low",0x002D5}, //  ˕
+	{"\\u",0x002D8}, //  ˘
+	{"\\tildelow",0x002DC}, //  ˜
+	{"\\ocirc",0x0030A}, //  ̊
+	{"\\palh",0x00321}, //  ̡
+	{"\\rh",0x00322}, //  ̢
+	{"\\sbbrg",0x0032A}, //  ̪
+	{"\\strike",0x00336}, //  ̶
+	{"\\Alpha",0x00391}, //  Α
+	{"\\Beta",0x00392}, //  Β
+	{"\\Epsilon",0x00395}, //  Ε
+	{"\\Zeta",0x00396}, //  Ζ
+	{"\\Eta",0x00397}, //  Η
+	{"\\Iota",0x00399}, //  Ι
+	{"\\Kappa",0x0039A}, //  Κ
+	{"\\Rho",0x003A1}, //  Ρ
+	{"\\Tau",0x003A4}, //  Τ
+	{"\\Chi",0x003A7}, //  Χ
+	{"\\varkappa",0x003F0}, //  ϰ
+	{"\\varTheta",0x003F4}, //  ϴ
+	{"\\enspace",0x02002}, //   
+	{"\\thickspace",0x02005}, //   
+	{"\\thinspace",0x02009}, //   
+	{"\\hspace",0x0200A}, //   
+	{"\\endash",0x02013}, //  –
+	{"\\emdash",0x02014}, //  —
+	{"\\Vert",0x02016}, //  ‖
+	{"\\lq",0x02018}, //  ‘
+	{"\\rq",0x02019}, //  ’
+	{"\\reapos",0x0201B}, //  ‛
+	{"\\ldq",0x0201C}, //  “
+	{"\\rdq",0x0201D}, //  ”
+	{"\\dots",0x02026}, //  …
+	{"\\perthousand",0x02030}, //  ‰
+	{"\\pertenthousand",0x02031}, //  ‱
+	{"\\guilsinglleft",0x02039}, //  ‹
+	{"\\guilsinglright",0x0203A}, //  ›
+	{"\\nolinebreak",0x2060}, //  0x2060
+	{"\\pes",0x020A7}, //  ₧
+	{"\\numero",0x02116}, //  №
+	{"\\xrat",0x0211E}, //  ℞
+	{"\\trademark",0x02122}, //  ™
+	{"\\bbsum",0x02140}, //  ⅀
+	{"\\Game",0x02141}, //  ⅁
+	{"\\dblarrowupdown",0x021C5}, //  ⇅
+	{"\\DownArrowUpArrow",0x021F5}, //  ⇵
+	{"\\emptyset",0x02205}, //  ∅
+	{"\\surd",0x0221A}, //  √
+	{"\\clwintegral",0x02231}, //  ∱
+	{"\\Colon",0x02237}, //  ∷
+	{"\\dotminus",0x02238}, //  ∸
+	{"\\kernelcontraction",0x0223B}, //  ∻
+	{"\\lazysinv",0x0223E}, //  ∾
+	{"\\neqsim",0x02242}, //  ≂̸
+	{"\\nsime",0x02244}, //  ≄
+	{"\\approxnotequal",0x02246}, //  ≆
+	{"\\tildetrpl",0x0224B}, //  ≋
+	{"\\allequal",0x0224C}, //  ≌
+	{"\\nBumpeq",0x0224E}, //  ≎̸
+	{"\\nbumpeq",0x0224F}, //  ≏̸
+	{"\\wedgeq",0x02259}, //  ≙
+	{"\\starequal",0x0225B}, //  ≛
+	{"\\questeq",0x0225F}, //  ≟
+	{"\\ne",0x02260}, //  ≠
+	{"\\le",0x02264}, //  ≤
+	{"\\ge",0x02265}, //  ≥
+	{"\\lvertneqq",0x02268}, //  ≨︀
+	{"\\gvertneqq",0x02269}, //  ≩︀
+	{"\\NotLessLess",0x0226A}, //  ≪̸
+	{"\\NotGreaterGreater",0x0226B}, //  ≫̸
+	{"\\notlessgreater",0x02278}, //  ≸
+	{"\\notgreaterless",0x02279}, //  ≹
+	{"\\nprecsim",0x0227E}, //  ≾̸
+	{"\\nsuccsim",0x0227F}, //  ≿̸
+	{"\\varsubsetneqq",0x0228A}, //  ⊊︀
+	{"\\varsupsetneq",0x0228B}, //  ⊋︀
+	{"\\cupdot",0x0228D}, //  ⊍
+	{"\\NotSquareSubset",0x0228F}, //  ⊏̸
+	{"\\NotSquareSuperset",0x02290}, //  ⊐̸
+	{"\\indep",0x02AEB}, //  ⫫
+	{"\\downvDash",0x02AEA}, //  ⫪
+	{"\\upvDash",0x02AEB}, //  ⫫
+	{"\\original",0x022B6}, //  ⊶
+	{"\\image",0x022B7}, //  ⊷
+	{"\\hermitconjmatrix",0x022B9}, //  ⊹
+	{"\\rightanglearc",0x022BE}, //  ⊾
+	{"\\verymuchless",0x022D8}, //  ⋘
+	{"\\adots",0x022F0}, //  ⋰
+	{"\\recorder",0x02315}, //  ⌕
+	{"\\obar",0x0233D}, //  ⌽
+	{"\\dlcorn",0x023A3}, //  ⎣
+	{"\\lmoustache",0x023B0}, //  ⎰
+	{"\\visiblespace",0x02423}, //  ␣
+	{"\\circledS",0x024C8}, //  Ⓢ
+	{"\\dshfnc",0x02506}, //  ┆
+	{"\\sqfnw",0x02519}, //  ┙
+	{"\\diagup",0x02571}, //  ╱
+	{"\\diagdown",0x02572}, //  ╲
+	{"\\vrecto",0x025AF}, //  ▯
+	{"\\blacktriangle",0x025B4}, //  ▴
+	{"\\vartriangle",0x025B5}, //  ▵
+	{"\\triangledown",0x025BF}, //  ▿
+	{"\\bigcirc",0x025CB}, //  ○
+	{"\\cirfl",0x025D0}, //  ◐
+	{"\\cirfr",0x025D1}, //  ◑
+	{"\\cirfb",0x025D2}, //  ◒
+	{"\\rvbull",0x025D8}, //  ◘
+	{"\\sqfl",0x025E7}, //  ◧
+	{"\\sqfr",0x025E8}, //  ◨
+	{"\\sqfse",0x025EA}, //  ◪
+	{"\\venus",0x02640}, //  ♀
+	{"\\Uuparrow",0x0290A}, //  ⤊
+	{"\\Ddownarrow",0x0290B}, //  ⤋
+	{"\\bkarow",0x0290D}, //  ⤍
+	{"\\dbkarow",0x0290F}, //  ⤏
+	{"\\drbkarrow",0x02910}, //  ⤐
+	{"\\twoheadrightarrowtail",0x02916}, //  ⤖
+	{"\\hksearow",0x02925}, //  ⤥
+	{"\\hkswarow",0x02926}, //  ⤦
+	{"\\tona",0x02927}, //  ⤧
+	{"\\toea",0x02928}, //  ⤨
+	{"\\tosa",0x02929}, //  ⤩
+	{"\\towa",0x0292A}, //  ⤪
+	{"\\rdiagovfdiag",0x0292B}, //  ⤫
+	{"\\fdiagovrdiag",0x0292C}, //  ⤬
+	{"\\seovnearrow",0x0292D}, //  ⤭
+	{"\\neovsearrow",0x0292E}, //  ⤮
+	{"\\fdiagovnearrow",0x0292F}, //  ⤯
+	{"\\rdiagovsearrow",0x02930}, //  ⤰
+	{"\\neovnwarrow",0x02931}, //  ⤱
+	{"\\nwovnearrow",0x02932}, //  ⤲
+	{"\\Rlarr",0x02942}, //  ⥂
+	{"\\rLarr",0x02944}, //  ⥄
+	{"\\rarrx",0x02947}, //  ⥇
+	{"\\LeftRightVector",0x0294E}, //  ⥎
+	{"\\RightUpDownVector",0x0294F}, //  ⥏
+	{"\\DownLeftRightVector",0x02950}, //  ⥐
+	{"\\LeftUpDownVector",0x02951}, //  ⥑
+	{"\\UpEquilibrium",0x0296E}, //  ⥮
+	{"\\ReverseUpEquilibrium",0x0296F}, //  ⥯
+	{"\\RoundImplies",0x02970}, //  ⥰
+	{"\\Vvert",0x02980}, //  ⦀
+	{"\\Elroang",0x02986}, //  ⦆
+	{"\\ddfnc",0x02999}, //  ⦙
+	{"\\Angle",0x0299C}, //  ⦜
+	{"\\lpargt",0x029A0}, //  ⦠
+	{"\\obslash",0x029B8}, //  ⦸
+	{"\\Lap",0x029CA}, //  ⧊
+	{"\\defas",0x029CB}, //  ⧋
+	{"\\NotLeftTriangleBar",0x029CF}, //  ⧏̸
+	{"\\NotRightTriangleBar",0x029D0}, //  ⧐̸
+	{"\\dualmap",0x029DF}, //  ⧟
+	{"\\shuffle",0x029E2}, //  ⧢
+	{"\\RuleDelayed",0x029F4}, //  ⧴
+	{"\\bigcupdot",0x02A03}, //  ⨃
+	{"\\conjquant",0x02A07}, //  ⨇
+	{"\\disjquant",0x02A08}, //  ⨈
+	{"\\bigtimes",0x02A09}, //  ⨉
+	{"\\clockoint",0x02A0F}, //  ⨏
+	{"\\sqrint",0x02A16}, //  ⨖
+	{"\\upint",0x02A1B}, //  ⨛
+	{"\\lowint",0x02A1C}, //  ⨜
+	{"\\plusdot",0x02A25}, //  ⨥
+	{"\\Times",0x02A2F}, //  ⨯
+	{"\\btimes",0x02A32}, //  ⨲
+	{"\\And",0x02A53}, //  ⩓
+	{"\\Or",0x02A54}, //  ⩔
+	{"\\ElOr",0x02A56}, //  ⩖
+	{"\\perspcorrespond",0x02A5E}, //  ⩞
+	{"\\ddotseq",0x02A77}, //  ⩷
+	{"\\nleqslant",0x02A7D}, //  ⩽̸
+	{"\\ngeqslant",0x02A7E}, //  ⩾̸
+	{"\\NotNestedLessLess",0x02AA1}, //  ⪡̸
+	{"\\NotNestedGreaterGreater",0x02AA2}, //  ⪢̸
+	{"\\partialmeetcontraction",0x02AA3}, //  ⪣
+	{"\\bumpeqq",0x02AAE}, //  ⪮
+	{"\\precneqq",0x02AB5}, //  ⪵
+	{"\\succneqq",0x02AB6}, //  ⪶
+	{"\\nsubseteqq",0x02AC5}, //  ⫅̸
+	{"\\nsupseteqq",0x02AC6}, //  ⫆̸
+	{"\\mlcp",0x02ADB}, //  ⫛
+	{"\\forks",0x02ADC}, //  ⫝̸
+	{"\\forksnot",0x02ADD}, //  ⫝
+	{"\\dashV",0x02AE3}, //  ⫣
+	{"\\Dashv",0x02AE4}, //  ⫤
+	{"\\tdcol",0x02AF6}, //  ⫶
+	{"\\openbracketleft",0x027E6}, //  ⟦
+	{"\\openbracketright",0x027E7}, //  ⟧
+	{"\\Zbar",0x001B5}, //  Ƶ # impedance (latin capital letter z with stroke)
+	{"\\ovhook",0x00309}, //  ̉ # combining hook above
+	{"\\candra",0x00310}, //  ̐ # candrabindu (non-spacing)
+	{"\\oturnedcomma",0x00312}, //  ̒ # combining turned comma above
+	{"\\ocommatopright",0x00315}, //  ̕ # combining comma above right
+	{"\\droang",0x0031A}, //  ̚ # left angle above (non-spacing)
+	{"\\wideutilde",0x00330}, //  ̰ # under tilde accent (multiple characters and non-spacing)
+	{"\\upMu",0x0039C}, //  Μ # capital mu greek
+	{"\\upNu",0x0039D}, //  Ν # capital nu greek
+	{"\\upOmicron",0x0039F}, //  Ο # capital omicron greek
+	{"\\upepsilon",0x003B5}, //  ε # rounded small epsilon greek
+	{"\\upomicron",0x003BF}, //  ο # small omicron greek
+	{"\\upvarbeta",0x003D0}, //  ϐ # rounded small beta greek
+	{"\\upoldKoppa",0x003D8}, //  Ϙ # greek letter archaic koppa
+	{"\\upoldkoppa",0x003D9}, //  ϙ # greek small letter archaic koppa
+	{"\\upstigma",0x003DB}, //  ϛ # greek small letter stigma
+	{"\\upkoppa",0x003DF}, //  ϟ # greek small letter koppa
+	{"\\upsampi",0x003E1}, //  ϡ # greek small letter sampi
+	{"\\tieconcat",0x02040}, //  ⁀ # character tie z notation sequence concatenation
+	{"\\leftharpoonaccent",0x020D0}, //  ⃐ # combining left harpoon above
+	{"\\rightharpoonaccent",0x020D1}, //  ⃑ # combining right harpoon above
+	{"\\vertoverlay",0x020D2}, //  ⃒ # combining long vertical line overlay
+	{"\\enclosecircle",0x020DD}, //  ⃝ # combining enclosing circle
+	{"\\enclosesquare",0x020DE}, //  ⃞ # combining enclosing square
+	{"\\enclosediamond",0x020DF}, //  ⃟ # combining enclosing diamond
+	{"\\enclosetriangle",0x020E4}, //  ⃤ # combining enclosing upward pointing triangle
+	{"\\annuity",0x020E7}, //  ⃧ # combining annuity symbol
+	{"\\threeunderdot",0x020E8}, //  ⃨ # combining triple underdot
+	{"\\widebridgeabove",0x020E9}, //  ⃩ # combining wide bridge above
+	{"\\underrightharpoondown",0x20EC}, //  0x20EC # combining rightwards harpoon with barb downwards
+	{"\\underleftharpoondown",0x20ED}, //  0x20ED # combining leftwards harpoon with barb downwards
+	{"\\underleftarrow",0x20EE}, //  0x20EE # combining left arrow below
+	{"\\underrightarrow",0x20EF}, //  0x20EF # combining right arrow below
+	{"\\asteraccent",0x20F0}, //  0x20F0 # combining asterisk above
+	{"\\eulermascheroni",0x02107}, //  ℇ # euler-mascheroni constant U+2107
+	{"\\planck",0x0210E}, //  ℎ # planck constant
+	{"\\turnediota",0x02129}, //  ℩ # turned iota
+	{"\\Angstrom",0x0212B}, //  Å # angstrom capital a ring
+	{"\\sansLturned",0x02142}, //  ⅂ # turned sans-serif capital l
+	{"\\sansLmirrored",0x02143}, //  ⅃ # reversed sans-serif capital l
+	{"\\PropertyLine",0x0214A}, //  ⅊ # property line
+	{"\\upand",0x0214B}, //  ⅋ # turned ampersand
+	{"\\twoheaduparrow",0x0219F}, //  ↟ # up two-headed arrow
+	{"\\twoheaddownarrow",0x021A1}, //  ↡ # down two-headed arrow
+	{"\\mapsup",0x021A5}, //  ↥ # maps to upward
+	{"\\mapsdown",0x021A7}, //  ↧ # maps to downward
+	{"\\updownarrowbar",0x021A8}, //  ↨ # up down arrow with base (perpendicular)
+	{"\\downzigzagarrow",0x021AF}, //  ↯ # downwards zigzag arrow
+	{"\\Ldsh",0x021B2}, //  ↲ # left down angled arrow
+	{"\\Rdsh",0x021B3}, //  ↳ # right down angled arrow
+	{"\\linefeed",0x021B4}, //  ↴ # rightwards arrow with corner downwards
+	{"\\carriagereturn",0x021B5}, //  ↵ # downwards arrow with corner leftward = carriage return
+	{"\\nHuparrow",0x021DE}, //  ⇞ # upwards arrow with double stroke
+	{"\\nHdownarrow",0x021DF}, //  ⇟ # downwards arrow with double stroke
+	{"\\leftdasharrow",0x021E0}, //  ⇠ # leftwards dashed arrow
+	{"\\updasharrow",0x021E1}, //  ⇡ # upwards dashed arrow
+	{"\\rightdasharrow",0x021E2}, //  ⇢ # rightwards dashed arrow
+	{"\\downdasharrow",0x021E3}, //  ⇣ # downwards dashed arrow
+	{"\\rightarrowbar",0x021E5}, //  ⇥ # rightwards arrow to bar
+	{"\\leftwhitearrow",0x021E6}, //  ⇦ # leftwards white arrow
+	{"\\upwhitearrow",0x021E7}, //  ⇧ # upwards white arrow
+	{"\\rightwhitearrow",0x021E8}, //  ⇨ # rightwards white arrow
+	{"\\downwhitearrow",0x021E9}, //  ⇩ # downwards white arrow
+	{"\\whitearrowupfrombar",0x021EA}, //  ⇪ # upwards white arrow from bar
+	{"\\circleonrightarrow",0x021F4}, //  ⇴ # right arrow with small circle
+	{"\\rightthreearrows",0x021F6}, //  ⇶ # three rightwards arrows
+	{"\\nvleftarrow",0x021F7}, //  ⇷ # leftwards arrow with vertical stroke
+	{"\\nvrightarrow",0x021F8}, //  ⇸ # rightwards arrow with vertical stroke
+	{"\\nvleftrightarrow",0x021F9}, //  ⇹ # left right arrow with vertical stroke
+	{"\\nVleftarrow",0x021FA}, //  ⇺ # leftwards arrow with double vertical stroke
+	{"\\nVrightarrow",0x021FB}, //  ⇻ # rightwards arrow with double vertical stroke
+	{"\\nVleftrightarrow",0x021FC}, //  ⇼ # left right arrow with double vertical stroke
+	{"\\increment",0x02206}, //  ∆ # laplacian (delta; nabla\string^2)
+	{"\\smallin",0x0220A}, //  ∊ # set membership (small set membership)
+	{"\\smallni",0x0220D}, //  ∍ # /ni /owns r: contains (small contains as member)
+	{"\\QED",0x0220E}, //  ∎ # end of proof
+	{"\\vysmblkcircle",0x02219}, //  ∙ # bullet operator
+	{"\\fourthroot",0x0221C}, //  ∜ # fourth root
+	{"\\dotsminusdots",0x0223A}, //  ∺ # minus with four dots geometric properties
+	{"\\arceq",0x02258}, //  ≘ # arc equals; corresponds to
+	{"\\veeeq",0x0225A}, //  ≚ # logical or equals
+	{"\\eqdef",0x0225D}, //  ≝ # equals by definition
+	{"\\measeq",0x0225E}, //  ≞ # measured by (m over equals)
+	{"\\Equiv",0x02263}, //  ≣ # strict equivalence (4 lines)
+	{"\\nasymp",0x0226D}, //  ≭ # not asymptotically equal to
+	{"\\nlesssim",0x02274}, //  ≴ # not less similar
+	{"\\ngtrsim",0x02275}, //  ≵ # not greater similar
+	{"\\circledequal",0x0229C}, //  ⊜ # equal in circle
+	{"\\prurel",0x022B0}, //  ⊰ # element precedes under relation
+	{"\\scurel",0x022B1}, //  ⊱ # succeeds under relation
+	{"\\varlrtriangle",0x022BF}, //  ⊿ # right triangle
+	{"\\equalparallel",0x022D5}, //  ⋕ # parallel equal; equal or parallel
+	{"\\eqless",0x022DC}, //  ⋜ # equal-or-less
+	{"\\eqgtr",0x022DD}, //  ⋝ # equal-or-greater
+	{"\\npreccurlyeq",0x022E0}, //  ⋠ # not precedes curly equals
+	{"\\nsucccurlyeq",0x022E1}, //  ⋡ # not succeeds curly equals
+	{"\\sqsubsetneq",0x022E4}, //  ⋤ # square subset not equals
+	{"\\sqsupsetneq",0x022E5}, //  ⋥ # square superset not equals
+	{"\\disin",0x022F2}, //  ⋲ # element of with long horizontal stroke
+	{"\\varisins",0x022F3}, //  ⋳ # element of with vertical bar at end of horizontal stroke
+	{"\\isins",0x022F4}, //  ⋴ # small element of with vertical bar at end of horizontal stroke
+	{"\\isindot",0x022F5}, //  ⋵ # element of with dot above
+	{"\\varisinobar",0x022F6}, //  ⋶ # element of with overbar
+	{"\\isinobar",0x022F7}, //  ⋷ # small element of with overbar
+	{"\\isinvb",0x022F8}, //  ⋸ # element of with underbar
+	{"\\isinE",0x022F9}, //  ⋹ # element of with two horizontal strokes
+	{"\\nisd",0x022FA}, //  ⋺ # contains with long horizontal stroke
+	{"\\varnis",0x022FB}, //  ⋻ # contains with vertical bar at end of horizontal stroke
+	{"\\nis",0x022FC}, //  ⋼ # small contains with vertical bar at end of horizontal stroke
+	{"\\varniobar",0x022FD}, //  ⋽ # contains with overbar
+	{"\\niobar",0x022FE}, //  ⋾ # small contains with overbar
+	{"\\bagmember",0x022FF}, //  ⋿ # z notation bag membership
+	{"\\house",0x02302}, //  ⌂ # house
+	{"\\vardoublebarwedge",0x02306}, //  ⌆ # /doublebarwedge b: logical and double bar above [perspective (double bar over small wedge)]
+	{"\\invnot",0x02310}, //  ⌐ # reverse not
+	{"\\sqlozenge",0x02311}, //  ⌑ # square lozenge
+	{"\\profline",0x02312}, //  ⌒ # profile of a line
+	{"\\profsurf",0x02313}, //  ⌓ # profile of a surface
+	{"\\viewdata",0x02317}, //  ⌗ # viewdata square
+	{"\\turnednot",0x02319}, //  ⌙ # turned not sign
+	{"\\varhexagonlrbonds",0x0232C}, //  ⌬ # six carbon ring corner down double bonds lower right etc
+	{"\\conictaper",0x02332}, //  ⌲ # conical taper
+	{"\\topbot",0x02336}, //  ⌶ # top and bottom
+	{"\\hexagon",0x02394}, //  ⎔ # horizontal benzene ring [hexagon flat open]
+	{"\\underbracket",0x023B5}, //  ⎵ # bottom square bracket
+	{"\\bbrktbrk",0x023B6}, //  ⎶ # bottom square bracket over top square bracket
+	{"\\lvboxline",0x023B8}, //  ⎸ # left vertical box line
+	{"\\rvboxline",0x023B9}, //  ⎹ # right vertical box line
+	{"\\varcarriagereturn",0x023CE}, //  ⏎ # return symbol
+	{"\\trapezium",0x23E2}, //  0x23E2 # white trapezium
+	{"\\benzenr",0x23E3}, //  0x23E3 # benzene ring with circle
+	{"\\strns",0x23E4}, //  0x23E4 # straightness
+	{"\\fltns",0x23E5}, //  0x23E5 # flatness
+	{"\\accurrent",0x23E6}, //  0x23E6 # ac current
+	{"\\elinters",0x23E7}, //  0x23E7 # electrical intersection
+	{"\\blanksymbol",0x02422}, //  ␢ # blank symbol
+	{"\\blockuphalf",0x02580}, //  ▀ # upper half block
+	{"\\blocklowhalf",0x02584}, //  ▄ # lower half block
+	{"\\blockfull",0x02588}, //  █ # full block
+	{"\\blocklefthalf",0x0258C}, //  ▌ # left half block
+	{"\\blockrighthalf",0x02590}, //  ▐ # right half block
+	{"\\blockqtrshaded",0x02591}, //  ░ # 25\% shaded block
+	{"\\blockhalfshaded",0x02592}, //  ▒ # 50\% shaded block
+	{"\\blockthreeqtrshaded",0x02593}, //  ▓ # 75\% shaded block
+	{"\\squoval",0x025A2}, //  ▢ # white square with rounded corners
+	{"\\blackinwhitesquare",0x025A3}, //  ▣ # white square containing black small square
+	{"\\squarehfill",0x025A4}, //  ▤ # square horizontal rule filled
+	{"\\squarevfill",0x025A5}, //  ▥ # square vertical rule filled
+	{"\\squarehvfill",0x025A6}, //  ▦ # square with orthogonal crosshatch fill
+	{"\\squarenwsefill",0x025A7}, //  ▧ # square nw-to-se rule filled
+	{"\\squareneswfill",0x025A8}, //  ▨ # square ne-to-sw rule filled
+	{"\\squarecrossfill",0x025A9}, //  ▩ # square with diagonal crosshatch fill
+	{"\\smblksquare",0x025AA}, //  ▪ # /blacksquare - sq bullet filled
+	{"\\smwhtsquare",0x025AB}, //  ▫ # white small square
+	{"\\hrectangleblack",0x025AC}, //  ▬ # black rectangle
+	{"\\hrectangle",0x025AD}, //  ▭ # horizontal rectangle open
+	{"\\vrectangleblack",0x025AE}, //  ▮ # black vertical rectangle
+	{"\\parallelogramblack",0x025B0}, //  ▰ # black parallelogram
+	{"\\parallelogram",0x025B1}, //  ▱ # parallelogram open
+	{"\\bigblacktriangleup",0x025B2}, //  ▲ # 0x25b2 6 6d black up-pointing triangle
+	{"\\blackpointerright",0x025BA}, //  ► # black right-pointing pointer
+	{"\\whitepointerright",0x025BB}, //  ▻ # white right-pointing pointer
+	{"\\bigblacktriangledown",0x025BC}, //  ▼ # big down triangle filled
+	{"\\blackpointerleft",0x025C4}, //  ◄ # black left-pointing pointer
+	{"\\whitepointerleft",0x025C5}, //  ◅ # white left-pointing pointer
+	{"\\mdlgblkdiamond",0x025C6}, //  ◆ # black diamond
+	{"\\mdlgwhtdiamond",0x025C7}, //  ◇ # white diamond; diamond open
+	{"\\blackinwhitediamond",0x025C8}, //  ◈ # white diamond containing black small diamond
+	{"\\fisheye",0x025C9}, //  ◉ # fisheye
+	{"\\dottedcircle",0x025CC}, //  ◌ # dotted circle
+	{"\\circlevertfill",0x025CD}, //  ◍ # circle with vertical fill
+	{"\\bullseye",0x025CE}, //  ◎ # bullseye
+	{"\\mdlgblkcircle",0x025CF}, //  ● # circle filled
+	{"\\circletophalfblack",0x025D3}, //  ◓ # circle filled top half
+	{"\\circleurquadblack",0x025D4}, //  ◔ # circle with upper right quadrant black
+	{"\\blackcircleulquadwhite",0x025D5}, //  ◕ # circle with all but upper left quadrant black
+	{"\\blacklefthalfcircle",0x025D6}, //  ◖ # left half black circle
+	{"\\blackrighthalfcircle",0x025D7}, //  ◗ # right half black circle
+	{"\\inversewhitecircle",0x025D9}, //  ◙ # inverse white circle
+	{"\\invwhiteupperhalfcircle",0x025DA}, //  ◚ # upper half inverse white circle
+	{"\\invwhitelowerhalfcircle",0x025DB}, //  ◛ # lower half inverse white circle
+	{"\\ularc",0x025DC}, //  ◜ # upper left quadrant circular arc
+	{"\\urarc",0x025DD}, //  ◝ # upper right quadrant circular arc
+	{"\\lrarc",0x025DE}, //  ◞ # lower right quadrant circular arc
+	{"\\llarc",0x025DF}, //  ◟ # lower left quadrant circular arc
+	{"\\topsemicircle",0x025E0}, //  ◠ # upper half circle
+	{"\\botsemicircle",0x025E1}, //  ◡ # lower half circle
+	{"\\lrblacktriangle",0x025E2}, //  ◢ # lower right triangle filled
+	{"\\llblacktriangle",0x025E3}, //  ◣ # lower left triangle filled
+	{"\\ulblacktriangle",0x025E4}, //  ◤ # upper left triangle filled
+	{"\\urblacktriangle",0x025E5}, //  ◥ # upper right triangle filled
+	{"\\smwhtcircle",0x025E6}, //  ◦ # white bullet
+	{"\\squareulblack",0x025E9}, //  ◩ # square filled top left corner
+	{"\\trianglecdot",0x025EC}, //  ◬ # triangle with centered dot
+	{"\\triangleleftblack",0x025ED}, //  ◭ # up-pointing triangle with left half black
+	{"\\trianglerightblack",0x025EE}, //  ◮ # up-pointing triangle with right half black
+	{"\\lgwhtcircle",0x025EF}, //  ◯ # large circle
+	{"\\squareulquad",0x025F0}, //  ◰ # white square with upper left quadrant
+	{"\\squarellquad",0x025F1}, //  ◱ # white square with lower left quadrant
+	{"\\squarelrquad",0x025F2}, //  ◲ # white square with lower right quadrant
+	{"\\squareurquad",0x025F3}, //  ◳ # white square with upper right quadrant
+	{"\\circleulquad",0x025F4}, //  ◴ # white circle with upper left quadrant
+	{"\\circlellquad",0x025F5}, //  ◵ # white circle with lower left quadrant
+	{"\\circlelrquad",0x025F6}, //  ◶ # white circle with lower right quadrant
+	{"\\circleurquad",0x025F7}, //  ◷ # white circle with upper right quadrant
+	{"\\ultriangle",0x025F8}, //  ◸ # upper left triangle
+	{"\\urtriangle",0x025F9}, //  ◹ # upper right triangle
+	{"\\lltriangle",0x025FA}, //  ◺ # lower left triangle
+	{"\\mdwhtsquare",0x025FB}, //  ◻ # white medium square
+	{"\\mdblksquare",0x025FC}, //  ◼ # black medium square
+	{"\\mdsmwhtsquare",0x025FD}, //  ◽ # white medium small square
+	{"\\mdsmblksquare",0x025FE}, //  ◾ # black medium small square
+	{"\\lrtriangle",0x025FF}, //  ◿ # lower right triangle
+	{"\\bigwhitestar",0x02606}, //  ☆ # star open
+	{"\\astrosun",0x02609}, //  ☉ # sun
+	{"\\danger",0x02621}, //  ☡ # dangerous bend (caution sign)
+	{"\\acidfree",0x267E}, //  0x267E # permanent paper sign
+	{"\\dicei",0x02680}, //  ⚀ # die face-1
+	{"\\diceii",0x02681}, //  ⚁ # die face-2
+	{"\\diceiii",0x02682}, //  ⚂ # die face-3
+	{"\\diceiv",0x02683}, //  ⚃ # die face-4
+	{"\\dicev",0x02684}, //  ⚄ # die face-5
+	{"\\dicevi",0x02685}, //  ⚅ # die face-6
+	{"\\circledrightdot",0x02686}, //  ⚆ # white circle with dot right
+	{"\\circledtwodots",0x02687}, //  ⚇ # white circle with two dots
+	{"\\blackcircledrightdot",0x02688}, //  ⚈ # black circle with white dot right
+	{"\\blackcircledtwodots",0x02689}, //  ⚉ # black circle with two white dots
+	{"\\hermaphrodite",0x26A5}, //  0x26A5 # male and female sign
+	{"\\mdwhtcircle",0x26AA}, //  0x26AA # medium white circle
+	{"\\mdblkcircle",0x26AB}, //  0x26AB # medium black circle
+	{"\\mdsmwhtcircle",0x26AC}, //  0x26AC # medium small white circle
+	{"\\neuter",0x26B2}, //  0x26B2 # neuter
+	{"\\circledstar",0x0272A}, //  ✪ # circled white star
+	{"\\varstar",0x02736}, //  ✶ # six pointed black star
+	{"\\dingasterisk",0x0273D}, //  ✽ # heavy teardrop-spoked asterisk
+	{"\\draftingarrow",0x0279B}, //  ➛ # right arrow with bold head (drafting)
+	{"\\threedangle",0x27C0}, //  0x27C0 # three dimensional angle
+	{"\\whiteinwhitetriangle",0x27C1}, //  0x27C1 # white triangle containing small white triangle
+	{"\\bsolhsub",0x27C8}, //  0x27C8 # reverse solidus preceding subset
+	{"\\suphsol",0x27C9}, //  0x27C9 # superset preceding solidus
+	{"\\wedgedot",0x027D1}, //  ⟑ # and with dot
+	{"\\veedot",0x027C7}, //  ⟇ # or with dot
+	{"\\upin",0x027D2}, //  ⟒ # element of opening upwards
+	{"\\bigbot",0x027D8}, //  ⟘ # large up tack
+	{"\\bigtop",0x027D9}, //  ⟙ # large down tack
+	{"\\UUparrow",0x027F0}, //  ⟰ # upwards quadruple arrow
+	{"\\DDownarrow",0x027F1}, //  ⟱ # downwards quadruple arrow
+	{"\\longrightsquigarrow",0x027FF}, //  ⟿ # long rightwards squiggle arrow
+	{"\\nvtwoheadrightarrow",0x02900}, //  ⤀ # rightwards two-headed arrow with vertical stroke
+	{"\\nVtwoheadrightarrow",0x02901}, //  ⤁ # rightwards two-headed arrow with double vertical stroke
+	{"\\nvLeftarrow",0x02902}, //  ⤂ # leftwards double arrow with vertical stroke
+	{"\\nvRightarrow",0x02903}, //  ⤃ # rightwards double arrow with vertical stroke
+	{"\\nvLeftrightarrow",0x02904}, //  ⤄ # left right double arrow with vertical stroke
+	{"\\twoheadmapsto",0x02905}, //  ⤅ # rightwards two-headed arrow from bar
+	{"\\downarrowbarred",0x02908}, //  ⤈ # downwards arrow with horizontal stroke
+	{"\\uparrowbarred",0x02909}, //  ⤉ # upwards arrow with horizontal stroke
+	{"\\leftbkarrow",0x0290C}, //  ⤌ # leftwards double dash arrow
+	{"\\leftdbkarrow",0x0290E}, //  ⤎ # leftwards triple dash arrow
+	{"\\rightdotarrow",0x02911}, //  ⤑ # rightwards arrow with dotted stem
+	{"\\nvrightarrowtail",0x02914}, //  ⤔ # rightwards arrow with tail with vertical stroke
+	{"\\nVrightarrowtail",0x02915}, //  ⤕ # rightwards arrow with tail with double vertical stroke
+	{"\\nvtwoheadrightarrowtail",0x02917}, //  ⤗ # rightwards two-headed arrow with tail with vertical stroke
+	{"\\nVtwoheadrightarrowtail",0x02918}, //  ⤘ # rightwards two-headed arrow with tail with double vertical stroke
+	{"\\diamondleftarrow",0x0291D}, //  ⤝ # leftwards arrow to black diamond
+	{"\\rightarrowdiamond",0x0291E}, //  ⤞ # rightwards arrow to black diamond
+	{"\\diamondleftarrowbar",0x0291F}, //  ⤟ # leftwards arrow from bar to black diamond
+	{"\\rightarrowplus",0x02945}, //  ⥅ # rightwards arrow with plus below
+	{"\\leftarrowplus",0x02946}, //  ⥆ # leftwards arrow with plus below
+	{"\\leftrightarrowcircle",0x02948}, //  ⥈ # left right arrow through small circle
+	{"\\twoheaduparrowcircle",0x02949}, //  ⥉ # upwards two-headed arrow from small circle
+	{"\\leftrightharpoonupdown",0x0294A}, //  ⥊ # left barb up right barb down harpoon
+	{"\\leftrightharpoondownup",0x0294B}, //  ⥋ # left barb down right barb up harpoon
+	{"\\updownharpoonrightleft",0x0294C}, //  ⥌ # up barb right down barb left harpoon
+	{"\\updownharpoonleftright",0x0294D}, //  ⥍ # up barb left down barb right harpoon
+	{"\\leftharpoonsupdown",0x02962}, //  ⥢ # leftwards harpoon with barb up above leftwards harpoon with barb down
+	{"\\upharpoonsleftright",0x02963}, //  ⥣ # upwards harpoon with barb left beside upwards harpoon with barb right
+	{"\\rightharpoonsupdown",0x02964}, //  ⥤ # rightwards harpoon with barb up above rightwards harpoon with barb down
+	{"\\downharpoonsleftright",0x02965}, //  ⥥ # downwards harpoon with barb left beside downwards harpoon with barb right
+	{"\\leftrightharpoonsup",0x02966}, //  ⥦ # leftwards harpoon with barb up above rightwards harpoon with barb up
+	{"\\leftrightharpoonsdown",0x02967}, //  ⥧ # leftwards harpoon with barb down above rightwards harpoon with barb down
+	{"\\rightleftharpoonsup",0x02968}, //  ⥨ # rightwards harpoon with barb up above leftwards harpoon with barb up
+	{"\\rightleftharpoonsdown",0x02969}, //  ⥩ # rightwards harpoon with barb down above leftwards harpoon with barb down
+	{"\\leftharpoonupdash",0x0296A}, //  ⥪ # leftwards harpoon with barb up above long dash
+	{"\\dashleftharpoondown",0x0296B}, //  ⥫ # leftwards harpoon with barb down below long dash
+	{"\\rightharpoonupdash",0x0296C}, //  ⥬ # rightwards harpoon with barb up above long dash
+	{"\\dashrightharpoondown",0x0296D}, //  ⥭ # rightwards harpoon with barb down below long dash
+	{"\\measuredangleleft",0x0299B}, //  ⦛ # measured angle opening left
+	{"\\rightanglemdot",0x0299D}, //  ⦝ # measured right angle with dot
+	{"\\angles",0x0299E}, //  ⦞ # angle with s inside
+	{"\\angdnr",0x0299F}, //  ⦟ # acute angle
+	{"\\sphericalangleup",0x029A1}, //  ⦡ # spherical angle opening up
+	{"\\turnangle",0x029A2}, //  ⦢ # turned angle
+	{"\\revangle",0x029A3}, //  ⦣ # reversed angle
+	{"\\angleubar",0x029A4}, //  ⦤ # angle with underbar
+	{"\\revangleubar",0x029A5}, //  ⦥ # reversed angle with underbar
+	{"\\wideangledown",0x029A6}, //  ⦦ # oblique angle opening up
+	{"\\wideangleup",0x029A7}, //  ⦧ # oblique angle opening down
+	{"\\measanglerutone",0x029A8}, //  ⦨ # measured angle with open arm ending in arrow pointing up and right
+	{"\\measanglelutonw",0x029A9}, //  ⦩ # measured angle with open arm ending in arrow pointing up and left
+	{"\\measanglerdtose",0x029AA}, //  ⦪ # measured angle with open arm ending in arrow pointing down and right
+	{"\\measangleldtosw",0x029AB}, //  ⦫ # measured angle with open arm ending in arrow pointing down and left
+	{"\\measangleurtone",0x029AC}, //  ⦬ # measured angle with open arm ending in arrow pointing right and up
+	{"\\measangleultonw",0x029AD}, //  ⦭ # measured angle with open arm ending in arrow pointing left and up
+	{"\\measangledrtose",0x029AE}, //  ⦮ # measured angle with open arm ending in arrow pointing right and down
+	{"\\measangledltosw",0x029AF}, //  ⦯ # measured angle with open arm ending in arrow pointing left and down
+	{"\\revemptyset",0x029B0}, //  ⦰ # reversed empty set
+	{"\\emptysetobar",0x029B1}, //  ⦱ # empty set with overbar
+	{"\\emptysetocirc",0x029B2}, //  ⦲ # empty set with small circle above
+	{"\\emptysetoarr",0x029B3}, //  ⦳ # empty set with right arrow above
+	{"\\emptysetoarrl",0x029B4}, //  ⦴ # empty set with left arrow above
+	{"\\circledparallel",0x029B7}, //  ⦷ # circled parallel
+	{"\\odotslashdot",0x029BC}, //  ⦼ # circled anticlockwise-rotated division sign
+	{"\\circledwhitebullet",0x029BE}, //  ⦾ # circled white bullet
+	{"\\circledbullet",0x029BF}, //  ⦿ # circled bullet
+	{"\\olessthan",0x029C0}, //  ⧀ # circled less-than
+	{"\\ogreaterthan",0x029C1}, //  ⧁ # circled greater-than
+	{"\\lrtriangleeq",0x029E1}, //  ⧡ # increases as
+	{"\\eparsl",0x029E3}, //  ⧣ # equals sign and slanted parallel
+	{"\\smeparsl",0x029E4}, //  ⧤ # equals sign and slanted parallel with tilde above
+	{"\\eqvparsl",0x029E5}, //  ⧥ # identical to and slanted parallel
+	{"\\dsol",0x029F6}, //  ⧶ # solidus with overbar
+	{"\\rsolbar",0x029F7}, //  ⧷ # reverse solidus with horizontal stroke
+	{"\\doubleplus",0x029FA}, //  ⧺ # double plus
+	{"\\tripleplus",0x029FB}, //  ⧻ # triple plus
+	{"\\modtwosum",0x02A0A}, //  ⨊ # modulo two sum
+	{"\\cirfnint",0x02A10}, //  ⨐ # circulation function
+	{"\\awint",0x02A11}, //  ⨑ # anticlockwise integration
+	{"\\rppolint",0x02A12}, //  ⨒ # line integration with rectangular path around pole
+	{"\\scpolint",0x02A13}, //  ⨓ # line integration with semicircular path around pole
+	{"\\npolint",0x02A14}, //  ⨔ # line integration not including the pole
+	{"\\pointint",0x02A15}, //  ⨕ # integral around a point operator
+	{"\\ringplus",0x02A22}, //  ⨢ # plus sign with small circle above
+	{"\\plushat",0x02A23}, //  ⨣ # plus sign with circumflex accent above
+	{"\\simplus",0x02A24}, //  ⨤ # plus sign with tilde above
+	{"\\plussim",0x02A26}, //  ⨦ # plus sign with tilde below
+	{"\\plussubtwo",0x02A27}, //  ⨧ # plus sign with subscript two
+	{"\\plustrif",0x02A28}, //  ⨨ # plus sign with black triangle
+	{"\\commaminus",0x02A29}, //  ⨩ # minus sign with comma above
+	{"\\opluslhrim",0x02A2D}, //  ⨭ # plus sign in left half circle
+	{"\\oplusrhrim",0x02A2E}, //  ⨮ # plus sign in right half circle
+	{"\\dottimes",0x02A30}, //  ⨰ # multiplication sign with dot above
+	{"\\timesbar",0x02A31}, //  ⨱ # multiplication sign with underbar
+	{"\\smashtimes",0x02A33}, //  ⨳ # smash product
+	{"\\otimeslhrim",0x02A34}, //  ⨴ # multiplication sign in left half circle
+	{"\\otimesrhrim",0x02A35}, //  ⨵ # multiplication sign in right half circle
+	{"\\otimeshat",0x02A36}, //  ⨶ # circled multiplication sign with circumflex accent
+	{"\\Otimes",0x02A37}, //  ⨷ # multiplication sign in double circle
+	{"\\odiv",0x02A38}, //  ⨸ # circled division sign
+	{"\\triangleplus",0x02A39}, //  ⨹ # plus sign in triangle
+	{"\\triangleminus",0x02A3A}, //  ⨺ # minus sign in triangle
+	{"\\triangletimes",0x02A3B}, //  ⨻ # multiplication sign in triangle
+	{"\\capdot",0x02A40}, //  ⩀ # intersection with dot
+	{"\\uminus",0x02A41}, //  ⩁ # union with minus sign
+	{"\\capwedge",0x02A44}, //  ⩄ # intersection with logical and
+	{"\\cupvee",0x02A45}, //  ⩅ # union with logical or
+	{"\\twocups",0x02A4A}, //  ⩊ # union beside and joined with union
+	{"\\twocaps",0x02A4B}, //  ⩋ # intersection beside and joined with intersection
+	{"\\closedvarcup",0x02A4C}, //  ⩌ # closed union with serifs
+	{"\\closedvarcap",0x02A4D}, //  ⩍ # closed intersection with serifs
+	{"\\Sqcap",0x02A4E}, //  ⩎ # double square intersection
+	{"\\Sqcup",0x02A4F}, //  ⩏ # double square union
+	{"\\closedvarcupsmashprod",0x02A50}, //  ⩐ # closed union with serifs and smash product
+	{"\\wedgeodot",0x02A51}, //  ⩑ # logical and with dot above
+	{"\\veeodot",0x02A52}, //  ⩒ # logical or with dot above
+	{"\\wedgeonwedge",0x02A55}, //  ⩕ # two intersecting logical and
+	{"\\bigslopedvee",0x02A57}, //  ⩗ # sloping large or
+	{"\\bigslopedwedge",0x02A58}, //  ⩘ # sloping large and
+	{"\\wedgemidvert",0x02A5A}, //  ⩚ # logical and with middle stem
+	{"\\veemidvert",0x02A5B}, //  ⩛ # logical or with middle stem
+	{"\\midbarwedge",0x02A5C}, //  ⩜ # ogical and with horizontal dash
+	{"\\midbarvee",0x02A5D}, //  ⩝ # logical or with horizontal dash
+	{"\\wedgedoublebar",0x02A60}, //  ⩠ # logical and with double underbar
+	{"\\varveebar",0x02A61}, //  ⩡ # small vee with underbar
+	{"\\doublebarvee",0x02A62}, //  ⩢ # logical or with double overbar
+	{"\\veedoublebar",0x02A63}, //  ⩣ # logical or with double underbar
+	{"\\eqdot",0x02A66}, //  ⩦ # equals sign with dot below
+	{"\\dotequiv",0x02A67}, //  ⩧ # identical with dot above
+	{"\\dotsim",0x02A6A}, //  ⩪ # tilde operator with dot above
+	{"\\simrdots",0x02A6B}, //  ⩫ # tilde operator with rising dots
+	{"\\simminussim",0x02A6C}, //  ⩬ # similar minus similar
+	{"\\congdot",0x02A6D}, //  ⩭ # congruent with dot above
+	{"\\asteq",0x02A6E}, //  ⩮ # equals with asterisk
+	{"\\hatapprox",0x02A6F}, //  ⩯ # almost equal to with circumflex accent
+	{"\\approxeqq",0x02A70}, //  ⩰ # approximately equal or equal to
+	{"\\eqqplus",0x02A71}, //  ⩱ # equals sign above plus sign
+	{"\\pluseqq",0x02A72}, //  ⩲ # plus sign above equals sign
+	{"\\eqqsim",0x02A73}, //  ⩳ # equals sign above tilde operator
+	{"\\Coloneq",0x02A74}, //  ⩴ # double colon equal
+	{"\\eqeqeq",0x02A76}, //  ⩶ # three consecutive equals signs
+	{"\\equivDD",0x02A78}, //  ⩸ # equivalent with four dots above
+	{"\\ltcir",0x02A79}, //  ⩹ # less-than with circle inside
+	{"\\gtcir",0x02A7A}, //  ⩺ # greater-than with circle inside
+	{"\\ltquest",0x02A7B}, //  ⩻ # less-than with question mark above
+	{"\\gtquest",0x02A7C}, //  ⩼ # greater-than with question mark above
+	{"\\lesdot",0x02A7F}, //  ⩿ # less-than or slanted equal to with dot inside
+	{"\\gesdot",0x02A80}, //  ⪀ # greater-than or slanted equal to with dot inside
+	{"\\lesdoto",0x02A81}, //  ⪁ # less-than or slanted equal to with dot above
+	{"\\gesdoto",0x02A82}, //  ⪂ # greater-than or slanted equal to with dot above
+	{"\\lesdotor",0x02A83}, //  ⪃ # less-than or slanted equal to with dot above right
+	{"\\gesdotol",0x02A84}, //  ⪄ # greater-than or slanted equal to with dot above left
+	{"\\lsime",0x02A8D}, //  ⪍ # less-than above similar or equal
+	{"\\gsime",0x02A8E}, //  ⪎ # greater-than above similar or equal
+	{"\\lsimg",0x02A8F}, //  ⪏ # less-than above similar above greater-than
+	{"\\gsiml",0x02A90}, //  ⪐ # greater-than above similar above less-than
+	{"\\lgE",0x02A91}, //  ⪑ # less-than above greater-than above double-line equal
+	{"\\glE",0x02A92}, //  ⪒ # greater-than above less-than above double-line equal
+	{"\\lesges",0x02A93}, //  ⪓ # less-than above slanted equal above greater-than above slanted equal
+	{"\\gesles",0x02A94}, //  ⪔ # greater-than above slanted equal above less-than above slanted equal
+	{"\\elsdot",0x02A97}, //  ⪗ # slanted equal to or less-than with dot inside
+	{"\\egsdot",0x02A98}, //  ⪘ # slanted equal to or greater-than with dot inside
+	{"\\eqqless",0x02A99}, //  ⪙ # double-line equal to or less-than
+	{"\\eqqgtr",0x02A9A}, //  ⪚ # double-line equal to or greater-than
+	{"\\eqqslantless",0x02A9B}, //  ⪛ # double-line slanted equal to or less-than
+	{"\\eqqslantgtr",0x02A9C}, //  ⪜ # double-line slanted equal to or greater-than
+	{"\\simless",0x02A9D}, //  ⪝ # similar or less-than
+	{"\\simgtr",0x02A9E}, //  ⪞ # similar or greater-than
+	{"\\simlE",0x02A9F}, //  ⪟ # similar above less-than above equals sign
+	{"\\simgE",0x02AA0}, //  ⪠ # similar above greater-than above equals sign
+	{"\\glj",0x02AA4}, //  ⪤ # greater-than overlapping less-than
+	{"\\gla",0x02AA5}, //  ⪥ # greater-than beside less-than
+	{"\\ltcc",0x02AA6}, //  ⪦ # less-than closed by curve
+	{"\\gtcc",0x02AA7}, //  ⪧ # greater-than closed by curve
+	{"\\lescc",0x02AA8}, //  ⪨ # less-than closed by curve above slanted equal
+	{"\\gescc",0x02AA9}, //  ⪩ # greater-than closed by curve above slanted equal
+	{"\\smt",0x02AAA}, //  ⪪ # smaller than
+	{"\\lat",0x02AAB}, //  ⪫ # larger than
+	{"\\smte",0x02AAC}, //  ⪬ # smaller than or equal to
+	{"\\late",0x02AAD}, //  ⪭ # larger than or equal to
+	{"\\precneq",0x02AB1}, //  ⪱ # precedes above single-line not equal to
+	{"\\succneq",0x02AB2}, //  ⪲ # succeeds above single-line not equal to
+	{"\\Prec",0x02ABB}, //  ⪻ # double precedes
+	{"\\Succ",0x02ABC}, //  ⪼ # double succeeds
+	{"\\subsetdot",0x02ABD}, //  ⪽ # subset with dot
+	{"\\supsetdot",0x02ABE}, //  ⪾ # superset with dot
+	{"\\subsetplus",0x02ABF}, //  ⪿ # subset with plus sign below
+	{"\\supsetplus",0x02AC0}, //  ⫀ # superset with plus sign below
+	{"\\submult",0x02AC1}, //  ⫁ # subset with multiplication sign below
+	{"\\supmult",0x02AC2}, //  ⫂ # superset with multiplication sign below
+	{"\\subedot",0x02AC3}, //  ⫃ # subset of or equal to with dot above
+	{"\\supedot",0x02AC4}, //  ⫄ # superset of or equal to with dot above
+	{"\\subsim",0x02AC7}, //  ⫇ # subset of above tilde operator
+	{"\\supsim",0x02AC8}, //  ⫈ # superset of above tilde operator
+	{"\\subsetapprox",0x02AC9}, //  ⫉ # subset of above almost equal to
+	{"\\supsetapprox",0x02ACA}, //  ⫊ # superset of above almost equal to
+	{"\\lsqhook",0x02ACD}, //  ⫍ # square left open box operator
+	{"\\rsqhook",0x02ACE}, //  ⫎ # square right open box operator
+	{"\\csub",0x02ACF}, //  ⫏ # closed subset
+	{"\\csup",0x02AD0}, //  ⫐ # closed superset
+	{"\\csube",0x02AD1}, //  ⫑ # closed subset or equal to
+	{"\\csupe",0x02AD2}, //  ⫒ # closed superset or equal to
+	{"\\subsup",0x02AD3}, //  ⫓ # subset above superset
+	{"\\supsub",0x02AD4}, //  ⫔ # superset above subset
+	{"\\subsub",0x02AD5}, //  ⫕ # subset above subset
+	{"\\supsup",0x02AD6}, //  ⫖ # superset above superset
+	{"\\suphsub",0x02AD7}, //  ⫗ # superset beside subset
+	{"\\supdsub",0x02AD8}, //  ⫘ # superset beside and joined by dash with subset
+	{"\\forkv",0x02AD9}, //  ⫙ # element of opening downwards
+	{"\\lllnest",0x02AF7}, //  ⫷ # stacked very much less-than
+	{"\\gggnest",0x02AF8}, //  ⫸ # stacked very much greater-than
+	{"\\leqqslant",0x02AF9}, //  ⫹ # double-line slanted less-than or equal to
+	{"\\geqqslant",0x02AFA}, //  ⫺ # double-line slanted greater-than or equal to
+	{"\\squaretopblack",0x2B12}, //  0x2B12 # square with top half black
+	{"\\squarebotblack",0x2B13}, //  0x2B13 # square with bottom half black
+	{"\\squareurblack",0x2B14}, //  0x2B14 # square with upper right diagonal half black
+	{"\\squarellblack",0x2B15}, //  0x2B15 # square with lower left diagonal half black
+	{"\\diamondleftblack",0x2B16}, //  0x2B16 # diamond with left half black
+	{"\\diamondrightblack",0x2B17}, //  0x2B17 # diamond with right half black
+	{"\\diamondtopblack",0x2B18}, //  0x2B18 # diamond with top half black
+	{"\\diamondbotblack",0x2B19}, //  0x2B19 # diamond with bottom half black
+	{"\\dottedsquare",0x2B1A}, //  0x2B1A # dotted square
+	{"\\lgblksquare",0x2B1B}, //  0x2B1B # black large square
+	{"\\lgwhtsquare",0x2B1C}, //  0x2B1C # white large square
+	{"\\vysmblksquare",0x2B1D}, //  0x2B1D # black very small square
+	{"\\vysmwhtsquare",0x2B1E}, //  0x2B1E # white very small square
+	{"\\pentagonblack",0x2B1F}, //  0x2B1F # black pentagon
+	{"\\pentagon",0x2B20}, //  0x2B20 # white pentagon
+	{"\\varhexagon",0x2B21}, //  0x2B21 # white hexagon
+	{"\\varhexagonblack",0x2B22}, //  0x2B22 # black hexagon
+	{"\\hexagonblack",0x2B23}, //  0x2B23 # horizontal black hexagon
+	{"\\lgblkcircle",0x2B24}, //  0x2B24 # black large circle
+	{"\\mdblkdiamond",0x2B25}, //  0x2B25 # black medium diamond
+	{"\\mdwhtdiamond",0x2B26}, //  0x2B26 # white medium diamond
+	{"\\mdblklozenge",0x2B27}, //  0x2B27 # black medium lozenge
+	{"\\mdwhtlozenge",0x2B28}, //  0x2B28 # white medium lozenge
+	{"\\smblkdiamond",0x2B29}, //  0x2B29 # black small diamond
+	{"\\smblklozenge",0x2B2A}, //  0x2B2A # black small lozenge
+	{"\\smwhtlozenge",0x2B2B}, //  0x2B2B # white small lozenge
+	{"\\blkhorzoval",0x2B2C}, //  0x2B2C # black horizontal ellipse
+	{"\\whthorzoval",0x2B2D}, //  0x2B2D # white horizontal ellipse
+	{"\\blkvertoval",0x2B2E}, //  0x2B2E # black vertical ellipse
+	{"\\whtvertoval",0x2B2F}, //  0x2B2F # white vertical ellipse
+	{"\\circleonleftarrow",0x2B30}, //  0x2B30 # left arrow with small circle
+	{"\\leftthreearrows",0x2B31}, //  0x2B31 # three leftwards arrows
+	{"\\leftarrowonoplus",0x2B32}, //  0x2B32 # left arrow with circled plus
+	{"\\longleftsquigarrow",0x2B33}, //  0x2B33 # long leftwards squiggle arrow
+	{"\\nvtwoheadleftarrow",0x2B34}, //  0x2B34 # leftwards two-headed arrow with vertical stroke
+	{"\\nVtwoheadleftarrow",0x2B35}, //  0x2B35 # leftwards two-headed arrow with double vertical stroke
+	{"\\twoheadmapsfrom",0x2B36}, //  0x2B36 # leftwards two-headed arrow from bar
+	{"\\twoheadleftdbkarrow",0x2B37}, //  0x2B37 # leftwards two-headed triple-dash arrow
+	{"\\leftdotarrow",0x2B38}, //  0x2B38 # leftwards arrow with dotted stem
+	{"\\nvleftarrowtail",0x2B39}, //  0x2B39 # leftwards arrow with tail with vertical stroke
+	{"\\nVleftarrowtail",0x2B3A}, //  0x2B3A # leftwards arrow with tail with double vertical stroke
+	{"\\twoheadleftarrowtail",0x2B3B}, //  0x2B3B # leftwards two-headed arrow with tail
+	{"\\nvtwoheadleftarrowtail",0x2B3C}, //  0x2B3C # leftwards two-headed arrow with tail with vertical stroke
+	{"\\nVtwoheadleftarrowtail",0x2B3D}, //  0x2B3D # leftwards two-headed arrow with tail with double vertical stroke
+	{"\\leftarrowx",0x2B3E}, //  0x2B3E # leftwards arrow through x
+	{"\\leftcurvedarrow",0x2B3F}, //  0x2B3F # wave arrow pointing directly left
+	{"\\equalleftarrow",0x2B40}, //  0x2B40 # equals sign above leftwards arrow
+	{"\\bsimilarleftarrow",0x2B41}, //  0x2B41 # reverse tilde operator above leftwards arrow
+	{"\\leftarrowbackapprox",0x2B42}, //  0x2B42 # leftwards arrow above reverse almost equal to
+	{"\\rightarrowgtr",0x2B43}, //  0x2B43 # rightwards arrow through greater-than
+	{"\\leftarrowless",0x2977}, //  0x2977 # leftwards arrow through less-than
+	{"\\rightarrowsupset",0x2B44}, //  0x2B44 # rightwards arrow through superset
+	{"\\leftarrowsubset",0x297A}, //  0x297A # leftwards arrow through subset
+	{"\\LLeftarrow",0x2B45}, //  0x2B45 # leftwards quadruple arrow
+	{"\\RRightarrow",0x2B46}, //  0x2B46 # rightwards quadruple arrow
+	{"\\bsimilarrightarrow",0x2B47}, //  0x2B47 # reverse tilde operator above rightwards arrow
+	{"\\rightarrowbackapprox",0x2B48}, //  0x2B48 # rightwards arrow above reverse almost equal to
+	{"\\similarleftarrow",0x2B49}, //  0x2B49 # tilde operator above leftwards arrow
+	{"\\leftarrowapprox",0x2B4A}, //  0x2B4A # leftwards arrow above almost equal to
+	{"\\leftarrowbsimilar",0x2B4B}, //  0x2B4B # leftwards arrow above reverse tilde operator
+	{"\\rightarrowbsimilar",0x2B4C}, //  0x2B4C # righttwards arrow above reverse tilde operator
+	{"\\medwhitestar",0x2B50}, //  0x2B50 # white medium star
+	{"\\medblackstar",0x2B51}, //  0x2B51 # black medium star
+	{"\\smwhitestar",0x2B52}, //  0x2B52 # white small star
+	{"\\rightpentagonblack",0x2B53}, //  0x2B53 # black right-pointing pentagon
+	{"\\rightpentagon",0x2B54}, //  0x2B54 # white right-pointing pentagon
+	{"\\postalmark",0x03012}, //  〒 # postal mark
+	
 	{NULL,                     0x00000},
 };
 const Symbol * TEXPRINTF_SYMBOLS=Symbols;

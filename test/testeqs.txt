@@ -508,7 +508,8 @@ An Identity of Ramanujan
 
 A Rogers-Ramanujan Identity. 
 Issue: utftex does not switch to a math environment from within a \text{}
-modified \text{for $|q|<1$} to \text{for} |q|<1
+Should be fixed now, try that below!
+First the modified version with \text{for $|q|<1$} replaced with \text{for} |q|<1
 <input> Rogers-Ramanujan
 1 + \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for} |q|<1. 
 <ref> |-S
@@ -523,7 +524,28 @@ modified \text{for $|q|<1$} to \text{for} |q|<1
     (1-q)          2     j=0    5j+2     5j+3
           (1-q)(1-q )       (1-q    )(1-q    )
 <end>
-
+A Rogers-Ramanujan Identity. 
+here the original version
+<input> Rogers-Ramanujan2
+1 + \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots = \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad \text{for $|q|<1$}. 
+<ref> |-S
+                          ∞
+      q²       q⁶        ┬─┬        1
+1 + ─────+───────────+⋯= │ │──────────────────,      for |q|<1.
+    (1-q) (1-q)(1-q²)    ʲ⁼⁰(1-q⁵ʲ⁺²)(1-q⁵ʲ⁺³)
+<ref> -A
+       2        6         ∞
+      q        q         +-+        1
+1 + -----+-----------+⋯= | |------------------,      for |q|<1.
+    (1-q)          2     j=0    5j+2     5j+3
+          (1-q)(1-q )       (1-q    )(1-q    )
+<ref> -F mathnormal
+                          ∞
+      𝑞²       𝑞⁶        ┬─┬        1
+1 + ─────+───────────+⋯= │ │──────────────────,      for |𝑞|<1.
+    (1-𝑞) (1-𝑞)(1-𝑞²)    𝑗=0    5𝑗+2     5𝑗+3
+                            (1-𝑞    )(1-𝑞    )
+<end>
 Maxwell’s Equations
 <input> Maxwell
 \begin{aligned}

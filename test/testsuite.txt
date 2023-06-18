@@ -616,3 +616,61 @@ test argument parsing
 -
 α
 <end>
+
+test greedy operators
+<input> greedyover
+a + b\over c
+<ref>  | -S | -m
+a + b
+─────
+  c
+<ref> -A
+a + b
+-----
+  c
+<end>
+
+<input> greedyover2
+{a + b\over c} + d
+<ref>  | -S | -m
+a + b
+───── + d
+  c
+<ref> -A
+a + b
+----- + d
+  c
+<end>
+
+test whether nested brackets are processed correctly
+<input> greedyover3
+{a {+} b\over c} + d
+<ref>  | -S | -m
+a + b
+───── + d
+  c
+<ref> -A
+a + b
+----- + d
+  c
+<end>
+
+ambigous input. libtexprintf lets
+\over precede over \choose
+and the first appearance over any subsequent
+Note that latex throws and error and tells you it is ambiguous...
+<input> greedyoverchoose
+a\choose b+s\over d
+<ref>  | -S | -m
+⎛ a ⎞
+⎜   ⎟
+⎝b+s⎠
+─────
+  d
+<ref> -A
+/ a \
+|   |
+\b+s/
+-----
+  d
+<end>

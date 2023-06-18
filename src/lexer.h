@@ -124,6 +124,6 @@ TOKEN Lexer(char *begin, FONT F);
 void FreeToken(TOKEN T);
 void PrintToken(TOKEN T);
 char * Unicode2Utf8(int U);
-char * PreProcessor(char *string);
+char * PreProcessor(char *string2);
 PRSDEF  LookupFont(char *begin);
 SCALABLE_DELIMITER LookupDelimiter(char *begin, char **del);

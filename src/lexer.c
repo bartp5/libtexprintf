@@ -427,7 +427,7 @@ void PeekAhead(TOKEN *T, char *begin)
 			begin+=strlen(K.name);
 			T->limits=1;
 			break;
-		case PD_OVER: /* same as \frac but then after the fact */
+		case PD_OVER: /* same as \frac but then after the fact. BUG: in tex this command is greedy but this implementation is not! */
 		{
 			char *str, *p, *b;
 			T->P=PD_FRAC;
@@ -509,7 +509,7 @@ void PeekAhead(TOKEN *T, char *begin)
 			PeekAhead(T, begin);
 			return;
 		}
-		case PD_CHOOSE: /* same as \frac but then after the fact */
+		case PD_CHOOSE: /* same as \frac but then after the fact.  BUG: in tex this command is greedy but this implementation is not! */
 		{
 			char *str, *p, *b;
 			T->P=PD_BINOM;
@@ -1635,8 +1635,159 @@ TOKEN Lexer(char *begin, FONT F)
 		return BeginEnv(T);
 	return T;
 }
-char * PreProcessor(char *string)
-/* process all symbols */
+
+/* the tex operators '\over' and '\choose' work very different from most operators 
+ * as the arguments are not after the command, like, e.g. \frac{a}{b}.
+ * I treat these commands like I treat '^' and '_', which are also inbetween the 
+ * arguments they work on. However, unlike '^' and '_', \over and \choose are greedy,
+ * that is:
+ * a + b \over c
+ * means (a+b)/c and not a + b/c
+ *
+ * I use the following function to make operators greedy. It processes the input to 
+ * change
+ * a + b\over c
+ * into
+ * {a + b}\over {c}
+ * 
+ * Note that this approach is not very efficient but given I only know of \over 
+ * and \choose to work this way I figure we're good.
+ * 
+ * Note, the followingt is ambiguous
+ * 
+ * a \choose b + c\choose d
+ * 
+ * do you want {a \choose b + c}\choose d:
+ * 
+ * ⎛⎛  a  ⎞⎞
+ * ⎜⎜     ⎟⎟
+ * ⎜⎝b + c⎠⎟
+ * ⎜       ⎟
+ * ⎝   d   ⎠
+ * 
+ * or a \choose {b + c\choose d}:
+ * 
+ * ⎛   a   ⎞
+ * ⎜       ⎟
+ * ⎜⎛b + c⎞⎟
+ * ⎜⎜     ⎟⎟
+ * ⎝⎝  d  ⎠⎠
+ * 
+ * Latex throws an error
+ * my greedy routine is not that smart and as a resuylt I simply have an order of presedence
+ * where \over precedes over \choose (always) and the first appearance over any subsequent.
+ * i.e.
+ * 
+ * a \choose b + c\choose d
+ * is processed as:
+ * {a }\choose {{b + c}\choose {d}}:
+ * and 
+ * a \choose b + c\over d
+ * as
+ * {{a }\choose {b + c}}\over {d}:
+ * 
+ * The routine reallocates the input string to make space for inserted braces
+ */
+char *PreProcessGreedyOverLikeOperator(char *string, const char *op, int nop)
+{
+	int p,q,end,e,s;
+	int na;
+	na=strlen(string)+1;	
+	p=0;
+	end=na-1;
+
+	while (string[p])
+	{
+		if (strncmp(string+p, op,nop)==0)
+		{
+			if (((string[p+nop]>='A')&&(string[p+nop]<='Z'))||((string[p+nop]>='a')&&(string[p+nop]<='z')))
+				break;
+			// check for closing bracket before
+			q=p-1;
+			if (string[q]!='}')
+			{
+				int brac=1;
+				// insert brackets to make over greedy
+				e=p; // end				
+				s=q; // start
+				while ((s>0)&&(brac>0))
+				{
+					s--;
+					if (string[s]=='{')
+						brac--;
+					if (string[s]=='}')
+						brac++;
+				}
+				
+				// add two characters
+				na+=2;
+				string=realloc(string,na*sizeof(char));
+				q=end;
+				end+=2;
+				p+=2; // increment ref position
+				while (q>=e)
+				{
+					string[q+2]=string[q];
+					q--;
+				}
+				string[q+2]='}';
+				while (q>=s)
+				{
+					string[q+1]=string[q];
+					q--;
+				}
+				string[s]='{';
+			}
+				
+			// check for opening bracket after
+			q=p+nop;
+			if ((string[q]==' ')&&(q<end))
+				q++;
+					
+			if (string[q]!='{')
+			{
+				int brac=1;
+				// insert brackets to make over greedy
+				s=q; // start
+				
+				e=q;
+				while ((e<end)&&(brac>0))
+				{
+					e++;
+					if (string[e]=='}')
+						brac--;
+					if (string[e]=='{')
+						brac++;
+				}
+				na+=2;
+				string=realloc(string,na*sizeof(char));
+				q=end;
+				end+=2;
+				while (q>=e)
+				{
+					string[q+2]=string[q];
+					q--;
+				}
+				string[q+2]='}';
+				while (q>=s)
+				{
+					string[q+1]=string[q];
+					q--;
+				}
+				string[s]='{';
+			}	
+		}
+		p++;
+	}
+	return string;
+}
+
+
+/* substitutes in the input string all symbols found in the Symbols table
+ * This also includes combining diacritical marks
+ * The routine creates a new allocated string with a modified copy.
+ */
+char * PreProcessorSymb(char *string)
 {
 	char *res, *str, *p, *c;
 	int na;
@@ -1771,5 +1922,14 @@ char * PreProcessor(char *string)
 	}
 	*p='\0';
 	free(comb);
+	return res;
+}
+
+char * PreProcessor(char *string)
+{
+	char *res;
+	res=PreProcessorSymb(string);// allocates a new string res
+	res=PreProcessGreedyOverLikeOperator(res, "\\over", 5); // reallocates res if needed
+	res=PreProcessGreedyOverLikeOperator(res, "\\choose", 7);
 	return res;
 }

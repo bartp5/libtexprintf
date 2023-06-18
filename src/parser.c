@@ -1603,6 +1603,7 @@ void MakeSymbol(TOKEN *T, box *b, int Font)
 	int u;
 	char *p, *t, *d;
 	int l, skip;
+	PRSDEF F;
 	l=strlen(T->args[0]);
 	/*if (!Font)
 	{
@@ -1616,12 +1617,7 @@ void MakeSymbol(TOKEN *T, box *b, int Font)
 	d=(char *)str;
 	p=T->args[0];
 	if (T->F!=F_NOFONT) /* if the token specifies the font it is a \it \rm of \bf command and we set the font for the current block, from this point onwards */
-	{				  /* otherwise we will use the inherited font from the box above */
-					  /* note that this is somewhat of a dirty hack
-					   * if the token has a font I set the Font variable to something corresponding to italic roman for bold
-					   * otherwise, for the commands like \text{..} \mathbfit{..}, etc, the token has no font set!
-					   * then we only inherit fonts and the command itself triggers the creation of a box with the PRSDEF as font value
-					   * This is a bad construct in thorough need of fixin... */
+	{			
 		switch((FONT)T->F)
 		{
 			case F_ITALIC:
@@ -1634,13 +1630,16 @@ void MakeSymbol(TOKEN *T, box *b, int Font)
 				Font=PD_MATHBF;
 				break;
 			default:
-				Font=RootFont; /* is this better, I do not understand my own poorly written comment */
+				Font=RootFont; 
 				break;
 		}				
 	}
+	F=(PRSDEF)Font;
+	if (Font==PD_ROOTFONT)
+		F=(PRSDEF)RootFont;
 	while (*p)
 	{
-		switch((PRSDEF)Font) 
+		switch(F) 
 		{
 			case PD_MATHBF:
 				u=AZToFontUnicode(0x1D400, *p); /* map capital letters */
@@ -2289,6 +2288,7 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 			case PD_MATHNORMAL:
 			case PD_TEXT:
 			case PD_MATHSCR:
+			case PD_ROOTFONT:
 				MathFont(&T, b, Font);
 				break;
 			case PD_ENDLINE:

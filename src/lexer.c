@@ -1469,6 +1469,40 @@ TOKEN SubLexer(char *begin, FONT F)
 			}
 		}
 	}
+	else if (*begin=='$')
+	{
+		/* we have a "rootfont" block */
+		
+		int i;
+		char *str;
+		R.P=PD_ROOTFONT;
+		str=begin+1;
+		while ((*str!='$')&&(*str))
+			str++;
+		if (*str)
+			str++;
+		else
+		{
+			/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
+			// ERRORFLAG ERRUNMATCHDOLLAR  "Missing $ inserted"
+			AddErr(ERRUNMATCHDOLLAR);
+		}
+		
+		R.args=malloc(2*sizeof(char *));
+		R.args[0]=malloc((str-begin+1)*sizeof(char));
+		i=0;
+		begin++;
+		while (begin<str-1)
+		{
+			R.args[0][i++]=*begin;
+			begin++;
+		}
+		R.args[0][i]='\0';
+		R.Nargs=1;	
+		begin=str;
+		PeekAhead(&R, begin);
+		return R;
+	}
 	else if (*begin=='{')
 	{
 		/* we have a block */
@@ -1488,7 +1522,7 @@ TOKEN SubLexer(char *begin, FONT F)
 		{
 			/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 			// ERRORFLAG ERRUNMATCHBRAC  "Missing } inserted"
-			AddErr(ERRUNKNOWNCOMM);
+			AddErr(ERRUNMATCHBRAC);
 		}
 		
 		R.args=malloc(2*sizeof(char *));

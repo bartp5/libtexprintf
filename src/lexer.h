@@ -41,6 +41,7 @@ typedef enum {
 	PD_MATHSFBFIT,
 	PD_MATHTT,
 	PD_MATHNORMAL,
+	PD_ROOTFONT, // switch to the root font for $...$ 
 	PD_BEGIN,
 	PD_END,
 	PD_BOX, /* custom command to make a box of some size */

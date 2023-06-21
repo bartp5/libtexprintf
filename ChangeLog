@@ -1,0 +1,17 @@
+New in version 1.23
+- support more symbols.
+- Allow switching to math mode within a text block using $...$, e.g. \text{for $i<10$ do...}
+- Better handle the \over and \choose operators. These operators are "greedy", which 
+  previous libtexprintf did not handle. Thus:
+  a + b\over c
+  gave
+    
+      b
+  a + ─
+      c
+  
+  instead of the correct
+  
+  a + b
+  ─────
+    c

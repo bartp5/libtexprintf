@@ -70,6 +70,23 @@ int NumByte(char *p) /* return the number of bytes of the multibyte char pointed
 	}
 	return n;
 }
+int UNumByte(int U) /* return the number of UTF-8 bytes for the unicode code point */
+{
+	if (U<0x80)
+		return 1;
+	if (U<0x800)
+		return 2;
+	if (U-0xd800u<0x800)
+	{
+		fprintf(stderr, "Invalid Unicode Code Point 0x%X\n", U);
+		return 0;
+	}
+	if (U<0x10000)
+		return 3;
+	if (U<0x110000)
+		return 4;
+	return 0;
+}
 
 int Unicode(char *p, int *N)/* convert the UTF-8 char pointed to by p to unicode, if N is provided it will be set to the number of bytes of the character*/
 {

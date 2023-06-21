@@ -1,6 +1,21 @@
 typedef enum {
 	PD_RAISEBOX,
 	PD_ENDLINE,
+	PD_GRAVE,
+	PD_ACUTE,
+	PD_HAT,
+	PD_TILDE,
+	PD_BREVE,
+	PD_DOT,
+	PD_DIAERESIS,
+	PD_MRING,
+	PD_DACUTE,
+	PD_CARON,
+	PD_CEDILLA,
+	PD_OGONEK,
+	PD_UTILDE,
+	PD_SSOLIDUS,
+	PD_LSOLIDUS,
 	PD_OVERLINE,
 	PD_UNDERLINE,
 	PD_FUNCTION,
@@ -120,6 +135,7 @@ typedef struct {
 
 void ListSymbols();
 char * Symbols_Str();
+int IsTexConstruct(char *string);
 TOKEN Lexer(char *begin, FONT F);
 void FreeToken(TOKEN T);
 void PrintToken(TOKEN T);
@@ -127,3 +143,4 @@ char * Unicode2Utf8(int U);
 char * PreProcessor(char *string2);
 PRSDEF  LookupFont(char *begin);
 SCALABLE_DELIMITER LookupDelimiter(char *begin, char **del);
+void LookupCombining(PRSDEF P, unsigned int *comb, unsigned int *alt, unsigned int *altascii);

@@ -18,8 +18,6 @@ const KEYWORD   Keys[] = {
 	{"\\oiiint",  	PD_OIIINT     	, 0, 1},
 	{"\\oiiiint",  	PD_OIIIINT    	, 0, 1},
 	{"\\oidotsint", PD_OIDOTSINT  	, 0, 1},
-	{"\\overline",  PD_OVERLINE    , 1, 0},
-	{"\\underline", PD_UNDERLINE   , 1, 0},
 	{"\\mathsfbfit",PD_MATHSFBFIT	, 1, 0},
 	{"\\mathsfbf",  PD_MATHSFBF	, 1, 0},
 	{"\\mathfrak",  PD_MATHFRAK	, 1, 0},
@@ -41,7 +39,6 @@ const KEYWORD   Keys[] = {
 	{"\\left", 		PD_LEFTRIGHT   , 0, 0},
 	{"\\prod",  	PD_PROD    	, 0, 0},
 	{"\\sum",  		PD_SUM     	, 0, 0},
-	{"\\bar",  		PD_OVERLINE    , 1, 0},
 	{"\\box",  		PD_BOX     	, 2, 0},
 	{"\\phantom",  	PD_PHANTOM     	, 1, 0},
 	{"\\vphantom",  PD_VPHANTOM   	, 1, 0},
@@ -86,6 +83,33 @@ const KEYWORD   Keys[] = {
 	{"\\:",      	PD_SPACE    	, 0, 0},
 	{"\\quad",      PD_DSPACE    	, 0, 0},
 	{"\\qquad",     PD_TSPACE    	, 0, 0},
+	// combining stuff
+	{"\\overline",  PD_OVERLINE    , 1, 0},
+	{"\\underline", PD_UNDERLINE   , 1, 0},
+	{"\\bar",  		PD_OVERLINE    , 1, 0},
+	{"\\grave",     PD_GRAVE        , 1, 0},
+	{"\\`",         PD_GRAVE      	, 1, 0},
+	{"\\acute",     PD_ACUTE        , 1, 0},
+	{"\\'",         PD_ACUTE       	, 1, 0},
+	{"\\hat",       PD_HAT          , 1, 0},
+	{"\\^",         PD_HAT          , 1, 0},
+	{"\\tilde",     PD_TILDE        , 1, 0},
+	{"\\~",         PD_TILDE        , 1, 0},
+	{"\\breve",     PD_BREVE        , 1, 0},
+	{"\\dot",       PD_DOT          , 1, 0},	
+	{"\\ddot",      PD_DIAERESIS    , 1, 0}, 
+	{"\\\"",        PD_DIAERESIS    , 1, 0}, 
+	{"\\mathring",  PD_MRING        , 1, 0}, 
+	{"\\H",         PD_DACUTE       , 1, 0},
+	{"\\check",     PD_CARON        , 1, 0},
+	{"\\c", 		PD_CEDILLA      , 1, 0},
+	{"\\k", 		PD_OGONEK       , 1, 0},
+	{"\\utilde",    PD_UTILDE       , 1, 0},
+	{"\\l",         PD_SSOLIDUS     , 1, 0}, 
+	{"\\not",       PD_LSOLIDUS     , 1, 0},
+	
+	
+	// end
 	{NULL, 			PD_NONE 		, 0, 0},
 };
 
@@ -151,6 +175,36 @@ const DELIMITER   DelTable[] = {
 };
 
 typedef struct {
+	PRSDEF          P;
+	unsigned int comb;
+	unsigned int alt;
+	unsigned int altascii;
+} CombiningMarks;
+
+const CombiningMarks  Combining[] = {
+	{PD_GRAVE,     0x00300, 0x0060, 0x0060}, // alt `
+	{PD_ACUTE,     0x00301, 0x00B4, 0x00B4}, // alt ´
+	{PD_HAT,       0x00302, 0x005E, 0x005E}, // alt ^
+	{PD_TILDE,     0x00303, 0x007E, 0x007E}, // alt ~
+	{PD_BREVE,     0x00306, 0x25E1, 0}, // alt unicode lower half circle
+	{PD_OVERLINE,  0x00305, 0x02581, 0x005F}, // alt 
+	{PD_UNDERLINE, 0x00332, 0x02500, 0x002D}, // alt 
+	{PD_DOT,       0x00307, 0x002E, 0x002E}, // alt 
+	{PD_DIAERESIS, 0x00308, 0, 0},
+	{PD_MRING,     0x0030A, 0, 0},
+	{PD_DACUTE,    0x0030B, 0, 0},
+	{PD_CARON,     0x0030C, 0, 0},
+	{PD_CEDILLA,   0x00327, 0, 0},
+	{PD_OGONEK,    0x00328, 0, 0},
+	{PD_UTILDE,    0x00330, 0x007E, 0x007E},
+	{PD_SSOLIDUS,  0x00337, 0, 0}, 
+	{PD_LSOLIDUS,  0x00338, 0, 0},  
+	{PD_NONE,    0, 0, 0},
+};
+
+
+
+typedef struct {
 	char *name;
 	unsigned int unicode;
 } Symbol;
@@ -184,30 +238,8 @@ const Symbol  Symbols[] = {
 	{"\\imath",                0x00131},
 	{"\\jmath",                0x00237},
 /* combining diacritical marks*/
-	{"\\grave",                0x00300},
-	{"\\`",                    0x00300},
-	{"\\acute",                0x00301},
-	{"\\'",                    0x00301},
-	{"\\hat",                  0x00302},
-	{"\\^",                    0x00302},
-	{"\\tilde",                0x00303},
-	{"\\~",                    0x00303},
 	{"\\utfbar",               0x00304}, 
 	{"\\utfoverline",          0x00305},
-	{"\\breve",                0x00306},
-	{"\\dot",                  0x00307}, 
-	{"\\ddot",                 0x00308}, 
-	{"\\\"",                   0x00308}, 
-	{"\\mathring",             0x0030A}, 
-	{"\\H",                    0x0030B},
-	{"\\check",                0x0030C},
-	{"\\c", 				   0x00327}, 
-	{"\\k", 				   0x00328}, 
-	{"\\utilde",               0x00330},
-	{"\\utfunderbar",          0x00331},
-	{"\\utfunderline",         0x00332}, 
-	{"\\l",                    0x00337}, 
-	{"\\not",                  0x00338}, 
 /* hat and bar are made scalable */
 /* greek symbols */
 	/* upper case */
@@ -283,8 +315,6 @@ const Symbol  Symbols[] = {
 	{"\\cat",                  0x02040},
 	{"\\fourth",               0x02057},
 	{"\\pppprime",             0x02057}, 
-//	{"\\:",                    0x02001}, /* this should be medspace U0x0205F, however, I need fixed spaced fonts so we make it a full space */
-//	{"\\ ",                    0x02001}, 
 /* combining diacritical marks for symbols, it seems with me these symbols are treated as full chacaters and not combining marks as should be */
 	{"\\lvec",                 0x020D0},
 	{"\\Lvec",                 0x020D6},
@@ -1713,4 +1743,5 @@ const Symbol  Symbols[] = {
 	{"\\tricolon",0x0205D}, //  ⁝ # tricolon
 	{NULL,                     0x00000},
 };
+
 const Symbol * TEXPRINTF_SYMBOLS=Symbols;

@@ -122,15 +122,60 @@ Symbol IsSymbol(char *begin, const Symbol Symbols[])
 	return Symbols[j];
 }
 
+int IsCommandChar(char c) // return 1 for letters, 2 for characters that are used in short commands ('\\', '\,', etc.)
+{
+	if ((c>='A')&&(c<='Z'))
+		return 1;
+	if ((c>='a')&&(c<='z'))
+		return 1;
+	if (c==',')
+		return 2;
+	if (c==';')
+		return 2;
+	if (c==':')
+		return 2;
+	if (c=='\\')
+		return 2;
+	if (c=='"')
+		return 2;
+	return 0;
+}
+
+char *CommandEnd(char *begin)
+{
+	char *end;
+	end=begin+1;
+	if (IsCommandChar(*end)==2)
+		end++;
+	else
+	{
+		while (IsCommandChar(*end)==1)
+			end++;
+	}
+	return end;
+}
+	
+
+
 KEYWORD LookupKey(char *begin, const KEYWORD * Keys)
 {
-	int j=0;
+	int j=0, l;
+	char c, *p;
+	p=CommandEnd(begin);
+	c=*p;
+	*p='\0';
+	l=strlen(begin);
 	while (Keys[j].name)
 	{
-		if (strncmp(begin, Keys[j].name, strlen(Keys[j].name)) == 0)
-			return Keys[j];
+		if (l==strlen(Keys[j].name))
+			if (strncmp(begin, Keys[j].name, l) == 0)
+			{
+				*p=c;			
+				return Keys[j];
+			}
 		j++;
 	}
+	*p=c;	
 	return Keys[j];
 }
 
@@ -188,6 +233,27 @@ SCALABLE_DELIMITER LookupDelimiter(char *begin, char **del)
 	if (del)
 		(*del)=NoDel;
 	return DelTable[j].D;
+}
+
+
+void LookupCombining(PRSDEF P, unsigned int *comb, unsigned int *alt, unsigned int *altascii)
+{
+	int j=0;
+	while(Combining[j].P!=PD_NONE)
+	{
+		if (P==Combining[j].P)
+		{
+			(*comb)=Combining[j].comb;
+			(*alt)=Combining[j].alt;
+			(*altascii)=Combining[j].altascii;
+			return;
+		}
+		j++;
+	}
+	(*comb)=0;
+	(*alt)=0;
+	(*altascii)=0;
+	return;
 }
 void PrintToken(TOKEN T)
 {
@@ -1231,6 +1297,18 @@ TOKEN BeginEnv(TOKEN T)
 	return R;
 }
 
+int IsTexConstruct(char *string)
+{
+	char *p;
+	p=string;
+	while (*p)
+	{
+		if(IsInSet(*p,"\\_^"))
+			return 1;
+		p++;
+	}
+	return 0;
+}
 
 TOKEN SubLexer(char *begin, FONT F)
 {
@@ -1442,10 +1520,10 @@ TOKEN SubLexer(char *begin, FONT F)
 		}
 		else
 		{
-			/* perhaps an escape sequence? */
-			/* check whether next char is escapable */
+			/* interpret as escape sequence */
+			/* we cannot escape characters in the range a-z and A-Z */
 			begin++;
-			if (IsInSet(*begin, "&%$#_{}~^"))
+			if (!IsCommandChar(*begin))
 			{
 				if (R.P==PD_NONE)
 					R.P=PD_SYMBOL;
@@ -1461,10 +1539,9 @@ TOKEN SubLexer(char *begin, FONT F)
 			}
 			else
 			{
-				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 				// ERRORFLAG ERRUNKNOWNCOMM  "Unknown command"
 				AddErr(ERRUNKNOWNCOMM);
-				R.P=PD_NONE; /* cancel token */
+				R.P=PD_NONE;
 				return R;
 			}
 		}

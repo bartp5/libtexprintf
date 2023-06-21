@@ -262,35 +262,273 @@ n-dimensional integral
   a
 <end>
 
-overline
-<input> overline
-\overline{abc}
-<ref> |-S
-▁▁▁
-abc
+<input> overline_s
+\overline{s}
+<ref>  | -S | -m
+s̅
 <ref> -A
-___
-abc
-<end>
-<input> bar
-\bar{abc}
-<ref> |-S
-▁▁▁
-abc
-<ref> -A
-___
-abc
+_
+s
+<ref> -F mathnormal
+𝑠̅
 <end>
 
-underline
-<input> underline
+<input> overline_l
+\overline{abc}
+<ref>  | -S | -m
+▁▁▁
+abc
+<ref> -A
+___
+abc
+<ref> -F mathnormal
+▁▁▁
+𝑎𝑏𝑐
+<end>
+
+<input> underline_s
+\underline{s}
+<ref>   | -S | -m
+s̲
+<ref> -A
+s
+-
+<ref> -F mathnormal
+𝑠̲
+<end>
+
+<input> underline_l
 \underline{abc}
-<ref> |-S
+<ref>   | -S | -m
 abc
 ───
 <ref> -A
 abc
 ---
+<ref> -F mathnormal
+𝑎𝑏𝑐
+───
+<end>
+
+<input> bar_s
+\bar{s}
+<ref>   | -S | -m
+s̅
+<ref> -A
+_
+s
+<ref> -F mathnormal
+𝑠̅
+<end>
+
+<input> bar_l
+\bar{abc}
+<ref>   | -S | -m
+▁▁▁
+abc
+<ref> -A
+___
+abc
+<ref> -F mathnormal
+▁▁▁
+𝑎𝑏𝑐
+<end>
+
+<input> grave_l
+\grave{abc}
+<ref>   | -A | -S | -m
+ `
+abc
+<end>
+
+<input> grave_s
+\grave{a}
+<ref>   | -S | -m
+à
+<ref> -A
+`
+a
+<end>
+
+<input> acute_s
+\acute{a}
+<ref>   | -S | -m
+á
+<ref> -A
+´
+a
+<end>
+
+<input> acute_l
+\acute{abc}
+<ref>   | -A | -S | -m
+ ´
+abc
+<end>
+
+<input> hat_l
+\hat{abc}
+<ref>   | -A | -S | -m
+ ^
+abc
+<end>
+
+<input> hat_s
+\hat{a}
+<ref>   | -S | -m
+â
+<ref> -A
+^
+a
+<end>
+
+<input> tilde_s
+\tilde{a}
+<ref>   | -S | -m
+ã
+<ref> -A
+~
+a
+<end>
+
+<input> tilde_l
+\tilde{abc}
+<ref>   | -A | -S | -m
+ ~
+abc
+<end>
+
+there is no ascii breve
+<input> breve_l
+\breve{abc}
+<ref>   | -S | -m
+ ◡
+abc
+<ref> -A
+abc
+<end>
+
+<input> breve_s
+\breve{a}
+<ref>   | -S | -m
+ă
+<ref> -A
+a
+<end>
+
+<input> dot_s
+\dot{a}
+<ref>   | -S | -m
+ȧ
+<ref> -A
+.
+a
+<end>
+
+<input> dot_l
+\dot{abc}
+<ref>   | -A | -S | -m
+ .
+abc
+<end>
+
+<input> ddot_s
+\ddot{a}
+<ref>   | -S | -m
+ä
+<ref> -A
+a
+<end>
+
+not sure how to handle a double dot/mathring/and some others on top of a long expression
+<input> ddot_l
+\ddot{abc}
+<ref>   | -A | -S | -m
+abc
+<end>
+ 
+<input> mathring_s
+\mathring{a}
+<ref>   | -S | -m
+å
+<ref> -A
+a
+<end>
+
+<input> mathring_l
+\mathring{abc}
+<ref>   | -A | -S | -m
+abc
+<end>
+
+<input> double_accute_l
+\H{abc}
+<ref>   | -A | -S | -m
+abc
+<end>
+
+<input> double_accute_s
+\H{a}
+<ref>   | -S | -m
+a̋
+<ref> -A
+a
+<end>
+
+<input> check_s
+\check{a}
+<ref>   | -S | -m
+ǎ
+<ref> -A
+a
+<end>
+
+<input> check_l
+\check{abc}
+<ref>   | -A | -S | -m
+abc
+<end>
+
+<input> cedilla
+\c{abc} \c{c} \c c
+<ref>   | -S | -m
+abc ç ç
+<ref> -A
+abc c c
+<end>
+
+<input> ogonek
+\k{abc} \k{c} \k c
+<ref>   | -S | -m
+abc c̨ c̨
+<ref> -A
+abc c c
+<end>
+
+<input> utilde
+\utilde{abc} \utilde{c} \utilde c
+<ref>   | -S | -m
+abc c̰ c̰
+ ~
+<ref> -A
+abc c c
+ ~  ~ ~
+<end>
+
+<input> solidus1
+\l{abc} \l{c} \l c
+<ref>   | -S | -m
+abc c̷ c̷
+<ref> -A
+abc c c
+<end>
+
+<input> solidus2
+\not{abc} \not{c} \not c
+<ref>   | -S | -m
+abc c̸ c̸
+<ref> -A
+abc c c
 <end>
 
 backslash. The backslash command produces a symbol but is not included 

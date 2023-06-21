@@ -2,6 +2,8 @@
 
 if [ -z "$1" ]
 then
+	echo "Usage:"
+	echo "MakeTest.sh <test-name> <text-equation> [optional utftex arguments]"
 	echo I need a name
 	exit 1
 fi
@@ -10,24 +12,38 @@ shift
 
 if [ -z "$1" ]
 then
+	echo "Usage:"
+	echo "MakeTest.sh <test-name> <text-equation> [optional utftex arguments]"
 	echo I an equation
 	exit 1
 fi
-
 eq=$1
 
-# test various options
-utftex "$eq" > 0.tmp
-utftex -A "$eq" > 1.tmp
-utftex -S "$eq" > 2.tmp
-utftex -m "$eq" > 3.tmp
+shift
+opt=(" " "-A" "-S" "-m")
 refs=(0 0 0 0)
-opt=("" "-A" "-S" "-m")
+N=4;
+while [ ! -z "$1" ]
+do
+	opt+=("$1")
+	refs+=(0)
+	let "N++"
+	shift
+done
+
+
+# test various options
+for ((i = 0; i < $N; i++))
+do
+	arg="${opt[$i]}"
+	utftex $arg "$eq" > "$i.tmp"
+done
 echo "<input> $name"
 echo "$eq"
-for i in 0 1 2 3
+i=0
+for ((i = 0; i < $N; i++))
 do
-	arg=${opt[$i]}
+	arg="${opt[$i]}"
 	if [ "${refs[$i]}" -eq 0 ]
 	then
 		let "j=i+1"
@@ -49,3 +65,7 @@ do
 	fi
 done
 echo "<end>"
+for ((i = 0; i < $N; i++))
+do
+	rm "$i.tmp"
+done

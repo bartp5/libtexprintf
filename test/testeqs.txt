@@ -410,16 +410,24 @@ C(N) = |      |    \    || |     \     || | |             |||
                    i=0  +        j=0                        +
 <end>
 Lorenz Equations
+
 <input> Lorenz
 \begin{aligned} 
 \dot{x} & = \sigma(y-x) \\ 
 \dot{y} & = \rho x - y - xz \\ 
 \dot{z} & = -\beta z + xy 
 \end{aligned}
-<ref> |-S|-A
- ̇x  = σ(y-x)
- ̇y  = ρx - y - xz
- ̇z  = -βz + xy
+<ref>   | -S | -m
+ ẋ  = σ(y-x)
+ ẏ  = ρx - y - xz
+ ż  = -βz + xy
+<ref> -A
+ .
+ x  = σ(y-x)
+ .
+ y  = ρx - y - xz
+ .
+ z  = -βz + xy
 <end>
 
 Cauchy-Schwarz Inequality
@@ -555,22 +563,30 @@ Maxwell’s Equations
 \nabla \cdot \vec{\mathbf{B}} & = 0 
 \end{aligned}
 <ref> |-S
-       1 𝜕𝐄    4π
+          →
+   →   1 𝜕𝐄    4π→
  ∇×𝐁 - ─ ──  = ──𝐣
        c 𝜕t    c
+          →
         ∇⋅𝐄  = 4 πρ
-       1 𝜕𝐁
+          →
+   →   1 𝜕𝐁    →
  ∇×𝐄 + ─ ──  = 𝟎
        c 𝜕t
+          →
         ∇⋅𝐁  = 0
 <ref> -A
-       1 𝜕𝐄    4π
+          →
+   →   1 𝜕𝐄    4π→
  ∇×𝐁 - - --  = --𝐣
        c 𝜕t    c
+          →
         ∇⋅𝐄  = 4 πρ
-       1 𝜕𝐁
+          →
+   →   1 𝜕𝐁    →
  ∇×𝐄 + - --  = 𝟎
        c 𝜕t
+          →
         ∇⋅𝐁  = 0
 <end>
 

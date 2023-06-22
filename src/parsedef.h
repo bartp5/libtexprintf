@@ -84,30 +84,65 @@ const KEYWORD   Keys[] = {
 	{"\\quad",      PD_DSPACE    	, 0, 0},
 	{"\\qquad",     PD_TSPACE    	, 0, 0},
 	// combining stuff
-	{"\\overline",  PD_OVERLINE    , 1, 0},
-	{"\\underline", PD_UNDERLINE   , 1, 0},
-	{"\\bar",  		PD_OVERLINE    , 1, 0},
-	{"\\grave",     PD_GRAVE        , 1, 0},
-	{"\\`",         PD_GRAVE      	, 1, 0},
-	{"\\acute",     PD_ACUTE        , 1, 0},
-	{"\\'",         PD_ACUTE       	, 1, 0},
-	{"\\hat",       PD_HAT          , 1, 0},
-	{"\\^",         PD_HAT          , 1, 0},
-	{"\\tilde",     PD_TILDE        , 1, 0},
-	{"\\~",         PD_TILDE        , 1, 0},
-	{"\\breve",     PD_BREVE        , 1, 0},
-	{"\\dot",       PD_DOT          , 1, 0},	
-	{"\\ddot",      PD_DIAERESIS    , 1, 0}, 
-	{"\\\"",        PD_DIAERESIS    , 1, 0}, 
-	{"\\mathring",  PD_MRING        , 1, 0}, 
-	{"\\H",         PD_DACUTE       , 1, 0},
-	{"\\check",     PD_CARON        , 1, 0},
-	{"\\c", 		PD_CEDILLA      , 1, 0},
-	{"\\k", 		PD_OGONEK       , 1, 0},
-	{"\\utilde",    PD_UTILDE       , 1, 0},
-	{"\\l",         PD_SSOLIDUS     , 1, 0}, 
-	{"\\not",       PD_LSOLIDUS     , 1, 0},
-	
+	{"\\overline",  PD_COMB_OVERLINE    , 1, 0},
+	{"\\underline", PD_COMB_UNDERLINE   , 1, 0},
+	{"\\bar",  		PD_COMB_OVERLINE    , 1, 0},
+	{"\\grave",     PD_COMB_GRAVE        , 1, 0},
+	{"\\`",         PD_COMB_GRAVE      	, 1, 0},
+	{"\\acute",     PD_COMB_ACUTE        , 1, 0},
+	{"\\'",         PD_COMB_ACUTE       	, 1, 0},
+	{"\\hat",       PD_COMB_HAT          , 1, 0},
+	{"\\^",         PD_COMB_HAT          , 1, 0},
+	{"\\tilde",     PD_COMB_TILDE        , 1, 0},
+	{"\\~",         PD_COMB_TILDE        , 1, 0},
+	{"\\breve",     PD_COMB_BREVE        , 1, 0},
+	{"\\dot",       PD_COMB_DOT          , 1, 0},	
+	{"\\ddot",      PD_COMB_DIAERESIS    , 1, 0}, 
+	{"\\\"",        PD_COMB_DIAERESIS    , 1, 0}, 
+	{"\\mathring",  PD_COMB_MRING        , 1, 0}, 
+	{"\\H",         PD_COMB_DACUTE       , 1, 0},
+	{"\\check",     PD_COMB_CARON        , 1, 0},
+	{"\\c", 		PD_COMB_CEDILLA      , 1, 0},
+	{"\\k", 		PD_COMB_OGONEK       , 1, 0},
+	{"\\utilde",    PD_COMB_UTILDE       , 1, 0},
+	{"\\l",         PD_COMB_SSOLIDUS     , 1, 0}, 
+	{"\\not",       PD_COMB_LSOLIDUS     , 1, 0},
+	// auto generated entries	
+	{"\\lvec" , PD_COMB_LVEC ,1,0},
+	{"\\Lvec" , PD_COMB_LLVEC ,1,0},
+	{"\\vec" , PD_COMB_VEC ,1,0},
+	{"\\dddot" , PD_COMB_DDDOT ,1,0},
+	{"\\ddddot" , PD_COMB_DDDDOT ,1,0},
+	{"\\overleftrightarrow" , PD_COMB_OVERLEFTRIGHTARROW ,1,0},
+	{"\\ocirc" , PD_COMB_OCIRC ,1,0},
+	{"\\ovhook" , PD_COMB_OVHOOK ,1,0},
+	{"\\oturnedcomma" , PD_COMB_OTURNEDCOMMA ,1,0},
+	{"\\ocommatopright" , PD_COMB_OCOMMATOPRIGHT ,1,0},
+	{"\\droang" , PD_COMB_DROANG ,1,0},
+	{"\\leftharpoonaccent" , PD_COMB_LEFTHARPOONACCENT ,1,0},
+	{"\\rightharpoonaccent" , PD_COMB_RIGHTHARPOONACCENT ,1,0},
+	{"\\widebridgeabove" , PD_COMB_WIDEBRIDGEABOVE ,1,0},
+	{"\\asteraccent" , PD_COMB_ASTERACCENT ,1,0},
+	{"\\candra" , PD_COMB_CANDRA ,1,0},
+	{"\\wideutilde" , PD_COMB_WIDEUTILDE ,1,0},
+	{"\\threeunderdot" , PD_COMB_THREEUNDERDOT ,1,0},
+	{"\\underleftarrow" , PD_COMB_UNDERLEFTARROW ,1,0},
+	{"\\underrightarrow" , PD_COMB_UNDERRIGHTARROW ,1,0},
+	{"\\underbar" , PD_COMB_UNDERBAR ,1,0},
+	{"\\underleftrightarrow" , PD_COMB_UNDERLEFTRIGHTARROW ,1,0},
+	{"\\underrightharpoondown" , PD_COMB_UNDERRIGHTHARPOONDOWN ,1,0},
+	{"\\underleftharpoondown" , PD_COMB_UNDERLEFTHARPOONDOWN ,1,0},
+	{"\\palh" , PD_COMB_PALH ,1,0},
+	{"\\rh" , PD_COMB_RH ,1,0},
+	{"\\sbbrg" , PD_COMB_SBBRG ,1,0},
+	{"\\sout" , PD_COMB_SOUT ,1,0},
+	{"\\strike" , PD_COMB_STRIKE ,1,0},
+	{"\\annuity" , PD_COMB_ANNUITY ,1,0},
+	{"\\enclosecircle" , PD_COMB_ENCLOSECIRCLE ,1,0},
+	{"\\enclosesquare" , PD_COMB_ENCLOSESQUARE ,1,0},
+	{"\\enclosediamond" , PD_COMB_ENCLOSEDIAMOND ,1,0},
+	{"\\enclosetriangle" , PD_COMB_ENCLOSETRIANGLE ,1,0},
+	{"\\vertoverlay" , PD_COMB_VERTOVERLAY ,1,0},
 	
 	// end
 	{NULL, 			PD_NONE 		, 0, 0},
@@ -176,32 +211,115 @@ const DELIMITER   DelTable[] = {
 
 typedef struct {
 	PRSDEF          P;
-	unsigned int comb;
-	unsigned int alt;
-	unsigned int altascii;
+	unsigned int comb;		// combining diacritical mark
+	unsigned int alt;		// alternative character to put above or below (0 if no suitable character exists)
+	unsigned int altascii;	// ascii alternative to put above/below
 } CombiningMarks;
 
 const CombiningMarks  Combining[] = {
-	{PD_GRAVE,     0x00300, 0x0060, 0x0060}, // alt `
-	{PD_ACUTE,     0x00301, 0x00B4, 0x00B4}, // alt ´
-	{PD_HAT,       0x00302, 0x005E, 0x005E}, // alt ^
-	{PD_TILDE,     0x00303, 0x007E, 0x007E}, // alt ~
-	{PD_BREVE,     0x00306, 0x25E1, 0}, // alt unicode lower half circle
-	{PD_OVERLINE,  0x00305, 0x02581, 0x005F}, // alt 
-	{PD_UNDERLINE, 0x00332, 0x02500, 0x002D}, // alt 
-	{PD_DOT,       0x00307, 0x002E, 0x002E}, // alt 
-	{PD_DIAERESIS, 0x00308, 0, 0},
-	{PD_MRING,     0x0030A, 0, 0},
-	{PD_DACUTE,    0x0030B, 0, 0},
-	{PD_CARON,     0x0030C, 0, 0},
-	{PD_CEDILLA,   0x00327, 0, 0},
-	{PD_OGONEK,    0x00328, 0, 0},
-	{PD_UTILDE,    0x00330, 0x007E, 0x007E},
-	{PD_SSOLIDUS,  0x00337, 0, 0}, 
-	{PD_LSOLIDUS,  0x00338, 0, 0},  
+	{PD_COMB_GRAVE,     0x00300, 0x0060, 0x0060}, // alt `
+	{PD_COMB_ACUTE,     0x00301, 0x00B4, 0x00B4}, // alt ´
+	{PD_COMB_HAT,       0x00302, 0x005E, 0x005E}, // alt ^
+	{PD_COMB_TILDE,     0x00303, 0x007E, 0x007E}, // alt ~
+	{PD_COMB_BREVE,     0x00306, 0x25E1, 0}, // alt unicode lower half circle
+	{PD_COMB_OVERLINE,  0x00305, 0x02581, 0x005F}, // alt 
+	{PD_COMB_UNDERLINE, 0x00332, 0x02500, 0x002D}, // alt 
+	{PD_COMB_UNDERBAR , 0x00332,0x02500,0x002D}, // underline==underbar
+	{PD_COMB_DOT,       0x00307, 0x002E, 0x002E}, // alt 
+	{PD_COMB_DIAERESIS, 0x00308, 0, 0},
+	{PD_COMB_MRING,     0x0030A, 0x02218, 0},  //MRING==OCIRC
+	{PD_COMB_OCIRC , 	0x0030A,0x02218,0},
+	{PD_COMB_DACUTE,    0x0030B, 0, 0},
+	{PD_COMB_CARON,     0x0030C, 0, 0}, // v or check mark 0x2713 ?
+	{PD_COMB_CEDILLA,   0x00327, 0, 0},
+	{PD_COMB_OGONEK,    0x00328, 0, 0},
+	{PD_COMB_UTILDE,    0x00330, 0x007E, 0x007E},
+	{PD_COMB_SSOLIDUS,  0x00337, 0, 0}, 
+	{PD_COMB_LSOLIDUS,  0x00338, 0, 0}, 
+	
+	// auto generated
+	{PD_COMB_LVEC , 0x020D0,0x021BC,0},
+	{PD_COMB_LEFTHARPOONACCENT , 0x020D0,0x021BC,0},  //LEFTHARPOONACCENT==LVEC
+	{PD_COMB_LLVEC , 0x020D6,0x02190,0},
+	{PD_COMB_VEC , 0x020D7,0x02192,0},
+	{PD_COMB_DDDOT , 0x020DB,0x02026,0},
+	{PD_COMB_DDDDOT , 0x020DC,0,0},
+	{PD_COMB_OVERLEFTRIGHTARROW , 0x020E1,0x02194,0},
+	{PD_COMB_OVHOOK , 0x00309,0x00242,0},
+	{PD_COMB_OTURNEDCOMMA , 0x00312,0x02E32,0},
+	{PD_COMB_OCOMMATOPRIGHT , 0x00315,0x2C,0},
+	{PD_COMB_DROANG , 0x0031A,0x2510,0},
+	{PD_COMB_RIGHTHARPOONACCENT , 0x020D1,0x21C0,0},
+	{PD_COMB_WIDEBRIDGEABOVE , 0x020E9,0x23B4,0},
+	{PD_COMB_ASTERACCENT , 0x20F0,0x2A,0},
+	{PD_COMB_CANDRA , 0x00310,0x1D111,0}, // abuse a Musical symbol fermata below
+	// accents below the character
+	{PD_COMB_WIDEUTILDE , 0x00330,0x007E, 0x007E},
+	{PD_COMB_THREEUNDERDOT , 0x020E8,0x02026,0},
+	{PD_COMB_UNDERLEFTARROW , 0x20EE,0x021BC,0},
+	{PD_COMB_UNDERRIGHTARROW , 0x20EF,0x02192,0},
+	{PD_COMB_UNDERLEFTRIGHTARROW , 0x0034D,0x02194,0},
+	{PD_COMB_UNDERRIGHTHARPOONDOWN , 0x20EC,0x021C1,0},
+	{PD_COMB_UNDERLEFTHARPOONDOWN , 0x20ED,0x021BD,0},
+	{PD_COMB_PALH , 0x00321,0x025DE,0},
+	{PD_COMB_RH , 0x00322,0x025DF,0},
+	{PD_COMB_SBBRG , 0x0032A,0x23B4,0},
+	// accents right through the middle
+	// no alternatives possible
+	{PD_COMB_SOUT , 0x00336,0,0},
+	{PD_COMB_STRIKE , 0x00336,0,0},
+	{PD_COMB_ANNUITY , 0x020E7,0,0},
+	{PD_COMB_ENCLOSECIRCLE , 0x020DD,0,0},
+	{PD_COMB_ENCLOSESQUARE , 0x020DE,0,0},
+	{PD_COMB_ENCLOSEDIAMOND , 0x020DF,0,0},
+	{PD_COMB_ENCLOSETRIANGLE , 0x020E4,0,0},
+	{PD_COMB_VERTOVERLAY , 0x020D2,0,0}, 
+	
 	{PD_NONE,    0, 0, 0},
 };
+/* These combining marks are removed from the symbol list and need integration above
+accents above:
+	{"\\lvec",                 0x020D0},
+	{"\\Lvec",                 0x020D6},
+	{"\\vec",                  0x020D7},
+	{"\\dddot",                0x020DB}, 
+	{"\\ddddot",               0x020DC}, 
+	{"\\overleftrightarrow",   0x020E1}, 
+	{"\\ocirc",0x0030A}, //  ̊
+	{"\\ovhook",0x00309}, //  ̉ # combining hook above
+	{"\\oturnedcomma",0x00312}, //  ̒ # combining turned comma above
+	{"\\ocommatopright",0x00315}, //  ̕ # combining comma above right
+	{"\\droang",0x0031A}, //  ̚ # left angle above (non-spacing)
+	{"\\leftharpoonaccent",0x020D0}, //  ⃐ # combining left harpoon above
+	{"\\rightharpoonaccent",0x020D1}, //  ⃑ # combining right harpoon above
+	{"\\widebridgeabove",0x020E9}, //  ⃩ # combining wide bridge above
+	{"\\asteraccent",0x20F0}, //  0x20F0 # combining asterisk above
+	{"\\candra",0x00310}, //  ̐ # candrabindu (non-spacing)
+	
+accents below:
+	{"\\wideutilde",0x00330}, //  ̰ # under tilde accent (multiple characters and non-spacing)
+	{"\\threeunderdot",0x020E8}, //  ⃨ # combining triple underdot x⃨
+	{"\\underleftarrow",0x20EE}, //  0x20EE # combining left arrow below
+	{"\\underrightarrow",0x20EF}, //  0x20EF # combining right arrow below
+	{"\\underbar",0x00332}, //  ̲ # combining low line
+	{"\\underleftrightarrow",0x0034D}, //  ͍ # underleftrightarrow accent
+	{"\\underrightharpoondown",0x20EC}, //  0x20EC # combining rightwards harpoon with barb downwards
+	{"\\underleftharpoondown",0x20ED}, //  0x20ED # combining leftwards harpoon with barb downwards
+	{"\\palh",0x00321}, //  ̡
+	{"\\rh",0x00322}, //  ̢
+	{"\\sbbrg",0x0032A}, //  ̪
 
+other:
+	{"\\sout",0x00336}, //  ̶ # ulem package same as Elzbar
+	{"\\strike",0x00336}, //  ̶
+	{"\\annuity",0x020E7}, //  ⃧ # combining annuity symbol
+	{"\\enclosecircle",0x020DD}, //  ⃝ # combining enclosing circle
+	{"\\enclosesquare",0x020DE}, //  ⃞ # combining enclosing square
+	{"\\enclosediamond",0x020DF}, //  ⃟ # combining enclosing diamond
+	{"\\enclosetriangle",0x020E4}, //  ⃤ # combining enclosing upward pointing triangle
+	{"\\vertoverlay",0x020D2}, //  ⃒ # combining long vertical line overlay
+	
+*/
 
 
 typedef struct {
@@ -213,8 +331,6 @@ typedef struct {
 
 const Symbol  Symbols[] = {
 /* basic latin */
-//	{"\\,",                    0x00020}, /* take spacing out of the preprocessor */
-//	{"\\;",                    0x00020}, /* take spacing out of the preprocessor */
 	{"\\_",                    0x0005F},
 	{"\\{",                    0x0007B},
 	{"\\}",                    0x0007D},
@@ -237,10 +353,6 @@ const Symbol  Symbols[] = {
 /* latin extended A & B*/
 	{"\\imath",                0x00131},
 	{"\\jmath",                0x00237},
-/* combining diacritical marks*/
-	{"\\utfbar",               0x00304}, 
-	{"\\utfoverline",          0x00305},
-/* hat and bar are made scalable */
 /* greek symbols */
 	/* upper case */
 	{"\\Gamma",                0x00393},
@@ -299,7 +411,6 @@ const Symbol  Symbols[] = {
 	{"\\Sampi",                0x003E0},
 	{"\\sampi",                0x003E1},
 /* general punktuation */
-//	{"\\quad",                 0x02001},
 	{"\\|",                    0x02016},
 	{"\\dagger",               0x02020},
 	{"\\ddagger",              0x02021},
@@ -315,13 +426,6 @@ const Symbol  Symbols[] = {
 	{"\\cat",                  0x02040},
 	{"\\fourth",               0x02057},
 	{"\\pppprime",             0x02057}, 
-/* combining diacritical marks for symbols, it seems with me these symbols are treated as full chacaters and not combining marks as should be */
-	{"\\lvec",                 0x020D0},
-	{"\\Lvec",                 0x020D6},
-	{"\\vec",                  0x020D7},
-	{"\\dddot",                0x020DB}, 
-	{"\\ddddot",               0x020DC}, 
-	{"\\overleftrightarrow",   0x020E1}, 
 /* Letterlike Symbols */
 /*some symbols require a latex command structure, those I leave out here */
 	{"\\Euler",   			   0x02107}, 
@@ -914,6 +1018,7 @@ const Symbol  Symbols[] = {
 	{"\\partial", 0x1D715},
 	/* terminate the table */
 	/* modify some emojic characters to full blown emojis , e.g. ☠ → ☠️ (\skull  \rightarrow  \emojify \skull)*/
+	/* this is a combining diacritiocal mark but not like a tex accent so it is not a function*/
 	{"\\emojify", 0x0FE0F},	
 	
 	/* whatever symbols that were not there but were in https://github.com/JuliaLang/julia/blob/master/stdlib/REPL/src/latex_symbols.jl */
@@ -929,7 +1034,6 @@ const Symbol  Symbols[] = {
 	{"\\ohm",0x02126}, //  Ω
 	{"\\hbar",0x00127}, //  ħ
 	{"\\del",0x02207}, //  ∇
-	{"\\sout",0x00336}, //  ̶ # ulem package same as Elzbar
 	{"\\euro",0x020AC}, //  €
 	{"\\exclamdown",0x000A1}, //  ¡
 	{"\\sterling",0x000A3}, //  £
@@ -1014,11 +1118,6 @@ const Symbol  Symbols[] = {
 	{"\\low",0x002D5}, //  ˕
 	{"\\u",0x002D8}, //  ˘
 	{"\\tildelow",0x002DC}, //  ˜
-	{"\\ocirc",0x0030A}, //  ̊
-	{"\\palh",0x00321}, //  ̡
-	{"\\rh",0x00322}, //  ̢
-	{"\\sbbrg",0x0032A}, //  ̪
-	{"\\strike",0x00336}, //  ̶
 	{"\\Alpha",0x00391}, //  Α
 	{"\\Beta",0x00392}, //  Β
 	{"\\Epsilon",0x00395}, //  Ε
@@ -1200,12 +1299,7 @@ const Symbol  Symbols[] = {
 	{"\\openbracketleft",0x027E6}, //  ⟦
 	{"\\openbracketright",0x027E7}, //  ⟧
 	{"\\Zbar",0x001B5}, //  Ƶ # impedance (latin capital letter z with stroke)
-	{"\\ovhook",0x00309}, //  ̉ # combining hook above
-	{"\\candra",0x00310}, //  ̐ # candrabindu (non-spacing)
-	{"\\oturnedcomma",0x00312}, //  ̒ # combining turned comma above
-	{"\\ocommatopright",0x00315}, //  ̕ # combining comma above right
-	{"\\droang",0x0031A}, //  ̚ # left angle above (non-spacing)
-	{"\\wideutilde",0x00330}, //  ̰ # under tilde accent (multiple characters and non-spacing)
+
 	{"\\upMu",0x0039C}, //  Μ # capital mu greek
 	{"\\upNu",0x0039D}, //  Ν # capital nu greek
 	{"\\upOmicron",0x0039F}, //  Ο # capital omicron greek
@@ -1218,21 +1312,7 @@ const Symbol  Symbols[] = {
 	{"\\upkoppa",0x003DF}, //  ϟ # greek small letter koppa
 	{"\\upsampi",0x003E1}, //  ϡ # greek small letter sampi
 	{"\\tieconcat",0x02040}, //  ⁀ # character tie z notation sequence concatenation
-	{"\\leftharpoonaccent",0x020D0}, //  ⃐ # combining left harpoon above
-	{"\\rightharpoonaccent",0x020D1}, //  ⃑ # combining right harpoon above
-	{"\\vertoverlay",0x020D2}, //  ⃒ # combining long vertical line overlay
-	{"\\enclosecircle",0x020DD}, //  ⃝ # combining enclosing circle
-	{"\\enclosesquare",0x020DE}, //  ⃞ # combining enclosing square
-	{"\\enclosediamond",0x020DF}, //  ⃟ # combining enclosing diamond
-	{"\\enclosetriangle",0x020E4}, //  ⃤ # combining enclosing upward pointing triangle
-	{"\\annuity",0x020E7}, //  ⃧ # combining annuity symbol
-	{"\\threeunderdot",0x020E8}, //  ⃨ # combining triple underdot
-	{"\\widebridgeabove",0x020E9}, //  ⃩ # combining wide bridge above
-	{"\\underrightharpoondown",0x20EC}, //  0x20EC # combining rightwards harpoon with barb downwards
-	{"\\underleftharpoondown",0x20ED}, //  0x20ED # combining leftwards harpoon with barb downwards
-	{"\\underleftarrow",0x20EE}, //  0x20EE # combining left arrow below
-	{"\\underrightarrow",0x20EF}, //  0x20EF # combining right arrow below
-	{"\\asteraccent",0x20F0}, //  0x20F0 # combining asterisk above
+	
 	{"\\eulermascheroni",0x02107}, //  ℇ # euler-mascheroni constant U+2107
 	{"\\planck",0x0210E}, //  ℎ # planck constant
 	{"\\turnediota",0x02129}, //  ℩ # turned iota
@@ -1733,8 +1813,6 @@ const Symbol  Symbols[] = {
 	{"\\rightouterjoin",0x027D6}, //  ⟖ # right outer join
 	{"\\fullouterjoin",0x027D7}, //  ⟗ # full outer join
 	{"\\join",0x02A1D}, //  ⨝ # join
-	{"\\underbar",0x00332}, //  ̲ # combining low line
-	{"\\underleftrightarrow",0x0034D}, //  ͍ # underleftrightarrow accent
 	{"\\leftwavearrow",0x0219C}, //  ↜ # left arrow-wavy
 	{"\\rightwavearrow",0x0219D}, //  ↝ # right arrow-wavy
 	{"\\varbarwedge",0x02305}, //  ⌅ # /barwedge b: logical and, bar above [projective (bar over small wedge)]

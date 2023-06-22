@@ -7,4 +7,66 @@ You may pass some arguments. Most notably the executable to use:
 and whether you want a log file for each failed test
 ./test.awk -v debug=1 testsuite.txt
 
+The MakeTest.sh script is a helper script to generate a test. Usage:
+./MakeTest.sh <name> <eq> [optional arguments]
 
+Some examples:
+./MakeTest.sh Lorenz '\begin{aligned} 
+\dot{x} & = \sigma(y-x) \\ 
+\dot{y} & = \rho x - y - xz \\ 
+\dot{z} & = -\beta z + xy 
+\end{aligned}'
+
+returns:
+<input> Lorenz
+\begin{aligned} 
+\dot{x} & = \sigma(y-x) \\ 
+\dot{y} & = \rho x - y - xz \\ 
+\dot{z} & = -\beta z + xy 
+\end{aligned}
+<ref>   | -S | -m
+ ẋ  = σ(y-x)
+ ẏ  = ρx - y - xz
+ ż  = -βz + xy
+<ref> -A
+ .
+ x  = σ(y-x)
+ .
+ y  = ρx - y - xz
+ .
+ z  = -βz + xy
+<end>
+
+You may also add commandline arguments to utftex, e.g. we can add the
+option '-F mathnormal':
+
+./MakeTest.sh Lorenz '\begin{aligned} 
+\dot{x} & = \sigma(y-x) \\ 
+\dot{y} & = \rho x - y - xz \\ 
+\dot{z} & = -\beta z + xy 
+\end{aligned}' '-F mathnormal'
+
+which returns:
+
+<input> Lorenz
+\begin{aligned} 
+\dot{x} & = \sigma(y-x) \\ 
+\dot{y} & = \rho x - y - xz \\ 
+\dot{z} & = -\beta z + xy 
+\end{aligned}
+<ref>   | -S | -m
+ ẋ  = σ(y-x)
+ ẏ  = ρx - y - xz
+ ż  = -βz + xy
+<ref> -A
+ .
+ x  = σ(y-x)
+ .
+ y  = ρx - y - xz
+ .
+ z  = -βz + xy
+<ref> -F mathnormal
+ 𝑥̇  = σ(𝑦-𝑥)
+ 𝑦̇  = ρ𝑥 - 𝑦 - 𝑥𝑧
+ 𝑧̇  = -β𝑧 + 𝑥𝑦
+<end>

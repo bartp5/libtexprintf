@@ -398,22 +398,11 @@ a
 abc
 <end>
 
-there is no ascii breve
-<input> breve_l
-\breve{abc}
-<ref>   | -S | -m
+<input> breve
+\breve{abc} \breve{a} \breve a
+<ref>   | -A | -S | -m
  ◡
-abc
-<ref> -A
-abc
-<end>
-
-<input> breve_s
-\breve{a}
-<ref>   | -S | -m
-ă
-<ref> -A
-a
+abc ă ă
 <end>
 
 <input> dot_s
@@ -432,77 +421,45 @@ a
 abc
 <end>
 
-<input> ddot_s
-\ddot{a}
-<ref>   | -S | -m
-ä
-<ref> -A
-a
-<end>
-
-not sure how to handle a double dot/mathring/and some others on top of a long expression
-<input> ddot_l
-\ddot{abc}
+<input> ddot
+\ddot{abc} \ddot{a} \ddot a
 <ref>   | -A | -S | -m
-abc
-<end>
- 
-<input> mathring_s
-\mathring{a}
-<ref>   | -S | -m
-å
-<ref> -A
-a
+abc ä ä
 <end>
 
-<input> mathring_l
-\mathring{abc}
+
+<input> mathring
+\mathring{abc} \mathring{a} \mathring a
 <ref>   | -A | -S | -m
-abc
+ ∘
+abc å å
 <end>
 
-<input> double_accute_l
-\H{abc}
+
+<input> double_accute
+\H{abc} \H{a} \H a
 <ref>   | -A | -S | -m
-abc
+abc a̋ a̋
 <end>
 
-<input> double_accute_s
-\H{a}
-<ref>   | -S | -m
-a̋
-<ref> -A
-a
-<end>
 
-<input> check_s
-\check{a}
-<ref>   | -S | -m
-ǎ
-<ref> -A
-a
-<end>
-
-<input> check_l
-\check{abc}
+<input> check
+\check{abc} \check{a} \check a
 <ref>   | -A | -S | -m
-abc
+abc ǎ ǎ
 <end>
+
 
 <input> cedilla
 \c{abc} \c{c} \c c
-<ref>   | -S | -m
+<ref>   | -A | -S | -m
 abc ç ç
-<ref> -A
-abc c c
 <end>
 
 <input> ogonek
-\k{abc} \k{c} \k c
-<ref>   | -S | -m
-abc c̨ c̨
-<ref> -A
-abc c c
+\k{abc} \k{a} \k a
+<ref>   | -A | -S | -m
+abc ą ą
 <end>
 
 <input> utilde
@@ -516,19 +473,230 @@ abc c c
 <end>
 
 <input> solidus1
-\l{abc} \l{c} \l c
-<ref>   | -S | -m
-abc c̷ c̷
-<ref> -A
-abc c c
+\l{abc} \l{a} \l a
+<ref>   | -A | -S | -m
+abc a̷ a̷
 <end>
 
-<input> solidus2
-\not{abc} \not{c} \not c
+<input> not
+\not{abc} \not{a} \not a
+<ref>   | -A | -S | -m
+abc a̸ a̸
+<end>
+
+<input> Lvec
+\Lvec{abc} \Lvec{a} \Lvec a
+<ref>   | -A | -S | -m
+ ←
+abc a⃖ a⃖
+<end>
+
+<input> lvec
+\lvec{abc} \lvec{a} \lvec a
+<ref>   | -A | -S | -m
+ ↼
+abc a⃐ a⃐
+<end>
+
+<input> vec
+\vec{abc} \vec{a} \vec a
+<ref>   | -A | -S | -m
+ →
+abc a⃗ a⃗
+<end>
+
+
+<input> dddot
+\dddot{abc} \dddot{a} \dddot a
+<ref>   | -A | -S | -m
+ …
+abc a⃛ a⃛
+<end>
+
+
+<input> ddddot
+\ddddot{abc} \ddddot{a} \ddddot a
+<ref>   | -A | -S | -m
+abc a⃜ a⃜
+<end>
+
+<input> overleftrightarrow
+\overleftrightarrow{abc} \overleftrightarrow{a} \overleftrightarrow a
+<ref>   | -A | -S | -m
+ ↔
+abc a⃡ a⃡
+<end>
+
+<input> ocommatopright
+\ocommatopright{abc} \ocommatopright{a} \ocommatopright a
+<ref>   | -A | -S | -m
+  ,
+abc a̕ a̕
+<end>
+
+<input> ocommatopright
+\droang{abc} \droang{a} \droang a
+<ref>   | -A | -S | -m
+  ┐
+abc a̚ a̚
+<end>
+
+<input> ocommatopright
+\rightharpoonaccent{abc} \rightharpoonaccent{a} \rightharpoonaccent a
+<ref>   | -A | -S | -m
+ ⇀
+abc a⃑ a⃑
+<end>
+
+<input> widebridgeabove
+\widebridgeabove{abc} \widebridgeabove{a} \widebridgeabove a
+<ref>   | -A | -S | -m
+ ⎴
+abc a⃩ a⃩
+<end>
+
+
+<input> asteraccent
+\asteraccent{abc} \asteraccent{a} \asteraccent a
+<ref>   | -A | -S | -m
+ *
+abc a⃰ a⃰
+<end>
+
+
+<input> candra
+\candra{abc} \candra{a} \candra a
+<ref>   | -A | -S | -m
+ 𝄑
+abc a̐ a̐
+<end>
+
+
+<input> wideutilde
+\wideutilde{abc} \wideutilde{a} \wideutilde a
 <ref>   | -S | -m
-abc c̸ c̸
+abc a̰ a̰
+ ~
 <ref> -A
-abc c c
+abc a a
+ ~  ~ ~
+<end>
+
+
+<input> threeunderdot
+\threeunderdot{abc} \threeunderdot{a} \threeunderdot a
+<ref>   | -A | -S | -m
+abc a⃨ a⃨
+ …
+<end>
+
+<input> underleftarrow
+\underleftarrow{abc} \underleftarrow{a} \underleftarrow a
+<ref>   | -A | -S | -m
+abc a⃮ a⃮
+ ↼
+<end>
+
+
+<input> underrightarrow
+\underrightarrow{abc} \underrightarrow{a} \underrightarrow a
+<ref>   | -A | -S | -m
+abc a⃯ a⃯
+ →
+<end>
+
+<input> underleftrightarrow
+\underleftrightarrow{abc} \underleftrightarrow{a} \underleftrightarrow a
+<ref>   | -A | -S | -m
+abc a͍ a͍
+ ↔
+<end>
+
+<input> underrightharpoondown
+\underrightharpoondown{abc} \underrightharpoondown{a} \underrightharpoondown a
+<ref>   | -A | -S | -m
+abc a⃬ a⃬
+ ⇁
+<end>
+
+<input> underleftharpoondown
+\underleftharpoondown{abc} \underleftharpoondown{a} \underleftharpoondown a
+<ref>   | -A | -S | -m
+abc a⃭ a⃭
+ ↽
+<end>
+
+
+<input> palh
+\palh{abc} \palh{a} \palh a
+<ref>   | -A | -S | -m
+abc a̡ a̡
+ ◞
+<end>
+
+<input> rh
+\rh{abc} \rh{a} \rh a
+<ref>   | -A | -S | -m
+abc a̢ a̢
+ ◟
+<end>
+
+
+<input> sbbrg
+\sbbrg{abc} \sbbrg{a} \sbbrg a
+<ref>   | -A | -S | -m
+abc a̪ a̪
+ ⎴
+<end>
+
+accent without multi-character support
+<input> sout
+\sout{abc} \sout{a} \sout a
+<ref>   | -A | -S | -m
+abc a̶ a̶
+<end>
+
+
+<input> strike
+\strike{abc} \strike{a} \strike a
+<ref>   | -A | -S | -m
+abc a̶ a̶
+<end>
+
+<input> annuity
+\annuity{abc} \annuity{a} \annuity a
+<ref>   | -A | -S | -m
+abc a⃧ a⃧
+<end>
+
+<input> enclosecircle
+\enclosecircle{abc} \enclosecircle{a} \enclosecircle a
+<ref>   | -A | -S | -m
+abc a⃝ a⃝
+<end>
+
+<input> enclosesquare
+\enclosesquare{abc} \enclosesquare{a} \enclosesquare a
+<ref>   | -A | -S | -m
+abc a⃞ a⃞
+<end>
+
+<input> enclosediamond
+\enclosediamond{abc} \enclosediamond{a} \enclosediamond a
+<ref>   | -A | -S | -m
+abc a⃟ a⃟
+<end>
+
+<input> enclosetriangle
+\enclosetriangle{abc} \enclosetriangle{a} \enclosetriangle a
+<ref>   | -A | -S | -m
+abc a⃤ a⃤
+<end>
+
+<input> vertoverlay
+\vertoverlay{abc} \vertoverlay{a} \vertoverlay a
+<ref>   | -A | -S | -m
+abc a⃒ a⃒
 <end>
 
 backslash. The backslash command produces a symbol but is not included 

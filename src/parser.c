@@ -720,7 +720,7 @@ void AddBraces(char *lbrace, char *rbrace, box *b)
 	BoxSetState(b, SIZEKNOWN);
 	
 	
-	/* put box b in a arraybox */
+	/* put box b in a linebox */
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=0;
 	if (BoxInBox(b, B_LINE, (void *)Ncol))
@@ -912,305 +912,180 @@ void MakeBinom(TOKEN *T, box *b, int Font)
 	AddScripts(T->sub, T->super, binom, T->limits, Font);
 }
 
-void MakeOverline(TOKEN *T, box *b, int Font)
+/* 
+ * Combining marks/accents
+ * we first render stuff in a box
+ * then we check whether the result consists of a single character unit box. If so 
+ * we use combining diacritical marks. Otherwise we arrange stuff below or above.
+ * 
+ */
+
+// routines to help find out if we can use diacritical marks
+// the logic here is that if there is only one unit box with a string 
+// of 1 character space wide, we can do a diacritical mark
+int UnitBoxCount(box *b)
 {
-	unsigned char *str;
-	char *line;
-	int n;
-	int *Ncol;
-	box *over;
-	int i, j, yc;	
-	
-	Ncol=malloc(sizeof(int));
-	Ncol[0]=1;
-	/* create a array box and point to it with the box pointer over */
-	AddChild(b, B_ARRAY, (void *)Ncol);
-	over=b->child+b->Nc-1;
-		
-		
-	str=calloc(1,sizeof(char));		/* add unit box for horizontal bar*/
-	AddChild(over, B_UNIT, str);
-	
-	
-	ParseStringInBox(T->args[0], over, Font); 	/* whatever is overlined */
-	
-		
-	/* scale the horizontal bar */
-	/* get box sizes */
-	BoxPos(over);
-	yc=over->child[1].ry;
-		
-	line=Unicode2Utf8(style->OVERLINE);	
-	n=NumByte(line);	
-	/* the width of the box over is now the desired width for the horizonatal bar */
-	/* str=(unsigned char *)over->child[1].content;*/
-	over->child[0].content=realloc(over->child[0].content, (n*over->w+1)*sizeof(char));
-	str=(unsigned char *)over->child[0].content;
-	for (i=0;i<over->w;i++)
+	// recursive unit box counter
+	int i;
+	int S=0;
+	if (b->T==B_UNIT)
+		return 1;
+	else
 	{
-		for (j=0;j<n;j++)
-			str[n*i+j]=line[j];	
-	}
-	str[n*over->w]='\0';
-	over->child[0].w=over->w;
-	over->child[0].xc=over->xc;
-	over->S=INIT;
-	BoxPos(over);
-	BoxSetState(over, SIZEKNOWN);
-	over->yc=yc;
-	over->Y=FIX;
-	over->S=SIZEKNOWN;
+		for (i=0;i<b->Nc;i++)
+			S+=UnitBoxCount(b->child+i);
 	
-	AddScripts(T->sub, T->super, over, T->limits, Font);
+	}
+	return S;
 }
 
-void MakeUnderline(TOKEN *T, box *b, int Font)
+box *FirstUnitBox(box *b)
 {
-	unsigned char *str;
-	char *line;
-	int n;
-	int *Ncol;
-	box *under;
-	int i, j, yc;	
-	
-	Ncol=malloc(sizeof(int));
-	Ncol[0]=1;
-	/* create a array box and point to it with the box pointer under */
-	AddChild(b, B_ARRAY, (void *)Ncol);
-	under=b->child+b->Nc-1;
-		
-	ParseStringInBox(T->args[0], under, Font); 	/* whatever is underlined */
-		
-	str=calloc(1,sizeof(char));		/* add unit box for horizontal bar*/
-	AddChild(under, B_UNIT, str);
-	
-		
-	/* scale the horizontal bar */
-	/* get box sizes */
-	BoxPos(under);
-	yc=under->child[0].ry;
-		
-	line=Unicode2Utf8(style->UNDERLINE);	
-	n=NumByte(line);		
-	/* the width of the box under is now the desired width for the horizonatal bar */
-	/* str=(unsigned char *)under->child[1].content;*/
-	under->child[1].content=realloc(under->child[1].content, (n*under->w+1)*sizeof(char));
-	str=(unsigned char *)under->child[1].content;
-	for (i=0;i<under->w;i++)
+	// recursive unit box counter
+	int i;
+	box *r=NULL;
+	if (b->T==B_UNIT)
+		return b;
+	else
 	{
-		for (j=0;j<n;j++)
-			str[n*i+j]=line[j];	
+		i=0;
+		while ((!r)&&(i<b->Nc))
+		{
+			r=FirstUnitBox(b->child+i);
+			i++;
+		}
 	}
-	str[n*under->w]='\0';
-	under->child[1].w=under->w;
-	under->child[1].xc=under->xc;
-	under->S=INIT;
-	BoxPos(under);
-	BoxSetState(under, SIZEKNOWN);
-	under->yc=yc;
-	under->Y=FIX;
-	under->S=SIZEKNOWN;
-	
-	AddScripts(T->sub, T->super, under, T->limits, Font);
+	return r;
 }
 
-// make a unit box with string and unicode character u centered above it
-void MakeOver(char *str, unsigned int u, box *b, int Font)
+// routine to arrange the combining mark with whatever it is combined with
+#define CM_REPEAT 1
+#define CM_SINGLE 0
+#define CM_ABOVE  1
+#define CM_BELOW  0
+void AddBoxBelowAbove(box *b, unsigned int u, boxalign A, int above, int rep, int Font)
 {
-	char *ustr;
+	int w;
 	int *Ncol;
-	box *over;
-	int yc;	
-	
+	char *ustr;
+	int n, i,j;
+	int m=0;
+	/* get the size of box b */
+	BoxPos(b);
+	w=b->w;
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=1;
-	/* create a array box and point to it with the box pointer over */
-	AddChild(b, B_ARRAY, (void *)Ncol);
-	over=b->child+b->Nc-1;
-		
+	
+	
+	/* put box b in a posbox */
+	/* the posbox will have a maximum of 3 children
+	 * one original box
+	 * one subscript box
+	 * one superscript box
+	 */	
+	if (BoxInBox(b, B_ARRAY, (void *)Ncol))
+		return;/*BoxInBox failed, abort AddScripts */
+	
+	b->child[b->Nc-1].X=A;
+	b->child[b->Nc-1].S=INIT; // trigger recomputing xc after changing alignment
 	ustr=Unicode2Utf8(u);
-	AddChild(over, B_UNIT, ustr);
-	
-	
-	ParseStringInBox(str, over, Font); 	/* whatever is overlined */
-	/* scale the horizontal bar */
-	/* get box sizes */
-	BoxPos(over);
-	yc=over->child[1].ry;
-	over->child[0].X=CENTER;
-	over->S=INIT;
-	BoxPos(over);
-	BoxSetState(over, SIZEKNOWN);
-	over->yc=yc;
-	over->Y=FIX;
-	over->S=SIZEKNOWN;
-}
-
-// make a unit box with string and unicode character u repeated over the width of the string over it
-void MakeOverScale(char *str, unsigned int u, box *b, int Font)
-{
-	char *ustr;
-	int n;
-	int *Ncol;
-	box *over;
-	int i, j, yc;	
-	
-	Ncol=malloc(sizeof(int));
-	Ncol[0]=1;
-	/* create a array box and point to it with the box pointer over */
-	AddChild(b, B_ARRAY, (void *)Ncol);
-	over=b->child+b->Nc-1;
-		
-	ustr=Unicode2Utf8(u);
-	AddChild(over, B_UNIT, ustr);
-	ParseStringInBox(str, over, Font); 	/* whatever is overlined */
-	
-	/* scale the horizontal bar */
-	/* get box sizes */
-	BoxPos(over);
-	yc=over->child[1].ry;		
-	n=NumByte(ustr);
-	over->child[0].content=realloc(over->child[0].content, (n*over->w+1)*sizeof(char));
-	
-	str=(char *)over->child[0].content;
-	for (i=1;i<over->w;i++)
+	if (rep)
 	{
-		for (j=0;j<n;j++)
-			str[n*i+j]=str[j];	
-	}
-	str[n*over->w]='\0';
-	over->child[0].w=over->w;
-	over->child[0].xc=over->xc;
-	over->S=INIT;
-	BoxPos(over);
-	BoxSetState(over, SIZEKNOWN);
-	over->yc=yc;
-	over->Y=FIX;
-	over->S=SIZEKNOWN;
-}
-
-// make a unit box with string and unicode character u centered under it
-void MakeUnder(char *str, unsigned int u, box *b, int Font)
-{
-	char *ustr;
-	int *Ncol;
-	box *under;
-	int yc;	
-	
-	Ncol=malloc(sizeof(int));
-	Ncol[0]=1;
-	/* create a array box and point to it with the box pointer over */
-	AddChild(b, B_ARRAY, (void *)Ncol);
-	under=b->child+b->Nc-1;
-	
-	ParseStringInBox(str, under, Font); 	/* whatever is underlined */
-	
-	ustr=Unicode2Utf8(u);
-	AddChild(under, B_UNIT, ustr);
-	
-	
-	/* scale the horizontal bar */
-	/* get box sizes */
-	BoxPos(under);
-	yc=under->child[0].ry;
-	under->child[1].X=CENTER;
-	under->S=INIT;
-	BoxPos(under);
-	BoxSetState(under, SIZEKNOWN);
-	under->yc=yc;
-	under->Y=FIX;
-	under->S=SIZEKNOWN;
-}
-
-// make a unit box with string and unicode character u repeated over the width of the string under it
-void MakeUnderScale(char *str, unsigned int u, box *b, int Font)
-{
-	char *ustr;
-	int n;
-	int *Ncol;
-	box *under;
-	int i, j, yc;	
-	
-	Ncol=malloc(sizeof(int));
-	Ncol[0]=1;
-	/* create a array box and point to it with the box pointer over */
-	AddChild(b, B_ARRAY, (void *)Ncol);
-	under=b->child+b->Nc-1;
-	
-	ParseStringInBox(str, under, Font); 	/* whatever is underlined */
+		// repeat string till desired width
+		n=NumByte(ustr);
 		
-	ustr=Unicode2Utf8(u);
-	AddChild(under, B_UNIT, ustr);
-	
-	/* scale the horizontal bar */
-	/* get box sizes */
-	BoxPos(under);
-	yc=under->child[0].ry;
-		
-	n=NumByte(ustr);
-	under->child[1].content=realloc(under->child[1].content, (n*under->w+1)*sizeof(char));
-	
-	str=(char *)under->child[1].content;
-	for (i=1;i<under->w;i++)
-	{
-		for (j=0;j<n;j++)
-			str[n*i+j]=str[j];	
+		ustr=realloc(ustr, (n*w+1)*sizeof(char));
+		for (i=1;i<w;i++)
+		{
+			for (j=0;j<n;j++)
+				ustr[n*i+j]=ustr[j];	
+		}
 	}
-	str[n*under->w]='\0';
-	under->child[1].w=under->w;
-	under->child[1].xc=under->xc;
-	under->S=INIT;
-	BoxPos(under);
-	BoxSetState(under, SIZEKNOWN);
-	under->yc=yc;
-	under->Y=FIX;
-	under->S=SIZEKNOWN;
+	AddChild(b, B_UNIT, ustr);
+	b->child[b->Nc-1].X=A;
+	
+	if (above)
+	{ // swap children
+		box d;
+		d=b->child[0];
+		b->child[0]=b->child[1];
+		b->child[1]=d;
+		m=1;
+	}
+	
+	b->S=INIT;
+	BoxPos(b);
+	b->yc=(b->child+m)->ry;
+	b->Y=FIX;
 }
 
 void MakeCombining(TOKEN *T, box *b, int Font)
 {
 	unsigned int comb,alt, altascii;
-	
+	box *stuff;
 	LookupCombining(T->P,&comb,&alt,&altascii);
-	// treat all the same if we can do it with a combining mark
-	if (style==&STYLE_ASC)
+	
+	ParseStringInBox(T->args[0], b, Font); 	/* render whatever is the argument into b */
+	stuff=b->child+b->Nc-1;
+	
+	if ((style==&STYLE_ASC)&&(altascii)) // only use an ASCII version it it is desired *and* defined
 		alt=altascii;
 	else
 	{
-		if ((!IsTexConstruct(T->args[0]))&&(strlen(T->args[0])==1)&&(comb>0))
+		if (UnitBoxCount(stuff)==1)
 		{
-			char *str,*cm;
-			str=calloc(6,sizeof(char));
-			str[0]=T->args[0][0];
-			cm=Unicode2Utf8(comb);
-			strncpy(str+1,cm,4);
-			free(T->args[0]);
-			T->args[0]=str;
-			ParseStringInBox(T->args[0], b, Font);
-			return;
+			// not all that complex
+			box *unit;
+			char *str,*cm;			
+			unit=FirstUnitBox(stuff);
+			str=(char *)unit->content;
+			if (strspaces(str)==1)
+			{
+				// add a combining diacritical mark to the end of the content pointer
+				int l=strlen(str);
+				cm=Unicode2Utf8(comb);
+				str=realloc(str,(l+6)*sizeof(char));
+				strncpy(str+l,cm,5);
+				unit->content=(void *)str;
+				AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
+				return;
+			}
 		}
 	}
 	if (alt==0)
-	{
-		// no alternative, just make the symbol
-		ParseStringInBox(T->args[0], b, Font);
 		return; // nothing to do
-	}
-	// here we go to put some symbol above or un der it
+		
+	// now we have to add stuff to it
 	switch (T->P) 
 	{
-		case PD_OVERLINE:// repeat the alt sumbol above
-			MakeOverScale(T->args[0], alt, b, Font);
+		case PD_COMB_OVERLINE:// repeat the alt sumbol above
+			AddBoxBelowAbove(b, alt, CENTER, CM_ABOVE, CM_REPEAT, Font);
 			break;
-		case PD_UNDERLINE:// repeat the alt sumbol below
-			MakeUnderScale(T->args[0], alt, b, Font);
+		case PD_COMB_UNDERLINE:// repeat the alt sumbol below
+			AddBoxBelowAbove(b, alt, CENTER, CM_BELOW, CM_REPEAT, Font);
 			break;
-		case PD_UTILDE:
-			MakeUnder(T->args[0], alt, b, Font);
+		case PD_COMB_UTILDE:
+		case PD_COMB_WIDEUTILDE:
+		case PD_COMB_THREEUNDERDOT:
+		case PD_COMB_UNDERLEFTARROW:
+		case PD_COMB_UNDERRIGHTARROW:
+		case PD_COMB_UNDERBAR:
+		case PD_COMB_UNDERLEFTRIGHTARROW:
+		case PD_COMB_UNDERRIGHTHARPOONDOWN:
+		case PD_COMB_UNDERLEFTHARPOONDOWN:
+		case PD_COMB_PALH:
+		case PD_COMB_RH:
+		case PD_COMB_SBBRG:
+			AddBoxBelowAbove(b, alt, CENTER, CM_BELOW, CM_SINGLE, Font);
+			break;
+		case PD_COMB_OCOMMATOPRIGHT:
+		case PD_COMB_DROANG:
+			AddBoxBelowAbove(b, alt, MAX, CM_ABOVE, CM_SINGLE, Font);
 			break;
 		default:// put the alt symbol above centered
-			MakeOver(T->args[0], alt, b, Font);
+			AddBoxBelowAbove(b, alt, CENTER, CM_ABOVE, CM_SINGLE, Font);
 	}
+	
 	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
 }
 
@@ -2535,23 +2410,59 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 			case PD_PRIME:
 				MakePrime(&T, b, Font);
 				break;
-			case PD_GRAVE:
-			case PD_ACUTE:
-			case PD_HAT:
-			case PD_TILDE:
-			case PD_BREVE:
-			case PD_UNDERLINE:
-			case PD_OVERLINE:
-			case PD_DOT:
-			case PD_DIAERESIS:
-			case PD_MRING:
-			case PD_DACUTE:
-			case PD_CARON:
-			case PD_CEDILLA:
-			case PD_OGONEK:
-			case PD_UTILDE:
-			case PD_SSOLIDUS:
-			case PD_LSOLIDUS:
+			case PD_COMB_GRAVE:
+			case PD_COMB_ACUTE:
+			case PD_COMB_HAT:
+			case PD_COMB_TILDE:
+			case PD_COMB_BREVE:
+			case PD_COMB_UNDERLINE:
+			case PD_COMB_OVERLINE:
+			case PD_COMB_DOT:
+			case PD_COMB_DIAERESIS:
+			case PD_COMB_MRING:
+			case PD_COMB_DACUTE:
+			case PD_COMB_CARON:
+			case PD_COMB_CEDILLA:
+			case PD_COMB_OGONEK:
+			case PD_COMB_UTILDE:
+			case PD_COMB_SSOLIDUS:
+			case PD_COMB_LSOLIDUS:
+			// auto generated
+			case PD_COMB_LVEC:
+			case PD_COMB_LLVEC:
+			case PD_COMB_VEC:
+			case PD_COMB_DDDOT:
+			case PD_COMB_DDDDOT:
+			case PD_COMB_OVERLEFTRIGHTARROW:
+			case PD_COMB_OCIRC:
+			case PD_COMB_OVHOOK:
+			case PD_COMB_OTURNEDCOMMA:
+			case PD_COMB_OCOMMATOPRIGHT:
+			case PD_COMB_DROANG:
+			case PD_COMB_LEFTHARPOONACCENT:
+			case PD_COMB_RIGHTHARPOONACCENT:
+			case PD_COMB_WIDEBRIDGEABOVE:
+			case PD_COMB_ASTERACCENT:
+			case PD_COMB_CANDRA:
+			case PD_COMB_WIDEUTILDE:
+			case PD_COMB_THREEUNDERDOT:
+			case PD_COMB_UNDERLEFTARROW:
+			case PD_COMB_UNDERRIGHTARROW:
+			case PD_COMB_UNDERBAR:
+			case PD_COMB_UNDERLEFTRIGHTARROW:
+			case PD_COMB_UNDERRIGHTHARPOONDOWN:
+			case PD_COMB_UNDERLEFTHARPOONDOWN:
+			case PD_COMB_PALH:
+			case PD_COMB_RH:
+			case PD_COMB_SBBRG:
+			case PD_COMB_SOUT:
+			case PD_COMB_STRIKE:
+			case PD_COMB_ANNUITY:
+			case PD_COMB_ENCLOSECIRCLE:
+			case PD_COMB_ENCLOSESQUARE:
+			case PD_COMB_ENCLOSEDIAMOND:
+			case PD_COMB_ENCLOSETRIANGLE:
+			case PD_COMB_VERTOVERLAY:
 				MakeCombining(&T, b, Font);
 				break;
 			default:

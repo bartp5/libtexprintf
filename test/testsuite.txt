@@ -262,141 +262,119 @@ n-dimensional integral
   a
 <end>
 
-<input> overline_s
-\overline{s}
-<ref>  | -S | -m
-s̅
-<ref> -A
-_
-s
-<ref> -F mathnormal
-𝑠̅
-<end>
 
-<input> overline_l
-\overline{abc}
-<ref>  | -S | -m
-▁▁▁
-abc
-<ref> -A
-___
-abc
-<ref> -F mathnormal
-▁▁▁
-𝑎𝑏𝑐
-<end>
-
-<input> underline_s
-\underline{s}
+<input> overline
+\overline{abc} \overline{a} \overline a
 <ref>   | -S | -m
-s̲
+▁▁▁
+abc a̅ a̅
 <ref> -A
-s
--
-<ref> -F mathnormal
-𝑠̲
+___ _ _
+abc a a
+<ref> -a
+▁▁▁ ▁ ▁
+abc a a
 <end>
 
-<input> underline_l
-\underline{abc}
+
+<input> underline
+\underline{abc} \underline{a} \underline a
 <ref>   | -S | -m
-abc
+abc a̲ a̲
 ───
 <ref> -A
-abc
----
-<ref> -F mathnormal
-𝑎𝑏𝑐
-───
+abc a a
+--- - -
+<ref> -a
+abc a a
+─── ─ ─
 <end>
 
-<input> bar_s
-\bar{s}
-<ref>   | -S | -m
-s̅
-<ref> -A
-_
-s
-<ref> -F mathnormal
-𝑠̅
-<end>
 
-<input> bar_l
-\bar{abc}
+<input> bar
+\bar{abc} \bar{a} \bar a
 <ref>   | -S | -m
 ▁▁▁
-abc
+abc a̅ a̅
 <ref> -A
-___
-abc
+___ _ _
+abc a a
+<ref> -a
+▁▁▁ ▁ ▁
+abc a a
 <ref> -F mathnormal
 ▁▁▁
-𝑎𝑏𝑐
+𝑎𝑏𝑐 𝑎̅ 𝑎̅
 <end>
 
-<input> grave_l
-\grave{abc}
-<ref>   | -A | -S | -m
+<input> grave
+\grave{abc} \grave{a} \grave a
+<ref>   | -S | -m
  `
-abc
-<end>
-
-<input> grave_s
-\grave{a}
-<ref>   | -S | -m
-à
+abc à à
 <ref> -A
-`
-a
+ `  ` `
+abc a a
+<ref> -a
+ `  ` `
+abc a a
+<ref> -F mathnormal
+ `
+𝑎𝑏𝑐 𝑎̀ 𝑎̀
 <end>
 
-<input> acute_s
-\acute{a}
+
+
+<input> acute
+\acute{abc} \acute{a} \acute a
 <ref>   | -S | -m
-á
-<ref> -A
-´
-a
-<end>
-
-<input> acute_l
-\acute{abc}
-<ref>   | -A | -S | -m
  ´
-abc
+abc á á
+<ref> -A
+ ´  ´ ´
+abc a a
+<ref> -a
+ ´  ´ ´
+abc a a
+<ref> -F mathnormal
+ ´
+𝑎𝑏𝑐 𝑎́ 𝑎́
 <end>
 
-<input> hat_l
-\hat{abc}
-<ref>   | -A | -S | -m
+
+<input> hat
+\hat{abc} \hat{a} \hat a
+<ref>   | -S | -m
  ^
-abc
-<end>
-
-<input> hat_s
-\hat{a}
-<ref>   | -S | -m
-â
+abc â â
 <ref> -A
-^
-a
+ ^  ^ ^
+abc a a
+<ref> -a
+ ^  ^ ^
+abc a a
+<ref> -F mathnormal
+ ^
+𝑎𝑏𝑐 𝑎̂ 𝑎̂
 <end>
 
-<input> tilde_s
-\tilde{a}
+
+<input> tilde
+\tilde{abc} \tilde{a} \tilde a
 <ref>   | -S | -m
-ã
-<ref> -A
-~
-a
-<end>
-
-<input> tilde_l
-\tilde{abc}
-<ref>   | -A | -S | -m
  ~
-abc
+abc ã ã
+<ref> -A
+ ~  ~ ~
+abc a a
+<ref> -a
+ ~  ~ ~
+abc a a
+<ref> -F mathnormal
+ ~
+𝑎𝑏𝑐 𝑎̃ 𝑎̃
 <end>
+
 
 <input> breve
 \breve{abc} \breve{a} \breve a

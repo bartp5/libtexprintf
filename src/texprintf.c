@@ -241,3 +241,8 @@ void ToggleMapSuperSub()
 {
 	style->mapsupersub=!style->mapsupersub;
 }
+void ToggleAvoidCombining()
+{
+	style->avoidcombining=!style->avoidcombining;
+}
+

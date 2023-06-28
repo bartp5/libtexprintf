@@ -43,11 +43,12 @@ int main(int argc, char **argv)
 			{"ascii",             no_argument, 0, 'A'},
 			{"combine-errors",    no_argument, 0, 'E'},
 			{"mapsupersub",       no_argument, 0, 'm'},
+			{"avoidcombining" ,   no_argument, 0, 'a'},
 			{"end-options"    ,   no_argument, 0, 'e'},
 			{0, 0, 0, 0}
 		};
 		int option_index = 0;
-		c = getopt_long (argc, argv, "l:sTviw:f:F:BtSAEme",long_options, &option_index);
+		c = getopt_long (argc, argv, "l:sTviw:f:F:BtSAEmae",long_options, &option_index);
 		if (c == -1)
 			break;
 
@@ -130,6 +131,9 @@ int main(int argc, char **argv)
 				break;
 			case 'm':
 				ToggleMapSuperSub();
+				break;
+			case 'a':
+				ToggleAvoidCombining();
 				break;
 			case 'e':
 				e=0;

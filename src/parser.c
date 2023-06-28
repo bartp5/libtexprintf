@@ -14,6 +14,7 @@
 
 Style STYLE_UNI={
 	1,
+	0,
 	/* plain brackets */
 	{0x28   ,0x0239D,0x0239C,0x0239B}, // single, lower, extender, upper
 	{0x29   ,0x023A0,0x0239F,0x0239E}, 
@@ -63,6 +64,7 @@ Style STYLE_UNI={
 };
 Style STYLE_ASC={
 	0,
+	0,
 	/* plain brackets */
 	{0x28   ,'\\' ,'|','/'}, // single, lower, extender, upper
 	{0x29   ,'/','|','\\'}, 
@@ -110,6 +112,7 @@ Style STYLE_ASC={
 	{3,1,'\'','\'','\''},  // triple prime
 	{4,1,'\'','\'','\'','\''},  // quadruple prime
 };
+
 
 
 void ParseStringRecursive(char *B, box *parent, int Font);
@@ -1019,6 +1022,7 @@ void AddBoxBelowAbove(box *b, unsigned int u, boxalign A, int above, int rep, in
 	b->Y=FIX;
 }
 
+
 void MakeCombining(TOKEN *T, box *b, int Font)
 {
 	unsigned int comb,alt, altascii;
@@ -1032,23 +1036,26 @@ void MakeCombining(TOKEN *T, box *b, int Font)
 		alt=altascii;
 	else
 	{
-		if (UnitBoxCount(stuff)==1)
+		if ((style->avoidcombining==0)||(alt==0))
 		{
-			// not all that complex
-			box *unit;
-			char *str,*cm;			
-			unit=FirstUnitBox(stuff);
-			str=(char *)unit->content;
-			if (strspaces(str)==1)
+			if (UnitBoxCount(stuff)==1)
 			{
-				// add a combining diacritical mark to the end of the content pointer
-				int l=strlen(str);
-				cm=Unicode2Utf8(comb);
-				str=realloc(str,(l+6)*sizeof(char));
-				strncpy(str+l,cm,5);
-				unit->content=(void *)str;
-				AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
-				return;
+				// not all that complex
+				box *unit;
+				char *str,*cm;			
+				unit=FirstUnitBox(stuff);
+				str=(char *)unit->content;
+				if (strspaces(str)==1)
+				{
+					// add a combining diacritical mark to the end of the content pointer
+					int l=strlen(str);
+					cm=Unicode2Utf8(comb);
+					str=realloc(str,(l+6)*sizeof(char));
+					strncpy(str+l,cm,5);
+					unit->content=(void *)str;
+					AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
+					return;
+				}
 			}
 		}
 	}

@@ -555,6 +555,7 @@ here the original version
                             (1-𝑞    )(1-𝑞    )
 <end>
 Maxwell’s Equations
+
 <input> Maxwell
 \begin{aligned}
 \nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & = \frac{4\pi}{c}\vec{\mathbf{j}} \\ 
@@ -562,32 +563,24 @@ Maxwell’s Equations
 \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\ 
 \nabla \cdot \vec{\mathbf{B}} & = 0 
 \end{aligned}
-<ref> |-S
-          →
-   →   1 𝜕𝐄    4π→
- ∇×𝐁 - ─ ──  = ──𝐣
+<ref>   | -S | -m
+       1 𝜕𝐄⃗    4π
+ ∇×𝐁⃗ - ─ ──  = ──𝐣⃗
        c 𝜕t    c
-          →
-        ∇⋅𝐄  = 4 πρ
-          →
-   →   1 𝜕𝐁    →
- ∇×𝐄 + ─ ──  = 𝟎
+        ∇⋅𝐄⃗  = 4 πρ
+       1 𝜕𝐁⃗
+ ∇×𝐄⃗ + ─ ──  = 𝟎⃗
        c 𝜕t
-          →
-        ∇⋅𝐁  = 0
+        ∇⋅𝐁⃗  = 0
 <ref> -A
-          →
-   →   1 𝜕𝐄    4π→
- ∇×𝐁 - - --  = --𝐣
+       1 𝜕𝐄⃗    4π
+ ∇×𝐁⃗ - - --  = --𝐣⃗
        c 𝜕t    c
-          →
-        ∇⋅𝐄  = 4 πρ
-          →
-   →   1 𝜕𝐁    →
- ∇×𝐄 + - --  = 𝟎
+        ∇⋅𝐄⃗  = 4 πρ
+       1 𝜕𝐁⃗
+ ∇×𝐄⃗ + - --  = 𝟎⃗
        c 𝜕t
-          →
-        ∇⋅𝐁  = 0
+        ∇⋅𝐁⃗  = 0
 <end>
 
 One-Diode solar cell equation

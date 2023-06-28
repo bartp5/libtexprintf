@@ -38,5 +38,6 @@ char *texerrors_str();
 void SetStyleASCII();
 void SetStyleUNICODE();
 void ToggleMapSuperSub();
+void ToggleAvoidCombining();
 
 #endif

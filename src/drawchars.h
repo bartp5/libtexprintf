@@ -7,6 +7,7 @@
  */
 typedef struct Style {	
 	int mapsupersub; 
+	int avoidcombining; // option to avoid combining diacritical marks if possible
 	int LBRACKCHAR[4]; // single, lower, extender, upper
 	int RBRACKCHAR[4]; 
 	int LSQUARECHAR[4];

@@ -40,12 +40,17 @@ at suitable places to divide the expression over multiple lines. It is not guara
 to insert line breaks and thus the actual line length may exceed the specified one.
 
 .B [--symbol-list -s]
+.br
 List all symbols supported by this version of utftex. Supported in this case means that an input command exists to 
 generate the symbol as output, e.g. \ealpha as input generates α as output
 
-.B [--verbose -v]
+.B [--test-texsymbols -T]
 .br
-Print version and exit
+Same as above (list all symbols) in a more machine readable format.
+
+.B [--version -v]
+.br
+Print utftex and libtexprintf versions.
 
 .B [--show-input -i]
 .br
@@ -64,10 +69,38 @@ Specify the size of full width characters. Valid sizes are 1 and 2. Default is 2
 Specify the default font style to use. See the Fonts below. The font names correspond to the font commands minus the slash and the argument.
 e.g. one could pass "-F mathnormal". Without this option the default font is set to "text" as not all fonts support the other font styles.
 
+.B [--test-fonts -t]
+.br
+Print table with chacters in various styles.
+
+.B [--test-stexprintf -S]
+.br
+
+.B [--box-tree -B]
+.br
+Print box structure (for debugging purposes)
+
 .B [--ascii -A]
 .br
 Try to stick to ASCII characters. This affects all "drawing" characters used for integral signs, brackets, fractions, and tables.
 It does not affect symbols like \alpha (The user can avoid those, and there is no ASCII equivalent for \alpha).
+
+.B [--combine-errors -E]
+.br
+Combines error messages in a semicolon delimited string.
+
+.B [--mapsupersub -m]
+.br
+Turns on or off sub/super script mapping (mapping of sub/super scripts to corresponding unicode code points for sub/super script symbols). 
+
+.B [--avoidcombining -a]
+.br
+Per default utftex tries to use combining diacritical marks for accents whenever possible. This toggle swhich will change this in trying 
+to avoid combining characters unless no alternative is available. 
+
+.B [--end-options -e]
+.br
+Ends the option parser (allows to pass equations starting with a minus).
 
 .SH SYNTAX
 

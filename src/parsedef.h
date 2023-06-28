@@ -114,12 +114,12 @@ const KEYWORD   Keys[] = {
 	{"\\dddot" , PD_COMB_DDDOT ,1,0},
 	{"\\ddddot" , PD_COMB_DDDDOT ,1,0},
 	{"\\overleftrightarrow" , PD_COMB_OVERLEFTRIGHTARROW ,1,0},
-	{"\\ocirc" , PD_COMB_OCIRC ,1,0},
+	{"\\ocirc" , PD_COMB_MRING ,1,0},
 	{"\\ovhook" , PD_COMB_OVHOOK ,1,0},
 	{"\\oturnedcomma" , PD_COMB_OTURNEDCOMMA ,1,0},
 	{"\\ocommatopright" , PD_COMB_OCOMMATOPRIGHT ,1,0},
 	{"\\droang" , PD_COMB_DROANG ,1,0},
-	{"\\leftharpoonaccent" , PD_COMB_LEFTHARPOONACCENT ,1,0},
+	{"\\leftharpoonaccent" , PD_COMB_LVEC ,1,0},
 	{"\\rightharpoonaccent" , PD_COMB_RIGHTHARPOONACCENT ,1,0},
 	{"\\widebridgeabove" , PD_COMB_WIDEBRIDGEABOVE ,1,0},
 	{"\\asteraccent" , PD_COMB_ASTERACCENT ,1,0},
@@ -227,8 +227,7 @@ const CombiningMarks  Combining[] = {
 	{PD_COMB_UNDERBAR , 0x00332,0x02500,0x002D}, // underline==underbar
 	{PD_COMB_DOT,       0x00307, 0x002E, 0x002E}, // alt 
 	{PD_COMB_DIAERESIS, 0x00308, 0, 0},
-	{PD_COMB_MRING,     0x0030A, 0x02218, 0},  //MRING==OCIRC
-	{PD_COMB_OCIRC , 	0x0030A,0x02218,0},
+	{PD_COMB_MRING,     0x0030A, 0x02218, 0},  
 	{PD_COMB_DACUTE,    0x0030B, 0, 0},
 	{PD_COMB_CARON,     0x0030C, 0, 0}, // v or check mark 0x2713 ?
 	{PD_COMB_CEDILLA,   0x00327, 0, 0},
@@ -239,7 +238,6 @@ const CombiningMarks  Combining[] = {
 	
 	// auto generated
 	{PD_COMB_LVEC , 0x020D0,0x021BC,0},
-	{PD_COMB_LEFTHARPOONACCENT , 0x020D0,0x021BC,0},  //LEFTHARPOONACCENT==LVEC
 	{PD_COMB_LLVEC , 0x020D6,0x02190,0},
 	{PD_COMB_VEC , 0x020D7,0x02192,0},
 	{PD_COMB_DDDOT , 0x020DB,0x02026,0},

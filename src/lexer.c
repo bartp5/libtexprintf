@@ -15,10 +15,14 @@
 /* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
 // ERRORFLAG LEXPREMATUREEND "Premature end of string"
 
+
+/* the list symbols routines list both symbols from the symbol table
+ * and combining diacritical marks
+ */
 #define MAXSTRLEN 100000
 void ListSymbols()
 {
-	int j=0, i;
+	int j=0, i, k;
 	int l,lm;
 	char *str, *p;
 	lm=0;
@@ -35,19 +39,30 @@ void ListSymbols()
 	{
 		l=strlen(Symbols[j].name);
 		str=Unicode2Utf8(Symbols[j].unicode);
-		if (IsCombiningMark(Symbols[j].unicode))
+		// symbol list should not contain combining diacritical marks
+		printf("Symbol: %s"	, Symbols[j].name);
+		for (i=l;i<lm+2;i++)
+			printf(" ");
+		printf(" %s\n", str);
+		free(str);
+		j++;
+	}
+	j=0;
+	while (Combining[j].P!=PD_NONE)
+	{
+		str=Unicode2Utf8(Combining[j].comb);
+		k=0;
+		while (Keys[k].name)
 		{
-			printf("Symbol: %s %s"	, Symbols[j].name, p);
-			for (i=l;i<lm+1;i++)
-				printf(" ");
-			printf("%s%s\n", str,p);
-		}
-		else
-		{
-			printf("Symbol: %s"	, Symbols[j].name);
-			for (i=l;i<lm+2;i++)
-				printf(" ");
-			printf(" %s\n", str);
+			if (Keys[k].P==Combining[j].P)
+			{
+				l=strlen(Keys[k].name);
+				printf("Symbol: %s %s"	, Keys[k].name, p);
+				for (i=l;i<lm+1;i++)
+					printf(" ");
+				printf("%s%s\n", p, str);
+			}
+			k++;
 		}
 		free(str);
 		j++;
@@ -57,7 +72,7 @@ void ListSymbols()
 
 char * Symbols_Str()
 {
-	int j=0, ln=0, s=1;
+	int j=0, ln=0, s=1, k;
 	size_t slen=0;
 	char *str, *p;
 	char *line=calloc(s, 1);
@@ -66,27 +81,35 @@ char * Symbols_Str()
 	while(Symbols[j].name)
 	{
 		str=Unicode2Utf8(Symbols[j].unicode);
-		if(IsCombiningMark(Symbols[j].unicode))
-		{
-			slen=(size_t)snprintf(NULL, 0, "%s %s:%s%s;", Symbols[j].name, p, str, p);
-			while (s < (ln+slen+1))
-				s*=2;
-			line=realloc(line, s);
-			snprintf(line+ln, slen+1, "%s %s:%s%s;", Symbols[j].name, p, str, p);
-			ln+=slen;
-		}
-		else
-		{
-			slen = (size_t) snprintf(NULL, 0, "%s:%s;", Symbols[j].name, str);
-			while (s < (ln+slen+1))
-				s*=2;
-			line=realloc(line, s);
-			snprintf(line+ln, slen+1, "%s:%s;", Symbols[j].name, str);
-			ln+=slen;
-		}
+		slen = (size_t) snprintf(NULL, 0, "%s:%s;", Symbols[j].name, str);
+		while (s < (ln+slen+1))
+			s*=2;
+		line=realloc(line, s);
+		snprintf(line+ln, slen+1, "%s:%s;", Symbols[j].name, str);
+		ln+=slen;
 		free(str);
 		j++;
 	}
+	j=0;
+	while (Combining[j].P!=PD_NONE)
+	{
+		str=Unicode2Utf8(Combining[j].comb);
+		k=0;
+		while (Keys[k].name)
+		{			
+			if (Keys[k].P==Combining[j].P)
+			{
+				slen=(size_t)snprintf(NULL, 0, "%s %s:%s%s;", Keys[k].name, p, p, str);
+				while (s < (ln+slen+1))
+					s*=2;
+				line=realloc(line, s);
+				snprintf(line+ln, slen+1, "%s %s:%s%s;", Keys[k].name, p, p, str);
+				ln+=slen;
+			}
+			k++;
+		}
+		j++;
+	}	
 	free(p);
 	return realloc(line, ln+1);
 }

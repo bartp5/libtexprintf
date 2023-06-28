@@ -9,6 +9,34 @@
 #include <windows.h>
 #endif
 /* lookup the unicode symbol in the latex symbol list to sort out the latex command */
+PRSDEF LookupCombining_PRSDEF(unsigned int U)
+{
+	int j=0;
+	while (Combining[j].P!=PD_NONE)
+	{
+		if (Combining[j].comb==U)
+			return Combining[j].P;
+		j++;
+	}
+	return PD_NONE;
+}
+
+char * LookupCombiningName(PRSDEF P, int N)
+{
+	int j=0, n=-1;
+	while (Keys[j].name)
+	{
+		if (Keys[j].P==P)
+		{
+			n++;
+			if (n==N)
+				return Keys[j].name;
+		}
+		j++;
+	}
+	return NULL;
+}
+/* lookup the unicode symbol in the latex symbol list to sort out the latex command */
 Symbol LookupSymbol(unsigned int U, int N)
 {
 	int j=0, n=-1;
@@ -24,12 +52,12 @@ Symbol LookupSymbol(unsigned int U, int N)
 	}
 	return Symbols[j];
 }
-
 int main(int argc, char **argv)
 {
 	int i, j, k, l,N;
 	char *p, c;
 	Symbol S;
+	PRSDEF P;
 #ifdef __MINGW32__
 	UINT oldcp = GetConsoleOutputCP();	
 	SetConsoleOutputCP(CP_UTF8);
@@ -66,9 +94,14 @@ int main(int argc, char **argv)
 			c=buffer[j+n];
 			buffer[j+n]='\0';
 			if (IsCombiningMark(U))
+			{
 				printf("%s%s\t0x%05X\t", p, buffer+j, U);
+				P=LookupCombining_PRSDEF(U);
+				printf("%d %d\n", P, PD_NONE);
+			}
 			else
 			{
+				P=PD_NONE;
 				switch(buffer[j])
 				{
 					// first the non printable ASCII stuff */
@@ -181,20 +214,41 @@ int main(int argc, char **argv)
 			for (;l<4;l++) // fill up space to align table
 				printf("      ");
 			N=0;
-			S=LookupSymbol(U,N);
-			N++;
-			if (S.name)
+			if (P==PD_NONE)
 			{
-				printf(" %s", S.name);
-				while (S.name)
+				S=LookupSymbol(U,N);
+				N++;
+				if (S.name)
 				{
-					S=LookupSymbol(U,N);
-					N++;
-					if (S.name)
-						printf(", %s", S.name);
-				}					
+					printf(" %s", S.name);
+					while (S.name)
+					{
+						S=LookupSymbol(U,N);
+						N++;
+						if (S.name)
+							printf(", %s", S.name);
+					}					
+				}
+				putchar('\n');		
 			}
-			putchar('\n');		
+			else
+			{
+				S.unicode=U;
+				S.name=LookupCombiningName(P,N);
+				N++;
+				if (S.name)
+				{
+					printf(" %s", S.name);
+					while (S.name)
+					{
+						S.name=LookupCombiningName(P,N);
+						N++;
+						if (S.name)
+							printf(", %s", S.name);
+					}					
+				}
+				putchar('\n');		
+			}
 			
 			buffer[j+n]=c;
 			j+=n;

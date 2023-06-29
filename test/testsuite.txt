@@ -677,6 +677,13 @@ abc a⃤ a⃤
 abc a⃒ a⃒
 <end>
 
+test stacking of diacritics
+<input> stack_diacritics
+jul\dot{\ddot{\iota}}a
+<ref>   | -S
+julϊ̇a
+<end> 
+
 backslash. The backslash command produces a symbol but is not included 
 in the symbol table. We test it here
 

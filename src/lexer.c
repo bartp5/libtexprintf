@@ -1408,6 +1408,29 @@ TOKEN SubLexer(char *begin, FONT F)
 			PeekAhead(&R, begin);
 			return R;
 		}
+		else if ((K.P>=PD_BIG1)&&(K.P<=PD_BIG4))
+		{
+			SCALABLE_DELIMITER D;
+			/* create a token with three arguments, the open, middle and closing bracket and units inbetween */
+			char *brac;
+			R.P=K.P;
+			begin+=strlen(K.name);
+					
+			end=begin;
+			D=LookupDelimiter(end, &brac);
+			if (D==DEL_NONE)
+			{	
+				AddErr(INVALIDDELIMITER);
+			}
+			begin+=strlen(brac);
+					
+			R.args=malloc(1*sizeof(char *));
+			R.args[0]=malloc(5*sizeof(char));
+			strncpy(R.args[0],brac,5);
+			
+			PeekAhead(&R, begin);
+			return R;
+		}
 		else if ((K.P==PD_FUNCTION)||(K.P==PD_LIM))
 		{
 			R.P=PD_TEXT;

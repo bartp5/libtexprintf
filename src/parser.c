@@ -696,6 +696,61 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 	AddScripts(T->sub, T->super, B, T->limits, Font);
 }
 
+void MakeBigBrace(TOKEN *T, box *b, int Font)
+/* make a box between brackets for the token T */
+{
+	SCALABLE_DELIMITER D;
+	int *dim;
+	int *Ncol, *xy;
+	box *B;
+	int h, yc, bi=-1;	
+	
+	/* create a line box for the brackets and body*/
+	Ncol=malloc(sizeof(int));
+	Ncol[0]=0;
+	AddChild(b, B_LINE, (void *)Ncol);
+	B=b->child+b->Nc-1;
+	
+	D=LookupDelimiter(T->args[0], NULL); /* opening delimiter */	
+	if (D!=DEL_DOT)
+	{
+		/* posbox for the left bracket */
+		xy=calloc(2,sizeof(int));		
+		AddChild(B, B_POS, (void *)xy);
+		bi=B->Nc-1;
+	}
+	
+	dim=malloc(2*sizeof(int));
+	dim[0]=0;
+	switch (T->P)
+	{
+		case PD_BIG1:
+			dim[1]=2;
+			break;
+		case PD_BIG2:
+			dim[1]=3;
+			break;
+		case PD_BIG3:
+			dim[1]=4;
+			break;
+		case PD_BIG4:
+		default:
+			dim[1]=5;
+			break;
+	}		
+		
+	/* make a dummy box for the body */
+	AddChild(B, B_DUMMY, (void*)dim);	
+	
+	if (bi>=0)
+	{
+		DrawScalableDelim(D, B->child+bi, dim[1]);
+		B->child[bi].yc=(dim[1]-1)/2;
+		B->child[bi].Y=FIX;
+	}
+		
+	AddScripts(T->sub, T->super, B, T->limits, Font);
+}
 void AddBraces(char *lbrace, char *rbrace, box *b)
 /* this routine also puts things between brackets but works differently from the routine above
  * This routine takes the box b, places a new box around it (i.e. b will be the child of this box)
@@ -2317,6 +2372,12 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				break;
 			case PD_LEFTRIGHT:
 				MakeLeftRight(&T, b, Font);
+				break;
+			case PD_BIG1:
+			case PD_BIG2:
+			case PD_BIG3:
+			case PD_BIG4:
+				MakeBigBrace(&T, b, Font);
 				break;
 			case PD_ARRAY:
 				MakeArray(&T, b, Font);

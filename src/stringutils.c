@@ -251,6 +251,8 @@ char * UnicodeMapper(char *in)
 	char *p, *u;
 	int na=2*strlen(in), len, pos=0;
 	int Nin, Nout, U, Um;
+	if (!in)
+		return NULL;
 	out=malloc(na*sizeof(char));
 	p=in;
 	len=strlen(in);
@@ -415,7 +417,7 @@ char *MapScript(char *script, MapScriptTable *S)
 	char *p, *u;
 	int na=2*strlen(script), len, pos=0;
 	int Nin, Nout, U, Um;
-	out=malloc(na*sizeof(char));
+	out=malloc((na+1)*sizeof(char));
 	p=script;
 	len=strlen(script);
 	while (*p)
@@ -433,7 +435,7 @@ char *MapScript(char *script, MapScriptTable *S)
 			if (len>na)
 			{
 				na=len+10;
-				out=realloc(out,na*sizeof(char));
+				out=realloc(out,(na+1)*sizeof(char));
 			}
 		}
 		else

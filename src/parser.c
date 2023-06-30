@@ -2259,6 +2259,8 @@ void MakeArrayBody(TOKEN *T, box *b, int Font)
 	}
 	free(h);
 	free(w);
+	free(xc);
+	free(yc);
 	array->S=INIT;
 }
 

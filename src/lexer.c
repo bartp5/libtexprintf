@@ -167,6 +167,10 @@ int IsCommandChar(char c) // return 1 for letters, 2 for characters that are use
 char *CommandEnd(char *begin)
 {
 	char *end;
+	if (!begin)
+		return NULL;
+	if (!(*begin))
+		return NULL;
 	end=begin+1;
 	if (IsCommandChar(*end)==2)
 		end++;
@@ -185,6 +189,11 @@ KEYWORD LookupKey(char *begin, const KEYWORD * Keys)
 	int j=0, l;
 	char c, *p;
 	p=CommandEnd(begin);
+	if (!p)
+	{
+		KEYWORD K={NULL, PD_NONE, 0, 0};
+		return K;
+	}
 	c=*p;
 	*p='\0';
 	l=strlen(begin);
@@ -1074,9 +1083,9 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 								na+=10;
 								res[i]=realloc(res[i],na*sizeof(char));
 							}
-							line=1;
+							if (!isspace(*begin))
+								line=1;
 							break;
-						
 					}
 				}
 				begin++;
@@ -1199,7 +1208,7 @@ TOKEN BeginEnv(TOKEN T)
 			{
 				int Nl, j=0, k=0;
 				/* fix alignment data */
-				p=malloc((2*Nc+1)*sizeof(char));
+				p=calloc((2*Nc+1),sizeof(char));
 				Nl=strlen(valign);
 				while (k<Nc)
 				{

@@ -110,6 +110,7 @@ char * DrawBox(box *b)
 			}
 			out[k]='\n';
 			k++;
+			out[k]='\0';
 		}
 		
 		free(buffer);

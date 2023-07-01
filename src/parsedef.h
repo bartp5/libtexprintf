@@ -34,6 +34,7 @@ const KEYWORD   Keys[] = {
 	{"\\backslash", PD_BACKSLASH	, 0, 0},
 	{"\\begin", 	PD_BEGIN   	, 1, 0},
 	{"\\frac", 		PD_FRAC    	, 2, 0},
+	{"\\stackrel",	PD_STACK   	, 2, 0},
 	{"\\binom", 	PD_BINOM   	, 2, 0},
 	{"\\sqrt", 		PD_SQRT    	, 1, 1},
 	{"\\left", 		PD_LEFTRIGHT   , 0, 0},
@@ -56,6 +57,7 @@ const KEYWORD   Keys[] = {
 	{"\\vphantom",  PD_VPHANTOM   	, 1, 0},
 	{"\\hphantom",  PD_HPHANTOM    	, 1, 0},
 	{"\\limits",  	PD_LIMITS      , 1, 0},
+	{"\\nolimits",  PD_NOLIMITS    , 1, 0},
 	{"\\lim",  		PD_LIM   		, 0, 0},
 	{"\\over", 		PD_OVER   		, 0, 0},
 	{"\\choose", 	PD_CHOOSE  		, 0, 0},
@@ -155,7 +157,10 @@ const KEYWORD   Keys[] = {
 	{"\\enclosediamond" , PD_COMB_ENCLOSEDIAMOND ,1,0},
 	{"\\enclosetriangle" , PD_COMB_ENCLOSETRIANGLE ,1,0},
 	{"\\vertoverlay" , PD_COMB_VERTOVERLAY ,1,0},
-	
+	/* commands to ignore */
+	{"\\mathop",      	PD_NSPACE    	, 0, 0}, /* with libtexprintf the \limits command always works, so we ignore this */
+	{"\\mathord",      	PD_NSPACE    	, 0, 0}, /* with libtexprintf everything is ordinary! (not sure what mathord actually does...) */
+	{"\\kern",      	PD_NSPACE    	, 0, 0}, /* this I suppose I should implement at least for positive space */
 	// end
 	{NULL, 			PD_NONE 		, 0, 0},
 };

@@ -525,6 +525,10 @@ void PeekAhead(TOKEN *T, char *begin)
 			begin+=strlen(K.name);
 			T->limits=1;
 			break;
+		case PD_NOLIMITS: /* unset the limits option */
+			begin+=strlen(K.name);
+			T->limits=0;
+			break;
 		case PD_OVER: /* same as \frac but then after the fact. BUG: in tex this command is greedy but this implementation is not! */
 		{
 			char *str, *p, *b;

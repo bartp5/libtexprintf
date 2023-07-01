@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <locale.h>
+#include <math.h>
 #include "lexer.h"
 #include "parsedef.h"
 #include "stringutils.h"
@@ -1333,6 +1334,76 @@ TOKEN BeginEnv(TOKEN T)
 	return R;
 }
 
+
+char *GetNumPart(char *str, float *f)
+{
+	char *p, c;
+	p=str;
+	(*f)=1.0;
+	if (IsInSet(*p, "+-"))
+		p++;
+	while(IsInSet(*p, "0123456789"))
+		p++;
+	if (IsInSet(*p, "."))
+		p++;
+	while(IsInSet(*p, "0123456789"))
+		p++;
+	if (p==str)
+		return p;
+	c=(*p);
+	*p='\0';
+	if (strncmp(p,"-",2)==0)// only a - means -1;
+		(*f)=-1.0;
+	else
+		(*f)=atof(str);
+	*p=c;
+	return p;
+}
+
+float LookupUnit(char *str)
+{
+	int i=0;
+	while (Lengths[i].name)
+	{
+		if (strncmp(str,Lengths[i].name,255)==0)
+			return Lengths[i].scale;
+		i++;
+	}
+	return Lengths[i].scale;
+}
+int ReadLengthWidth(char *str)
+{ // return length in character width
+	char *p;
+	float l, u;
+	p=GetNumPart(str, &l);
+	u=LookupUnit(p);
+	if (u>=0)
+		l*=u;
+	return (int)round(l);
+}
+
+int ReadLengthHeight(char *str)
+{ // return length in character width
+	char *p;
+	float l, u;
+	p=GetNumPart(str, &l);
+	u=LookupUnit(p);
+	if (u>=0)
+		l=l*u/AspectRatio; // if no unit is found it is directly character height
+	return (int)round(l);
+}
+
+/* TODO
+ * make things like 
+ * \kern-\nulldelimiterspace work
+ * to this end we must extract the whole length spec
+ * as a unit. Right now it only works when we do \kern{} (which is not even proper tex)
+ * we have to hanmdle an open ended str
+ */
+
+
+
+
 int IsTexConstruct(char *string)
 {
 	char *p;
@@ -1512,6 +1583,57 @@ TOKEN SubLexer(char *begin, FONT F)
 			R.next=begin+2;
 			return R;
 		}
+		else if (K.P==PD_KERN)
+		{
+			char *p, *e, c;
+			int l;
+			float f;
+			R.P=K.P;
+			R.args=malloc(sizeof(char *));
+			// we do everything twice ...
+			begin+=5;
+			p=GetNumPart(begin, &f);
+			e=CommandEnd(p);
+			c=*e;
+			*e='\0';
+			f=LookupUnit(p);
+			if (f>=0)
+			{
+				l=strlen(begin);
+				R.args[0]=malloc((l+1)*sizeof(char));
+				R.Nargs=1;
+				strncpy(R.args[0], begin, l+1);
+				R.args[0][l+1]='\0';
+				begin+=l+1;
+				*e=c;
+				R.next=begin;
+			}
+			else
+			{ // only a number?				
+				*e=c;
+				if (p>begin)
+				{
+					c=(*p);
+					*p='\0';
+					l=strlen(begin);
+					R.args[0]=malloc((l+1)*sizeof(char));
+					R.Nargs=1;
+					strncpy(R.args[0], begin, l+1);
+					R.args[0][l+1]='\0';
+					begin+=l;
+					*p=c;
+					R.next=begin;
+				}
+				else
+				{
+					/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
+					// ERRORFLAG ERRTOOFEWMANDARG  "Too few mandatory arguments to command"
+					AddErr(ERRTOOFEWMANDARG);
+					R.P=PD_NONE; /* cancel this token, it is not working */
+				}
+			}
+			return R;
+		}
 		else if (K.name!=NULL)
 		{
 			char *str;
@@ -1568,8 +1690,6 @@ TOKEN SubLexer(char *begin, FONT F)
 			}
 			if (!(n==0))
 			{
-				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
-				// ERRORFLAG ERRTOOFEWMANDARG  "Too few mandatory arguments to command"
 				AddErr(ERRTOOFEWMANDARG);
 				R.P=PD_NONE; /* cancel this token, it is not working */
 				return R;

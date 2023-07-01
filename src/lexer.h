@@ -102,6 +102,7 @@ typedef enum {
 	PD_BEGIN,
 	PD_END,
 	PD_BOX, /* custom command to make a box of some size */
+	PD_KERN, 
 	PD_PHANTOM,
 	PD_VPHANTOM,
 	PD_HPHANTOM,
@@ -186,3 +187,5 @@ char * PreProcessor(char *string2);
 PRSDEF  LookupFont(char *begin);
 SCALABLE_DELIMITER LookupDelimiter(char *begin, char **del);
 void LookupCombining(PRSDEF P, unsigned int *comb, unsigned int *alt, unsigned int *altascii);
+int ReadLengthWidth(char *str);
+int ReadLengthHeight(char *str);

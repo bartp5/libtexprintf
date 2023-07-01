@@ -24,6 +24,7 @@ esac
 AC_DEFINE([UTFTEXVERSION], ["1.16"], [utftex version string])
 AC_CONFIG_SRCDIR([src/boxes.c])
 AC_CONFIG_HEADERS([src/config.h])
+AC_CHECK_LIB([m],[cos])
 AC_CONFIG_FILES([
  Makefile src/Makefile
 ])

@@ -703,7 +703,7 @@ void MakeBigBrace(TOKEN *T, box *b, int Font)
 	int *dim;
 	int *Ncol, *xy;
 	box *B;
-	int h, yc, bi=-1;	
+	int bi=-1;	
 	
 	/* create a line box for the brackets and body*/
 	Ncol=malloc(sizeof(int));
@@ -823,9 +823,19 @@ void MakeBox(TOKEN *T, box *b, int Font)
 {
 	int *dim;
 	dim=malloc(2*sizeof(int));
-	dim[0]=atoi(T->args[0]);
-	dim[1]=atoi(T->args[1]);
-	
+	dim[0]=ReadLengthWidth(T->args[0]);
+	dim[1]=ReadLengthHeight(T->args[1]);
+	AddChild(b, B_DUMMY, (void*)dim);
+	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
+}
+void MakeKern(TOKEN *T, box *b, int Font)
+/* just makes and empty box. a dummy box may have any non negative size, i.e. it may be 0 sized 
+ * It is useful as a placeholder*/
+{
+	int *dim;
+	dim=malloc(2*sizeof(int));
+	dim[0]=ReadLengthWidth(T->args[0]);
+	dim[1]=1;
 	AddChild(b, B_DUMMY, (void*)dim);
 	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
 }
@@ -943,8 +953,6 @@ void MakeFrac(TOKEN *T, box *b, int Font)
 
 void MakeStack(TOKEN *T, box *b, int Font, int d)
 {
-	unsigned char *str;
-	int i;
 	int *Ncol;
 	int *dim;
 	box *stack;
@@ -1951,7 +1959,7 @@ void RaiseBox(TOKEN *T, box *b, int Font)
 	 * inherit the baseline from it. This is probably different from TeX*/	
 	ParseStringRecursive(T->args[1], b, Font);	
 	BoxPos(b);
-	b->yc-=atoi(T->args[0]);
+	b->yc-=ReadLengthHeight(T->args[0]);
 	b->Y=FIX;
 	AddScripts(T->sub, T->super, b, T->limits, Font);
 }
@@ -2440,6 +2448,9 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				break;
 			case PD_BOX: 
 				MakeBox(&T, b, Font);
+				break;
+			case PD_KERN: 
+				MakeKern(&T, b, Font);
 				break;
 			case PD_PHANTOM: 
 				MakePhantom(&T, b, Font);

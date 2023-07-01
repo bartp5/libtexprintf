@@ -53,6 +53,7 @@ const KEYWORD   Keys[] = {
 	{"\\prod",  	PD_PROD    	, 0, 0},
 	{"\\sum",  		PD_SUM     	, 0, 0},
 	{"\\box",  		PD_BOX     	, 2, 0},
+	{"\\kern", 		PD_KERN    	, 1, 0},
 	{"\\phantom",  	PD_PHANTOM     	, 1, 0},
 	{"\\vphantom",  PD_VPHANTOM   	, 1, 0},
 	{"\\hphantom",  PD_HPHANTOM    	, 1, 0},
@@ -292,50 +293,6 @@ const CombiningMarks  Combining[] = {
 	
 	{PD_NONE,    0, 0, 0},
 };
-/* These combining marks are removed from the symbol list and need integration above
-accents above:
-	{"\\lvec",                 0x020D0},
-	{"\\Lvec",                 0x020D6},
-	{"\\vec",                  0x020D7},
-	{"\\dddot",                0x020DB}, 
-	{"\\ddddot",               0x020DC}, 
-	{"\\overleftrightarrow",   0x020E1}, 
-	{"\\ocirc",0x0030A}, //  ̊
-	{"\\ovhook",0x00309}, //  ̉ # combining hook above
-	{"\\oturnedcomma",0x00312}, //  ̒ # combining turned comma above
-	{"\\ocommatopright",0x00315}, //  ̕ # combining comma above right
-	{"\\droang",0x0031A}, //  ̚ # left angle above (non-spacing)
-	{"\\leftharpoonaccent",0x020D0}, //  ⃐ # combining left harpoon above
-	{"\\rightharpoonaccent",0x020D1}, //  ⃑ # combining right harpoon above
-	{"\\widebridgeabove",0x020E9}, //  ⃩ # combining wide bridge above
-	{"\\asteraccent",0x20F0}, //  0x20F0 # combining asterisk above
-	{"\\candra",0x00310}, //  ̐ # candrabindu (non-spacing)
-	
-accents below:
-	{"\\wideutilde",0x00330}, //  ̰ # under tilde accent (multiple characters and non-spacing)
-	{"\\threeunderdot",0x020E8}, //  ⃨ # combining triple underdot x⃨
-	{"\\underleftarrow",0x20EE}, //  0x20EE # combining left arrow below
-	{"\\underrightarrow",0x20EF}, //  0x20EF # combining right arrow below
-	{"\\underbar",0x00332}, //  ̲ # combining low line
-	{"\\underleftrightarrow",0x0034D}, //  ͍ # underleftrightarrow accent
-	{"\\underrightharpoondown",0x20EC}, //  0x20EC # combining rightwards harpoon with barb downwards
-	{"\\underleftharpoondown",0x20ED}, //  0x20ED # combining leftwards harpoon with barb downwards
-	{"\\palh",0x00321}, //  ̡
-	{"\\rh",0x00322}, //  ̢
-	{"\\sbbrg",0x0032A}, //  ̪
-
-other:
-	{"\\sout",0x00336}, //  ̶ # ulem package same as Elzbar
-	{"\\strike",0x00336}, //  ̶
-	{"\\annuity",0x020E7}, //  ⃧ # combining annuity symbol
-	{"\\enclosecircle",0x020DD}, //  ⃝ # combining enclosing circle
-	{"\\enclosesquare",0x020DE}, //  ⃞ # combining enclosing square
-	{"\\enclosediamond",0x020DF}, //  ⃟ # combining enclosing diamond
-	{"\\enclosetriangle",0x020E4}, //  ⃤ # combining enclosing upward pointing triangle
-	{"\\vertoverlay",0x020D2}, //  ⃒ # combining long vertical line overlay
-	
-*/
-
 
 typedef struct {
 	char *name;
@@ -1838,3 +1795,31 @@ const Symbol  Symbols[] = {
 };
 
 const Symbol * TEXPRINTF_SYMBOLS=Symbols;
+
+typedef struct {
+	char *name;
+	float scale; // wscale is always in units monospace width
+} LengthUnit;
+
+float AspectRatio=2;
+// table with length units
+// note that in the end all lengths will be rounded to character width and height
+// I base the lengthy units on the assumptions that:
+// 1 pt =0.35 mm
+// 10 pt character is approx. 3.5 mm high and 1.75 mm wide
+// thus 1pt =0.35/1.75=0.2 characters wide 
+const LengthUnit  Lengths[] = {
+	// basic units
+	{"pt", 0.200},
+	{"mm", 0.571},
+	{"cm", 5.714},
+	{"in", 14.51},
+	{"ex", 1.000},
+	{"em", 1.000},
+	{"mu", 0.056},
+	{"sp", 3.052e-6},
+	{"\\nulldelimiterspace", 0.0},
+	{NULL, -1} // signal no known unit (units have to be positive!)
+};
+
+

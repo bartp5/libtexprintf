@@ -98,11 +98,9 @@ cwnd = ssthresh                   // window reduction
 <ref> |-S
                     ⎧ ╱             1 + β     ╲
                     ⎪╱                   cubic ╲
-                    ⎪╲ Wₘₐₓ, Wₘₐₓ * ────────── ╱  if  Wₘₐₓ < W
-╱W        , Wₘₐₓ╲ = ⎨ ╲                 2     ╱               last_max
-╲ last_max      ╱   ⎪╱          ╲
-                    ⎪╲Wₘₐₓ, Wₘₐₓ╱                otherwise
-                    ⎩
+╱W        , Wₘₐₓ╲ = ⎨╲ Wₘₐₓ, Wₘₐₓ * ────────── ╱  if  Wₘₐₓ < W
+╲ last_max      ╱   ⎪ ╲                 2     ╱               last_max
+                    ⎩⟨Wₘₐₓ, Wₘₐₓ⟩                otherwise
 <ref> -A
                     / /             1 + β     \
                     |/                   cubic \

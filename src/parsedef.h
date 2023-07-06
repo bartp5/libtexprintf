@@ -31,10 +31,17 @@ const KEYWORD   Keys[] = {
 	{"\\mathtt",  	PD_MATHTT		, 1, 0},
 	{"\\mathnormal",PD_MATHNORMAL	, 1, 0},
 	{"\\text",		PD_TEXT		, 1, 0},
+	{"\\textrm",	PD_TEXT		, 1, 0},
+	{"\\mathrm",	PD_TEXT		, 1, 0},
+	{"\\operatorname",	PD_TEXT		, 1, 0},
+	{"\\textbf",  	PD_MATHBF		, 1, 0}, // closest, or?
 	{"\\backslash", PD_BACKSLASH	, 0, 0},
 	{"\\begin", 	PD_BEGIN   	, 1, 0},
 	{"\\frac", 		PD_FRAC    	, 2, 0},
-	{"\\stackrel",	PD_STACK   	, 2, 0},
+	{"\\tfrac", 	PD_FRAC    	, 2, 0},
+	{"\\dfrac", 	PD_FRAC    	, 2, 0},
+	{"\\stackrel",	PD_STACK   	, 2, 1},
+	{"\\stackbin",	PD_STACK   	, 2, 1},
 	{"\\binom", 	PD_BINOM   	, 2, 0},
 	{"\\sqrt", 		PD_SQRT    	, 1, 1},
 	{"\\left", 		PD_LEFTRIGHT   , 0, 0},
@@ -204,10 +211,12 @@ const DELIMITER   DelTable[] = {
 	{")", DEL_R},
 	{"[", DEL_LSQ},
 	{"]", DEL_RSQ},
-	{"{", DEL_LCURL}, // these work but are not really tex as in tex curly brackets need an escape 
+	{"{", DEL_LCURL}, // these work even with or without escaping (unlike in tex) 
 	{"}", DEL_RCURL},
 	{"<", DEL_LANGLE},
 	{">", DEL_RANGLE},
+	{"⟨", DEL_LANGLE}, // aliasses for the unicode ones
+	{"⟩", DEL_RANGLE},
 	{"⌈", DEL_LCEIL}, /* note some strings in this table are UTF-8 encoded */
 	{"⌉", DEL_RCEIL},
 	{"⌊", DEL_LFLOOR},
@@ -311,6 +320,11 @@ const Symbol  Symbols[] = {
 	{"\\rbrac",                0x0005D},
 	{"\\sphat",                0x0005E},
 	{"\\sptilde",              0x0007E},
+	{"\\vert",                 0x0007C},
+	{"\\mid",                  0x0007C},
+	{"\\lvert",                0x0007C},
+	{"\\rvert",                0x0007C},
+	{"\\divides",              0x0007C},
 /* latin supplement*/
 	{"\\cent",                 0x000A2},
 	{"\\pounds",               0x000A3},
@@ -758,6 +772,7 @@ const Symbol  Symbols[] = {
 	{"\\Diamondblack", 0x025C6},
 	{"\\Diamond", 0x025C7},
 	{"\\lozenge", 0x025CA},
+	{"\\Box", 0x025A1},
 	{"\\Circle", 0x025CB},
 	{"\\CIRCLE", 0x025CF},
 	{"\\LEFTcircle", 0x025D0},
@@ -1109,6 +1124,8 @@ const Symbol  Symbols[] = {
 	{"\\endash",0x02013}, //  –
 	{"\\emdash",0x02014}, //  —
 	{"\\Vert",0x02016}, //  ‖
+	{"\\lVert",0x02016}, //  ‖
+	{"\\rVert",0x02016}, //  ‖
 	{"\\lq",0x02018}, //  ‘
 	{"\\rq",0x02019}, //  ’
 	{"\\reapos",0x0201B}, //  ‛

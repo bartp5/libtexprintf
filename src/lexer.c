@@ -253,6 +253,7 @@ static char *NoDel=".";
 SCALABLE_DELIMITER LookupDelimiter(char *begin, char **del)
 {
 	int j=0;
+	
 	while (DelTable[j].name)
 	{
 		if (strncmp(begin, DelTable[j].name, strlen(DelTable[j].name)) == 0)
@@ -516,23 +517,34 @@ char *Argument(char *begin, char **next)
 /* some commands work on arguments before they are issued, we peek ahead to see if we need to do something */
 void PeekAhead(TOKEN *T, char *begin)
 {
-	char *end;	
+	char *end, *bb;	
+	int reset=1;
 	KEYWORD K;
 	
+	/* we need to handle spaces between
+	 * so we skip spaces but restore the spaces if peekahead does not find 
+	 * anything relevant
+	 */
+	bb=begin; // backup begin
+	while (*begin==' ') // skip whitespace
+		begin++;
 	K=LookupKey(begin, Keys); /* see if we have a keyword */
 	switch (K.P)
 	{
 		case PD_LIMITS: /* set the limits option (puts sub and superscripts vertically above the argument */
 			begin+=strlen(K.name);
 			T->limits=1;
+			reset=0;
 			break;
 		case PD_NOLIMITS: /* unset the limits option */
 			begin+=strlen(K.name);
 			T->limits=0;
+			reset=0;
 			break;
 		case PD_OVER: /* same as \frac but then after the fact. BUG: in tex this command is greedy but this implementation is not! */
 		{
 			char *str, *p, *b;
+			reset=0;
 			T->P=PD_FRAC;
 			/* get the two arguments */
 			/* the first argument was already lexed! */
@@ -615,6 +627,7 @@ void PeekAhead(TOKEN *T, char *begin)
 		case PD_CHOOSE: /* same as \frac but then after the fact.  BUG: in tex this command is greedy but this implementation is not! */
 		{
 			char *str, *p, *b;
+			reset=0;
 			T->P=PD_BINOM;
 			/* get the two arguments */
 			/* the first argument was already lexed! */
@@ -699,6 +712,7 @@ void PeekAhead(TOKEN *T, char *begin)
 	}
 	while ((*begin=='_')||(*begin=='^'))
 	{	
+		reset=0;
 		if (*begin=='_')
 		{
 			begin++;
@@ -716,7 +730,10 @@ void PeekAhead(TOKEN *T, char *begin)
 			begin=end;			
 		}
 	}			
-	T->next=begin;
+	if (reset)
+		T->next=bb; // nothing found, restore any skipped spaces
+	else
+		T->next=begin;
 }
 
 
@@ -735,6 +752,8 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 	(*arg1)=NULL;
 	(*arg2)=NULL;
 	
+	while (*begin==' ') // skip whitespace
+		begin++;
 	end=begin;
 	D=LookupDelimiter(end, open);
 	if (D==DEL_NONE)
@@ -768,7 +787,9 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 					(*p)='\0';
 					end+=7;
 					(*arg1)=str;
-				
+					
+					while (*end==' ') // skip whitespace
+						end++;
 					D=LookupDelimiter(end, middle);
 					if (D==DEL_NONE)
 					{	
@@ -794,6 +815,8 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 		end+=6;
 		(*arg2)=str;
 		
+		while (*end==' ') // skip whitespace
+			end++;
 		D=LookupDelimiter(end, close);
 		if (D==DEL_NONE)
 		{	
@@ -1500,6 +1523,8 @@ TOKEN SubLexer(char *begin, FONT F)
 			R.P=K.P;
 			begin+=strlen(K.name);
 					
+			while (*begin==' ') // skip whitespace
+				begin++;
 			end=begin;
 			D=LookupDelimiter(end, &brac);
 			if (D==DEL_NONE)

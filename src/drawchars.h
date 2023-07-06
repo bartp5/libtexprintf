@@ -29,7 +29,7 @@ typedef struct Style {
 	int LCURLYCHAR[5]; // single, lower, center, extender, upper
 	int RCURLYCHAR[5]; // single, lower, center, extender, upper
 	/* angle brackets (for use with AngleBrac) */
-	int ANGLECHAR[2]; // downward, upward
+	int ANGLECHAR[4]; // single left, single right, downward, upward
 	int FSLASH;    // forward slash
 	int BSLASH;	   // backward slash
 	/* fraction, overline, underline */ 

@@ -37,7 +37,7 @@ Style STYLE_UNI={
 	{0x7B   ,0x023A9,0x023A8,0x023AA,0x023A7}, // single, lower, center, extender, upper
 	{0x7D   ,0x023AD,0x023AC,0x023AE,0x023AB}, // single, lower, center, extender, upper
 	/* angle brackets (for use with AngleBrac) */
-	{0x02572,0x02571}, // downward, upward
+	{0x027E8, 0x027E9, 0x02572,0x02571}, // single left, single right, downward, upward
 	0x02571,    // forward slash
 	0x02572,	   // backward slash
 	/* fraction, overline, underline */ 
@@ -87,7 +87,7 @@ Style STYLE_ASC={
 	{0x7B   ,'\\','<','|','/'}, // single, lower, center, extender, upper
 	{0x7D   ,'/','>','|','\\'}, // single, lower, center, extender, upper
 	/* angle brackets (for use with AngleBrac) */
-	{'\\','/'}, // downward, upward
+	{'<','>','\\','/'}, // single left, single right,  downward, upward
 	'/',    // forward slash
 	'\\',	   // backward slash
 	/* fraction, overline, underline */ 
@@ -410,36 +410,49 @@ void AngleBrac(box *posbox, int h, int chars[], char lr)
 		AddErr(ERRSCALEDELPOSBOX);
 		return;
 	}
-	if (h%2!=0)
-		h=h+1;
+	if (h!=1)
+	{
+		if (h%2!=0)
+			h=h+1;
+	}
 	posbox->content=realloc(posbox->content, (2*(h+posbox->Nc))*sizeof(int));
 	xy=(int *)posbox->content;
 	
+	if (h==1)
+	{
+		xy[0]=0;
+		xy[1]=0;
+		if (lr=='l')
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));	
+		else
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1]));	
+		return;
+	}
 	for (i=0;i<h/2;i++)
 	{
 		xy[2*i+1]=i;
 		if (lr=='l')
 		{	
 			xy[2*i]=h/2-i-1;
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));	
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2]));	
 		}
 		else
 		{
 			xy[2*i]=i;
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1]));
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3]));
 		}
 	}
 	for (i=h/2;i<h;i++)
 	{	
 		if (lr=='l')
 		{
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[1]));	
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[3]));	
 			xy[2*i]=i-h/2;
 		}
 		else
 		{
 			xy[2*i]=h-1-i;
-			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[0]));	
+			AddChild(posbox, B_UNIT, (void *)Unicode2Utf8(chars[2]));	
 		}
 		xy[2*i+1]=i;
 	}
@@ -666,11 +679,21 @@ void MakeLeftRight(TOKEN *T, box *b, int Font)
 		}	
 	/* some brackest need even heights, I want all delimiters to have the same height */
 	if ((DL==DEL_LANGLE)||(DM==DEL_LANGLE)||(DR==DEL_LANGLE))
-		if (h%2!=0)
-			h=h+1;	
+	{
+		if (h!=1)
+		{
+			if (h%2!=0)
+				h=h+1;
+		}
+	}	
 	if ((DL==DEL_RANGLE)||(DM==DEL_RANGLE)||(DR==DEL_RANGLE))
-		if (h%2!=0)
-			h=h+1;	
+	{
+		if (h!=1)
+		{
+			if (h%2!=0)
+				h=h+1;
+		}
+	}	
 	
 	if (li>=0)
 	{
@@ -953,6 +976,7 @@ void MakeFrac(TOKEN *T, box *b, int Font)
 
 void MakeStack(TOKEN *T, box *b, int Font, int d)
 {
+	int i;
 	int *Ncol;
 	int *dim;
 	box *stack;
@@ -962,18 +986,30 @@ void MakeStack(TOKEN *T, box *b, int Font, int d)
 	/* create a array box and point to it with the box pointer stack */
 	AddChild(b, B_ARRAY, (void *)Ncol);
 	stack=b->child+b->Nc-1;
-		
-	/* add top part to the array box  */
-	ParseStringInBox(T->args[0], stack, Font); 	/* n */	
 	
-	// add dummy box for spacing
-	dim=malloc(2*sizeof(int));
-	dim[0]=0;
-	dim[1]=d;	
-	AddChild(stack, B_DUMMY, (void*)dim);
+	/* we join optional and mandatory arhuments where the optional ones come below the mandatory ones */
 	
+	for (i=0;i<T->Nargs-1;i++)
+	{
+		ParseStringInBox(T->args[i], stack, Font); 	/* n */	
+		// add dummy box for spacing
+		dim=malloc(2*sizeof(int));
+		dim[0]=0;
+		dim[1]=d;	
+		AddChild(stack, B_DUMMY, (void*)dim);
+	}
 	/* add bottom part to the array box  */
-	ParseStringInBox(T->args[1], stack, Font); 	/* k */
+	ParseStringInBox(T->args[T->Nargs-1], stack, Font); 	/* k */
+	
+	for (i=0;i<T->Nopt;i++)
+	{
+		// add dummy box for spacing
+		dim=malloc(2*sizeof(int));
+		dim[0]=0;
+		dim[1]=d;	
+		AddChild(stack, B_DUMMY, (void*)dim);
+		ParseStringInBox(T->opt[i], stack, Font); 	/* n */	
+	}
 	
 	stack->S=INIT;
 	BoxPos(stack);

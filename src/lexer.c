@@ -841,13 +841,14 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 }
 /* somebody shoot me, this code is horror ... the worst part is that I wrote it */
 /* tableread parses a latex table to an arry of strings, one for each cell, and info like \hlines number of columns, etc. */
+// I should rewrite from scratch
 char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nhsep)
 {
 	int go=1, i=0, j=0, nc=0, nr=0, nnc=-1, b=1, row=0, line=0;
 	char **res;
 	int Na=10, na=10, nasep=10;
 	KEYWORD K;
-	res=malloc(Na*sizeof(char *));
+	res=calloc(Na,sizeof(char *));
 	res[i]=malloc(na*sizeof(char));
 	res[i][0]='\0';
 	*hsep=malloc(nasep*sizeof(char));
@@ -1127,7 +1128,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 	*end=begin;
 	if (nnc<0)
 		nnc=nc;
-	if ((nc) && (nc!=nnc))
+	if ((line) && (nc!=nnc))
 		AddErr(ERRNUMCOLMATCH);
 	*Nc=nnc+1;
 	*N=i+line;
@@ -1821,7 +1822,7 @@ TOKEN SubLexer(char *begin, FONT F)
 		PeekAhead(&R, begin);
 		return R;
 	}
-	else if (*begin=='\'')
+	else if (*begin=='\'') // primes are handled in the lexer, i.e. they do not occur in parsedef!
 	{
 		R.P=PD_PRIME;
 		j=1;

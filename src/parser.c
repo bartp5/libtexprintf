@@ -2372,7 +2372,8 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 	TOKEN T;
 	box *b;
 	FONT F=F_NOFONT;
-	
+	if (!B)
+		return;
 	
 	while (*B)
 	{

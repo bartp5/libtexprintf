@@ -7,7 +7,7 @@ then
 	echo I need a name
 	exit 1
 fi
-name=$1
+name="$1"
 shift
 
 if [ -z "$1" ]
@@ -17,7 +17,7 @@ then
 	echo I an equation
 	exit 1
 fi
-eq=$1
+eq="$1"
 
 shift
 opt=(" " "-A" "-S" "-m")

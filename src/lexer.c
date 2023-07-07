@@ -981,7 +981,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 			if (b==0)
 				go=0;
 			else
-			{				
+			{			
 				K=LookupKey(begin, Keys);
 				if (K.P==PD_LEFTRIGHT)
 				{
@@ -2070,14 +2070,14 @@ char *PreProcessGreedyOverLikeOperator(char *string, const char *op, int nop)
  */
 char * PreProcessorSymb(char *string)
 {
-	char *res, *str, *p, *c;
-	int na;
+	char *res, *str, *c;
+	int na, p=0;
 	int Ncomb=0, *comb, Nacomb=4;
 	
 	Symbol S;
+	KEYWORD K;
 	na=strlen(string)+1;
 	res=malloc(na*sizeof(char));
-	p=res;
 	comb=malloc(Nacomb*sizeof(int));
 	
 	while (*string)
@@ -2085,6 +2085,27 @@ char * PreProcessorSymb(char *string)
 		if (*string=='\\')
 		{
 			/* we have something of the form \comm[]..{}.. */
+			K=LookupKey(string, Keys);
+			if (K.name)
+			{
+				c=K.name;
+				while(*c)
+				{
+					res[p]=*c;
+					string++;
+					c++;
+					p++;
+					if (p==na)
+					{
+						na+=16;
+						res=realloc(res,na*sizeof(char));
+					}
+				}
+					
+				continue;
+			}
+			
+			
 			S=IsSymbol(string, Symbols);
 			if (S.name!=NULL)
 			{
@@ -2106,10 +2127,10 @@ char * PreProcessorSymb(char *string)
 					c=str;
 					while(*c)
 					{
-						*p=*c;
+						res[p]=*c;
 						p++;
 						c++;
-						if (p-res==na)
+						if (p==na)
 						{
 							na+=16;
 							res=realloc(res,na*sizeof(char));
@@ -2123,10 +2144,10 @@ char * PreProcessorSymb(char *string)
 						c=str;
 						while(*c)
 						{
-							*p=*c;
+							res[p]=*c;
 							p++;
 							c++;
-							if (p-res==na)
+							if (p==na)
 							{
 								na+=16;
 								res=realloc(res,na*sizeof(char));
@@ -2143,9 +2164,10 @@ char * PreProcessorSymb(char *string)
 			}
 			else
 			{
-				*p=*string;
+				res[p]=*string;
 				p++;
 				string++;
+				
 				while (Ncomb)
 				{
 					str=Unicode2Utf8(comb[Ncomb-1]);
@@ -2153,10 +2175,10 @@ char * PreProcessorSymb(char *string)
 					c=str;
 					while(*c)
 					{
-						*p=*c;
+						res[p]=*c;
 						p++;
 						c++;
-						if (p-res==na)
+						if (p==na)
 						{
 							na+=16;
 							res=realloc(res,na*sizeof(char));
@@ -2171,7 +2193,7 @@ char * PreProcessorSymb(char *string)
 			string++;
 		else
 		{
-			*p=*string;
+			res[p]=*string;
 			p++;
 			string++;
 			while (Ncomb)
@@ -2181,10 +2203,10 @@ char * PreProcessorSymb(char *string)
 				c=str;
 				while(*c)
 				{
-					*p=*c;
+					res[p]=*c;
 					p++;
 					c++;
-					if (p-res==na)
+					if (p==na)
 					{
 						na+=16;
 						res=realloc(res,na*sizeof(char));
@@ -2195,13 +2217,13 @@ char * PreProcessorSymb(char *string)
 			}
 			
 		}
-		if (p-res==na)
+		if (p==na)
 		{
 			na+=16;
 			res=realloc(res,na*sizeof(char));
 		}
 	}
-	*p='\0';
+	res[p]='\0';
 	free(comb);
 	return res;
 }

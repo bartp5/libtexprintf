@@ -36,7 +36,7 @@ done
 for ((i = 0; i < $N; i++))
 do
 	arg="${opt[$i]}"
-	utftex $arg "$eq" > "$i.tmp"
+	utftex $arg -e "$eq" > "$i.tmp"
 done
 echo "<input> $name"
 echo "$eq"

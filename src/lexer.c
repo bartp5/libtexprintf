@@ -1604,8 +1604,8 @@ TOKEN SubLexer(char *begin, FONT F)
 			begin+=strlen(brac);
 					
 			R.args=malloc(1*sizeof(char *));
-			R.args[0]=malloc(5*sizeof(char));
-			strncpy(R.args[0],brac,5);
+			R.args[0]=calloc(16,sizeof(char));
+			strncpy(R.args[0],brac,15);
 			
 			PeekAhead(&R, begin);
 			return R;

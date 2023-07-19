@@ -757,10 +757,10 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 	end=begin;
 	D=LookupDelimiter(end, open);
 	if (D==DEL_NONE)
-	{	
 		AddErr(INVALIDDELIMITER);
-	}
-	begin+=strlen(*open);
+	else
+		begin+=strlen(*open);
+	end=begin;
 	while ((*end)&&(brac))
 	{
 		end++;
@@ -791,11 +791,10 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 					while (*end==' ') // skip whitespace
 						end++;
 					D=LookupDelimiter(end, middle);
-					if (D==DEL_NONE)
-					{	
+					if (D==DEL_NONE)	
 						AddErr(INVALIDDELIMITER);
-					}	
-					begin=end+strlen(*middle);	
+					else
+						begin=end+strlen(*middle);	
 				}		
 			}
 		}
@@ -818,11 +817,10 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 		while (*end==' ') // skip whitespace
 			end++;
 		D=LookupDelimiter(end, close);
-		if (D==DEL_NONE)
-		{	
+		if (D==DEL_NONE)	
 			AddErr(INVALIDDELIMITER);
-			/* we insert one, the show must go on */
-		}	
+		else
+			end+=strlen(*close);
 	}
 	else
 	{
@@ -835,9 +833,48 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 		return;
 		
 	}
-	
-	end+=strlen(*close);
 	(*next)=end;
+}
+
+
+char *LeftRightBlock(char *begin)
+{
+	int brac=1;
+	char *end;
+	char *open=NULL, *close=NULL;
+	SCALABLE_DELIMITER D;
+	
+	
+	while (*begin==' ') // skip whitespace
+		begin++;
+	end=begin;
+	D=LookupDelimiter(end, &open);
+	if (D!=DEL_NONE)
+		begin+=strlen(open);
+	end=begin;
+	while ((*end)&&(brac))
+	{
+		end++;
+		if (*end=='\\')/* check for a \right */
+		{
+			if ((strncmp(end, "\\right", 6))==0)
+				brac--;
+			if ((strncmp(end, "\\left", 5))==0)
+				brac++;
+		}
+	}
+	
+	if (*end)
+	{
+		end+=6;
+		while (*end==' ') // skip whitespace
+			end++;
+		D=LookupDelimiter(end, &close);
+		if (D!=DEL_NONE)
+			end+=strlen(close);
+	}
+	
+	return end;
 }
 /* somebody shoot me, this code is horror ... the worst part is that I wrote it */
 /* tableread parses a latex table to an arry of strings, one for each cell, and info like \hlines number of columns, etc. */
@@ -982,32 +1019,23 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 			if (b==0)
 				go=0;
 			else
-			{			
-				K=LookupKey(begin, Keys);
-				if (K.P==PD_LEFTRIGHT)
+			{		
+				if (strncmp(begin,"\\left",5)==0)
 				{
-					// avoid the { in \left{ frome being misinterpreted as starting a block
-					int k=0;			
-					line=1;
-					res[i][j]=(*begin);
-					j++;
-					if (j==na)
+					char *pp;
+					pp=LeftRightBlock(begin);
+					while (begin<pp)
 					{
-						na+=10;
-						res[i]=realloc(res[i],na*sizeof(char));
-					}
-					while ((*begin)&&(k<5))
-					{
-						begin++;
 						res[i][j]=(*begin);
 						j++;
+						begin++;
 						if (j==na)
 						{
 							na+=10;
 							res[i]=realloc(res[i],na*sizeof(char));
 						}
-						k++;
 					}
+					begin--;// begin is incremented later					
 				}
 				else
 				{
@@ -1045,26 +1073,47 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 								if (nnc<0)
 									nnc=nc;
 								if (nc!=nnc)
-								{							
-									/* error is Fatal */	
-									/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
-									// ERRORFLAG ERRNUMCOLMATCH  "Unequal number of columns in different rows"
-									AddErr(ERRNUMCOLMATCH);
-									
-								}
-								i++;
-								if (i==Na)
 								{
-									Na+=10;
-									res=realloc(res,Na*sizeof(char*));
+									int skip=(nc-nnc);
+									if (nnc<nc)
+										skip=(nc-nnc);
+									else
+									{																		
+										/* error is Fatal */	
+										/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
+										// ERRORFLAG ERRNUMCOLMATCH  "Unequal number of columns in different rows"
+										AddErr(ERRNUMCOLMATCH);
+										skip=0;
+									}
+									if (i+skip+1>=Na)
+									{
+										Na+=10;
+										res=realloc(res,Na*sizeof(char*));
+									}
+									na=10;
+									i++;
+									for (;skip>0;skip--)
+										res[i++]=NULL;
+									na=10;
+									res[i]=calloc(na,sizeof(char));	
 								}
-								na=10;
-								res[i]=calloc(na,sizeof(char));	
+								else
+								{
+									i++;
+									if (i==Na)
+									{
+										Na+=10;
+										res=realloc(res,Na*sizeof(char*));
+									}
+									na=10;
+									res[i]=calloc(na,sizeof(char));	
+								}
 								j=0;
 								nc=0;
 							}
 							else
 							{
+								// escaped character?
 								line=1;
 								res[i][j]=(*begin);
 								j++;
@@ -1077,7 +1126,7 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 							break;
 						case '{':
 						{ /* read a block */
-							int br=1;
+							int br=1, esc=0;
 							res[i][j]=(*begin);
 							j++;
 							if (j==na)
@@ -1089,10 +1138,17 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 							while ((*begin)&&(br))
 							{
 								begin++;
-								if (*begin=='{')
-									br++;
-								else if (*begin=='}')
-									br--;
+								if (!esc)
+								{
+									if (*begin=='{')
+										br++;
+									else if (*begin=='}')
+										br--;
+									else if (*begin=='\\')
+										esc=1;
+								}
+								else
+									esc=0;
 								res[i][j]=(*begin);
 								j++;
 								if (j==na)
@@ -1129,7 +1185,25 @@ char ** TableRead(char *begin, char **end, int *Nc, int *N, char **hsep, int *Nh
 	if (nnc<0)
 		nnc=nc;
 	if ((line) && (nc!=nnc))
-		AddErr(ERRNUMCOLMATCH);
+	{
+		int skip=(nc-nnc);
+		if (nnc<nc)
+			skip=(nc-nnc);
+		else
+		{			
+			AddErr(ERRNUMCOLMATCH);
+			skip=0;
+		}
+		if (i+skip+1>=Na)
+		{
+			Na+=10;
+			res=realloc(res,Na*sizeof(char*));
+		}
+		na=10;
+		i++;
+		for (;skip>0;skip--)
+			res[i++]=NULL;
+	}
 	*Nc=nnc+1;
 	*N=i+line;
 	*Nhsep=row+(line);
@@ -1191,11 +1265,6 @@ TOKEN BeginEnv(TOKEN T)
 						
 			/* fetch body till \end{array} and put it in arguments or R */
 			R.args=TableRead(begin, &R.next, &Nc, &R.Nargs, &hsep, &Nha);
-			/*{
-				int i;
-				for (i=0;i<R.Nargs;i++)
-					printf("%d: %s\n", i,R.args[i]);
-			}*/
 			if (QueryErr(ERRNUMCOLMATCH))
 				return R;
 			
@@ -1788,16 +1857,23 @@ TOKEN SubLexer(char *begin, FONT F)
 	else if (*begin=='{')
 	{
 		/* we have a block */
-		int brac=1,i;
+		int brac=1,i, esc=0;
 		char *str;
 		R.P=PD_BLOCK;
 		str=begin+1;
 		while ((brac>0)&&(*str))
 		{
-			if (*str=='}')
-				brac--;
-			else if (*str=='{')
-				brac++;
+			if (!esc)
+			{
+				if (*str=='}')
+					brac--;
+				else if (*str=='{')
+					brac++;
+				else if (*str=='\\')
+					esc=1;
+			}
+			else
+				esc=0;
 			str++;
 		}
 		if (brac)

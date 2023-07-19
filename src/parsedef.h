@@ -211,8 +211,10 @@ const DELIMITER   DelTable[] = {
 	{")", DEL_R},
 	{"[", DEL_LSQ},
 	{"]", DEL_RSQ},
-	{"{", DEL_LCURL}, // these work even with or without escaping (unlike in tex) 
+	{"{", DEL_LCURL}, // these work somewhat without escaping (unlike in tex) 
 	{"}", DEL_RCURL},
+	{"\\{", DEL_LCURL}, // add the escaped version 
+	{"\\}", DEL_RCURL},
 	{"<", DEL_LANGLE},
 	{">", DEL_RANGLE},
 	{"⟨", DEL_LANGLE}, // aliasses for the unicode ones
@@ -313,7 +315,7 @@ typedef struct {
 const Symbol  Symbols[] = {
 /* basic latin */
 	{"\\_",                    0x0005F},
-	{"\\{",                    0x0007B},
+//	{"\\{",                    0x0007B},
 	{"\\}",                    0x0007D},
 	{"\\lbrac",                0x0005B},
 //	{"\\backslash",            0x0005C}, /* this cannot work as this table is for the pre-processor, it is defined as an argument-less command */

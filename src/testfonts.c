@@ -149,7 +149,7 @@ void MakeBlockString(int start, int end)
 		s+=k;
 		free(c);
 	}
-	printf(str);
+	printf("%s",str);
 	free(str);
 }
 
@@ -162,11 +162,11 @@ void TestFonts()
 	char *scale="|---------+---------+---------+---------+---------+---------+\n";
 	char *str;
 	j=0;
-	printf(col);
-	printf(scale);
+	printf("%s",col);
+	printf("%s",scale);
 	while (font_tests[j].str)
 	{
-		printf(font_tests[j].descr);
+		printf("%s",font_tests[j].descr);
 		str=AlignChars(j++);
 		root=ParseString(str, 0, styles[i]);
 		free(str);
@@ -174,8 +174,8 @@ void TestFonts()
 		PrintBox(&root);
 		FreeBox(&root);
 	}
-	printf(scale);
-	printf(col);
+	printf("%s",scale);
+	printf("%s",col);
 	printf("\n");
 	i++;
 	

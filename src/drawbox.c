@@ -85,7 +85,7 @@ char * DrawBox(box *b)
 							Na+=strlen(str)+2;
 							buffer=realloc(buffer, Na*sizeof(char));
 						}
-						sprintf(buffer+i, str);
+						sprintf(buffer+i, "%s", str);
 						i+=strlen(str);
 						free(str);
 					}

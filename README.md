@@ -21,8 +21,7 @@ libtexprintf
 ------------
 The core library to pretty print math in mono-space font. Use it to 
 enable your c or c++ code to print out formatted math. The calls are 
-modeled after the printf family to produce formatted output.   
-
+modeled after the printf family to produce formatted output.
 
 utftex
 ------
@@ -105,6 +104,20 @@ character it finds it shows  the  UTF-8  byte sequence, the Unicode
 code-point and, if applicable, the utftex command that can be used to 
 generate the symbol.  
 
+Software using libtexprintf/utftex
+----------------------------------
+Several projects use libtexprintf or utftex. Some projects that I am 
+aware of are (in arbitrary order):
+
+* [LibTeXPrintf](https://github.com/JuliaStrings/LibTeXPrintf.jl): a 
+wrapper around libtexprintf to use the library directly from the 
+julia programming language
+* [kramdown-rfc](https://github.com/cabo/kramdown-rfc) (a backend for
+[kramdown](https://kramdown.gettalong.org/)) uses utftex to export 
+latex equations to plain text
+* [utftex-gui](https://github.com/wpeaton/utftex-gui/), a simple 
+graphical user interface to utftex (much like the gui that came with 
+asciiTeX)
 
 Questions One Might Ask (QOMA)
 ------------------------------

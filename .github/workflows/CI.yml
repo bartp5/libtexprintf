@@ -18,6 +18,8 @@ jobs:
       run:  brew install automake
     - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Ensure m4 directory exists
+      run: mkdir -p m4
     - name: Autogen
       run: sh autogen.sh && ./configure
     - name: Build

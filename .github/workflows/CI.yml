@@ -15,7 +15,7 @@ jobs:
     name: ${{ matrix.os }}
     steps:
     - if :  matrix.os == 'macos-latest'
-      run:  brew install automake
+      run:  brew install libtool automake autoconf
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Ensure m4 directory exists

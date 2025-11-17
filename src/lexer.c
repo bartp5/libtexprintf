@@ -763,7 +763,6 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 	end=begin;
 	while ((*end)&&(brac))
 	{
-		end++;
 		if (*end=='\\')/* check for a \right */
 		{
 			if ((strncmp(end, "\\right", 6))==0)
@@ -798,8 +797,9 @@ void LeftMiddleRight(char *begin, char **next, char **arg1, char **arg2, char **
 				}		
 			}
 		}
+		end++;
 	}
-	
+	end--;
 	if (*end)
 	{
 		str=malloc((end-begin+1)*sizeof(char));
@@ -1580,7 +1580,6 @@ TOKEN SubLexer(char *begin, FONT F)
 			R.args[R.Nargs]=malloc((strlen(open)+1)*sizeof(char)); 
 			strncpy(R.args[R.Nargs],close,(strlen(close)+1));
 			R.Nargs++;	
-			
 			begin=end;
 			PeekAhead(&R, begin);
 			return R;

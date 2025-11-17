@@ -1852,6 +1852,7 @@ void MakeSymbol(TOKEN *T, box *b, int Font)
 	{
 		switch(F) 
 		{
+			case PD_BOLD:
 			case PD_MATHBF:
 				u=AZToFontUnicode(0x1D400, *p); /* map capital letters */
 				if (!u)
@@ -2513,6 +2514,7 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 			case PD_MATHTT:
 			case PD_MATHNORMAL:
 			case PD_TEXT:
+			case PD_BOLD:
 			case PD_MATHSCR:
 			case PD_ROOTFONT:
 				MathFont(&T, b, Font);

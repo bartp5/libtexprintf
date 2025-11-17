@@ -95,6 +95,8 @@ const KEYWORD   Keys[] = {
 	{"\\bf",  		PD_SETBOLD		, 0, 0},
 	{"\\rm",  		PD_SETROMAN	, 0, 0},
 	{"\\mathrm",	PD_TEXT		, 1, 0},
+	{"\\bm",		PD_BOLD		, 1, 0},
+	{"\\pmb",		PD_BOLD		, 1, 0},
 	{"^",      		PD_SUPER   	, 2, 0},
 	{"_",      		PD_SUB     	, 2, 0},
 	{"\\\\",      	PD_ENDLINE    	, 0, 0},

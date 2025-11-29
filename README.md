@@ -106,19 +106,22 @@ generate the symbol.
 
 Software using libtexprintf/utftex
 ----------------------------------
-Several projects use libtexprintf or utftex. Some projects that I am 
-aware of are (in arbitrary order):
+Several projects use libtexprintf or utftex. Some projects that I am aware of are (in arbitrary order):
 
 * [LibTeXPrintf](https://github.com/JuliaStrings/LibTeXPrintf.jl): a 
 wrapper around libtexprintf to use the library directly from the 
 julia programming language
-* [kramdown-rfc](https://github.com/cabo/kramdown-rfc) (a backend for
-[kramdown](https://kramdown.gettalong.org/)) uses utftex to export 
-latex equations to plain text
-* [utftex-gui](https://github.com/wpeaton/utftex-gui/), a simple 
+* [kramdown-rfc](https://github.com/cabo/kramdown-rfc): (a backend for
+[kramdown](https://kramdown.gettalong.org/)) uses utftex to format 
+latex equations
+* [utftex-gui](https://github.com/wpeaton/utftex-gui/): a simple 
 graphical user interface to utftex (much like the gui that came with 
 asciiTeX)
-
+* [utftexbot](https://github.com/LRDPRDX/utftexbot): a telegram bot to
+pretty print LaTeX
+* [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim): a markdown plugin for Neovim which can use utftex to format LaTeX 
+equations
+ 
 Questions One Might Ask (QOMA)
 ------------------------------
 

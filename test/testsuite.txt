@@ -1065,3 +1065,8 @@ a\choose b+s\over d
 -----
   d
 <end>
+<input> nestedbrackets
+\left(\left[a+b\right]+c\right)
+<ref>   | -A | -S | -m
+([a+b]+c)
+<end>

@@ -206,7 +206,7 @@ const UniMap Mappings[] = {
 	{0x1D4A3, 0x210B}, /* Mathematical Script H */
 	{0x1D4A4, 0x2110}, /* Mathematical Script I */
 	{0x1D4A7, 0x2112}, /* Mathematical Script L */
-	{0x1D4A8, 0x2113}, /* Mathematical Script M */
+	{0x1D4A8, 0x2133}, /* Mathematical Script M */
 	{0x1D4AD, 0x211B}, /* Mathematical Script R */	 
 	{0x1D4BA, 0x212F}, /* Mathematical Script e */	  
 	{0x1D4BC, 0x210A}, /* Mathematical Script g */	  

@@ -223,7 +223,7 @@ Shockly-Read-Hall recombination over depletion width
                   \    kT    /     \     kT   /
 <end>
 
-<input> cases
+<input> cases_array
 f(x) = \left{\begin{array}{lr}
         \frac{1}{x+1} +12 & -12<x<0\\
          & \\ 13-x & x<-12, x>0
@@ -242,7 +242,49 @@ f(x) = < x+1
        \ 13-x     x<-12, x>0
 <end>
 
-Continues fraction
+<input> casesenv
+X(m, n) = 
+\begin{cases}
+ x(n), & \text{for } 0 \leq n \leq 1 \\
+ x(n - 1), & \text{for } 0 \leq n \leq 1 \\
+ x(n - 1), & \text{for } 0 \leq n \leq 1
+\end{cases}
+<ref>   | -S | -m
+          ⎧   x(n),    for  0 ≤n ≤1
+X(m, n) = ⎨ x(n - 1),  for  0 ≤n ≤1
+          ⎩ x(n - 1),  for  0 ≤n ≤1
+<ref> -A
+          /   x(n),    for  0 ≤n ≤1
+X(m, n) = < x(n - 1),  for  0 ≤n ≤1
+          \ x(n - 1),  for  0 ≤n ≤1
+<ref> -F mathnormal
+          ⎧   𝑥(𝑛),    for  0 ≤𝑛 ≤1
+𝑋(𝑚, 𝑛) = ⎨ 𝑥(𝑛 - 1),  for  0 ≤𝑛 ≤1
+          ⎩ 𝑥(𝑛 - 1),  for  0 ≤𝑛 ≤1
+<end>
+
+<input> casesenv
+X(m, n) = 
+\begin{dcases}
+ x(n), & \text{for } 0 \leq n \leq 1 \\
+ x(n - 1), & \text{for } 0 \leq n \leq 1 \\
+ x(n - 1), & \text{for } 0 \leq n \leq 1
+\end{dcases}
+<ref>   | -S | -m
+          ⎧   x(n),    for  0 ≤n ≤1
+X(m, n) = ⎨ x(n - 1),  for  0 ≤n ≤1
+          ⎩ x(n - 1),  for  0 ≤n ≤1
+<ref> -A
+          /   x(n),    for  0 ≤n ≤1
+X(m, n) = < x(n - 1),  for  0 ≤n ≤1
+          \ x(n - 1),  for  0 ≤n ≤1
+<ref> -F mathnormal
+          ⎧   𝑥(𝑛),    for  0 ≤𝑛 ≤1
+𝑋(𝑚, 𝑛) = ⎨ 𝑥(𝑛 - 1),  for  0 ≤𝑛 ≤1
+          ⎩ 𝑥(𝑛 - 1),  for  0 ≤𝑛 ≤1
+<end>
+
+Continued fraction
 <input> contfraction
 a = \frac{1}{\sqrt{2} +
 \frac{1}{\sqrt{2} +

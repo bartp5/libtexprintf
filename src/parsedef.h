@@ -184,6 +184,7 @@ const KEYWORD   Envs[] = {
 	{"array",  		PD_ARRAY     	, 1, 1},
 	{"cases*",  	PD_CASES    	, 0, 1},
 	{"cases",  		PD_CASES    	, 0, 1},
+	{"dcases",  	PD_CASES    	, 0, 1}, //mathtools display style version of cases
 	{"pmatrix*",  	PD_PMATRIX    	, 0, 1},
 	{"pmatrix",  	PD_PMATRIX    	, 0, 1},
 	{"bmatrix*",  	PD_BMATRIX    	, 0, 1},

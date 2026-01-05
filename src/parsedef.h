@@ -30,6 +30,7 @@ const KEYWORD   Keys[] = {
 	{"\\mathsf",  	PD_MATHSF		, 1, 0},
 	{"\\mathtt",  	PD_MATHTT		, 1, 0},
 	{"\\mathnormal",PD_MATHNORMAL	, 1, 0},
+	{"\\mbox",		PD_TEXT		, 1, 0},
 	{"\\text",		PD_TEXT		, 1, 0},
 	{"\\textrm",	PD_TEXT		, 1, 0},
 	{"\\mathrm",	PD_TEXT		, 1, 0},

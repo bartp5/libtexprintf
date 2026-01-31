@@ -1577,7 +1577,7 @@ TOKEN SubLexer(char *begin, FONT F)
 			}			
 			R.Nargs++;	
 			
-			R.args[R.Nargs]=malloc((strlen(open)+1)*sizeof(char)); 
+			R.args[R.Nargs]=malloc((strlen(close)+1)*sizeof(char));
 			strncpy(R.args[R.Nargs],close,(strlen(close)+1));
 			R.Nargs++;	
 			begin=end;

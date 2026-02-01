@@ -1,4 +1,4 @@
-AC_INIT([libtexprintf],[1.28])
+AC_INIT([libtexprintf],[1.29])
 AC_CONFIG_MACRO_DIRS([m4])
 LT_INIT([])
 AC_ENABLE_SHARED

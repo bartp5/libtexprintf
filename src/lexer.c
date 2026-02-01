@@ -1566,18 +1566,21 @@ TOKEN SubLexer(char *begin, FONT F)
 			strncpy(R.args[R.Nargs],open,(strlen(open)+1));			
 			R.Nargs++;
 			
-			R.args[R.Nargs]=malloc((strlen(open)+1)*sizeof(char));
 			if (middle)
+			{
+				R.args[R.Nargs]=malloc((strlen(middle)+1)*sizeof(char));
 				strncpy(R.args[R.Nargs],middle,(strlen(middle)+1));
+			}
 			else
 			{
 				/* missing middle makes it equivalent to \leftX\middle. ... \rightY */
+				R.args[R.Nargs]=malloc(2*sizeof(char));
 				R.args[R.Nargs][0]='.';
 				R.args[R.Nargs][1]='\0';
 			}			
 			R.Nargs++;	
 			
-			R.args[R.Nargs]=malloc((strlen(open)+1)*sizeof(char)); 
+			R.args[R.Nargs]=malloc((strlen(close)+1)*sizeof(char));
 			strncpy(R.args[R.Nargs],close,(strlen(close)+1));
 			R.Nargs++;	
 			begin=end;

@@ -970,6 +970,14 @@ some of these in ASCII but I don't...
 ⎣  ⎦
 <end>
 
+<input> different byte length left-middle-right
+\left|0\middle\mid 1\right\rangle
+<ref>   | -S | -m
+⎢0⎢1⟩
+<ref> -A
+|0|1>
+<end>
+
 test argument parsing
 
 <input> argparse_space

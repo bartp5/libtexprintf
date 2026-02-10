@@ -119,9 +119,12 @@ graphical user interface to utftex (much like the gui that came with
 asciiTeX)
 * [utftexbot](https://github.com/LRDPRDX/utftexbot): a telegram bot to
 pretty print LaTeX
-* [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim): a markdown plugin for Neovim which can use utftex to format LaTeX 
+* [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim): 
+a markdown plugin for Neovim which can use utftex to format LaTeX 
 equations
- 
+* [euporie](https://euporie.readthedocs.io/en/stable/index.html): a 
+terminal based interactive computing environment for Jupyter.
+
 Questions One Might Ask (QOMA)
 ------------------------------
 

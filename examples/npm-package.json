@@ -1,0 +1,16 @@
+{
+  "name": "libtexprintf-wasm",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./libtexprintf.js",
+    "./libtexprintf.wasm": "./libtexprintf.wasm"
+  },
+  "files": [
+    "libtexprintf.js",
+    "libtexprintf.wasm",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "GPL-3.0-or-later"
+}

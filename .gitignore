@@ -2,10 +2,12 @@ src/utfstringinfo
 src/utftex
 src/errorflags.h
 src/errormessages.h
+src/texprintfsymbols
 
 *.o
 *.lo
 *.la
+*.wasm
 
 test/*.new
 *.log

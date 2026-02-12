@@ -183,3 +183,62 @@ Questions One Might Ask (QOMA)
 ```	     
 
 
+WASM (Node.js)
+--------------
+Build `libtexprintf.wasm` as a standalone WASM library and export `texstring`:
+
+```sh
+emconfigure ./configure \
+  --host=wasm32-unknown-emscripten \
+  --disable-shared \
+  --enable-static \
+  CFLAGS='-O3' LDFLAGS='-s STANDALONE_WASM=1'
+emmake make -j4
+
+emcc -O3 -s STANDALONE_WASM=1 \
+  -Wl,--no-entry \
+  -Wl,--export=texstring \
+  -Wl,--export=texfree \
+  -Wl,--export=malloc \
+  -Wl,--export=free \
+  -o libtexprintf.wasm \
+  src/.libs/libtexprintf.a
+```
+
+<details>
+<summary>JavaScript glue code (Node.js)</summary>
+
+```js
+import fs from "node:fs";
+import { WASI } from "node:wasi";
+
+const enc = new TextEncoder();
+const dec = new TextDecoder();
+export async function createRenderer(wasmPath = "./libtexprintf.wasm") {
+  const wasi = new WASI({ version: "preview1" });
+  const imports = { wasi_snapshot_preview1: wasi.wasiImport };
+  const bytes = fs.readFileSync(wasmPath);
+  const { instance } = await WebAssembly.instantiate(bytes, imports);
+
+  return function render(latex) {
+    const bytes = enc.encode(latex + "\0");
+    const inPtr = instance.exports.malloc(bytes.length);
+    new Uint8Array(instance.exports.memory.buffer, inPtr, bytes.length).set(bytes);
+    const outPtr = instance.exports.texstring(inPtr);
+    instance.exports.free(inPtr);
+
+    const mem = new Uint8Array(instance.exports.memory.buffer);
+    let end = outPtr;
+    while (mem[end] !== 0) end++;
+    const out = dec.decode(mem.subarray(outPtr, end));
+    instance.exports.texfree(outPtr);
+    return out;
+  };
+}
+
+// Usage:
+// const render = await createRenderer("./libtexprintf.wasm");
+// console.log(render("\\frac{\\alpha}{\\beta+x}"));
+```
+
+</details>

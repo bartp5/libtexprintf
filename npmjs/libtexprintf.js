@@ -1,3 +1,5 @@
+// libtexprintf.js
+import { readFile } from "node:fs/promises";
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
@@ -53,4 +55,28 @@ export function createRender(instance) {
       free(inputPtr);
     }
   };
+}
+
+
+/** @returns {Promise<WebAssembly.Instance>} */
+export async function loadInstance() {
+  // Locate the wasm file relative to this module
+  const wasmFile = new URL("./libtexprintf.wasm", import.meta.url);
+
+  // Read it (Node) ‑ you can also use `fetch()` in browsers
+  const wasmBytes = await readFile(wasmFile);
+
+  // Instantiate with the imports you already defined
+  const imports = {
+    wasi_snapshot_preview1: {
+      proc_exit(code) {
+        throw new Error(`WASM requested proc_exit(${code})`);
+      },
+      fd_close() { return 0; },
+      fd_write() { return 0; },
+      fd_seek()  { return 0; },
+    },
+  };
+  const { instance } = await WebAssembly.instantiate(wasmBytes, imports);
+  return instance;            // <-- caller gets a ready‑to‑use instance
 }

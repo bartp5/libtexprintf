@@ -125,6 +125,30 @@ equations
 * [euporie](https://euporie.readthedocs.io/en/stable/index.html): a 
 terminal based interactive computing environment for Jupyter.
 
+
+Node.js binding to libtexprintf
+-------------------------------
+
+an npmjs package is available which links libtexprintf to Node.js. To install do
+
+```sh
+npm install libtexprintf
+```
+
+Usage:
+---------------
+After installation
+
+```js
+import { loadInstance, createRender } from "libtexprintf";
+
+const instance = await loadInstance();
+const render = createRender(instance);
+console.log(render("\\frac{\\alpha}{\\beta+x}"));
+```
+Further details coan be found in the npmjs directory of this repository.
+
+
 Questions One Might Ask (QOMA)
 ------------------------------
 
@@ -181,53 +205,3 @@ Questions One Might Ask (QOMA)
  </alias>
 </fontconfig>	   
 ```	     
-
-
-WASM (Node.js)
---------------
-Install from npm (recommended):
-
-```sh
-npm install libtexprintf
-```
-
-Usage (ESM):
-
-```js
-import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
-import { WASI } from "node:wasi";
-import { createRender } from "libtexprintf";
-
-const require = createRequire(import.meta.url);
-const wasmPath = require.resolve("libtexprintf/libtexprintf.wasm");
-const wasmBytes = readFileSync(wasmPath);
-
-const wasi = new WASI({ version: "preview1" });
-const { instance } = await WebAssembly.instantiate(wasmBytes, {
-  wasi_snapshot_preview1: wasi.wasiImport,
-});
-
-const render = createRender(instance);
-console.log(render("\\frac{\\alpha}{\\beta+x}"));
-```
-
-Build from source (`libtexprintf.wasm` as standalone WASM with `texstring` export):
-
-```sh
-emconfigure ./configure \
-  --host=wasm32-unknown-emscripten \
-  --disable-shared \
-  --enable-static \
-  CFLAGS='-O3' LDFLAGS='-s STANDALONE_WASM=1'
-emmake make -j4
-
-emcc -O3 -s STANDALONE_WASM=1 \
-  -Wl,--no-entry \
-  -Wl,--export=texstring \
-  -Wl,--export=texfree \
-  -Wl,--export=malloc \
-  -Wl,--export=free \
-  -o libtexprintf.wasm \
-  src/.libs/libtexprintf.a
-```

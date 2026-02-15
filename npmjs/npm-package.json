@@ -1,5 +1,5 @@
 {
-  "name": "libtexprintf-wasm",
+  "name": "libtexprintf",
   "version": "0.0.0",
   "type": "module",
   "exports": {

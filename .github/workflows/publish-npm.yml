@@ -69,11 +69,11 @@ jobs:
           rm -rf npm-dist
           mkdir -p npm-dist
 
-          cp examples/libtexprintf.js npm-dist/libtexprintf.js
+          cp npmjs/libtexprintf.js npm-dist/libtexprintf.js
           cp libtexprintf.wasm npm-dist/libtexprintf.wasm
-          cp README.md npm-dist/README.md
+          cp npmjs/README.md npm-dist/README.md
           cp COPYING npm-dist/LICENSE
-          cp examples/npm-package.json npm-dist/package.json
+          cp npmjs/npm-package.json npm-dist/package.json
 
           npm --prefix npm-dist version "$VERSION" --no-git-tag-version --allow-same-version
 

@@ -57,7 +57,7 @@ export function createRender(instance) {
 	    // see if there are errors
 	    if (errText.length > 0) {
 		  // `;` is the delimiter used by libtexprintf
-		  console.groupCollapsed(`texprintf error(s) (${errText.length} bytes):`);
+		  console.groupCollapsed(`texprintf error(s):`);
 		  errText.split(";").filter(Boolean).forEach(msg =>
 		    console.error(`  • ${msg}`)
 		  );

@@ -146,7 +146,7 @@ const instance = await loadInstance();
 const render = createRender(instance);
 console.log(render("\\frac{\\alpha}{\\beta+x}"));
 ```
-Further details coan be found in the npmjs directory of this repository.
+Further details can be found in the npmjs directory of this repository.
 
 
 Questions One Might Ask (QOMA)

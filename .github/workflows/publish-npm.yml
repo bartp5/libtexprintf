@@ -47,7 +47,7 @@ jobs:
           emcc -O3 -s STANDALONE_WASM=1 \
             -Wl,--no-entry \
             -Wl,--export=texstring \
-            -Wl,--export=texfree \
+            -Wl,--export=texerrors_str \
             -Wl,--export=malloc \
             -Wl,--export=free \
             -o libtexprintf.wasm \

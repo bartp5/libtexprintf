@@ -28,9 +28,18 @@ export function createRender(instance) {
   }
 
   /** @type {TexprintfExports} */
-  const { memory, malloc, free, texstring, texfree } = instance.exports;
-  if (!memory || !malloc || !free || !texstring || !texfree) {
+  const { memory, malloc, free, texstring, texerrors_str} = instance.exports;
+  if (!memory || !malloc || !free || !texstring || !texerrors_str) {
     throw new Error("WASM module is missing one or more required exports");
+  }
+  /* --------------------------------------------------------------
+   * read a NUL‑terminated string owned by the WASM module.
+   * -------------------------------------------------------------- */
+  function decodePtr(ptr, mem, dec) {
+    const buf = new Uint8Array(mem.buffer);
+    let end = ptr;
+    while (buf[end] !== 0) end += 1;
+    return dec.decode(buf.subarray(ptr, end));
   }
 
   return function render(latex) {
@@ -39,17 +48,25 @@ export function createRender(instance) {
 
     try {
       new Uint8Array(memory.buffer, inputPtr, input.length).set(input);
-      const outputPtr = texstring(inputPtr);
+      const outPtr = texstring(inputPtr);
+      const errPtr  = texerrors_str();                
 
       try {
-        const mem = new Uint8Array(memory.buffer);
-        let end = outputPtr;
-        while (mem[end] !== 0) {
-          end += 1;
+		const outText = decodePtr(outPtr, memory, decoder);  
+		const errText = decodePtr(errPtr, memory, decoder);
+	    // see if there are errors
+	    if (errText.length > 0) {
+		  // `;` is the delimiter used by libtexprintf
+		  console.groupCollapsed(`texprintf error(s) (${errText.length} bytes):`);
+		  errText.split(";").filter(Boolean).forEach(msg =>
+		    console.error(`  • ${msg}`)
+		  );
+		  console.groupEnd();
         }
-        return decoder.decode(mem.subarray(outputPtr, end));
+		return outText;
       } finally {
-        texfree(outputPtr);
+        free(outPtr);
+        free(errPtr);
       }
     } finally {
       free(inputPtr);

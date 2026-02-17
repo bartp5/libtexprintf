@@ -212,7 +212,7 @@ KEYWORD LookupKey(char *begin, const KEYWORD * Keys)
 	return Keys[j];
 }
 
-PRSDEF  LookupFont(char *begin)
+PRSDEF  LookupFont(const char *begin)
 {
 	int j=0;
 	if (!begin)
@@ -220,7 +220,7 @@ PRSDEF  LookupFont(char *begin)
 	
 	while (Keys[j].name)
 	{
-		if (strncmp(begin, Keys[j].name+1, strlen(Keys[j].name)) == 0)
+		if (strncmp(begin, Keys[j].name+1, strlen(Keys[j].name)+1) == 0)
 		{
 			switch (Keys[j].P)
 			{
@@ -247,6 +247,7 @@ PRSDEF  LookupFont(char *begin)
 		}
 		j++;
 	}
+	AddErr(ERRUNKNOWNFONT);
 	return PD_TEXT;
 }
 static char *NoDel=".";

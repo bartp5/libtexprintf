@@ -185,7 +185,7 @@ void FreeToken(TOKEN T);
 void PrintToken(TOKEN T);
 char * Unicode2Utf8(int U);
 char * PreProcessor(char *string2);
-PRSDEF  LookupFont(char *begin);
+PRSDEF  LookupFont(const char *begin);
 SCALABLE_DELIMITER LookupDelimiter(char *begin, char **del);
 void LookupCombining(PRSDEF P, unsigned int *comb, unsigned int *alt, unsigned int *altascii);
 int ReadLengthWidth(char *str);

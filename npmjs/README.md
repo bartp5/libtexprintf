@@ -20,6 +20,7 @@ import { loadInstance, createRender } from "libtexprintf";
 
 const instance = await loadInstance();
 const render = createRender(instance);
+render.setFontstyle("mathnormal")
 console.log(render("\\frac{\\alpha}{\\beta+x}"));
 ```
 
@@ -38,9 +39,11 @@ emmake make -j4
 emcc -O3 -s STANDALONE_WASM=1 \
   -Wl,--no-entry \
   -Wl,--export=texstring \
-  -Wl,--export=texfree \
+  -Wl,--export=texstring \
+  -Wl,--export=texerrors_str \
   -Wl,--export=malloc \
   -Wl,--export=free \
+  -Wl,--export=SetRootFont \
   -o libtexprintf.wasm \
   src/.libs/libtexprintf.a
 ```

@@ -28,8 +28,8 @@ export function createRender(instance) {
   }
 
   /** @type {TexprintfExports} */
-  const { memory, malloc, free, texstring, texerrors_str} = instance.exports;
-  if (!memory || !malloc || !free || !texstring || !texerrors_str) {
+  const { memory, malloc, free, texstring, texerrors_str, SetRootFont} = instance.exports;
+  if (!memory || !malloc || !free || !texstring || !texerrors_str || !SetRootFont) {
     throw new Error("WASM module is missing one or more required exports");
   }
   /* --------------------------------------------------------------
@@ -41,8 +41,30 @@ export function createRender(instance) {
     while (buf[end] !== 0) end += 1;
     return dec.decode(buf.subarray(ptr, end));
   }
-
-  return function render(latex) {
+  
+  function setFontstyle(name) {
+    const buf = encoder.encode(name + "\0");
+    const ptr = malloc(buf.length);
+    new Uint8Array(memory.buffer, ptr, buf.length).set(buf);
+    SetRootFont(ptr);
+    free(ptr);
+	const errPtr  = texerrors_str();    
+    try {  
+		const errText = decodePtr(errPtr, memory, decoder);
+	    // see if there are errors
+	    if (errText.length > 0) {
+		  // `;` is the delimiter used by libtexprintf
+		  console.groupCollapsed(`texprintf error(s):`);
+		  errText.split(";").filter(Boolean).forEach(msg =>
+		  console.error(`  • ${msg}`)
+		);
+		console.groupEnd();
+        }
+     } finally {
+        free(errPtr);
+     }
+  }
+  function render(latex) {
     const input = encoder.encode(String(latex) + "\0");
     const inputPtr = malloc(input.length);
 
@@ -71,7 +93,9 @@ export function createRender(instance) {
     } finally {
       free(inputPtr);
     }
-  };
+  }
+  render.setFontstyle = setFontstyle;
+  return render;
 }
 
 

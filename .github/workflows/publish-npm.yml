@@ -54,7 +54,9 @@ jobs:
             src/.libs/libtexprintf.a
 
       - name: Run Node tests
-        run: node --test examples/libtexprintf.test.js
+        run: |        
+         cp libtexprintf.wasm npmjs/libtexprintf.wasm
+         node --test npmjs/libtexprintf.test.js
 
       - name: Prepare npm package
         env:

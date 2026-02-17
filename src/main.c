@@ -19,7 +19,6 @@ int main(int argc, char **argv)
 	int done=0;
 	int ret=0;
 	int combine_errors=0;
-	char *font=NULL;
 	char *symbols=NULL;
 #ifdef __MINGW32__
 	UINT oldcp = GetConsoleOutputCP();
@@ -113,9 +112,7 @@ int main(int argc, char **argv)
 					fprintf(stderr, "Error: --default-font requires the default font style name\n");
 					return 1;
 				}
-				font=malloc((strlen(optarg)+1)*sizeof(char));
-				strcpy(font, optarg);
-				TEXPRINTF_FONT=font;
+				SetRootFont(optarg);
 				break;
 			case 'B':
 				boxtree=1;

@@ -10,7 +10,7 @@
 #include "error.h"
 
 int TEXPRINTF_LW=0;
-char * TEXPRINTF_FONT="text";
+char *TEXPRINTF_FONT="text";
 int TEXPRINTF_FCW=2;
 int TEXPRINTF_WCW=2;
 
@@ -229,6 +229,11 @@ char *texerrors_str()
 	return s;
 }
 
+int texerror_state()
+{
+	return TEXPRINTF_ERR;
+}
+
 void SetStyleASCII()
 {
 	style=&STYLE_ASC;
@@ -245,4 +250,55 @@ void ToggleAvoidCombining()
 {
 	style->avoidcombining=!style->avoidcombining;
 }
+
+void SetRootFont(const char *font)
+{
+	PRSDEF P;
+	P=(int)LookupFont(font);
+	switch(P)
+	{
+		case PD_TEXT:
+			TEXPRINTF_FONT="text";
+			break;		
+		case PD_MATHBF:
+			TEXPRINTF_FONT="mathbf";
+			break;		
+		case PD_MATHBFIT:
+			TEXPRINTF_FONT="mathbfit";
+			break;		
+		case PD_MATHCAL:
+			TEXPRINTF_FONT="mathcal";
+			break;		
+		case PD_MATHSCR:
+			TEXPRINTF_FONT="mathscr";
+			break;		
+		case PD_MATHFRAK:
+			TEXPRINTF_FONT="mathfrak";
+			break;		
+		case PD_MATHBB:
+			TEXPRINTF_FONT="mathbb";
+			break;		
+		case PD_MATHSF:
+			TEXPRINTF_FONT="mathsf";
+			break;		
+		case PD_MATHSFBF:
+			TEXPRINTF_FONT="mathsfbf";
+			break;		
+		case PD_MATHSFIT:
+			TEXPRINTF_FONT="mathsfit";
+			break;		
+		case PD_MATHSFBFIT:
+			TEXPRINTF_FONT="mathsfbfit";
+			break;		
+		case PD_MATHTT:
+			TEXPRINTF_FONT="mathtt";
+			break;		
+		case PD_MATHNORMAL:
+			TEXPRINTF_FONT="mathnormal";
+			break;		
+		default:
+			TEXPRINTF_FONT="unknown"; // will throw an error later
+	}
+}
+
 

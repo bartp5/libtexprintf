@@ -31,13 +31,29 @@ char * texstring(const char *str);                      /* stextprintf, but no p
 void texfree(void *ptr);								/* free memory from results */
 int ftexprintf(FILE *f, const char *format, ...);		/* prints to file */
 void texboxtree(const char *format, ...);				/* print the box-tree, for debugging purposes */
-void texlistsymbols();
-char *texsymbols_str();
-void texerrors();
-char *texerrors_str();
-void SetStyleASCII();
-void SetStyleUNICODE();
-void ToggleMapSuperSub();
-void ToggleAvoidCombining();
+void texlistsymbols();									/* prints a list all known symbols */
+char *texsymbols_str();									/* produces a ';' separated list symbols formatted as "<name>:<value>" */
+void texerrors();										/* prints error messages of the encountered errors */
+char *texerrors_str();									/* prints a ';' separated list of error messages */
+int texerror_state();									/* returns 0 if no error is present */
+void SetStyleASCII();									/* set style to ASCII, avoiding unicode where possible */
+void SetStyleUNICODE();									/* standard style */
+void ToggleMapSuperSub();								/* toggles wheteher super/sub scripts are mapped if possible (e.g. map 2 in a subscript to ₂)*/
+void ToggleAvoidCombining();							/* combining diacritical marks do not always work well depending on your fonts I suppose */
+void SetRootFont(const char *font);						/* function to set the default font to
+														 *  "mathsfbfit"
+														 *  "mathsfbf"
+														 *  "mathfrak"
+														 *  "mathbfit"
+														 *  "mathsfit"
+														 *  "mathcal"
+														 *  "mathscr"
+														 *  "mathbf"
+														 *  "mathbb"
+														 *  "mathsf"
+														 *  "mathtt"
+														 *  "mathnormal"
+														 *  "text" 
+														 */
 
 #endif

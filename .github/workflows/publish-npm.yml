@@ -38,9 +38,7 @@ jobs:
           sh autogen.sh
           emconfigure ./configure \
           --host=wasm32-unknown-emscripten \
-          --disable=shared --disable=tests --disable=examples \
-          --disable=demo --disable=main --disable=man \
-          --without-include --without-man \
+          --disable-shared --enable-static \
           CFLAGS='-O3' \
           LDFLAGS='-s STANDALONE_WASM=1'
           emmake make

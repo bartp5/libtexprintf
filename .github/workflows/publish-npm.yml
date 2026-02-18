@@ -46,14 +46,11 @@ jobs:
       - name: Create WASM
         shell: bash
         run: |
+          echo "int main() { return 0; }" > tmp_main.c
           emcc -O3 -s STANDALONE_WASM=1 \
-            -Wl,--no-entry \
-            -Wl,--export=texstring \
-            -Wl,--export=texerrors_str \
-            -Wl,--export=malloc \
-            -Wl,--export=free \
-            -o libtexprintf.wasm \
-            src/.libs/libtexprintf.a
+          -s EXPORTED_FUNCTIONS='["_texstring","_texerrors_str", "_SetRootFont","_malloc","_free"]' \
+          tmp_main.c -o libtexprintf.wasm src/.libs/libtexprintf.a
+          rm tmp_main.c
 
       - name: Run Node tests
         run: |        

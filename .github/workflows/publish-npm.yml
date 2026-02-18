@@ -44,7 +44,7 @@ jobs:
           LDFLAGS='-s STANDALONE_WASM=1'
           emmake make
           
-       - name: Create WASM
+      - name: Create WASM
         shell: bash
         run: |
           emcc -O3 -s STANDALONE_WASM=1 \

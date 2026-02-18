@@ -22,7 +22,7 @@ const decoder = new TextDecoder();
  * @param {TexprintfInstance} instance
  * @returns {(latex: string) => string}
  */
-export function createRender(instance) {
+export function createRender(instance, { onError, throwOnError = false } = {}) {
   if (!(instance instanceof WebAssembly.Instance)) {
     throw new TypeError("createRender expects a WebAssembly.Instance");
   }
@@ -48,22 +48,8 @@ export function createRender(instance) {
     new Uint8Array(memory.buffer, ptr, buf.length).set(buf);
     SetRootFont(ptr);
     free(ptr);
-	const errPtr  = texerrors_str();    
-    try {  
-		const errText = decodePtr(errPtr, memory, decoder);
-	    // see if there are errors
-	    if (errText.length > 0) {
-		  // `;` is the delimiter used by libtexprintf
-		  console.groupCollapsed(`texprintf error(s):`);
-		  errText.split(";").filter(Boolean).forEach(msg =>
-		  console.error(`  • ${msg}`)
-		);
-		console.groupEnd();
-        }
-     } finally {
-        free(errPtr);
-     }
   }
+  
   function render(latex) {
     const input = encoder.encode(String(latex) + "\0");
     const inputPtr = malloc(input.length);
@@ -76,16 +62,18 @@ export function createRender(instance) {
       try {
 		const outText = decodePtr(outPtr, memory, decoder);  
 		const errText = decodePtr(errPtr, memory, decoder);
-	    // see if there are errors
-	    if (errText.length > 0) {
-		  // `;` is the delimiter used by libtexprintf
-		  console.groupCollapsed(`texprintf error(s):`);
-		  errText.split(";").filter(Boolean).forEach(msg =>
-		    console.error(`  • ${msg}`)
-		  );
-		  console.groupEnd();
+		const errors  = errText ? errText.split(";").filter(Boolean) : [];	
+		
+        // 1) Throw if requested (highest priority)
+        if (throwOnError && errors.length) {
+          throw new Error(errors.join(";"));
         }
-		return outText;
+        // 2) Pass to user callback if provided
+        if (onError && errors.length) {
+          onError(errors);
+        }
+
+        return { output: outText, errors };
       } finally {
         free(outPtr);
         free(errPtr);

@@ -31,19 +31,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y autoconf automake libtool make
 
-      - name: Build WASM
+      - name: Build Static Library (emmake)
+        shell: bash
         run: |
           sh autogen.sh
-
           emconfigure ./configure \
-            --host=wasm32-unknown-emscripten \
-            --disable-shared \
-            --enable-static \
-            CFLAGS='-O3' \
-            LDFLAGS='-s STANDALONE_WASM=1'
-
-          emmake make -j"$(nproc)"
-
+          --host=wasm32-unknown-emscripten \
+          --disable=shared --disable=tests --disable=examples \
+          --disable=demo --disable=main --disable=man \
+          --without-include --without-man \
+          CFLAGS='-O3' \
+          LDFLAGS='-s STANDALONE_WASM=1'
+          emmake make
+          
+       - name: Create WASM
+        shell: bash
+        run: |
           emcc -O3 -s STANDALONE_WASM=1 \
             -Wl,--no-entry \
             -Wl,--export=texstring \

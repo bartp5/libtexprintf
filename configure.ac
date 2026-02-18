@@ -1,4 +1,4 @@
-AC_INIT([libtexprintf],[1.29])
+AC_INIT([libtexprintf],[1.30])
 AC_CONFIG_MACRO_DIRS([m4])
 LT_INIT([])
 AC_ENABLE_SHARED
@@ -21,7 +21,7 @@ case "$host_os" in
     AC_MSG_RESULT([no])
     ;;
 esac
-AC_DEFINE([UTFTEXVERSION], ["1.16"], [utftex version string])
+AC_DEFINE([UTFTEXVERSION], ["1.17"], [utftex version string])
 AC_CONFIG_SRCDIR([src/boxes.c])
 AC_CONFIG_HEADERS([src/config.h])
 AC_CHECK_LIB([m],[cos])

@@ -1988,6 +1988,58 @@ void MathFont(TOKEN *T, box *b, int Font)
 	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
 }
 
+void MakeMOD(TOKEN *T, box *b, int Font)
+{
+	char *str;
+	switch (T->P)
+	{
+		case PD_PMOD:
+			str=malloc(6*sizeof(char));
+			str[0]='(';
+			str[1]='m';
+			str[2]='o';
+			str[3]='d';
+			str[4]=' ';
+			str[5]='\0';
+			AddChild(b, B_UNIT, str);
+			ParseStringInBox(T->args[0], b, Font); 
+			str=malloc(2*sizeof(char));
+			str[0]=')';
+			str[1]='\0';
+			AddChild(b, B_UNIT, str);
+			break;
+		case PD_MOD:
+		case PD_BMOD:
+			str=malloc(5*sizeof(char));
+			str[0]='m';
+			str[1]='o';
+			str[2]='d';
+			str[3]=' ';
+			str[4]='\0';
+			AddChild(b, B_UNIT, str);
+			ParseStringInBox(T->args[0], b, Font); 
+			str=malloc(2*sizeof(char));
+			str[0]=' ';
+			str[1]='\0';
+			AddChild(b, B_UNIT, str);
+			break;
+		case PD_POD:
+			str=malloc(2*sizeof(char));
+			str[0]='(';
+			str[1]='\0';
+			AddChild(b, B_UNIT, str);
+			ParseStringInBox(T->args[0], b, Font); 
+			str=malloc(2*sizeof(char));
+			str[0]=')';
+			str[1]='\0';
+			AddChild(b, B_UNIT, str);
+			break;
+		default:
+			break;
+	}		
+	AddScripts(T->sub, T->super, b, T->limits, Font);
+}
+
 void RaiseBox(TOKEN *T, box *b, int Font)
 {
 	/* raise the contents w.r.t. the baseline (yc)
@@ -2402,6 +2454,12 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 				break; */
 			case PD_FRAC: 
 				MakeFrac(&T, b, Font);
+				break;
+			case PD_PMOD: 
+			case PD_BMOD: 
+			case PD_MOD: 
+			case PD_POD: 
+				MakeMOD(&T, b, Font);
 				break;
 			case PD_BINOM: 
 				MakeBinom(&T, b, Font);

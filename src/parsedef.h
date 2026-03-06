@@ -101,6 +101,7 @@ const KEYWORD   Keys[] = {
 	{"\\rm",  		PD_SETROMAN	, 0, 0},
 	{"\\mathrm",	PD_TEXT		, 1, 0},
 	{"\\bm",		PD_BOLD		, 1, 0},
+	{"\\boldsymbol",PD_BOLD		, 1, 0},
 	{"\\pmb",		PD_BOLD		, 1, 0},
 	{"^",      		PD_SUPER   	, 2, 0},
 	{"_",      		PD_SUB     	, 2, 0},
@@ -122,7 +123,9 @@ const KEYWORD   Keys[] = {
 	{"\\'",         PD_COMB_ACUTE       	, 1, 0},
 	{"\\hat",       PD_COMB_HAT          , 1, 0},
 	{"\\^",         PD_COMB_HAT          , 1, 0},
+	{"\\widehat",   PD_COMB_HAT          , 1, 0}, // we cannot scale so it is just the same as hat
 	{"\\tilde",     PD_COMB_TILDE        , 1, 0},
+	{"\\widetilde", PD_COMB_TILDE        , 1, 0}, //cannot scale
 	{"\\~",         PD_COMB_TILDE        , 1, 0},
 	{"\\breve",     PD_COMB_BREVE        , 1, 0},
 	{"\\dot",       PD_COMB_DOT          , 1, 0},	
@@ -139,7 +142,10 @@ const KEYWORD   Keys[] = {
 	// auto generated entries	
 	{"\\lvec" , PD_COMB_LVEC ,1,0},
 	{"\\Lvec" , PD_COMB_LLVEC ,1,0},
+	{"\\overleftarrow" , PD_COMB_LLVEC ,1,0},
 	{"\\vec" , PD_COMB_VEC ,1,0},
+	{"\\overrightarrow" , PD_COMB_VEC ,1,0},
+	{"\\overleftarrow" , PD_COMB_LVEC ,1,0},
 	{"\\dddot" , PD_COMB_DDDOT ,1,0},
 	{"\\ddddot" , PD_COMB_DDDDOT ,1,0},
 	{"\\overleftrightarrow" , PD_COMB_OVERLEFTRIGHTARROW ,1,0},

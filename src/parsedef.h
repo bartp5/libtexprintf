@@ -556,7 +556,6 @@ const Symbol  Symbols[] = {
 	{"\\angle", 0x02220},
 	{"\\measuredangle", 0x02221},
 	{"\\sphericalangle", 0x02222},
-	{"\\mid", 0x02223},
 	{"\\nmid", 0x02224},
 	{"\\parallel", 0x02225},
 	{"\\nparallel", 0x02226},
@@ -597,7 +596,6 @@ const Symbol  Symbols[] = {
 	{"\\fallingdotseq", 0x02252},
 	{"\\risingdotseq", 0x02253},
 	{"\\coloneq", 0x02254},
-	{"\\eqcolon", 0x02255},
 	{"\\eqcirc", 0x02256},
 	{"\\circeq", 0x02257},
 	{"\\corresponds", 0x02259},
@@ -762,6 +760,7 @@ const Symbol  Symbols[] = {
 	{"\\overbrace", 0x023DE},
 	{"\\underbrace", 0x023DF},	
 	/* geometric shapes */
+	{"\\triangle", 0x025B3},
 	{"\\bigtriangleup", 0x025B3},
 	{"\\blacktriangleup", 0x025B4},
 	{"\\smalltriangleup", 0x025B5},
@@ -1006,8 +1005,6 @@ const Symbol  Symbols[] = {
 	{"\\sslash", 0x02AFD},
 	{"\\talloblong", 0x02AFE},
 	/* misc symbols & arrows */
-	{"\\blacksquare", 0x02B1B},
-	{"\\square", 0x02B1C},
 	/* mathematical alphanumeric symbols */
 	{"\\partial", 0x1D715},
 	/* terminate the table */
@@ -1815,6 +1812,1466 @@ const Symbol  Symbols[] = {
 	{"\\smallblacktriangleright",0x025B8}, //  ▸ # right triangle, filled
 	{"\\smallblacktriangleleft",0x025C2}, //  ◂ # left triangle, filled
 	{"\\tricolon",0x0205D}, //  ⁝ # tricolon
+	
+	
+	// anotherlist: https://github.com/latex3/unicode-math/blob/master/unicode-math-table.tex
+	// I deduplicated things and removed blocks with combining diacritical marks and commands
+	// (e.g. \sum)
+	{"\\mathexclam",	0x00021}, //exclamation mark%
+	{"\\mathoctothorpe",	0x00023}, //number sign%
+	{"\\mathdollar",	0x00024}, //dollar sign%
+	{"\\mathpercent",	0x00025}, //percent sign%
+	{"\\mathampersand",	0x00026}, //ampersand%
+	{"\\lparen",	0x00028}, //left parenthesis%
+	{"\\rparen",	0x00029}, //right parenthesis%
+	{"\\mathplus",	0x0002B}, //plus sign b:%
+	{"\\mathcomma",	0x0002C}, //comma%
+	{"\\mathperiod",	0x0002E}, //full stop, period%
+	{"\\mathslash",	0x0002F}, //solidus%
+	{"\\mathcolon",	0x0003A}, //colon%
+	{"\\mathsemicolon",	0x0003B}, //semicolon p:%
+	{"\\less",	0x0003C}, //less-than sign r:%
+	{"\\equal",	0x0003D}, //equals sign r:%
+	{"\\greater",	0x0003E}, //greater-than sign r:%
+	{"\\mathquestion",	0x0003F}, //question mark%
+	{"\\mathatsign",	0x00040}, //commercial at%
+	{"\\lbrack",	0x0005B}, //left square bracket%
+	{"\\rbrack",	0x0005D}, //right square bracket%
+	{"\\lbrace",	0x0007B}, //left curly bracket%
+	{"\\rbrace",	0x0007D}, //right curly bracket%
+	{"\\mathsterling",	0x000A3}, //pound sign%
+	{"\\mathyen",	0x000A5}, //yen sign%
+	{"\\mathsection",	0x000A7}, //section symbol%
+	{"\\mathparagraph",	0x000B6}, //paragraph symbol%
+	{"\\matheth",	0x000F0}, //eth%
+	{"\\mupAlpha",	0x00391}, //capital alpha, greek%
+	{"\\mupBeta",	0x00392}, //capital beta, greek%
+	{"\\mupGamma",	0x00393}, //capital gamma, greek%
+	{"\\mupDelta",	0x00394}, //capital delta, greek%
+	{"\\mupEpsilon",	0x00395}, //capital epsilon, greek%
+	{"\\mupZeta",	0x00396}, //capital zeta, greek%
+	{"\\mupEta",	0x00397}, //capital eta, greek%
+	{"\\mupTheta",	0x00398}, //capital theta, greek%
+	{"\\mupIota",	0x00399}, //capital iota, greek%
+	{"\\mupKappa",	0x0039A}, //capital kappa, greek%
+	{"\\mupLambda",	0x0039B}, //capital lambda, greek%
+	{"\\mupMu",	0x0039C}, //capital mu, greek%
+	{"\\mupNu",	0x0039D}, //capital nu, greek%
+	{"\\mupXi",	0x0039E}, //capital xi, greek%
+	{"\\mupOmicron",	0x0039F}, //capital omicron, greek%
+	{"\\mupPi",	0x003A0}, //capital pi, greek%
+	{"\\mupRho",	0x003A1}, //capital rho, greek%
+	{"\\mupSigma",	0x003A3}, //capital sigma, greek%
+	{"\\mupTau",	0x003A4}, //capital tau, greek%
+	{"\\mupUpsilon",	0x003A5}, //capital upsilon, greek%
+	{"\\mupPhi",	0x003A6}, //capital phi, greek%
+	{"\\mupChi",	0x003A7}, //capital chi, greek%
+	{"\\mupPsi",	0x003A8}, //capital psi, greek%
+	{"\\mupOmega",	0x003A9}, //capital omega, greek%
+	{"\\mupalpha",	0x003B1}, //small alpha, greek%
+	{"\\mupbeta",	0x003B2}, //small beta, greek%
+	{"\\mupgamma",	0x003B3}, //small gamma, greek%
+	{"\\mupdelta",	0x003B4}, //small delta, greek%
+	{"\\mupvarepsilon",	0x003B5}, //rounded small varepsilon, greek%
+	{"\\mupzeta",	0x003B6}, //small zeta, greek%
+	{"\\mupeta",	0x003B7}, //small eta, greek%
+	{"\\muptheta",	0x003B8}, //straight theta, small theta, greek%
+	{"\\mupiota",	0x003B9}, //small iota, greek%
+	{"\\mupkappa",	0x003BA}, //small kappa, greek%
+	{"\\muplambda",	0x003BB}, //small lambda, greek%
+	{"\\mupmu",	0x003BC}, //small mu, greek%
+	{"\\mupnu",	0x003BD}, //small nu, greek%
+	{"\\mupxi",	0x003BE}, //small xi, greek%
+	{"\\mupomicron",	0x003BF}, //small omicron, greek%
+	{"\\muppi",	0x003C0}, //small pi, greek%
+	{"\\muprho",	0x003C1}, //small rho, greek%
+	{"\\mupvarsigma",	0x003C2}, //terminal sigma, greek%
+	{"\\mupsigma",	0x003C3}, //small sigma, greek%
+	{"\\muptau",	0x003C4}, //small tau, greek%
+	{"\\mupupsilon",	0x003C5}, //small upsilon, greek%
+	{"\\mupvarphi",	0x003C6}, //curly or open small phi, greek%
+	{"\\mupchi",	0x003C7}, //small chi, greek%
+	{"\\muppsi",	0x003C8}, //small psi, greek%
+	{"\\mupomega",	0x003C9}, //small omega, greek%
+	{"\\mupvartheta",	0x003D1}, // /vartheta - curly or open theta%
+	{"\\mupphi",	0x003D5}, // /straightphi - small phi, greek%
+	{"\\mupvarpi",	0x003D6}, //rounded small pi (pomega), greek%
+	{"\\upDigamma",	0x003DC}, //capital digamma%
+	{"\\updigamma",	0x003DD}, //old greek small letter digamma%
+	{"\\mupvarkappa",	0x003F0}, //rounded small kappa, greek%
+	{"\\mupvarrho",	0x003F1}, //rounded small rho, greek%
+	{"\\mupvarTheta",	0x003F4}, //greek capital theta symbol%
+	{"\\mupepsilon",	0x003F5}, //greek lunate varepsilon symbol%
+	{"\\upbackepsilon",	0x003F6}, //greek reversed lunate epsilon symbol%
+	{"\\mathhyphen",	0x02010}, //hyphen%
+	{"\\horizbar",	0x02015}, //horizontal bar%
+	{"\\twolowline",	0x02017}, //double low line (spacing)%
+	{"\\smblkcircle",	0x02022}, // /bullet b: round bullet, filled%
+	{"\\enleadertwodots",	0x02025}, //double baseline dot (en leader)%
+	{"\\unicodeellipsis",	0x02026}, //ellipsis (horizontal)%
+	{"\\dprime",	0x02033}, //double prime or second, not superscripted%
+	{"\\trprime",	0x02034}, //triple prime (not superscripted)%
+	{"\\backdprime",	0x02036}, //double reverse prime, not superscripted%
+	{"\\backtrprime",	0x02037}, //triple reverse prime, not superscripted%
+	{"\\caretinsert",	0x02038}, //caret (insertion mark)%
+	{"\\Exclam",	0x0203C}, //double exclamation mark%
+	{"\\hyphenbullet",	0x02043}, //rectangle, filled (hyphen bullet)%
+	{"\\fracslash",	0x02044}, //fraction slash%
+	{"\\Question",	0x02047}, //double question mark%
+	{"\\closure",	0x02050}, //close up%
+	{"\\qprime",	0x02057}, //quadruple prime, not superscripted%
+	{"\\BbbC",	0x02102}, // /bbb c, open face c%
+	{"\\Eulerconst",	0x02107}, //euler constant%
+	{"\\mscrg",	0x0210A}, // /scr g, script letter g%
+	{"\\mscrH",	0x0210B}, //hamiltonian (script capital h)%
+	{"\\mfrakH",	0x0210C}, // /frak h, upper case h%
+	{"\\BbbH",	0x0210D}, // /bbb h, open face h%
+	{"\\Planckconst",	0x0210E}, //planck constant%
+	{"\\mscrI",	0x02110}, // /scr i, script letter i%
+	{"\\mscrL",	0x02112}, //lagrangian (script capital l)%
+	{"\\BbbN",	0x02115}, // /bbb n, open face n%
+	{"\\BbbP",	0x02119}, // /bbb p, open face p%
+	{"\\BbbQ",	0x0211A}, // /bbb q, open face q%
+	{"\\mscrR",	0x0211B}, // /scr r, script letter r%
+	{"\\BbbR",	0x0211D}, // /bbb r, open face r%
+	{"\\BbbZ",	0x02124}, // /bbb z, open face z%
+	{"\\mfrakZ",	0x02128}, // /frak z, upper case z%
+	{"\\mscrB",	0x0212C}, //bernoulli function (script capital b)%
+	{"\\mfrakC",	0x0212D}, //black-letter capital c%
+	{"\\mscre",	0x0212F}, // /scr e, script letter e%
+	{"\\mscrE",	0x02130}, // /scr e, script letter e%
+	{"\\mscrF",	0x02131}, // /scr f, script letter f%
+	{"\\mscrM",	0x02133}, //physics m-matrix (script capital m)%
+	{"\\mscro",	0x02134}, //order of (script small o)%
+	{"\\Bbbpi",	0x0213C}, //double-struck small pi%
+	{"\\Bbbgamma",	0x0213D}, //double-struck small gamma%
+	{"\\BbbGamma",	0x0213E}, //double-struck capital gamma%
+	{"\\BbbPi",	0x0213F}, //double-struck capital pi%
+	{"\\Bbbsum",	0x02140}, //double-struck n-ary summation%
+	{"\\mitBbbD",	0x02145}, //double-struck italic capital d%
+	{"\\mitBbbd",	0x02146}, //double-struck italic small d%
+	{"\\mitBbbe",	0x02147}, //double-struck italic small e%
+	{"\\mitBbbi",	0x02148}, //double-struck italic small i%
+	{"\\mitBbbj",	0x02149}, //double-struck italic small j%
+	{"\\barovernorthwestarrow",	0x021B8}, //north west arrow to long bar%
+	{"\\barleftarrowrightarrowbar",	0x021B9}, //leftwards arrow to bar over rightwards arrow to bar%
+	{"\\acwopencirclearrow",	0x021BA}, //anticlockwise open circle arrow%
+	{"\\cwopencirclearrow",	0x021BB}, //clockwise open circle arrow%
+	{"\\barleftarrow",	0x021E4}, //leftwards arrow to bar%
+	{"\\minus",	0x02212}, //minus sign%
+	{"\\divslash",	0x02215}, //division slash%
+	{"\\vysmwhtcircle",	0x02218}, //composite function (small circle)%
+	{"\\cuberoot",	0x0221B}, //cube root%
+	{"\\intclockwise",	0x02231}, //clockwise integral%
+	{"\\mathratio",	0x02236}, //ratio%
+	{"\\dashcolon",	0x02239}, //excess (-:)%
+	{"\\invlazys",	0x0223E}, //most positive [inverted lazy s]%
+	{"\\sinewave",	0x0223F}, //sine wave%
+	{"\\sime",	0x02243}, //similar, equals (alias)%
+	{"\\simneqq",	0x02246}, //similar, not equals [vert only for 9573 entity]%
+	{"\\approxident",	0x0224B}, //approximately identical to%
+	{"\\backcong",	0x0224C}, //all equal to%
+	{"\\stareq",	0x0225B}, //star equals%
+	{"\\nlessgtr",	0x02278}, //not less, greater%
+	{"\\ngtrless",	0x02279}, //not greater, less%
+	{"\\cupleftarrow",	0x0228C}, //multiset%
+	{"\\assert",	0x022A6}, //assertion (vertical, short dash)%
+	{"\\origof",	0x022B6}, //original of%
+	{"\\imageof",	0x022B7}, //image of%
+	{"\\hermitmatrix",	0x022B9}, //hermitian conjugate matrix%
+	{"\\barvee",	0x022BD}, //bar, vee (large vee)%
+	{"\\measuredrightangle",	0x022BE}, //right angle-measured [with arc]%
+	{"\\smwhtdiamond",	0x022C4}, //white diamond%
+	{"\\nvartriangleleft",	0x022EA}, //not left triangle%
+	{"\\nvartriangleright",	0x022EB}, //not right triangle%
+	{"\\unicodecdots",	0x022EF}, //three dots, centered%
+	{"\\inttop",	0x02320}, //top half integral%
+	{"\\intbottom",	0x02321}, //bottom half integral%
+	{"\\APLnotslash",	0x0233F}, //solidus, bar through (apl functional symbol slash bar)%
+	{"\\APLnotbackslash",	0x02340}, //apl functional symbol backslash bar%
+	{"\\APLboxupcaret",	0x02353}, //boxed up caret%
+	{"\\APLboxquestion",	0x02370}, //boxed question mark%
+	{"\\rangledownzigzagarrow",	0x0237C}, //right angle with downwards zigzag arrow%
+	{"\\lparenuend",	0x0239B}, //left parenthesis upper hook%
+	{"\\lparenextender",	0x0239C}, //left parenthesis extension%
+	{"\\lparenlend",	0x0239D}, //left parenthesis lower hook%
+	{"\\rparenuend",	0x0239E}, //right parenthesis upper hook%
+	{"\\rparenextender",	0x0239F}, //right parenthesis extension%
+	{"\\rparenlend",	0x023A0}, //right parenthesis lower hook%
+	{"\\lbrackuend",	0x023A1}, //left square bracket upper corner%
+	{"\\lbrackextender",	0x023A2}, //left square bracket extension%
+	{"\\lbracklend",	0x023A3}, //left square bracket lower corner%
+	{"\\rbrackuend",	0x023A4}, //right square bracket upper corner%
+	{"\\rbrackextender",	0x023A5}, //right square bracket extension%
+	{"\\rbracklend",	0x023A6}, //right square bracket lower corner%
+	{"\\lbraceuend",	0x023A7}, //left curly bracket upper hook%
+	{"\\lbracemid",	0x023A8}, //left curly bracket middle piece%
+	{"\\lbracelend",	0x023A9}, //left curly bracket lower hook%
+	{"\\vbraceextender",	0x023AA}, //curly bracket extension%
+	{"\\rbraceuend",	0x023AB}, //right curly bracket upper hook%
+	{"\\rbracemid",	0x023AC}, //right curly bracket middle piece%
+	{"\\rbracelend",	0x023AD}, //right curly bracket lower hook%
+	{"\\intextender",	0x023AE}, //integral extension%
+	{"\\harrowextender",	0x023AF}, //horizontal line extension (used to extend arrows)%
+	{"\\rmoustache",	0x023B1}, //upper right or lower left curly bracket section%
+	{"\\sumtop",	0x023B2}, //summation top%
+	{"\\sumbottom",	0x023B3}, //summation bottom%
+	{"\\overbracket",	0x023B4}, //top square bracket%
+	{"\\sqrtbottom",	0x023B7}, //radical symbol bottom%
+	{"\\obrbrak",	0x023E0}, //top tortoise shell bracket (mathematical use)%
+	{"\\ubrbrak",	0x023E1}, //bottom tortoise shell bracket (mathematical use)%
+	{"\\mathvisiblespace",	0x02423}, //open box%
+	{"\\bdtriplevdash",	0x02506}, //doubly broken vert%
+	{"\\mdlgblksquare",	0x025A0}, //square, filled%
+	{"\\mdlgwhtsquare",	0x025A1}, //square, open%
+	{"\\vrectangle",	0x025AF}, //rectangle, white (vertical)%
+	{"\\mdlgwhtlozenge",	0x025CA}, //lozenge or total mark%
+	{"\\mdlgwhtcircle",	0x025CB}, //medium large circle%
+	{"\\circlelefthalfblack",	0x025D0}, //circle, filled left half [harvey ball]%
+	{"\\circlerighthalfblack",	0x025D1}, //circle, filled right half%
+	{"\\circlebottomhalfblack",	0x025D2}, //circle, filled bottom half%
+	{"\\inversebullet",	0x025D8}, //inverse bullet %
+	{"\\squareleftblack",	0x025E7}, //square, filled left half%
+	{"\\squarerightblack",	0x025E8}, //square, filled right half%
+	{"\\squarelrblack",	0x025EA}, //square, filled bottom right corner%
+	{"\\Hermaphrodite",	0x026A5}, //male and female sign%
+	{"\\lbrbrak",	0x02772}, //light left tortoise shell bracket ornament%
+	{"\\rbrbrak",	0x02773}, //light right tortoise shell bracket ornament%
+	{"\\subsetcirc",	0x027C3}, //open subset%
+	{"\\supsetcirc",	0x027C4}, //open superset%
+	{"\\lbag",	0x027C5}, //left s-shaped bag delimiter%
+	{"\\rbag",	0x027C6}, //right s-shaped bag delimiter%
+	{"\\longdivision",	0x027CC}, //long division%
+	{"\\diamondcdot",	0x027D0}, //white diamond with centred dot%
+	{"\\pullback",	0x027D3}, //lower right corner with dot%
+	{"\\pushout",	0x027D4}, //upper left corner with dot%
+	{"\\DashVDash",	0x027DA}, //left and right double turnstile%
+	{"\\dashVdash",	0x027DB}, //left and right tack%
+	{"\\vlongdash",	0x027DD}, //long left tack%
+	{"\\longdashv",	0x027DE}, //long right tack%
+	{"\\cirbot",	0x027DF}, //up tack with circle above%
+	{"\\lozengeminus",	0x027E0}, //lozenge divided by horizontal rule%
+	{"\\concavediamond",	0x027E1}, //white concave-sided diamond%
+	{"\\concavediamondtickleft",	0x027E2}, //white concave-sided diamond with leftwards tick%
+	{"\\concavediamondtickright",	0x027E3}, //white concave-sided diamond with rightwards tick%
+	{"\\whitesquaretickleft",	0x027E4}, //white square with leftwards tick%
+	{"\\whitesquaretickright",	0x027E5}, //white square with rightwards tick%
+	{"\\lBrack",	0x027E6}, //mathematical left white square bracket%
+	{"\\rBrack",	0x027E7}, //mathematical right white square bracket%
+	{"\\lAngle",	0x027EA}, //mathematical left double angle bracket%
+	{"\\rAngle",	0x027EB}, //mathematical right double angle bracket%
+	{"\\Lbrbrak",	0x027EC}, //mathematical left white tortoise shell bracket%
+	{"\\Rbrbrak",	0x027ED}, //mathematical right white tortoise shell bracket%
+	{"\\acwgapcirclearrow",	0x027F2}, //anticlockwise gapped circle arrow%
+	{"\\cwgapcirclearrow",	0x027F3}, //clockwise gapped circle arrow%
+	{"\\rightarrowonoplus",	0x027F4}, //right arrow with circled plus%
+	{"\\rightbkarrow",	0x0290D}, //rightwards double dash arrow%
+	{"\\dbkarrow",	0x0290F}, //rightwards triple dash arrow%
+	{"\\baruparrow",	0x02912}, //upwards arrow to bar%
+	{"\\downarrowbar",	0x02913}, //downwards arrow to bar%
+	{"\\lefttail",	0x02919}, //leftwards arrow-tail%
+	{"\\righttail",	0x0291A}, //rightwards arrow-tail%
+	{"\\leftdbltail",	0x0291B}, //leftwards double arrow-tail%
+	{"\\rightdbltail",	0x0291C}, //rightwards double arrow-tail%
+	{"\\barrightarrowdiamond",	0x02920}, //rightwards arrow from bar to black diamond%
+	{"\\nwsearrow",	0x02921}, //north west and south east arrow%
+	{"\\neswarrow",	0x02922}, //north east and south west arrow%
+	{"\\hknwarrow",	0x02923}, //north west arrow with hook%
+	{"\\hknearrow",	0x02924}, //north east arrow with hook%
+	{"\\hksearrow",	0x02925}, //south east arrow with hook%
+	{"\\hkswarrow",	0x02926}, //south west arrow with hook%
+	{"\\rightcurvedarrow",	0x02933}, //wave arrow pointing directly right%
+	{"\\uprightcurvearrow",	0x02934}, //arrow pointing rightwards then curving upwards%
+	{"\\downrightcurvedarrow",	0x02935}, //arrow pointing rightwards then curving downwards%
+	{"\\leftdowncurvedarrow",	0x02936}, //arrow pointing downwards then curving leftwards%
+	{"\\rightdowncurvedarrow",	0x02937}, //arrow pointing downwards then curving rightwards%
+	{"\\cwrightarcarrow",	0x02938}, //right-side arc clockwise arrow%
+	{"\\acwleftarcarrow",	0x02939}, //left-side arc anticlockwise arrow%
+	{"\\acwoverarcarrow",	0x0293A}, //top arc anticlockwise arrow%
+	{"\\acwunderarcarrow",	0x0293B}, //bottom arc anticlockwise arrow%
+	{"\\curvearrowrightminus",	0x0293C}, //top arc clockwise arrow with minus%
+	{"\\curvearrowleftplus",	0x0293D}, //top arc anticlockwise arrow with plus%
+	{"\\cwundercurvearrow",	0x0293E}, //lower right semicircular clockwise arrow%
+	{"\\ccwundercurvearrow",	0x0293F}, //lower left semicircular anticlockwise arrow%
+	{"\\acwcirclearrow",	0x02940}, //anticlockwise closed circle arrow%
+	{"\\cwcirclearrow",	0x02941}, //clockwise closed circle arrow%
+	{"\\rightarrowshortleftarrow",	0x02942}, //rightwards arrow above short leftwards arrow%
+	{"\\leftarrowshortrightarrow",	0x02943}, //leftwards arrow above short rightwards arrow%
+	{"\\shortrightarrowleftarrow",	0x02944}, //short rightwards arrow above leftwards arrow%
+	{"\\rightarrowx",	0x02947}, //rightwards arrow through x%
+	{"\\leftrightharpoonupup",	0x0294E}, //left barb up right barb up harpoon%
+	{"\\updownharpoonrightright",	0x0294F}, //up barb right down barb right harpoon%
+	{"\\leftrightharpoondowndown",	0x02950}, //left barb down right barb down harpoon%
+	{"\\updownharpoonleftleft",	0x02951}, //up barb left down barb left harpoon%
+	{"\\barleftharpoonup",	0x02952}, //leftwards harpoon with barb up to bar%
+	{"\\rightharpoonupbar",	0x02953}, //rightwards harpoon with barb up to bar%
+	{"\\barupharpoonright",	0x02954}, //upwards harpoon with barb right to bar%
+	{"\\downharpoonrightbar",	0x02955}, //downwards harpoon with barb right to bar%
+	{"\\barleftharpoondown",	0x02956}, //leftwards harpoon with barb down to bar%
+	{"\\rightharpoondownbar",	0x02957}, //rightwards harpoon with barb down to bar%
+	{"\\barupharpoonleft",	0x02958}, //upwards harpoon with barb left to bar%
+	{"\\downharpoonleftbar",	0x02959}, //downwards harpoon with barb left to bar%
+	{"\\leftharpoonupbar",	0x0295A}, //leftwards harpoon with barb up from bar%
+	{"\\barrightharpoonup",	0x0295B}, //rightwards harpoon with barb up from bar%
+	{"\\upharpoonrightbar",	0x0295C}, //upwards harpoon with barb right from bar%
+	{"\\bardownharpoonright",	0x0295D}, //downwards harpoon with barb right from bar%
+	{"\\leftharpoondownbar",	0x0295E}, //leftwards harpoon with barb down from bar%
+	{"\\barrightharpoondown",	0x0295F}, //rightwards harpoon with barb down from bar%
+	{"\\upharpoonleftbar",	0x02960}, //upwards harpoon with barb left from bar%
+	{"\\bardownharpoonleft",	0x02961}, //downwards harpoon with barb left from bar%
+	{"\\updownharpoonsleftright",	0x0296E}, //upwards harpoon with barb left beside downwards harpoon with barb right%
+	{"\\downupharpoonsleftright",	0x0296F}, //downwards harpoon with barb left beside upwards harpoon with barb right%
+	{"\\rightimply",	0x02970}, //right double arrow with rounded head%
+	{"\\equalrightarrow",	0x02971}, //equals sign above rightwards arrow%
+	{"\\similarrightarrow",	0x02972}, //tilde operator above rightwards arrow%
+	{"\\leftarrowsimilar",	0x02973}, //leftwards arrow above tilde operator%
+	{"\\rightarrowsimilar",	0x02974}, //rightwards arrow above tilde operator%
+	{"\\rightarrowapprox",	0x02975}, //rightwards arrow above almost equal to%
+	{"\\ltlarr",	0x02976}, //less-than above leftwards arrow%
+	{"\\gtrarr",	0x02978}, //greater-than above rightwards arrow%
+	{"\\subrarr",	0x02979}, //subset above rightwards arrow%
+	{"\\suplarr",	0x0297B}, //superset above leftwards arrow%
+	{"\\leftfishtail",	0x0297C}, //left fish tail%
+	{"\\rightfishtail",	0x0297D}, //right fish tail%
+	{"\\upfishtail",	0x0297E}, //up fish tail%
+	{"\\downfishtail",	0x0297F}, //down fish tail%
+	{"\\mdsmblkcircle",	0x02981}, //z notation spot%
+	{"\\typecolon",	0x02982}, //z notation type colon%
+	{"\\lBrace",	0x02983}, //left white curly bracket%
+	{"\\rBrace",	0x02984}, //right white curly bracket%
+	{"\\lParen",	0x02985}, //left white parenthesis%
+	{"\\rParen",	0x02986}, //right white parenthesis%
+	{"\\llparenthesis",	0x02987}, //z notation left image bracket%
+	{"\\rrparenthesis",	0x02988}, //z notation right image bracket%
+	{"\\llangle",	0x02989}, //z notation left binding bracket%
+	{"\\rrangle",	0x0298A}, //z notation right binding bracket%
+	{"\\lbrackubar",	0x0298B}, //left square bracket with underbar%
+	{"\\rbrackubar",	0x0298C}, //right square bracket with underbar%
+	{"\\lbrackultick",	0x0298D}, //left square bracket with tick in top corner%
+	{"\\rbracklrtick",	0x0298E}, //right square bracket with tick in bottom corner%
+	{"\\lbracklltick",	0x0298F}, //left square bracket with tick in bottom corner%
+	{"\\rbrackurtick",	0x02990}, //right square bracket with tick in top corner%
+	{"\\langledot",	0x02991}, //left angle bracket with dot%
+	{"\\rangledot",	0x02992}, //right angle bracket with dot%
+	{"\\lparenless",	0x02993}, //left arc less-than bracket%
+	{"\\rparengtr",	0x02994}, //right arc greater-than bracket%
+	{"\\Lparengtr",	0x02995}, //double left arc greater-than bracket%
+	{"\\Rparenless",	0x02996}, //double right arc less-than bracket%
+	{"\\lblkbrbrak",	0x02997}, //left black tortoise shell bracket%
+	{"\\rblkbrbrak",	0x02998}, //right black tortoise shell bracket%
+	{"\\fourvdots",	0x02999}, //dotted fence%
+	{"\\vzigzag",	0x0299A}, //vertical zigzag line%
+	{"\\rightanglesqr",	0x0299C}, //right angle variant with square%
+	{"\\gtlpar",	0x029A0}, //spherical angle opening left%
+	{"\\circlehbar",	0x029B5}, //circle with horizontal bar%
+	{"\\circledvert",	0x029B6}, //circled vertical bar%
+	{"\\operp",	0x029B9}, //circled perpendicular%
+	{"\\obot",	0x029BA}, //circle divided by horizontal bar and top half divided by vertical bar%
+	{"\\olcross",	0x029BB}, //circle with superimposed x%
+	{"\\uparrowoncircle",	0x029BD}, //up arrow through circle%
+	{"\\cirscir",	0x029C2}, //circle with small circle to the right%
+	{"\\cirE",	0x029C3}, //circle with two horizontal strokes to the right%
+	{"\\boxdiag",	0x029C4}, //squared rising diagonal slash%
+	{"\\boxonbox",	0x029C9}, //two joined squares%
+	{"\\triangleodot",	0x029CA}, //triangle with dot above%
+	{"\\triangleubar",	0x029CB}, //triangle with underbar%
+	{"\\triangles",	0x029CC}, //s in triangle%
+	{"\\triangleserifs",	0x029CD}, //triangle with serifs at bottom%
+	{"\\rtriltri",	0x029CE}, //right triangle above left triangle%
+	{"\\ltrivb",	0x029CF}, //left triangle beside vertical bar%
+	{"\\vbrtri",	0x029D0}, //vertical bar beside right triangle%
+	{"\\lfbowtie",	0x029D1}, //left black bowtie%
+	{"\\rfbowtie",	0x029D2}, //right black bowtie%
+	{"\\fbowtie",	0x029D3}, //black bowtie%
+	{"\\lftimes",	0x029D4}, //left black times%
+	{"\\rftimes",	0x029D5}, //right black times%
+	{"\\hourglass",	0x029D6}, //white hourglass%
+	{"\\blackhourglass",	0x029D7}, //black hourglass%
+	{"\\lvzigzag",	0x029D8}, //left wiggly fence%
+	{"\\rvzigzag",	0x029D9}, //right wiggly fence%
+	{"\\Lvzigzag",	0x029DA}, //left double wiggly fence%
+	{"\\Rvzigzag",	0x029DB}, //right double wiggly fence%
+	{"\\iinfin",	0x029DC}, //incomplete infinity%
+	{"\\tieinfty",	0x029DD}, //tie over infinity%
+	{"\\nvinfty",	0x029DE}, //infinity negated with vertical bar%
+	{"\\laplac",	0x029E0}, //square with contoured outline%
+	{"\\gleichstark",	0x029E6}, //gleich stark%
+	{"\\thermod",	0x029E7}, //thermodynamic%
+	{"\\downtriangleleftblack",	0x029E8}, //down-pointing triangle with left half black%
+	{"\\downtrianglerightblack",	0x029E9}, //down-pointing triangle with right half black%
+	{"\\blackdiamonddownarrow",	0x029EA}, //black diamond with down arrow%
+	{"\\mdlgblklozenge",	0x029EB}, //black lozenge%
+	{"\\circledownarrow",	0x029EC}, //white circle with down arrow%
+	{"\\blackcircledownarrow",	0x029ED}, //black circle with down arrow%
+	{"\\errbarsquare",	0x029EE}, //error-barred white square%
+	{"\\errbarblacksquare",	0x029EF}, //error-barred black square%
+	{"\\errbardiamond",	0x029F0}, //error-barred white diamond%
+	{"\\errbarblackdiamond",	0x029F1}, //error-barred black diamond%
+	{"\\errbarcircle",	0x029F2}, //error-barred white circle%
+	{"\\errbarblackcircle",	0x029F3}, //error-barred black circle%
+	{"\\ruledelayed",	0x029F4}, //rule-delayed%
+	{"\\reversesolidus",	0x029F5}, //reverse solidus%
+	{"\\xsol",	0x029F8}, //big solidus%
+	{"\\xbsol",	0x029F9}, //big reverse solidus%
+	{"\\lcurvyangle",	0x029FC}, //left pointing curved angle bracket%
+	{"\\rcurvyangle",	0x029FD}, //right pointing curved angle bracket%
+	{"\\tplus",	0x029FE}, //tiny%
+	{"\\tminus",	0x029FF}, //miny%
+	{"\\sumint",	0x02A0B}, //summation with integral%
+	{"\\iiiint",	0x02A0C}, //quadruple integral operator%
+	{"\\intbar",	0x02A0D}, //finite part integral%
+	{"\\intBar",	0x02A0E}, //integral with double stroke%
+	{"\\fint",	0x02A0F}, //integral average with slash%
+	{"\\sqint",	0x02A16}, //quaternion integral operator%
+	{"\\intlarhk",	0x02A17}, //integral with leftwards arrow with hook%
+	{"\\intx",	0x02A18}, //integral with times sign%
+	{"\\intcap",	0x02A19}, //integral with intersection%
+	{"\\intcup",	0x02A1A}, //integral with union%
+	{"\\bigtriangleleft",	0x02A1E}, //large left triangle operator%
+	{"\\minusdot",	0x02A2A}, //minus sign with dot below%
+	{"\\minusfdots",	0x02A2B}, //minus sign with falling dots%
+	{"\\minusrdots",	0x02A2C}, //minus sign with rising dots%
+	{"\\vectimes",	0x02A2F}, //vector or cross product%
+	{"\\intprod",	0x02A3C}, //interior product%
+	{"\\intprodr",	0x02A3D}, //righthand interior product%
+	{"\\barcup",	0x02A42}, //union with overbar%
+	{"\\barcap",	0x02A43}, //intersection with overbar%
+	{"\\cupovercap",	0x02A46}, //union above intersection%
+	{"\\capovercup",	0x02A47}, //intersection above union%
+	{"\\cupbarcap",	0x02A48}, //union above bar above intersection%
+	{"\\capbarcup",	0x02A49}, //intersection above bar above union%
+	{"\\Wedge",	0x02A53}, //double logical and%
+	{"\\Vee",	0x02A54}, //double logical or%
+	{"\\veeonvee",	0x02A56}, //two intersecting logical or%
+	{"\\veeonwedge",	0x02A59}, //logical or overlapping logical and%
+	{"\\wedgebar",	0x02A5F}, //logical and with underbar%
+	{"\\equivVert",	0x02A68}, //triple horizontal bar with double vertical stroke%
+	{"\\equivVvert",	0x02A69}, //triple horizontal bar with triple vertical stroke%
+	{"\\eqeq",	0x02A75}, //two consecutive equals signs%
+	{"\\Lt",	0x02AA1}, //double nested less-than%
+	{"\\Gt",	0x02AA2}, //double nested greater-than%
+	{"\\topfork",	0x02ADA}, //pitchfork with tee top%
+	{"\\shortlefttack",	0x02ADE}, //short left tack%
+	{"\\shortdowntack",	0x02ADF}, //short down tack%
+	{"\\shortuptack",	0x02AE0}, //short up tack%
+	{"\\perps",	0x02AE1}, //perpendicular with s%
+	{"\\vDdash",	0x02AE2}, //vertical bar triple right turnstile%
+	{"\\DashV",	0x02AE5}, //double vertical bar double left turnstile%
+	{"\\varVdash",	0x02AE6}, //long dash from left member of double vertical%
+	{"\\Barv",	0x02AE7}, //short down tack with overbar%
+	{"\\vBar",	0x02AE8}, //short up tack with underbar%
+	{"\\vBarv",	0x02AE9}, //short up tack above short down tack%
+	{"\\barV",	0x02AEA}, //double down tack%
+	{"\\Vbar",	0x02AEB}, //double up tack%
+	{"\\Not",	0x02AEC}, //double stroke not sign%
+	{"\\bNot",	0x02AED}, //reversed double stroke not sign%
+	{"\\revnmid",	0x02AEE}, //does not divide with reversed negation slash%
+	{"\\cirmid",	0x02AEF}, //vertical line with circle above%
+	{"\\midcir",	0x02AF0}, //vertical line with circle below%
+	{"\\topcir",	0x02AF1}, //down tack with circle below%
+	{"\\nhpar",	0x02AF2}, //parallel with horizontal stroke%
+	{"\\parsim",	0x02AF3}, //parallel with tilde operator%
+	{"\\nhVvert",	0x02AF5}, //triple vertical bar with horizontal stroke%
+	{"\\threedotcolon",	0x02AF6}, //triple colon operator%
+	{"\\trslash",	0x02AFB}, //triple solidus binary relation%
+	{"\\bigtalloblong",	0x02AFF}, //n-ary white vertical bar%
+	{"\\hzigzag",	0x03030}, //zigzag%
+	{"\\mbfA",	0x1D400}, //mathematical bold capital a%
+	{"\\mbfB",	0x1D401}, //mathematical bold capital b%
+	{"\\mbfC",	0x1D402}, //mathematical bold capital c%
+	{"\\mbfD",	0x1D403}, //mathematical bold capital d%
+	{"\\mbfE",	0x1D404}, //mathematical bold capital e%
+	{"\\mbfF",	0x1D405}, //mathematical bold capital f%
+	{"\\mbfG",	0x1D406}, //mathematical bold capital g%
+	{"\\mbfH",	0x1D407}, //mathematical bold capital h%
+	{"\\mbfI",	0x1D408}, //mathematical bold capital i%
+	{"\\mbfJ",	0x1D409}, //mathematical bold capital j%
+	{"\\mbfK",	0x1D40A}, //mathematical bold capital k%
+	{"\\mbfL",	0x1D40B}, //mathematical bold capital l%
+	{"\\mbfM",	0x1D40C}, //mathematical bold capital m%
+	{"\\mbfN",	0x1D40D}, //mathematical bold capital n%
+	{"\\mbfO",	0x1D40E}, //mathematical bold capital o%
+	{"\\mbfP",	0x1D40F}, //mathematical bold capital p%
+	{"\\mbfQ",	0x1D410}, //mathematical bold capital q%
+	{"\\mbfR",	0x1D411}, //mathematical bold capital r%
+	{"\\mbfS",	0x1D412}, //mathematical bold capital s%
+	{"\\mbfT",	0x1D413}, //mathematical bold capital t%
+	{"\\mbfU",	0x1D414}, //mathematical bold capital u%
+	{"\\mbfV",	0x1D415}, //mathematical bold capital v%
+	{"\\mbfW",	0x1D416}, //mathematical bold capital w%
+	{"\\mbfX",	0x1D417}, //mathematical bold capital x%
+	{"\\mbfY",	0x1D418}, //mathematical bold capital y%
+	{"\\mbfZ",	0x1D419}, //mathematical bold capital z%
+	{"\\mbfa",	0x1D41A}, //mathematical bold small a%
+	{"\\mbfb",	0x1D41B}, //mathematical bold small b%
+	{"\\mbfc",	0x1D41C}, //mathematical bold small c%
+	{"\\mbfd",	0x1D41D}, //mathematical bold small d%
+	{"\\mbfe",	0x1D41E}, //mathematical bold small e%
+	{"\\mbff",	0x1D41F}, //mathematical bold small f%
+	{"\\mbfg",	0x1D420}, //mathematical bold small g%
+	{"\\mbfh",	0x1D421}, //mathematical bold small h%
+	{"\\mbfi",	0x1D422}, //mathematical bold small i%
+	{"\\mbfj",	0x1D423}, //mathematical bold small j%
+	{"\\mbfk",	0x1D424}, //mathematical bold small k%
+	{"\\mbfl",	0x1D425}, //mathematical bold small l%
+	{"\\mbfm",	0x1D426}, //mathematical bold small m%
+	{"\\mbfn",	0x1D427}, //mathematical bold small n%
+	{"\\mbfo",	0x1D428}, //mathematical bold small o%
+	{"\\mbfp",	0x1D429}, //mathematical bold small p%
+	{"\\mbfq",	0x1D42A}, //mathematical bold small q%
+	{"\\mbfr",	0x1D42B}, //mathematical bold small r%
+	{"\\mbfs",	0x1D42C}, //mathematical bold small s%
+	{"\\mbft",	0x1D42D}, //mathematical bold small t%
+	{"\\mbfu",	0x1D42E}, //mathematical bold small u%
+	{"\\mbfv",	0x1D42F}, //mathematical bold small v%
+	{"\\mbfw",	0x1D430}, //mathematical bold small w%
+	{"\\mbfx",	0x1D431}, //mathematical bold small x%
+	{"\\mbfy",	0x1D432}, //mathematical bold small y%
+	{"\\mbfz",	0x1D433}, //mathematical bold small z%
+	{"\\mitA",	0x1D434}, //mathematical italic capital a%
+	{"\\mitB",	0x1D435}, //mathematical italic capital b%
+	{"\\mitC",	0x1D436}, //mathematical italic capital c%
+	{"\\mitD",	0x1D437}, //mathematical italic capital d%
+	{"\\mitE",	0x1D438}, //mathematical italic capital e%
+	{"\\mitF",	0x1D439}, //mathematical italic capital f%
+	{"\\mitG",	0x1D43A}, //mathematical italic capital g%
+	{"\\mitH",	0x1D43B}, //mathematical italic capital h%
+	{"\\mitI",	0x1D43C}, //mathematical italic capital i%
+	{"\\mitJ",	0x1D43D}, //mathematical italic capital j%
+	{"\\mitK",	0x1D43E}, //mathematical italic capital k%
+	{"\\mitL",	0x1D43F}, //mathematical italic capital l%
+	{"\\mitM",	0x1D440}, //mathematical italic capital m%
+	{"\\mitN",	0x1D441}, //mathematical italic capital n%
+	{"\\mitO",	0x1D442}, //mathematical italic capital o%
+	{"\\mitP",	0x1D443}, //mathematical italic capital p%
+	{"\\mitQ",	0x1D444}, //mathematical italic capital q%
+	{"\\mitR",	0x1D445}, //mathematical italic capital r%
+	{"\\mitS",	0x1D446}, //mathematical italic capital s%
+	{"\\mitT",	0x1D447}, //mathematical italic capital t%
+	{"\\mitU",	0x1D448}, //mathematical italic capital u%
+	{"\\mitV",	0x1D449}, //mathematical italic capital v%
+	{"\\mitW",	0x1D44A}, //mathematical italic capital w%
+	{"\\mitX",	0x1D44B}, //mathematical italic capital x%
+	{"\\mitY",	0x1D44C}, //mathematical italic capital y%
+	{"\\mitZ",	0x1D44D}, //mathematical italic capital z%
+	{"\\mita",	0x1D44E}, //mathematical italic small a%
+	{"\\mitb",	0x1D44F}, //mathematical italic small b%
+	{"\\mitc",	0x1D450}, //mathematical italic small c%
+	{"\\mitd",	0x1D451}, //mathematical italic small d%
+	{"\\mite",	0x1D452}, //mathematical italic small e%
+	{"\\mitf",	0x1D453}, //mathematical italic small f%
+	{"\\mitg",	0x1D454}, //mathematical italic small g%
+	{"\\miti",	0x1D456}, //mathematical italic small i%
+	{"\\mitj",	0x1D457}, //mathematical italic small j%
+	{"\\mitk",	0x1D458}, //mathematical italic small k%
+	{"\\mitl",	0x1D459}, //mathematical italic small l%
+	{"\\mitm",	0x1D45A}, //mathematical italic small m%
+	{"\\mitn",	0x1D45B}, //mathematical italic small n%
+	{"\\mito",	0x1D45C}, //mathematical italic small o%
+	{"\\mitp",	0x1D45D}, //mathematical italic small p%
+	{"\\mitq",	0x1D45E}, //mathematical italic small q%
+	{"\\mitr",	0x1D45F}, //mathematical italic small r%
+	{"\\mits",	0x1D460}, //mathematical italic small s%
+	{"\\mitt",	0x1D461}, //mathematical italic small t%
+	{"\\mitu",	0x1D462}, //mathematical italic small u%
+	{"\\mitv",	0x1D463}, //mathematical italic small v%
+	{"\\mitw",	0x1D464}, //mathematical italic small w%
+	{"\\mitx",	0x1D465}, //mathematical italic small x%
+	{"\\mity",	0x1D466}, //mathematical italic small y%
+	{"\\mitz",	0x1D467}, //mathematical italic small z%
+	{"\\mbfitA",	0x1D468}, //mathematical bold italic capital a%
+	{"\\mbfitB",	0x1D469}, //mathematical bold italic capital b%
+	{"\\mbfitC",	0x1D46A}, //mathematical bold italic capital c%
+	{"\\mbfitD",	0x1D46B}, //mathematical bold italic capital d%
+	{"\\mbfitE",	0x1D46C}, //mathematical bold italic capital e%
+	{"\\mbfitF",	0x1D46D}, //mathematical bold italic capital f%
+	{"\\mbfitG",	0x1D46E}, //mathematical bold italic capital g%
+	{"\\mbfitH",	0x1D46F}, //mathematical bold italic capital h%
+	{"\\mbfitI",	0x1D470}, //mathematical bold italic capital i%
+	{"\\mbfitJ",	0x1D471}, //mathematical bold italic capital j%
+	{"\\mbfitK",	0x1D472}, //mathematical bold italic capital k%
+	{"\\mbfitL",	0x1D473}, //mathematical bold italic capital l%
+	{"\\mbfitM",	0x1D474}, //mathematical bold italic capital m%
+	{"\\mbfitN",	0x1D475}, //mathematical bold italic capital n%
+	{"\\mbfitO",	0x1D476}, //mathematical bold italic capital o%
+	{"\\mbfitP",	0x1D477}, //mathematical bold italic capital p%
+	{"\\mbfitQ",	0x1D478}, //mathematical bold italic capital q%
+	{"\\mbfitR",	0x1D479}, //mathematical bold italic capital r%
+	{"\\mbfitS",	0x1D47A}, //mathematical bold italic capital s%
+	{"\\mbfitT",	0x1D47B}, //mathematical bold italic capital t%
+	{"\\mbfitU",	0x1D47C}, //mathematical bold italic capital u%
+	{"\\mbfitV",	0x1D47D}, //mathematical bold italic capital v%
+	{"\\mbfitW",	0x1D47E}, //mathematical bold italic capital w%
+	{"\\mbfitX",	0x1D47F}, //mathematical bold italic capital x%
+	{"\\mbfitY",	0x1D480}, //mathematical bold italic capital y%
+	{"\\mbfitZ",	0x1D481}, //mathematical bold italic capital z%
+	{"\\mbfita",	0x1D482}, //mathematical bold italic small a%
+	{"\\mbfitb",	0x1D483}, //mathematical bold italic small b%
+	{"\\mbfitc",	0x1D484}, //mathematical bold italic small c%
+	{"\\mbfitd",	0x1D485}, //mathematical bold italic small d%
+	{"\\mbfite",	0x1D486}, //mathematical bold italic small e%
+	{"\\mbfitf",	0x1D487}, //mathematical bold italic small f%
+	{"\\mbfitg",	0x1D488}, //mathematical bold italic small g%
+	{"\\mbfith",	0x1D489}, //mathematical bold italic small h%
+	{"\\mbfiti",	0x1D48A}, //mathematical bold italic small i%
+	{"\\mbfitj",	0x1D48B}, //mathematical bold italic small j%
+	{"\\mbfitk",	0x1D48C}, //mathematical bold italic small k%
+	{"\\mbfitl",	0x1D48D}, //mathematical bold italic small l%
+	{"\\mbfitm",	0x1D48E}, //mathematical bold italic small m%
+	{"\\mbfitn",	0x1D48F}, //mathematical bold italic small n%
+	{"\\mbfito",	0x1D490}, //mathematical bold italic small o%
+	{"\\mbfitp",	0x1D491}, //mathematical bold italic small p%
+	{"\\mbfitq",	0x1D492}, //mathematical bold italic small q%
+	{"\\mbfitr",	0x1D493}, //mathematical bold italic small r%
+	{"\\mbfits",	0x1D494}, //mathematical bold italic small s%
+	{"\\mbfitt",	0x1D495}, //mathematical bold italic small t%
+	{"\\mbfitu",	0x1D496}, //mathematical bold italic small u%
+	{"\\mbfitv",	0x1D497}, //mathematical bold italic small v%
+	{"\\mbfitw",	0x1D498}, //mathematical bold italic small w%
+	{"\\mbfitx",	0x1D499}, //mathematical bold italic small x%
+	{"\\mbfity",	0x1D49A}, //mathematical bold italic small y%
+	{"\\mbfitz",	0x1D49B}, //mathematical bold italic small z%
+	{"\\mscrA",	0x1D49C}, //mathematical script capital a%
+	{"\\mscrC",	0x1D49E}, //mathematical script capital c%
+	{"\\mscrD",	0x1D49F}, //mathematical script capital d%
+	{"\\mscrG",	0x1D4A2}, //mathematical script capital g%
+	{"\\mscrJ",	0x1D4A5}, //mathematical script capital j%
+	{"\\mscrK",	0x1D4A6}, //mathematical script capital k%
+	{"\\mscrN",	0x1D4A9}, //mathematical script capital n%
+	{"\\mscrO",	0x1D4AA}, //mathematical script capital o%
+	{"\\mscrP",	0x1D4AB}, //mathematical script capital p%
+	{"\\mscrQ",	0x1D4AC}, //mathematical script capital q%
+	{"\\mscrS",	0x1D4AE}, //mathematical script capital s%
+	{"\\mscrT",	0x1D4AF}, //mathematical script capital t%
+	{"\\mscrU",	0x1D4B0}, //mathematical script capital u%
+	{"\\mscrV",	0x1D4B1}, //mathematical script capital v%
+	{"\\mscrW",	0x1D4B2}, //mathematical script capital w%
+	{"\\mscrX",	0x1D4B3}, //mathematical script capital x%
+	{"\\mscrY",	0x1D4B4}, //mathematical script capital y%
+	{"\\mscrZ",	0x1D4B5}, //mathematical script capital z%
+	{"\\mscra",	0x1D4B6}, //mathematical script small a%
+	{"\\mscrb",	0x1D4B7}, //mathematical script small b%
+	{"\\mscrc",	0x1D4B8}, //mathematical script small c%
+	{"\\mscrd",	0x1D4B9}, //mathematical script small d%
+	{"\\mscrf",	0x1D4BB}, //mathematical script small f%
+	{"\\mscrh",	0x1D4BD}, //mathematical script small h%
+	{"\\mscri",	0x1D4BE}, //mathematical script small i%
+	{"\\mscrj",	0x1D4BF}, //mathematical script small j%
+	{"\\mscrk",	0x1D4C0}, //mathematical script small k%
+	{"\\mscrl",	0x1D4C1}, //mathematical script small l%
+	{"\\mscrm",	0x1D4C2}, //mathematical script small m%
+	{"\\mscrn",	0x1D4C3}, //mathematical script small n%
+	{"\\mscrp",	0x1D4C5}, //mathematical script small p%
+	{"\\mscrq",	0x1D4C6}, //mathematical script small q%
+	{"\\mscrr",	0x1D4C7}, //mathematical script small r%
+	{"\\mscrs",	0x1D4C8}, //mathematical script small s%
+	{"\\mscrt",	0x1D4C9}, //mathematical script small t%
+	{"\\mscru",	0x1D4CA}, //mathematical script small u%
+	{"\\mscrv",	0x1D4CB}, //mathematical script small v%
+	{"\\mscrw",	0x1D4CC}, //mathematical script small w%
+	{"\\mscrx",	0x1D4CD}, //mathematical script small x%
+	{"\\mscry",	0x1D4CE}, //mathematical script small y%
+	{"\\mscrz",	0x1D4CF}, //mathematical script small z%
+	{"\\mbfscrA",	0x1D4D0}, //mathematical bold script capital a%
+	{"\\mbfscrB",	0x1D4D1}, //mathematical bold script capital b%
+	{"\\mbfscrC",	0x1D4D2}, //mathematical bold script capital c%
+	{"\\mbfscrD",	0x1D4D3}, //mathematical bold script capital d%
+	{"\\mbfscrE",	0x1D4D4}, //mathematical bold script capital e%
+	{"\\mbfscrF",	0x1D4D5}, //mathematical bold script capital f%
+	{"\\mbfscrG",	0x1D4D6}, //mathematical bold script capital g%
+	{"\\mbfscrH",	0x1D4D7}, //mathematical bold script capital h%
+	{"\\mbfscrI",	0x1D4D8}, //mathematical bold script capital i%
+	{"\\mbfscrJ",	0x1D4D9}, //mathematical bold script capital j%
+	{"\\mbfscrK",	0x1D4DA}, //mathematical bold script capital k%
+	{"\\mbfscrL",	0x1D4DB}, //mathematical bold script capital l%
+	{"\\mbfscrM",	0x1D4DC}, //mathematical bold script capital m%
+	{"\\mbfscrN",	0x1D4DD}, //mathematical bold script capital n%
+	{"\\mbfscrO",	0x1D4DE}, //mathematical bold script capital o%
+	{"\\mbfscrP",	0x1D4DF}, //mathematical bold script capital p%
+	{"\\mbfscrQ",	0x1D4E0}, //mathematical bold script capital q%
+	{"\\mbfscrR",	0x1D4E1}, //mathematical bold script capital r%
+	{"\\mbfscrS",	0x1D4E2}, //mathematical bold script capital s%
+	{"\\mbfscrT",	0x1D4E3}, //mathematical bold script capital t%
+	{"\\mbfscrU",	0x1D4E4}, //mathematical bold script capital u%
+	{"\\mbfscrV",	0x1D4E5}, //mathematical bold script capital v%
+	{"\\mbfscrW",	0x1D4E6}, //mathematical bold script capital w%
+	{"\\mbfscrX",	0x1D4E7}, //mathematical bold script capital x%
+	{"\\mbfscrY",	0x1D4E8}, //mathematical bold script capital y%
+	{"\\mbfscrZ",	0x1D4E9}, //mathematical bold script capital z%
+	{"\\mbfscra",	0x1D4EA}, //mathematical bold script small a%
+	{"\\mbfscrb",	0x1D4EB}, //mathematical bold script small b%
+	{"\\mbfscrc",	0x1D4EC}, //mathematical bold script small c%
+	{"\\mbfscrd",	0x1D4ED}, //mathematical bold script small d%
+	{"\\mbfscre",	0x1D4EE}, //mathematical bold script small e%
+	{"\\mbfscrf",	0x1D4EF}, //mathematical bold script small f%
+	{"\\mbfscrg",	0x1D4F0}, //mathematical bold script small g%
+	{"\\mbfscrh",	0x1D4F1}, //mathematical bold script small h%
+	{"\\mbfscri",	0x1D4F2}, //mathematical bold script small i%
+	{"\\mbfscrj",	0x1D4F3}, //mathematical bold script small j%
+	{"\\mbfscrk",	0x1D4F4}, //mathematical bold script small k%
+	{"\\mbfscrl",	0x1D4F5}, //mathematical bold script small l%
+	{"\\mbfscrm",	0x1D4F6}, //mathematical bold script small m%
+	{"\\mbfscrn",	0x1D4F7}, //mathematical bold script small n%
+	{"\\mbfscro",	0x1D4F8}, //mathematical bold script small o%
+	{"\\mbfscrp",	0x1D4F9}, //mathematical bold script small p%
+	{"\\mbfscrq",	0x1D4FA}, //mathematical bold script small q%
+	{"\\mbfscrr",	0x1D4FB}, //mathematical bold script small r%
+	{"\\mbfscrs",	0x1D4FC}, //mathematical bold script small s%
+	{"\\mbfscrt",	0x1D4FD}, //mathematical bold script small t%
+	{"\\mbfscru",	0x1D4FE}, //mathematical bold script small u%
+	{"\\mbfscrv",	0x1D4FF}, //mathematical bold script small v%
+	{"\\mbfscrw",	0x1D500}, //mathematical bold script small w%
+	{"\\mbfscrx",	0x1D501}, //mathematical bold script small x%
+	{"\\mbfscry",	0x1D502}, //mathematical bold script small y%
+	{"\\mbfscrz",	0x1D503}, //mathematical bold script small z%
+	{"\\mfrakA",	0x1D504}, //mathematical fraktur capital a%
+	{"\\mfrakB",	0x1D505}, //mathematical fraktur capital b%
+	{"\\mfrakD",	0x1D507}, //mathematical fraktur capital d%
+	{"\\mfrakE",	0x1D508}, //mathematical fraktur capital e%
+	{"\\mfrakF",	0x1D509}, //mathematical fraktur capital f%
+	{"\\mfrakG",	0x1D50A}, //mathematical fraktur capital g%
+	{"\\mfrakJ",	0x1D50D}, //mathematical fraktur capital j%
+	{"\\mfrakK",	0x1D50E}, //mathematical fraktur capital k%
+	{"\\mfrakL",	0x1D50F}, //mathematical fraktur capital l%
+	{"\\mfrakM",	0x1D510}, //mathematical fraktur capital m%
+	{"\\mfrakN",	0x1D511}, //mathematical fraktur capital n%
+	{"\\mfrakO",	0x1D512}, //mathematical fraktur capital o%
+	{"\\mfrakP",	0x1D513}, //mathematical fraktur capital p%
+	{"\\mfrakQ",	0x1D514}, //mathematical fraktur capital q%
+	{"\\mfrakS",	0x1D516}, //mathematical fraktur capital s%
+	{"\\mfrakT",	0x1D517}, //mathematical fraktur capital t%
+	{"\\mfrakU",	0x1D518}, //mathematical fraktur capital u%
+	{"\\mfrakV",	0x1D519}, //mathematical fraktur capital v%
+	{"\\mfrakW",	0x1D51A}, //mathematical fraktur capital w%
+	{"\\mfrakX",	0x1D51B}, //mathematical fraktur capital x%
+	{"\\mfrakY",	0x1D51C}, //mathematical fraktur capital y%
+	{"\\mfraka",	0x1D51E}, //mathematical fraktur small a%
+	{"\\mfrakb",	0x1D51F}, //mathematical fraktur small b%
+	{"\\mfrakc",	0x1D520}, //mathematical fraktur small c%
+	{"\\mfrakd",	0x1D521}, //mathematical fraktur small d%
+	{"\\mfrake",	0x1D522}, //mathematical fraktur small e%
+	{"\\mfrakf",	0x1D523}, //mathematical fraktur small f%
+	{"\\mfrakg",	0x1D524}, //mathematical fraktur small g%
+	{"\\mfrakh",	0x1D525}, //mathematical fraktur small h%
+	{"\\mfraki",	0x1D526}, //mathematical fraktur small i%
+	{"\\mfrakj",	0x1D527}, //mathematical fraktur small j%
+	{"\\mfrakk",	0x1D528}, //mathematical fraktur small k%
+	{"\\mfrakl",	0x1D529}, //mathematical fraktur small l%
+	{"\\mfrakm",	0x1D52A}, //mathematical fraktur small m%
+	{"\\mfrakn",	0x1D52B}, //mathematical fraktur small n%
+	{"\\mfrako",	0x1D52C}, //mathematical fraktur small o%
+	{"\\mfrakp",	0x1D52D}, //mathematical fraktur small p%
+	{"\\mfrakq",	0x1D52E}, //mathematical fraktur small q%
+	{"\\mfrakr",	0x1D52F}, //mathematical fraktur small r%
+	{"\\mfraks",	0x1D530}, //mathematical fraktur small s%
+	{"\\mfrakt",	0x1D531}, //mathematical fraktur small t%
+	{"\\mfraku",	0x1D532}, //mathematical fraktur small u%
+	{"\\mfrakv",	0x1D533}, //mathematical fraktur small v%
+	{"\\mfrakw",	0x1D534}, //mathematical fraktur small w%
+	{"\\mfrakx",	0x1D535}, //mathematical fraktur small x%
+	{"\\mfraky",	0x1D536}, //mathematical fraktur small y%
+	{"\\mfrakz",	0x1D537}, //mathematical fraktur small z%
+	{"\\BbbA",	0x1D538}, //mathematical double-struck capital a%
+	{"\\BbbB",	0x1D539}, //mathematical double-struck capital b%
+	{"\\BbbD",	0x1D53B}, //mathematical double-struck capital d%
+	{"\\BbbE",	0x1D53C}, //mathematical double-struck capital e%
+	{"\\BbbF",	0x1D53D}, //mathematical double-struck capital f%
+	{"\\BbbG",	0x1D53E}, //mathematical double-struck capital g%
+	{"\\BbbI",	0x1D540}, //mathematical double-struck capital i%
+	{"\\BbbJ",	0x1D541}, //mathematical double-struck capital j%
+	{"\\BbbK",	0x1D542}, //mathematical double-struck capital k%
+	{"\\BbbL",	0x1D543}, //mathematical double-struck capital l%
+	{"\\BbbM",	0x1D544}, //mathematical double-struck capital m%
+	{"\\BbbO",	0x1D546}, //mathematical double-struck capital o%
+	{"\\BbbS",	0x1D54A}, //mathematical double-struck capital s%
+	{"\\BbbT",	0x1D54B}, //mathematical double-struck capital t%
+	{"\\BbbU",	0x1D54C}, //mathematical double-struck capital u%
+	{"\\BbbV",	0x1D54D}, //mathematical double-struck capital v%
+	{"\\BbbW",	0x1D54E}, //mathematical double-struck capital w%
+	{"\\BbbX",	0x1D54F}, //mathematical double-struck capital x%
+	{"\\BbbY",	0x1D550}, //mathematical double-struck capital y%
+	{"\\Bbba",	0x1D552}, //mathematical double-struck small a%
+	{"\\Bbbb",	0x1D553}, //mathematical double-struck small b%
+	{"\\Bbbc",	0x1D554}, //mathematical double-struck small c%
+	{"\\Bbbd",	0x1D555}, //mathematical double-struck small d%
+	{"\\Bbbe",	0x1D556}, //mathematical double-struck small e%
+	{"\\Bbbf",	0x1D557}, //mathematical double-struck small f%
+	{"\\Bbbg",	0x1D558}, //mathematical double-struck small g%
+	{"\\Bbbh",	0x1D559}, //mathematical double-struck small h%
+	{"\\Bbbi",	0x1D55A}, //mathematical double-struck small i%
+	{"\\Bbbj",	0x1D55B}, //mathematical double-struck small j%
+	{"\\Bbbk",	0x1D55C}, //mathematical double-struck small k%
+	{"\\Bbbl",	0x1D55D}, //mathematical double-struck small l%
+	{"\\Bbbm",	0x1D55E}, //mathematical double-struck small m%
+	{"\\Bbbn",	0x1D55F}, //mathematical double-struck small n%
+	{"\\Bbbo",	0x1D560}, //mathematical double-struck small o%
+	{"\\Bbbp",	0x1D561}, //mathematical double-struck small p%
+	{"\\Bbbq",	0x1D562}, //mathematical double-struck small q%
+	{"\\Bbbr",	0x1D563}, //mathematical double-struck small r%
+	{"\\Bbbs",	0x1D564}, //mathematical double-struck small s%
+	{"\\Bbbt",	0x1D565}, //mathematical double-struck small t%
+	{"\\Bbbu",	0x1D566}, //mathematical double-struck small u%
+	{"\\Bbbv",	0x1D567}, //mathematical double-struck small v%
+	{"\\Bbbw",	0x1D568}, //mathematical double-struck small w%
+	{"\\Bbbx",	0x1D569}, //mathematical double-struck small x%
+	{"\\Bbby",	0x1D56A}, //mathematical double-struck small y%
+	{"\\Bbbz",	0x1D56B}, //mathematical double-struck small z%
+	{"\\mbffrakA",	0x1D56C}, //mathematical bold fraktur capital a%
+	{"\\mbffrakB",	0x1D56D}, //mathematical bold fraktur capital b%
+	{"\\mbffrakC",	0x1D56E}, //mathematical bold fraktur capital c%
+	{"\\mbffrakD",	0x1D56F}, //mathematical bold fraktur capital d%
+	{"\\mbffrakE",	0x1D570}, //mathematical bold fraktur capital e%
+	{"\\mbffrakF",	0x1D571}, //mathematical bold fraktur capital f%
+	{"\\mbffrakG",	0x1D572}, //mathematical bold fraktur capital g%
+	{"\\mbffrakH",	0x1D573}, //mathematical bold fraktur capital h%
+	{"\\mbffrakI",	0x1D574}, //mathematical bold fraktur capital i%
+	{"\\mbffrakJ",	0x1D575}, //mathematical bold fraktur capital j%
+	{"\\mbffrakK",	0x1D576}, //mathematical bold fraktur capital k%
+	{"\\mbffrakL",	0x1D577}, //mathematical bold fraktur capital l%
+	{"\\mbffrakM",	0x1D578}, //mathematical bold fraktur capital m%
+	{"\\mbffrakN",	0x1D579}, //mathematical bold fraktur capital n%
+	{"\\mbffrakO",	0x1D57A}, //mathematical bold fraktur capital o%
+	{"\\mbffrakP",	0x1D57B}, //mathematical bold fraktur capital p%
+	{"\\mbffrakQ",	0x1D57C}, //mathematical bold fraktur capital q%
+	{"\\mbffrakR",	0x1D57D}, //mathematical bold fraktur capital r%
+	{"\\mbffrakS",	0x1D57E}, //mathematical bold fraktur capital s%
+	{"\\mbffrakT",	0x1D57F}, //mathematical bold fraktur capital t%
+	{"\\mbffrakU",	0x1D580}, //mathematical bold fraktur capital u%
+	{"\\mbffrakV",	0x1D581}, //mathematical bold fraktur capital v%
+	{"\\mbffrakW",	0x1D582}, //mathematical bold fraktur capital w%
+	{"\\mbffrakX",	0x1D583}, //mathematical bold fraktur capital x%
+	{"\\mbffrakY",	0x1D584}, //mathematical bold fraktur capital y%
+	{"\\mbffrakZ",	0x1D585}, //mathematical bold fraktur capital z%
+	{"\\mbffraka",	0x1D586}, //mathematical bold fraktur small a%
+	{"\\mbffrakb",	0x1D587}, //mathematical bold fraktur small b%
+	{"\\mbffrakc",	0x1D588}, //mathematical bold fraktur small c%
+	{"\\mbffrakd",	0x1D589}, //mathematical bold fraktur small d%
+	{"\\mbffrake",	0x1D58A}, //mathematical bold fraktur small e%
+	{"\\mbffrakf",	0x1D58B}, //mathematical bold fraktur small f%
+	{"\\mbffrakg",	0x1D58C}, //mathematical bold fraktur small g%
+	{"\\mbffrakh",	0x1D58D}, //mathematical bold fraktur small h%
+	{"\\mbffraki",	0x1D58E}, //mathematical bold fraktur small i%
+	{"\\mbffrakj",	0x1D58F}, //mathematical bold fraktur small j%
+	{"\\mbffrakk",	0x1D590}, //mathematical bold fraktur small k%
+	{"\\mbffrakl",	0x1D591}, //mathematical bold fraktur small l%
+	{"\\mbffrakm",	0x1D592}, //mathematical bold fraktur small m%
+	{"\\mbffrakn",	0x1D593}, //mathematical bold fraktur small n%
+	{"\\mbffrako",	0x1D594}, //mathematical bold fraktur small o%
+	{"\\mbffrakp",	0x1D595}, //mathematical bold fraktur small p%
+	{"\\mbffrakq",	0x1D596}, //mathematical bold fraktur small q%
+	{"\\mbffrakr",	0x1D597}, //mathematical bold fraktur small r%
+	{"\\mbffraks",	0x1D598}, //mathematical bold fraktur small s%
+	{"\\mbffrakt",	0x1D599}, //mathematical bold fraktur small t%
+	{"\\mbffraku",	0x1D59A}, //mathematical bold fraktur small u%
+	{"\\mbffrakv",	0x1D59B}, //mathematical bold fraktur small v%
+	{"\\mbffrakw",	0x1D59C}, //mathematical bold fraktur small w%
+	{"\\mbffrakx",	0x1D59D}, //mathematical bold fraktur small x%
+	{"\\mbffraky",	0x1D59E}, //mathematical bold fraktur small y%
+	{"\\mbffrakz",	0x1D59F}, //mathematical bold fraktur small z%
+	{"\\msansA",	0x1D5A0}, //mathematical sans-serif capital a%
+	{"\\msansB",	0x1D5A1}, //mathematical sans-serif capital b%
+	{"\\msansC",	0x1D5A2}, //mathematical sans-serif capital c%
+	{"\\msansD",	0x1D5A3}, //mathematical sans-serif capital d%
+	{"\\msansE",	0x1D5A4}, //mathematical sans-serif capital e%
+	{"\\msansF",	0x1D5A5}, //mathematical sans-serif capital f%
+	{"\\msansG",	0x1D5A6}, //mathematical sans-serif capital g%
+	{"\\msansH",	0x1D5A7}, //mathematical sans-serif capital h%
+	{"\\msansI",	0x1D5A8}, //mathematical sans-serif capital i%
+	{"\\msansJ",	0x1D5A9}, //mathematical sans-serif capital j%
+	{"\\msansK",	0x1D5AA}, //mathematical sans-serif capital k%
+	{"\\msansL",	0x1D5AB}, //mathematical sans-serif capital l%
+	{"\\msansM",	0x1D5AC}, //mathematical sans-serif capital m%
+	{"\\msansN",	0x1D5AD}, //mathematical sans-serif capital n%
+	{"\\msansO",	0x1D5AE}, //mathematical sans-serif capital o%
+	{"\\msansP",	0x1D5AF}, //mathematical sans-serif capital p%
+	{"\\msansQ",	0x1D5B0}, //mathematical sans-serif capital q%
+	{"\\msansR",	0x1D5B1}, //mathematical sans-serif capital r%
+	{"\\msansS",	0x1D5B2}, //mathematical sans-serif capital s%
+	{"\\msansT",	0x1D5B3}, //mathematical sans-serif capital t%
+	{"\\msansU",	0x1D5B4}, //mathematical sans-serif capital u%
+	{"\\msansV",	0x1D5B5}, //mathematical sans-serif capital v%
+	{"\\msansW",	0x1D5B6}, //mathematical sans-serif capital w%
+	{"\\msansX",	0x1D5B7}, //mathematical sans-serif capital x%
+	{"\\msansY",	0x1D5B8}, //mathematical sans-serif capital y%
+	{"\\msansZ",	0x1D5B9}, //mathematical sans-serif capital z%
+	{"\\msansa",	0x1D5BA}, //mathematical sans-serif small a%
+	{"\\msansb",	0x1D5BB}, //mathematical sans-serif small b%
+	{"\\msansc",	0x1D5BC}, //mathematical sans-serif small c%
+	{"\\msansd",	0x1D5BD}, //mathematical sans-serif small d%
+	{"\\msanse",	0x1D5BE}, //mathematical sans-serif small e%
+	{"\\msansf",	0x1D5BF}, //mathematical sans-serif small f%
+	{"\\msansg",	0x1D5C0}, //mathematical sans-serif small g%
+	{"\\msansh",	0x1D5C1}, //mathematical sans-serif small h%
+	{"\\msansi",	0x1D5C2}, //mathematical sans-serif small i%
+	{"\\msansj",	0x1D5C3}, //mathematical sans-serif small j%
+	{"\\msansk",	0x1D5C4}, //mathematical sans-serif small k%
+	{"\\msansl",	0x1D5C5}, //mathematical sans-serif small l%
+	{"\\msansm",	0x1D5C6}, //mathematical sans-serif small m%
+	{"\\msansn",	0x1D5C7}, //mathematical sans-serif small n%
+	{"\\msanso",	0x1D5C8}, //mathematical sans-serif small o%
+	{"\\msansp",	0x1D5C9}, //mathematical sans-serif small p%
+	{"\\msansq",	0x1D5CA}, //mathematical sans-serif small q%
+	{"\\msansr",	0x1D5CB}, //mathematical sans-serif small r%
+	{"\\msanss",	0x1D5CC}, //mathematical sans-serif small s%
+	{"\\msanst",	0x1D5CD}, //mathematical sans-serif small t%
+	{"\\msansu",	0x1D5CE}, //mathematical sans-serif small u%
+	{"\\msansv",	0x1D5CF}, //mathematical sans-serif small v%
+	{"\\msansw",	0x1D5D0}, //mathematical sans-serif small w%
+	{"\\msansx",	0x1D5D1}, //mathematical sans-serif small x%
+	{"\\msansy",	0x1D5D2}, //mathematical sans-serif small y%
+	{"\\msansz",	0x1D5D3}, //mathematical sans-serif small z%
+	{"\\mbfsansA",	0x1D5D4}, //mathematical sans-serif bold capital a%
+	{"\\mbfsansB",	0x1D5D5}, //mathematical sans-serif bold capital b%
+	{"\\mbfsansC",	0x1D5D6}, //mathematical sans-serif bold capital c%
+	{"\\mbfsansD",	0x1D5D7}, //mathematical sans-serif bold capital d%
+	{"\\mbfsansE",	0x1D5D8}, //mathematical sans-serif bold capital e%
+	{"\\mbfsansF",	0x1D5D9}, //mathematical sans-serif bold capital f%
+	{"\\mbfsansG",	0x1D5DA}, //mathematical sans-serif bold capital g%
+	{"\\mbfsansH",	0x1D5DB}, //mathematical sans-serif bold capital h%
+	{"\\mbfsansI",	0x1D5DC}, //mathematical sans-serif bold capital i%
+	{"\\mbfsansJ",	0x1D5DD}, //mathematical sans-serif bold capital j%
+	{"\\mbfsansK",	0x1D5DE}, //mathematical sans-serif bold capital k%
+	{"\\mbfsansL",	0x1D5DF}, //mathematical sans-serif bold capital l%
+	{"\\mbfsansM",	0x1D5E0}, //mathematical sans-serif bold capital m%
+	{"\\mbfsansN",	0x1D5E1}, //mathematical sans-serif bold capital n%
+	{"\\mbfsansO",	0x1D5E2}, //mathematical sans-serif bold capital o%
+	{"\\mbfsansP",	0x1D5E3}, //mathematical sans-serif bold capital p%
+	{"\\mbfsansQ",	0x1D5E4}, //mathematical sans-serif bold capital q%
+	{"\\mbfsansR",	0x1D5E5}, //mathematical sans-serif bold capital r%
+	{"\\mbfsansS",	0x1D5E6}, //mathematical sans-serif bold capital s%
+	{"\\mbfsansT",	0x1D5E7}, //mathematical sans-serif bold capital t%
+	{"\\mbfsansU",	0x1D5E8}, //mathematical sans-serif bold capital u%
+	{"\\mbfsansV",	0x1D5E9}, //mathematical sans-serif bold capital v%
+	{"\\mbfsansW",	0x1D5EA}, //mathematical sans-serif bold capital w%
+	{"\\mbfsansX",	0x1D5EB}, //mathematical sans-serif bold capital x%
+	{"\\mbfsansY",	0x1D5EC}, //mathematical sans-serif bold capital y%
+	{"\\mbfsansZ",	0x1D5ED}, //mathematical sans-serif bold capital z%
+	{"\\mbfsansa",	0x1D5EE}, //mathematical sans-serif bold small a%
+	{"\\mbfsansb",	0x1D5EF}, //mathematical sans-serif bold small b%
+	{"\\mbfsansc",	0x1D5F0}, //mathematical sans-serif bold small c%
+	{"\\mbfsansd",	0x1D5F1}, //mathematical sans-serif bold small d%
+	{"\\mbfsanse",	0x1D5F2}, //mathematical sans-serif bold small e%
+	{"\\mbfsansf",	0x1D5F3}, //mathematical sans-serif bold small f%
+	{"\\mbfsansg",	0x1D5F4}, //mathematical sans-serif bold small g%
+	{"\\mbfsansh",	0x1D5F5}, //mathematical sans-serif bold small h%
+	{"\\mbfsansi",	0x1D5F6}, //mathematical sans-serif bold small i%
+	{"\\mbfsansj",	0x1D5F7}, //mathematical sans-serif bold small j%
+	{"\\mbfsansk",	0x1D5F8}, //mathematical sans-serif bold small k%
+	{"\\mbfsansl",	0x1D5F9}, //mathematical sans-serif bold small l%
+	{"\\mbfsansm",	0x1D5FA}, //mathematical sans-serif bold small m%
+	{"\\mbfsansn",	0x1D5FB}, //mathematical sans-serif bold small n%
+	{"\\mbfsanso",	0x1D5FC}, //mathematical sans-serif bold small o%
+	{"\\mbfsansp",	0x1D5FD}, //mathematical sans-serif bold small p%
+	{"\\mbfsansq",	0x1D5FE}, //mathematical sans-serif bold small q%
+	{"\\mbfsansr",	0x1D5FF}, //mathematical sans-serif bold small r%
+	{"\\mbfsanss",	0x1D600}, //mathematical sans-serif bold small s%
+	{"\\mbfsanst",	0x1D601}, //mathematical sans-serif bold small t%
+	{"\\mbfsansu",	0x1D602}, //mathematical sans-serif bold small u%
+	{"\\mbfsansv",	0x1D603}, //mathematical sans-serif bold small v%
+	{"\\mbfsansw",	0x1D604}, //mathematical sans-serif bold small w%
+	{"\\mbfsansx",	0x1D605}, //mathematical sans-serif bold small x%
+	{"\\mbfsansy",	0x1D606}, //mathematical sans-serif bold small y%
+	{"\\mbfsansz",	0x1D607}, //mathematical sans-serif bold small z%
+	{"\\mitsansA",	0x1D608}, //mathematical sans-serif italic capital a%
+	{"\\mitsansB",	0x1D609}, //mathematical sans-serif italic capital b%
+	{"\\mitsansC",	0x1D60A}, //mathematical sans-serif italic capital c%
+	{"\\mitsansD",	0x1D60B}, //mathematical sans-serif italic capital d%
+	{"\\mitsansE",	0x1D60C}, //mathematical sans-serif italic capital e%
+	{"\\mitsansF",	0x1D60D}, //mathematical sans-serif italic capital f%
+	{"\\mitsansG",	0x1D60E}, //mathematical sans-serif italic capital g%
+	{"\\mitsansH",	0x1D60F}, //mathematical sans-serif italic capital h%
+	{"\\mitsansI",	0x1D610}, //mathematical sans-serif italic capital i%
+	{"\\mitsansJ",	0x1D611}, //mathematical sans-serif italic capital j%
+	{"\\mitsansK",	0x1D612}, //mathematical sans-serif italic capital k%
+	{"\\mitsansL",	0x1D613}, //mathematical sans-serif italic capital l%
+	{"\\mitsansM",	0x1D614}, //mathematical sans-serif italic capital m%
+	{"\\mitsansN",	0x1D615}, //mathematical sans-serif italic capital n%
+	{"\\mitsansO",	0x1D616}, //mathematical sans-serif italic capital o%
+	{"\\mitsansP",	0x1D617}, //mathematical sans-serif italic capital p%
+	{"\\mitsansQ",	0x1D618}, //mathematical sans-serif italic capital q%
+	{"\\mitsansR",	0x1D619}, //mathematical sans-serif italic capital r%
+	{"\\mitsansS",	0x1D61A}, //mathematical sans-serif italic capital s%
+	{"\\mitsansT",	0x1D61B}, //mathematical sans-serif italic capital t%
+	{"\\mitsansU",	0x1D61C}, //mathematical sans-serif italic capital u%
+	{"\\mitsansV",	0x1D61D}, //mathematical sans-serif italic capital v%
+	{"\\mitsansW",	0x1D61E}, //mathematical sans-serif italic capital w%
+	{"\\mitsansX",	0x1D61F}, //mathematical sans-serif italic capital x%
+	{"\\mitsansY",	0x1D620}, //mathematical sans-serif italic capital y%
+	{"\\mitsansZ",	0x1D621}, //mathematical sans-serif italic capital z%
+	{"\\mitsansa",	0x1D622}, //mathematical sans-serif italic small a%
+	{"\\mitsansb",	0x1D623}, //mathematical sans-serif italic small b%
+	{"\\mitsansc",	0x1D624}, //mathematical sans-serif italic small c%
+	{"\\mitsansd",	0x1D625}, //mathematical sans-serif italic small d%
+	{"\\mitsanse",	0x1D626}, //mathematical sans-serif italic small e%
+	{"\\mitsansf",	0x1D627}, //mathematical sans-serif italic small f%
+	{"\\mitsansg",	0x1D628}, //mathematical sans-serif italic small g%
+	{"\\mitsansh",	0x1D629}, //mathematical sans-serif italic small h%
+	{"\\mitsansi",	0x1D62A}, //mathematical sans-serif italic small i%
+	{"\\mitsansj",	0x1D62B}, //mathematical sans-serif italic small j%
+	{"\\mitsansk",	0x1D62C}, //mathematical sans-serif italic small k%
+	{"\\mitsansl",	0x1D62D}, //mathematical sans-serif italic small l%
+	{"\\mitsansm",	0x1D62E}, //mathematical sans-serif italic small m%
+	{"\\mitsansn",	0x1D62F}, //mathematical sans-serif italic small n%
+	{"\\mitsanso",	0x1D630}, //mathematical sans-serif italic small o%
+	{"\\mitsansp",	0x1D631}, //mathematical sans-serif italic small p%
+	{"\\mitsansq",	0x1D632}, //mathematical sans-serif italic small q%
+	{"\\mitsansr",	0x1D633}, //mathematical sans-serif italic small r%
+	{"\\mitsanss",	0x1D634}, //mathematical sans-serif italic small s%
+	{"\\mitsanst",	0x1D635}, //mathematical sans-serif italic small t%
+	{"\\mitsansu",	0x1D636}, //mathematical sans-serif italic small u%
+	{"\\mitsansv",	0x1D637}, //mathematical sans-serif italic small v%
+	{"\\mitsansw",	0x1D638}, //mathematical sans-serif italic small w%
+	{"\\mitsansx",	0x1D639}, //mathematical sans-serif italic small x%
+	{"\\mitsansy",	0x1D63A}, //mathematical sans-serif italic small y%
+	{"\\mitsansz",	0x1D63B}, //mathematical sans-serif italic small z%
+	{"\\mbfitsansA",	0x1D63C}, //mathematical sans-serif bold italic capital a%
+	{"\\mbfitsansB",	0x1D63D}, //mathematical sans-serif bold italic capital b%
+	{"\\mbfitsansC",	0x1D63E}, //mathematical sans-serif bold italic capital c%
+	{"\\mbfitsansD",	0x1D63F}, //mathematical sans-serif bold italic capital d%
+	{"\\mbfitsansE",	0x1D640}, //mathematical sans-serif bold italic capital e%
+	{"\\mbfitsansF",	0x1D641}, //mathematical sans-serif bold italic capital f%
+	{"\\mbfitsansG",	0x1D642}, //mathematical sans-serif bold italic capital g%
+	{"\\mbfitsansH",	0x1D643}, //mathematical sans-serif bold italic capital h%
+	{"\\mbfitsansI",	0x1D644}, //mathematical sans-serif bold italic capital i%
+	{"\\mbfitsansJ",	0x1D645}, //mathematical sans-serif bold italic capital j%
+	{"\\mbfitsansK",	0x1D646}, //mathematical sans-serif bold italic capital k%
+	{"\\mbfitsansL",	0x1D647}, //mathematical sans-serif bold italic capital l%
+	{"\\mbfitsansM",	0x1D648}, //mathematical sans-serif bold italic capital m%
+	{"\\mbfitsansN",	0x1D649}, //mathematical sans-serif bold italic capital n%
+	{"\\mbfitsansO",	0x1D64A}, //mathematical sans-serif bold italic capital o%
+	{"\\mbfitsansP",	0x1D64B}, //mathematical sans-serif bold italic capital p%
+	{"\\mbfitsansQ",	0x1D64C}, //mathematical sans-serif bold italic capital q%
+	{"\\mbfitsansR",	0x1D64D}, //mathematical sans-serif bold italic capital r%
+	{"\\mbfitsansS",	0x1D64E}, //mathematical sans-serif bold italic capital s%
+	{"\\mbfitsansT",	0x1D64F}, //mathematical sans-serif bold italic capital t%
+	{"\\mbfitsansU",	0x1D650}, //mathematical sans-serif bold italic capital u%
+	{"\\mbfitsansV",	0x1D651}, //mathematical sans-serif bold italic capital v%
+	{"\\mbfitsansW",	0x1D652}, //mathematical sans-serif bold italic capital w%
+	{"\\mbfitsansX",	0x1D653}, //mathematical sans-serif bold italic capital x%
+	{"\\mbfitsansY",	0x1D654}, //mathematical sans-serif bold italic capital y%
+	{"\\mbfitsansZ",	0x1D655}, //mathematical sans-serif bold italic capital z%
+	{"\\mbfitsansa",	0x1D656}, //mathematical sans-serif bold italic small a%
+	{"\\mbfitsansb",	0x1D657}, //mathematical sans-serif bold italic small b%
+	{"\\mbfitsansc",	0x1D658}, //mathematical sans-serif bold italic small c%
+	{"\\mbfitsansd",	0x1D659}, //mathematical sans-serif bold italic small d%
+	{"\\mbfitsanse",	0x1D65A}, //mathematical sans-serif bold italic small e%
+	{"\\mbfitsansf",	0x1D65B}, //mathematical sans-serif bold italic small f%
+	{"\\mbfitsansg",	0x1D65C}, //mathematical sans-serif bold italic small g%
+	{"\\mbfitsansh",	0x1D65D}, //mathematical sans-serif bold italic small h%
+	{"\\mbfitsansi",	0x1D65E}, //mathematical sans-serif bold italic small i%
+	{"\\mbfitsansj",	0x1D65F}, //mathematical sans-serif bold italic small j%
+	{"\\mbfitsansk",	0x1D660}, //mathematical sans-serif bold italic small k%
+	{"\\mbfitsansl",	0x1D661}, //mathematical sans-serif bold italic small l%
+	{"\\mbfitsansm",	0x1D662}, //mathematical sans-serif bold italic small m%
+	{"\\mbfitsansn",	0x1D663}, //mathematical sans-serif bold italic small n%
+	{"\\mbfitsanso",	0x1D664}, //mathematical sans-serif bold italic small o%
+	{"\\mbfitsansp",	0x1D665}, //mathematical sans-serif bold italic small p%
+	{"\\mbfitsansq",	0x1D666}, //mathematical sans-serif bold italic small q%
+	{"\\mbfitsansr",	0x1D667}, //mathematical sans-serif bold italic small r%
+	{"\\mbfitsanss",	0x1D668}, //mathematical sans-serif bold italic small s%
+	{"\\mbfitsanst",	0x1D669}, //mathematical sans-serif bold italic small t%
+	{"\\mbfitsansu",	0x1D66A}, //mathematical sans-serif bold italic small u%
+	{"\\mbfitsansv",	0x1D66B}, //mathematical sans-serif bold italic small v%
+	{"\\mbfitsansw",	0x1D66C}, //mathematical sans-serif bold italic small w%
+	{"\\mbfitsansx",	0x1D66D}, //mathematical sans-serif bold italic small x%
+	{"\\mbfitsansy",	0x1D66E}, //mathematical sans-serif bold italic small y%
+	{"\\mbfitsansz",	0x1D66F}, //mathematical sans-serif bold italic small z%
+	{"\\mttA",	0x1D670}, //mathematical monospace capital a%
+	{"\\mttB",	0x1D671}, //mathematical monospace capital b%
+	{"\\mttC",	0x1D672}, //mathematical monospace capital c%
+	{"\\mttD",	0x1D673}, //mathematical monospace capital d%
+	{"\\mttE",	0x1D674}, //mathematical monospace capital e%
+	{"\\mttF",	0x1D675}, //mathematical monospace capital f%
+	{"\\mttG",	0x1D676}, //mathematical monospace capital g%
+	{"\\mttH",	0x1D677}, //mathematical monospace capital h%
+	{"\\mttI",	0x1D678}, //mathematical monospace capital i%
+	{"\\mttJ",	0x1D679}, //mathematical monospace capital j%
+	{"\\mttK",	0x1D67A}, //mathematical monospace capital k%
+	{"\\mttL",	0x1D67B}, //mathematical monospace capital l%
+	{"\\mttM",	0x1D67C}, //mathematical monospace capital m%
+	{"\\mttN",	0x1D67D}, //mathematical monospace capital n%
+	{"\\mttO",	0x1D67E}, //mathematical monospace capital o%
+	{"\\mttP",	0x1D67F}, //mathematical monospace capital p%
+	{"\\mttQ",	0x1D680}, //mathematical monospace capital q%
+	{"\\mttR",	0x1D681}, //mathematical monospace capital r%
+	{"\\mttS",	0x1D682}, //mathematical monospace capital s%
+	{"\\mttT",	0x1D683}, //mathematical monospace capital t%
+	{"\\mttU",	0x1D684}, //mathematical monospace capital u%
+	{"\\mttV",	0x1D685}, //mathematical monospace capital v%
+	{"\\mttW",	0x1D686}, //mathematical monospace capital w%
+	{"\\mttX",	0x1D687}, //mathematical monospace capital x%
+	{"\\mttY",	0x1D688}, //mathematical monospace capital y%
+	{"\\mttZ",	0x1D689}, //mathematical monospace capital z%
+	{"\\mtta",	0x1D68A}, //mathematical monospace small a%
+	{"\\mttb",	0x1D68B}, //mathematical monospace small b%
+	{"\\mttc",	0x1D68C}, //mathematical monospace small c%
+	{"\\mttd",	0x1D68D}, //mathematical monospace small d%
+	{"\\mtte",	0x1D68E}, //mathematical monospace small e%
+	{"\\mttf",	0x1D68F}, //mathematical monospace small f%
+	{"\\mttg",	0x1D690}, //mathematical monospace small g%
+	{"\\mtth",	0x1D691}, //mathematical monospace small h%
+	{"\\mtti",	0x1D692}, //mathematical monospace small i%
+	{"\\mttj",	0x1D693}, //mathematical monospace small j%
+	{"\\mttk",	0x1D694}, //mathematical monospace small k%
+	{"\\mttl",	0x1D695}, //mathematical monospace small l%
+	{"\\mttm",	0x1D696}, //mathematical monospace small m%
+	{"\\mttn",	0x1D697}, //mathematical monospace small n%
+	{"\\mtto",	0x1D698}, //mathematical monospace small o%
+	{"\\mttp",	0x1D699}, //mathematical monospace small p%
+	{"\\mttq",	0x1D69A}, //mathematical monospace small q%
+	{"\\mttr",	0x1D69B}, //mathematical monospace small r%
+	{"\\mtts",	0x1D69C}, //mathematical monospace small s%
+	{"\\mttt",	0x1D69D}, //mathematical monospace small t%
+	{"\\mttu",	0x1D69E}, //mathematical monospace small u%
+	{"\\mttv",	0x1D69F}, //mathematical monospace small v%
+	{"\\mttw",	0x1D6A0}, //mathematical monospace small w%
+	{"\\mttx",	0x1D6A1}, //mathematical monospace small x%
+	{"\\mtty",	0x1D6A2}, //mathematical monospace small y%
+	{"\\mttz",	0x1D6A3}, //mathematical monospace small z%
+	{"\\mbfAlpha",	0x1D6A8}, //mathematical bold capital alpha%
+	{"\\mbfBeta",	0x1D6A9}, //mathematical bold capital beta%
+	{"\\mbfGamma",	0x1D6AA}, //mathematical bold capital gamma%
+	{"\\mbfDelta",	0x1D6AB}, //mathematical bold capital delta%
+	{"\\mbfEpsilon",	0x1D6AC}, //mathematical bold capital epsilon%
+	{"\\mbfZeta",	0x1D6AD}, //mathematical bold capital zeta%
+	{"\\mbfEta",	0x1D6AE}, //mathematical bold capital eta%
+	{"\\mbfTheta",	0x1D6AF}, //mathematical bold capital theta%
+	{"\\mbfIota",	0x1D6B0}, //mathematical bold capital iota%
+	{"\\mbfKappa",	0x1D6B1}, //mathematical bold capital kappa%
+	{"\\mbfLambda",	0x1D6B2}, //mathematical bold capital lambda%
+	{"\\mbfMu",	0x1D6B3}, //mathematical bold capital mu%
+	{"\\mbfNu",	0x1D6B4}, //mathematical bold capital nu%
+	{"\\mbfXi",	0x1D6B5}, //mathematical bold capital xi%
+	{"\\mbfOmicron",	0x1D6B6}, //mathematical bold capital omicron%
+	{"\\mbfPi",	0x1D6B7}, //mathematical bold capital pi%
+	{"\\mbfRho",	0x1D6B8}, //mathematical bold capital rho%
+	{"\\mbfvarTheta",	0x1D6B9}, //mathematical bold capital theta symbol%
+	{"\\mbfSigma",	0x1D6BA}, //mathematical bold capital sigma%
+	{"\\mbfTau",	0x1D6BB}, //mathematical bold capital tau%
+	{"\\mbfUpsilon",	0x1D6BC}, //mathematical bold capital upsilon%
+	{"\\mbfPhi",	0x1D6BD}, //mathematical bold capital phi%
+	{"\\mbfChi",	0x1D6BE}, //mathematical bold capital chi%
+	{"\\mbfPsi",	0x1D6BF}, //mathematical bold capital psi%
+	{"\\mbfOmega",	0x1D6C0}, //mathematical bold capital omega%
+	{"\\mbfnabla",	0x1D6C1}, //mathematical bold nabla%
+	{"\\mbfalpha",	0x1D6C2}, //mathematical bold small alpha%
+	{"\\mbfbeta",	0x1D6C3}, //mathematical bold small beta%
+	{"\\mbfgamma",	0x1D6C4}, //mathematical bold small gamma%
+	{"\\mbfdelta",	0x1D6C5}, //mathematical bold small delta%
+	{"\\mbfvarepsilon",	0x1D6C6}, //mathematical bold small varepsilon%
+	{"\\mbfzeta",	0x1D6C7}, //mathematical bold small zeta%
+	{"\\mbfeta",	0x1D6C8}, //mathematical bold small eta%
+	{"\\mbftheta",	0x1D6C9}, //mathematical bold small theta%
+	{"\\mbfiota",	0x1D6CA}, //mathematical bold small iota%
+	{"\\mbfkappa",	0x1D6CB}, //mathematical bold small kappa%
+	{"\\mbflambda",	0x1D6CC}, //mathematical bold small lambda%
+	{"\\mbfmu",	0x1D6CD}, //mathematical bold small mu%
+	{"\\mbfnu",	0x1D6CE}, //mathematical bold small nu%
+	{"\\mbfxi",	0x1D6CF}, //mathematical bold small xi%
+	{"\\mbfomicron",	0x1D6D0}, //mathematical bold small omicron%
+	{"\\mbfpi",	0x1D6D1}, //mathematical bold small pi%
+	{"\\mbfrho",	0x1D6D2}, //mathematical bold small rho%
+	{"\\mbfvarsigma",	0x1D6D3}, //mathematical bold small final sigma%
+	{"\\mbfsigma",	0x1D6D4}, //mathematical bold small sigma%
+	{"\\mbftau",	0x1D6D5}, //mathematical bold small tau%
+	{"\\mbfupsilon",	0x1D6D6}, //mathematical bold small upsilon%
+	{"\\mbfvarphi",	0x1D6D7}, //mathematical bold small phi%
+	{"\\mbfchi",	0x1D6D8}, //mathematical bold small chi%
+	{"\\mbfpsi",	0x1D6D9}, //mathematical bold small psi%
+	{"\\mbfomega",	0x1D6DA}, //mathematical bold small omega%
+	{"\\mbfpartial",	0x1D6DB}, //mathematical bold partial differential%
+	{"\\mbfepsilon",	0x1D6DC}, //mathematical bold varepsilon symbol%
+	{"\\mbfvartheta",	0x1D6DD}, //mathematical bold theta symbol%
+	{"\\mbfvarkappa",	0x1D6DE}, //mathematical bold kappa symbol%
+	{"\\mbfphi",	0x1D6DF}, //mathematical bold phi symbol%
+	{"\\mbfvarrho",	0x1D6E0}, //mathematical bold rho symbol%
+	{"\\mbfvarpi",	0x1D6E1}, //mathematical bold pi symbol%
+	{"\\mitAlpha",	0x1D6E2}, //mathematical italic capital alpha%
+	{"\\mitBeta",	0x1D6E3}, //mathematical italic capital beta%
+	{"\\mitGamma",	0x1D6E4}, //mathematical italic capital gamma%
+	{"\\mitDelta",	0x1D6E5}, //mathematical italic capital delta%
+	{"\\mitEpsilon",	0x1D6E6}, //mathematical italic capital epsilon%
+	{"\\mitZeta",	0x1D6E7}, //mathematical italic capital zeta%
+	{"\\mitEta",	0x1D6E8}, //mathematical italic capital eta%
+	{"\\mitTheta",	0x1D6E9}, //mathematical italic capital theta%
+	{"\\mitIota",	0x1D6EA}, //mathematical italic capital iota%
+	{"\\mitKappa",	0x1D6EB}, //mathematical italic capital kappa%
+	{"\\mitLambda",	0x1D6EC}, //mathematical italic capital lambda%
+	{"\\mitMu",	0x1D6ED}, //mathematical italic capital mu%
+	{"\\mitNu",	0x1D6EE}, //mathematical italic capital nu%
+	{"\\mitXi",	0x1D6EF}, //mathematical italic capital xi%
+	{"\\mitOmicron",	0x1D6F0}, //mathematical italic capital omicron%
+	{"\\mitPi",	0x1D6F1}, //mathematical italic capital pi%
+	{"\\mitRho",	0x1D6F2}, //mathematical italic capital rho%
+	{"\\mitvarTheta",	0x1D6F3}, //mathematical italic capital theta symbol%
+	{"\\mitSigma",	0x1D6F4}, //mathematical italic capital sigma%
+	{"\\mitTau",	0x1D6F5}, //mathematical italic capital tau%
+	{"\\mitUpsilon",	0x1D6F6}, //mathematical italic capital upsilon%
+	{"\\mitPhi",	0x1D6F7}, //mathematical italic capital phi%
+	{"\\mitChi",	0x1D6F8}, //mathematical italic capital chi%
+	{"\\mitPsi",	0x1D6F9}, //mathematical italic capital psi%
+	{"\\mitOmega",	0x1D6FA}, //mathematical italic capital omega%
+	{"\\mitnabla",	0x1D6FB}, //mathematical italic nabla%
+	{"\\mitalpha",	0x1D6FC}, //mathematical italic small alpha%
+	{"\\mitbeta",	0x1D6FD}, //mathematical italic small beta%
+	{"\\mitgamma",	0x1D6FE}, //mathematical italic small gamma%
+	{"\\mitdelta",	0x1D6FF}, //mathematical italic small delta%
+	{"\\mitvarepsilon",	0x1D700}, //mathematical italic small varepsilon%
+	{"\\mitzeta",	0x1D701}, //mathematical italic small zeta%
+	{"\\miteta",	0x1D702}, //mathematical italic small eta%
+	{"\\mittheta",	0x1D703}, //mathematical italic small theta%
+	{"\\mitiota",	0x1D704}, //mathematical italic small iota%
+	{"\\mitkappa",	0x1D705}, //mathematical italic small kappa%
+	{"\\mitlambda",	0x1D706}, //mathematical italic small lambda%
+	{"\\mitmu",	0x1D707}, //mathematical italic small mu%
+	{"\\mitnu",	0x1D708}, //mathematical italic small nu%
+	{"\\mitxi",	0x1D709}, //mathematical italic small xi%
+	{"\\mitomicron",	0x1D70A}, //mathematical italic small omicron%
+	{"\\mitpi",	0x1D70B}, //mathematical italic small pi%
+	{"\\mitrho",	0x1D70C}, //mathematical italic small rho%
+	{"\\mitvarsigma",	0x1D70D}, //mathematical italic small final sigma%
+	{"\\mitsigma",	0x1D70E}, //mathematical italic small sigma%
+	{"\\mittau",	0x1D70F}, //mathematical italic small tau%
+	{"\\mitupsilon",	0x1D710}, //mathematical italic small upsilon%
+	{"\\mitvarphi",	0x1D711}, //mathematical italic small phi%
+	{"\\mitchi",	0x1D712}, //mathematical italic small chi%
+	{"\\mitpsi",	0x1D713}, //mathematical italic small psi%
+	{"\\mitomega",	0x1D714}, //mathematical italic small omega%
+	{"\\mitpartial",	0x1D715}, //mathematical italic partial differential%
+	{"\\mitepsilon",	0x1D716}, //mathematical italic varepsilon symbol%
+	{"\\mitvartheta",	0x1D717}, //mathematical italic theta symbol%
+	{"\\mitvarkappa",	0x1D718}, //mathematical italic kappa symbol%
+	{"\\mitphi",	0x1D719}, //mathematical italic phi symbol%
+	{"\\mitvarrho",	0x1D71A}, //mathematical italic rho symbol%
+	{"\\mitvarpi",	0x1D71B}, //mathematical italic pi symbol%
+	{"\\mbfitAlpha",	0x1D71C}, //mathematical bold italic capital alpha%
+	{"\\mbfitBeta",	0x1D71D}, //mathematical bold italic capital beta%
+	{"\\mbfitGamma",	0x1D71E}, //mathematical bold italic capital gamma%
+	{"\\mbfitDelta",	0x1D71F}, //mathematical bold italic capital delta%
+	{"\\mbfitEpsilon",	0x1D720}, //mathematical bold italic capital epsilon%
+	{"\\mbfitZeta",	0x1D721}, //mathematical bold italic capital zeta%
+	{"\\mbfitEta",	0x1D722}, //mathematical bold italic capital eta%
+	{"\\mbfitTheta",	0x1D723}, //mathematical bold italic capital theta%
+	{"\\mbfitIota",	0x1D724}, //mathematical bold italic capital iota%
+	{"\\mbfitKappa",	0x1D725}, //mathematical bold italic capital kappa%
+	{"\\mbfitLambda",	0x1D726}, //mathematical bold italic capital lambda%
+	{"\\mbfitMu",	0x1D727}, //mathematical bold italic capital mu%
+	{"\\mbfitNu",	0x1D728}, //mathematical bold italic capital nu%
+	{"\\mbfitXi",	0x1D729}, //mathematical bold italic capital xi%
+	{"\\mbfitOmicron",	0x1D72A}, //mathematical bold italic capital omicron%
+	{"\\mbfitPi",	0x1D72B}, //mathematical bold italic capital pi%
+	{"\\mbfitRho",	0x1D72C}, //mathematical bold italic capital rho%
+	{"\\mbfitvarTheta",	0x1D72D}, //mathematical bold italic capital theta symbol%
+	{"\\mbfitSigma",	0x1D72E}, //mathematical bold italic capital sigma%
+	{"\\mbfitTau",	0x1D72F}, //mathematical bold italic capital tau%
+	{"\\mbfitUpsilon",	0x1D730}, //mathematical bold italic capital upsilon%
+	{"\\mbfitPhi",	0x1D731}, //mathematical bold italic capital phi%
+	{"\\mbfitChi",	0x1D732}, //mathematical bold italic capital chi%
+	{"\\mbfitPsi",	0x1D733}, //mathematical bold italic capital psi%
+	{"\\mbfitOmega",	0x1D734}, //mathematical bold italic capital omega%
+	{"\\mbfitnabla",	0x1D735}, //mathematical bold italic nabla%
+	{"\\mbfitalpha",	0x1D736}, //mathematical bold italic small alpha%
+	{"\\mbfitbeta",	0x1D737}, //mathematical bold italic small beta%
+	{"\\mbfitgamma",	0x1D738}, //mathematical bold italic small gamma%
+	{"\\mbfitdelta",	0x1D739}, //mathematical bold italic small delta%
+	{"\\mbfitvarepsilon",	0x1D73A}, //mathematical bold italic small varepsilon%
+	{"\\mbfitzeta",	0x1D73B}, //mathematical bold italic small zeta%
+	{"\\mbfiteta",	0x1D73C}, //mathematical bold italic small eta%
+	{"\\mbfittheta",	0x1D73D}, //mathematical bold italic small theta%
+	{"\\mbfitiota",	0x1D73E}, //mathematical bold italic small iota%
+	{"\\mbfitkappa",	0x1D73F}, //mathematical bold italic small kappa%
+	{"\\mbfitlambda",	0x1D740}, //mathematical bold italic small lambda%
+	{"\\mbfitmu",	0x1D741}, //mathematical bold italic small mu%
+	{"\\mbfitnu",	0x1D742}, //mathematical bold italic small nu%
+	{"\\mbfitxi",	0x1D743}, //mathematical bold italic small xi%
+	{"\\mbfitomicron",	0x1D744}, //mathematical bold italic small omicron%
+	{"\\mbfitpi",	0x1D745}, //mathematical bold italic small pi%
+	{"\\mbfitrho",	0x1D746}, //mathematical bold italic small rho%
+	{"\\mbfitvarsigma",	0x1D747}, //mathematical bold italic small final sigma%
+	{"\\mbfitsigma",	0x1D748}, //mathematical bold italic small sigma%
+	{"\\mbfittau",	0x1D749}, //mathematical bold italic small tau%
+	{"\\mbfitupsilon",	0x1D74A}, //mathematical bold italic small upsilon%
+	{"\\mbfitvarphi",	0x1D74B}, //mathematical bold italic small phi%
+	{"\\mbfitchi",	0x1D74C}, //mathematical bold italic small chi%
+	{"\\mbfitpsi",	0x1D74D}, //mathematical bold italic small psi%
+	{"\\mbfitomega",	0x1D74E}, //mathematical bold italic small omega%
+	{"\\mbfitpartial",	0x1D74F}, //mathematical bold italic partial differential%
+	{"\\mbfitepsilon",	0x1D750}, //mathematical bold italic varepsilon symbol%
+	{"\\mbfitvartheta",	0x1D751}, //mathematical bold italic theta symbol%
+	{"\\mbfitvarkappa",	0x1D752}, //mathematical bold italic kappa symbol%
+	{"\\mbfitphi",	0x1D753}, //mathematical bold italic phi symbol%
+	{"\\mbfitvarrho",	0x1D754}, //mathematical bold italic rho symbol%
+	{"\\mbfitvarpi",	0x1D755}, //mathematical bold italic pi symbol%
+	{"\\mbfsansAlpha",	0x1D756}, //mathematical sans-serif bold capital alpha%
+	{"\\mbfsansBeta",	0x1D757}, //mathematical sans-serif bold capital beta%
+	{"\\mbfsansGamma",	0x1D758}, //mathematical sans-serif bold capital gamma%
+	{"\\mbfsansDelta",	0x1D759}, //mathematical sans-serif bold capital delta%
+	{"\\mbfsansEpsilon",	0x1D75A}, //mathematical sans-serif bold capital epsilon%
+	{"\\mbfsansZeta",	0x1D75B}, //mathematical sans-serif bold capital zeta%
+	{"\\mbfsansEta",	0x1D75C}, //mathematical sans-serif bold capital eta%
+	{"\\mbfsansTheta",	0x1D75D}, //mathematical sans-serif bold capital theta%
+	{"\\mbfsansIota",	0x1D75E}, //mathematical sans-serif bold capital iota%
+	{"\\mbfsansKappa",	0x1D75F}, //mathematical sans-serif bold capital kappa%
+	{"\\mbfsansLambda",	0x1D760}, //mathematical sans-serif bold capital lambda%
+	{"\\mbfsansMu",	0x1D761}, //mathematical sans-serif bold capital mu%
+	{"\\mbfsansNu",	0x1D762}, //mathematical sans-serif bold capital nu%
+	{"\\mbfsansXi",	0x1D763}, //mathematical sans-serif bold capital xi%
+	{"\\mbfsansOmicron",	0x1D764}, //mathematical sans-serif bold capital omicron%
+	{"\\mbfsansPi",	0x1D765}, //mathematical sans-serif bold capital pi%
+	{"\\mbfsansRho",	0x1D766}, //mathematical sans-serif bold capital rho%
+	{"\\mbfsansvarTheta",	0x1D767}, //mathematical sans-serif bold capital theta symbol%
+	{"\\mbfsansSigma",	0x1D768}, //mathematical sans-serif bold capital sigma%
+	{"\\mbfsansTau",	0x1D769}, //mathematical sans-serif bold capital tau%
+	{"\\mbfsansUpsilon",	0x1D76A}, //mathematical sans-serif bold capital upsilon%
+	{"\\mbfsansPhi",	0x1D76B}, //mathematical sans-serif bold capital phi%
+	{"\\mbfsansChi",	0x1D76C}, //mathematical sans-serif bold capital chi%
+	{"\\mbfsansPsi",	0x1D76D}, //mathematical sans-serif bold capital psi%
+	{"\\mbfsansOmega",	0x1D76E}, //mathematical sans-serif bold capital omega%
+	{"\\mbfsansnabla",	0x1D76F}, //mathematical sans-serif bold nabla%
+	{"\\mbfsansalpha",	0x1D770}, //mathematical sans-serif bold small alpha%
+	{"\\mbfsansbeta",	0x1D771}, //mathematical sans-serif bold small beta%
+	{"\\mbfsansgamma",	0x1D772}, //mathematical sans-serif bold small gamma%
+	{"\\mbfsansdelta",	0x1D773}, //mathematical sans-serif bold small delta%
+	{"\\mbfsansvarepsilon",	0x1D774}, //mathematical sans-serif bold small varepsilon%
+	{"\\mbfsanszeta",	0x1D775}, //mathematical sans-serif bold small zeta%
+	{"\\mbfsanseta",	0x1D776}, //mathematical sans-serif bold small eta%
+	{"\\mbfsanstheta",	0x1D777}, //mathematical sans-serif bold small theta%
+	{"\\mbfsansiota",	0x1D778}, //mathematical sans-serif bold small iota%
+	{"\\mbfsanskappa",	0x1D779}, //mathematical sans-serif bold small kappa%
+	{"\\mbfsanslambda",	0x1D77A}, //mathematical sans-serif bold small lambda%
+	{"\\mbfsansmu",	0x1D77B}, //mathematical sans-serif bold small mu%
+	{"\\mbfsansnu",	0x1D77C}, //mathematical sans-serif bold small nu%
+	{"\\mbfsansxi",	0x1D77D}, //mathematical sans-serif bold small xi%
+	{"\\mbfsansomicron",	0x1D77E}, //mathematical sans-serif bold small omicron%
+	{"\\mbfsanspi",	0x1D77F}, //mathematical sans-serif bold small pi%
+	{"\\mbfsansrho",	0x1D780}, //mathematical sans-serif bold small rho%
+	{"\\mbfsansvarsigma",	0x1D781}, //mathematical sans-serif bold small final sigma%
+	{"\\mbfsanssigma",	0x1D782}, //mathematical sans-serif bold small sigma%
+	{"\\mbfsanstau",	0x1D783}, //mathematical sans-serif bold small tau%
+	{"\\mbfsansupsilon",	0x1D784}, //mathematical sans-serif bold small upsilon%
+	{"\\mbfsansvarphi",	0x1D785}, //mathematical sans-serif bold small phi%
+	{"\\mbfsanschi",	0x1D786}, //mathematical sans-serif bold small chi%
+	{"\\mbfsanspsi",	0x1D787}, //mathematical sans-serif bold small psi%
+	{"\\mbfsansomega",	0x1D788}, //mathematical sans-serif bold small omega%
+	{"\\mbfsanspartial",	0x1D789}, //mathematical sans-serif bold partial differential%
+	{"\\mbfsansepsilon",	0x1D78A}, //mathematical sans-serif bold varepsilon symbol%
+	{"\\mbfsansvartheta",	0x1D78B}, //mathematical sans-serif bold theta symbol%
+	{"\\mbfsansvarkappa",	0x1D78C}, //mathematical sans-serif bold kappa symbol%
+	{"\\mbfsansphi",	0x1D78D}, //mathematical sans-serif bold phi symbol%
+	{"\\mbfsansvarrho",	0x1D78E}, //mathematical sans-serif bold rho symbol%
+	{"\\mbfsansvarpi",	0x1D78F}, //mathematical sans-serif bold pi symbol%
+	{"\\mbfitsansAlpha",	0x1D790}, //mathematical sans-serif bold italic capital alpha%
+	{"\\mbfitsansBeta",	0x1D791}, //mathematical sans-serif bold italic capital beta%
+	{"\\mbfitsansGamma",	0x1D792}, //mathematical sans-serif bold italic capital gamma%
+	{"\\mbfitsansDelta",	0x1D793}, //mathematical sans-serif bold italic capital delta%
+	{"\\mbfitsansEpsilon",	0x1D794}, //mathematical sans-serif bold italic capital epsilon%
+	{"\\mbfitsansZeta",	0x1D795}, //mathematical sans-serif bold italic capital zeta%
+	{"\\mbfitsansEta",	0x1D796}, //mathematical sans-serif bold italic capital eta%
+	{"\\mbfitsansTheta",	0x1D797}, //mathematical sans-serif bold italic capital theta%
+	{"\\mbfitsansIota",	0x1D798}, //mathematical sans-serif bold italic capital iota%
+	{"\\mbfitsansKappa",	0x1D799}, //mathematical sans-serif bold italic capital kappa%
+	{"\\mbfitsansLambda",	0x1D79A}, //mathematical sans-serif bold italic capital lambda%
+	{"\\mbfitsansMu",	0x1D79B}, //mathematical sans-serif bold italic capital mu%
+	{"\\mbfitsansNu",	0x1D79C}, //mathematical sans-serif bold italic capital nu%
+	{"\\mbfitsansXi",	0x1D79D}, //mathematical sans-serif bold italic capital xi%
+	{"\\mbfitsansOmicron",	0x1D79E}, //mathematical sans-serif bold italic capital omicron%
+	{"\\mbfitsansPi",	0x1D79F}, //mathematical sans-serif bold italic capital pi%
+	{"\\mbfitsansRho",	0x1D7A0}, //mathematical sans-serif bold italic capital rho%
+	{"\\mbfitsansvarTheta",	0x1D7A1}, //mathematical sans-serif bold italic capital theta symbol%
+	{"\\mbfitsansSigma",	0x1D7A2}, //mathematical sans-serif bold italic capital sigma%
+	{"\\mbfitsansTau",	0x1D7A3}, //mathematical sans-serif bold italic capital tau%
+	{"\\mbfitsansUpsilon",	0x1D7A4}, //mathematical sans-serif bold italic capital upsilon%
+	{"\\mbfitsansPhi",	0x1D7A5}, //mathematical sans-serif bold italic capital phi%
+	{"\\mbfitsansChi",	0x1D7A6}, //mathematical sans-serif bold italic capital chi%
+	{"\\mbfitsansPsi",	0x1D7A7}, //mathematical sans-serif bold italic capital psi%
+	{"\\mbfitsansOmega",	0x1D7A8}, //mathematical sans-serif bold italic capital omega%
+	{"\\mbfitsansnabla",	0x1D7A9}, //mathematical sans-serif bold italic nabla%
+	{"\\mbfitsansalpha",	0x1D7AA}, //mathematical sans-serif bold italic small alpha%
+	{"\\mbfitsansbeta",	0x1D7AB}, //mathematical sans-serif bold italic small beta%
+	{"\\mbfitsansgamma",	0x1D7AC}, //mathematical sans-serif bold italic small gamma%
+	{"\\mbfitsansdelta",	0x1D7AD}, //mathematical sans-serif bold italic small delta%
+	{"\\mbfitsansvarepsilon",	0x1D7AE}, //mathematical sans-serif bold italic small varepsilon%
+	{"\\mbfitsanszeta",	0x1D7AF}, //mathematical sans-serif bold italic small zeta%
+	{"\\mbfitsanseta",	0x1D7B0}, //mathematical sans-serif bold italic small eta%
+	{"\\mbfitsanstheta",	0x1D7B1}, //mathematical sans-serif bold italic small theta%
+	{"\\mbfitsansiota",	0x1D7B2}, //mathematical sans-serif bold italic small iota%
+	{"\\mbfitsanskappa",	0x1D7B3}, //mathematical sans-serif bold italic small kappa%
+	{"\\mbfitsanslambda",	0x1D7B4}, //mathematical sans-serif bold italic small lambda%
+	{"\\mbfitsansmu",	0x1D7B5}, //mathematical sans-serif bold italic small mu%
+	{"\\mbfitsansnu",	0x1D7B6}, //mathematical sans-serif bold italic small nu%
+	{"\\mbfitsansxi",	0x1D7B7}, //mathematical sans-serif bold italic small xi%
+	{"\\mbfitsansomicron",	0x1D7B8}, //mathematical sans-serif bold italic small omicron%
+	{"\\mbfitsanspi",	0x1D7B9}, //mathematical sans-serif bold italic small pi%
+	{"\\mbfitsansrho",	0x1D7BA}, //mathematical sans-serif bold italic small rho%
+	{"\\mbfitsansvarsigma",	0x1D7BB}, //mathematical sans-serif bold italic small final sigma%
+	{"\\mbfitsanssigma",	0x1D7BC}, //mathematical sans-serif bold italic small sigma%
+	{"\\mbfitsanstau",	0x1D7BD}, //mathematical sans-serif bold italic small tau%
+	{"\\mbfitsansupsilon",	0x1D7BE}, //mathematical sans-serif bold italic small upsilon%
+	{"\\mbfitsansvarphi",	0x1D7BF}, //mathematical sans-serif bold italic small phi%
+	{"\\mbfitsanschi",	0x1D7C0}, //mathematical sans-serif bold italic small chi%
+	{"\\mbfitsanspsi",	0x1D7C1}, //mathematical sans-serif bold italic small psi%
+	{"\\mbfitsansomega",	0x1D7C2}, //mathematical sans-serif bold italic small omega%
+	{"\\mbfitsanspartial",	0x1D7C3}, //mathematical sans-serif bold italic partial differential%
+	{"\\mbfitsansepsilon",	0x1D7C4}, //mathematical sans-serif bold italic varepsilon symbol%
+	{"\\mbfitsansvartheta",	0x1D7C5}, //mathematical sans-serif bold italic theta symbol%
+	{"\\mbfitsansvarkappa",	0x1D7C6}, //mathematical sans-serif bold italic kappa symbol%
+	{"\\mbfitsansphi",	0x1D7C7}, //mathematical sans-serif bold italic phi symbol%
+	{"\\mbfitsansvarrho",	0x1D7C8}, //mathematical sans-serif bold italic rho symbol%
+	{"\\mbfitsansvarpi",	0x1D7C9}, //mathematical sans-serif bold italic pi symbol%
+	{"\\mbfDigamma",	0x1D7CA}, //mathematical bold capital digamma%
+	{"\\mbfdigamma",	0x1D7CB}, //mathematical bold small digamma%
+	{"\\mbfzero",	0x1D7CE}, //mathematical bold digit 0%
+	{"\\mbfone",	0x1D7CF}, //mathematical bold digit 1%
+	{"\\mbftwo",	0x1D7D0}, //mathematical bold digit 2%
+	{"\\mbfthree",	0x1D7D1}, //mathematical bold digit 3%
+	{"\\mbffour",	0x1D7D2}, //mathematical bold digit 4%
+	{"\\mbffive",	0x1D7D3}, //mathematical bold digit 5%
+	{"\\mbfsix",	0x1D7D4}, //mathematical bold digit 6%
+	{"\\mbfseven",	0x1D7D5}, //mathematical bold digit 7%
+	{"\\mbfeight",	0x1D7D6}, //mathematical bold digit 8%
+	{"\\mbfnine",	0x1D7D7}, //mathematical bold digit 9%
+	{"\\Bbbzero",	0x1D7D8}, //mathematical double-struck digit 0%
+	{"\\Bbbone",	0x1D7D9}, //mathematical double-struck digit 1%
+	{"\\Bbbtwo",	0x1D7DA}, //mathematical double-struck digit 2%
+	{"\\Bbbthree",	0x1D7DB}, //mathematical double-struck digit 3%
+	{"\\Bbbfour",	0x1D7DC}, //mathematical double-struck digit 4%
+	{"\\Bbbfive",	0x1D7DD}, //mathematical double-struck digit 5%
+	{"\\Bbbsix",	0x1D7DE}, //mathematical double-struck digit 6%
+	{"\\Bbbseven",	0x1D7DF}, //mathematical double-struck digit 7%
+	{"\\Bbbeight",	0x1D7E0}, //mathematical double-struck digit 8%
+	{"\\Bbbnine",	0x1D7E1}, //mathematical double-struck digit 9%
+	{"\\msanszero",	0x1D7E2}, //mathematical sans-serif digit 0%
+	{"\\msansone",	0x1D7E3}, //mathematical sans-serif digit 1%
+	{"\\msanstwo",	0x1D7E4}, //mathematical sans-serif digit 2%
+	{"\\msansthree",	0x1D7E5}, //mathematical sans-serif digit 3%
+	{"\\msansfour",	0x1D7E6}, //mathematical sans-serif digit 4%
+	{"\\msansfive",	0x1D7E7}, //mathematical sans-serif digit 5%
+	{"\\msanssix",	0x1D7E8}, //mathematical sans-serif digit 6%
+	{"\\msansseven",	0x1D7E9}, //mathematical sans-serif digit 7%
+	{"\\msanseight",	0x1D7EA}, //mathematical sans-serif digit 8%
+	{"\\msansnine",	0x1D7EB}, //mathematical sans-serif digit 9%
+	{"\\mbfsanszero",	0x1D7EC}, //mathematical sans-serif bold digit 0%
+	{"\\mbfsansone",	0x1D7ED}, //mathematical sans-serif bold digit 1%
+	{"\\mbfsanstwo",	0x1D7EE}, //mathematical sans-serif bold digit 2%
+	{"\\mbfsansthree",	0x1D7EF}, //mathematical sans-serif bold digit 3%
+	{"\\mbfsansfour",	0x1D7F0}, //mathematical sans-serif bold digit 4%
+	{"\\mbfsansfive",	0x1D7F1}, //mathematical sans-serif bold digit 5%
+	{"\\mbfsanssix",	0x1D7F2}, //mathematical sans-serif bold digit 6%
+	{"\\mbfsansseven",	0x1D7F3}, //mathematical sans-serif bold digit 7%
+	{"\\mbfsanseight",	0x1D7F4}, //mathematical sans-serif bold digit 8%
+	{"\\mbfsansnine",	0x1D7F5}, //mathematical sans-serif bold digit 9%
+	{"\\mttzero",	0x1D7F6}, //mathematical monospace digit 0%
+	{"\\mttone",	0x1D7F7}, //mathematical monospace digit 1%
+	{"\\mtttwo",	0x1D7F8}, //mathematical monospace digit 2%
+	{"\\mttthree",	0x1D7F9}, //mathematical monospace digit 3%
+	{"\\mttfour",	0x1D7FA}, //mathematical monospace digit 4%
+	{"\\mttfive",	0x1D7FB}, //mathematical monospace digit 5%
+	{"\\mttsix",	0x1D7FC}, //mathematical monospace digit 6%
+	{"\\mttseven",	0x1D7FD}, //mathematical monospace digit 7%
+	{"\\mtteight",	0x1D7FE}, //mathematical monospace digit 8%
+	{"\\mttnine",	0x1D7FF}, //mathematical monospace digit 9%
+	{"\\arabicmaj",	0x1EEF0}, //arabic mathematical operator meem with hah with tatweel%
+	{"\\arabichad",	0x1EEF1}, //arabic mathematical operator hah with dal%
 	{NULL,                     0x00000},
 };
 

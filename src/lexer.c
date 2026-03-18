@@ -2065,6 +2065,11 @@ char *PreProcessGreedyOverLikeOperator(char *string, const char *op, int nop)
 				break;
 			// check for closing bracket before
 			q=p-1;
+			if (q<0)
+			{
+				AddErr(ERRTOOFEWMANDARG);
+				return string;
+			}
 			if (string[q]!='}')
 			{
 				int brac=1;
@@ -2104,6 +2109,9 @@ char *PreProcessGreedyOverLikeOperator(char *string, const char *op, int nop)
 			q=p+nop;
 			if ((string[q]==' ')&&(q<end))
 				q++;
+			if (q==end)
+				return string;
+				
 					
 			if (string[q]!='{')
 			{

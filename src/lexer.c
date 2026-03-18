@@ -1927,6 +1927,12 @@ TOKEN SubLexer(char *begin, FONT F)
 		PeekAhead(&R, begin);
 		return R;		
 	}
+	else if (*begin=='~') // tilde handled in lexer
+	{
+		R.P=PD_SPACE;
+		R.next=begin+1;
+		return R;
+	}
 	else if ((*begin=='^')||(*begin=='_'))
 	{
 		// make a 0x1 box token with sub/superscripts
@@ -1949,7 +1955,7 @@ TOKEN SubLexer(char *begin, FONT F)
 	R.Nargs=1;
 		
 	p=begin+1;
-	while ((*p)&&(!IsInSet(*p, "\\_^/*{ +-\'")))
+	while ((*p)&&(!IsInSet(*p, "\\_^/*{ +-\'~")))
 		p++;
 	while (*p==' ')
 		p++;

@@ -13,6 +13,7 @@
 const macro_def macros[] = {
 	{"boxed", 		1,0,	"\\begin{array}{|c|} \\hline $(0) \\\\\\hline\\end{array}"},
 	{"xrightarrow",	1,1,	"\\stackrel{\\underrightarrow{$(0)}}{%(0)}"},
+	{"xleftarrow",	1,1,	"\\stackrel{\\underleftarrow{$(0)}}{%(0)}"},
 	{"overset", 	2,0,	"\\stackrel{$(0)}{$(1)}"},
 	{"underset", 	2,0,	"\\stackrel{$(1)}{$(0)}"},
 	{NULL,0,0,NULL},

@@ -1117,3 +1117,17 @@ A⃯
 A⃯
 B
 <end>
+
+ 
+<input> xarrow left 
+\xleftarrow{A}
+<ref>   | -A | -S | -m
+A⃮
+<end>
+
+<input> xarrow left option
+\xleftarrow[B]{A}
+<ref>   | -A | -S | -m
+A⃮
+B
+<end>

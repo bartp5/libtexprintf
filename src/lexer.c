@@ -2065,9 +2065,9 @@ int macro_parser(const char *input, const char *cmd, int nopt, int narg, command
 		free(tmp);
 		return -1;                    /* command not found        */
 	}
+	free(tmp);
 	if (!IsInSet(input[cmdlen+1], " [{_^")) // command does not end
 		return -1;
-
     p = input+cmdlen+1;                      /* advance past “\command” */
     
     out->Nopt = 0;

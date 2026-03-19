@@ -1181,6 +1181,7 @@ void MakeCombining(TOKEN *T, box *b, int Font)
 					strncpy(str+l,cm,5);
 					unit->content=(void *)str;
 					AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
+					free(cm);
 					return;
 				}
 			}

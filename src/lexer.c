@@ -2100,7 +2100,6 @@ int macro_parser(const char *input, const char *cmd, int nopt, int narg, command
 			p=q;
 		}
 	}
-	p=q;
 			
 	i=narg;
 	while (i>0) 
@@ -2237,7 +2236,7 @@ char * MacroProcessor(char *string)
 					}
 				}
 				FreeComArgs(&C);	
-				p=end+1;
+				p=end;
 			}
 			else
 			{

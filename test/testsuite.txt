@@ -1078,3 +1078,42 @@ a\choose b+s\over d
 <ref>   | -A | -S | -m
 ([a+b]+c)
 <end>
+
+<input> boxed macro
+\boxed{a}
+<ref>   | -S | -m
+┌───┐
+│ a │
+└───┘
+<ref> -A
++---+
+| a |
++---+
+<end>
+
+<input> overset
+\overset{a}{=}
+<ref>   | -A | -S | -m
+a
+=
+<end>
+
+<input> underset
+\overset{a}{=}
+<ref>   | -A | -S | -m
+a
+=
+<end>
+                                                                                  
+<input> xarrow
+\xrightarrow{A}
+<ref>   | -A | -S | -m
+A⃯
+<end>
+
+<input> xarrow option
+\xrightarrow[B]{A}
+<ref>   | -A | -S | -m
+A⃯
+B
+<end>

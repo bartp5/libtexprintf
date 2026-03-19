@@ -5,6 +5,7 @@
 #include <locale.h>
 #include <math.h>
 #include "lexer.h"
+#include "macros.h"
 #include "parsedef.h"
 #include "stringutils.h"
 #include "error.h"
@@ -472,6 +473,7 @@ char *OptionArgument(char *begin, char **next, char open, char close)
 		(*next)=end+1;
 	begin++; /* strip outer brackets */
 	
+	
 	str=malloc((end-begin+1)*sizeof(char));
 	p=str;
 	while (begin<end)
@@ -486,7 +488,11 @@ char *OptionArgument(char *begin, char **next, char open, char close)
 
 char *Option(char *begin, char **next)
 {
-	return OptionArgument(begin, next, '[', ']');
+	char *r;
+	r=OptionArgument(begin, next, '[', ']');
+	if (r==NULL)
+		return NULL;
+	return r;
 }
 
 
@@ -1495,9 +1501,6 @@ int ReadLengthHeight(char *str)
  * we have to hanmdle an open ended str
  */
 
-
-
-
 int IsTexConstruct(char *string)
 {
 	char *p;
@@ -1510,6 +1513,8 @@ int IsTexConstruct(char *string)
 	}
 	return 0;
 }
+
+
 
 TOKEN SubLexer(char *begin, FONT F)
 {
@@ -1753,6 +1758,7 @@ TOKEN SubLexer(char *begin, FONT F)
 				R.Nopt++;
 				n--;			
 			}
+			begin=end;
 			str=Option(begin, &end);
 			if (str)
 			{
@@ -1766,6 +1772,7 @@ TOKEN SubLexer(char *begin, FONT F)
 					begin=end;
 				}
 			}
+			begin=end;
 			
 			n=K.Nargs;
 			/* when we have an environment we have somthing like \begin{env}[]..{}.. 
@@ -1784,7 +1791,10 @@ TOKEN SubLexer(char *begin, FONT F)
 					n--;
 				}
 				else
+				{
+					begin=end;
 					n=-1;
+				}
 			}
 			if (!(n==0))
 			{
@@ -1997,11 +2007,278 @@ TOKEN Lexer(char *begin, FONT F)
 {
 	TOKEN T;
 	T=SubLexer(begin, F);
-	
+	//PrintToken(T);
 	if (T.P==PD_BEGIN)
 		return BeginEnv(T);
 	return T;
 }
+
+/* what follows are various pre-processors */
+
+/* macro processing, see macros.h for the implemented macros */
+typedef struct {
+	int Narg, Nopt;
+	char **args;
+	char **opt;
+} commandargs;
+
+void FreeComArgs(commandargs *c)
+{
+	int i;
+	if (c->args)
+	{
+		for (i=0;i<c->Narg;i++)
+			free(c->args[i]);
+		free(c->args);
+		c->args=NULL;
+		c->Narg=0;
+	}
+	if (c->opt)
+	{
+		for (i=0;i<c->Nopt;i++)
+			free(c->opt[i]);
+		free(c->opt);
+		c->opt=NULL;
+		c->Nopt=0;
+	}
+}
+
+int macro_parser(const char *input, const char *cmd, int nopt, int narg, commandargs *out, char **end)
+{	
+	char *p, *q, *tmp;
+	int i;	
+    size_t cmdlen = strlen(cmd);
+    size_t bufsize = cmdlen + 2;          /* backslash + NUL */
+    
+    if (!input || !cmd || !out) return -1;
+	if (*input!='\\')
+		return -1;
+		
+    tmp = malloc(bufsize);
+    if (!tmp) return -1;
+    tmp[0] = '\\';
+    memcpy(tmp+1, cmd, cmdlen);
+    tmp[1+cmdlen] = '\0';
+
+    if (strncmp(input,tmp,cmdlen+1)!=0)
+    {
+		free(tmp);
+		return -1;                    /* command not found        */
+	}
+	if (!IsInSet(input[cmdlen+1], " [{_^")) // command does not end
+		return -1;
+
+    p = input+cmdlen+1;                      /* advance past “\command” */
+    
+    out->Nopt = 0;
+    out->Narg = 0;
+    out->opt  = NULL;
+    out->args = NULL;
+
+	i=nopt;
+	
+	while ((tmp=Option(p, &q))&&i)
+	{
+		/* we have an option */
+		if (!out->opt)
+			out->opt=malloc(nopt*sizeof(char *));
+		out->opt[out->Nopt]=tmp;
+		/* move begin forward (to beyond the brackets) */	
+		p=q;
+		out->Nopt++;
+		i--;			
+	}
+	p=q;
+	tmp=Option(p, &q);
+	if (tmp)
+	{
+		AddErr(ERRTOOMANYOPTARG);
+		free(tmp);
+		while ((tmp=Option(p, &q))) /*skip excess optional arguments*/
+		{
+			free(tmp);
+			p=q;
+		}
+	}
+	p=q;
+			
+	i=narg;
+	while (i>0) 
+	{
+		/* we have an argument */
+		if ((tmp=Argument(p, &q))!=NULL)
+		{
+			if (!out->args)
+				out->args=malloc(narg*sizeof(char *));
+			out->args[out->Narg]=tmp;	
+			p=q;
+			out->Narg++;
+			i--;
+		}
+		else
+			i=-1;
+	}
+	if (!(i==0))
+	{
+		AddErr(ERRTOOFEWMANDARG);
+		FreeComArgs(out);
+		return -1;
+	}
+	*end=q;
+	return 0; //success.	
+}
+
+int MatchMacros(const char *begin, commandargs *out, char **end)
+{
+	int i=0, r;
+	while (macros[i].command)
+	{
+		r=macro_parser(begin, macros[i].command, macros[i].Nopt, macros[i].Narg, out, end);
+		if (r==0)
+			return i;
+		i++;
+	}
+	return -1;	
+}
+
+static char *parse_number(const char *p, long *nout)
+{
+    /* parses digits.
+       result is stored in *nout, returns pointer to the first
+       character not part of the number, or NULL on failure.        */
+    const char *start = p;
+    if (!isdigit((unsigned char)*p)) return NULL;   /* at least one digit? */
+
+    char *endptr;
+    long val = strtol(start, &endptr, 10);
+    *nout = val;
+    return endptr;
+}
+char *get_argument(const commandargs *ca, const char *s, char **end)
+{
+    if (!ca || !s) return NULL;
+    if (s[0] == '$' && s[1] == '(') {               /* $( n )  pattern */
+        const char *p = s + 2;
+        long n;
+        *end = parse_number(p, &n);
+        if (!*end || **end != ')') return NULL;       /* missing ')' or bad number */
+
+        if (n < 0 || n >= ca->Narg) return NULL;    /* out of range     */
+        return ca->args[(int)n];
+    }
+    else if (s[0] == '%' && s[1] == '(') {          /* %( n )  pattern */
+        const char *p = s + 2;
+        long n;
+        *end = parse_number(p, &n);
+        if (!*end || **end != ')') return NULL;
+		
+        if (n < 0 || n >= ca->Nopt) return "";
+        return ca->opt[(int)n];
+    }
+    return NULL;
+}
+
+char * MacroProcessor(char *string)
+{
+	char *res, *tmp, *p, *r, *s, *end;
+	char *dummy;
+	int na, i, q;
+	commandargs C;
+	
+	na=strlen(string)+1;
+	res=malloc(na*sizeof(char));
+	
+	p=string;
+	q=0;
+	
+	while (*p)
+	{
+		if (*p=='\\')
+		{
+			if ((i=MatchMacros(p, &C, &end))>=0)
+			{
+				// need to insert replacement
+				r=macros[i].replace;
+				while (*r)
+				{
+					if ((tmp=get_argument(&C, r, &s))==NULL)
+					{
+						res[q]=*r;
+						r++;
+						q++;
+						if (q==na)
+						{
+							na+=16;
+							dummy=realloc(res,na*sizeof(char));
+							if (dummy)
+								res=dummy;
+							else
+								return res;
+						}
+					}
+					else
+					{
+						while (*tmp)
+						{
+							res[q]=*tmp;
+							tmp++;
+							q++;
+							if (q==na)
+							{
+								na+=16;
+								dummy=realloc(res,na*sizeof(char));
+								if (dummy)
+									res=dummy;
+								else
+									return res;
+							}
+						}
+						r=s+1;
+					}
+				}
+				FreeComArgs(&C);	
+				p=end+1;
+			}
+			else
+			{
+				res[q]=*p;
+				p++;
+				q++;
+				if (q==na)
+				{
+					na+=16;
+					dummy=realloc(res,na*sizeof(char));
+					if (dummy)
+						res=dummy;
+					else
+						return res;
+				}				
+			}
+		}
+		else
+		{
+			res[q]=*p;
+			p++;
+			q++;
+			if (q==na)
+			{
+				na+=16;	
+				dummy=realloc(res,na*sizeof(char));
+				if (dummy)
+					res=dummy;
+				else
+					return res;
+			}			
+		}
+	}
+	res[q]='\0';
+	return res;
+}
+
+
+
+
+
 
 /* the tex operators '\over' and '\choose' work very different from most operators 
  * as the arguments are not after the command, like, e.g. \frac{a}{b}.
@@ -2324,8 +2601,10 @@ char * PreProcessorSymb(char *string)
 
 char * PreProcessor(char *string)
 {
-	char *res;
-	res=PreProcessorSymb(string);// allocates a new string res
+	char *res, *tmp;
+	tmp=MacroProcessor(string);
+	res=PreProcessorSymb(tmp);// allocates a new string res
+	free(tmp);
 	res=PreProcessGreedyOverLikeOperator(res, "\\over", 5); // reallocates res if needed
 	res=PreProcessGreedyOverLikeOperator(res, "\\choose", 7);
 	return res;

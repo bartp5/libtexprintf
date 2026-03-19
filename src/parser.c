@@ -1266,13 +1266,16 @@ void MakeSqrt(TOKEN *T, box *b, int Font)
 	
 	if (T->opt)
 	{
-		ParseStringInBox(T->opt[0], sqrt, Font);
-		BoxPos(sqrt->child);
-		wo=sqrt->child->w;		
-		/* xoff will contain an x offset in case the index block is large w.r.t. the size of the radical sign */
-		xoff=wo-1;
-		/* index offset for the box indices to accomodate for the extra index box */
-		ioff=1;	
+		if (T->opt[0][0])
+		{
+			ParseStringInBox(T->opt[0], sqrt, Font);
+			BoxPos(sqrt->child);
+			wo=sqrt->child->w;		
+			/* xoff will contain an x offset in case the index block is large w.r.t. the size of the radical sign */
+			xoff=wo-1;
+			/* index offset for the box indices to accomodate for the extra index box */
+			ioff=1;
+		}
 	}
 	
 	

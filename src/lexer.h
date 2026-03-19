@@ -194,3 +194,11 @@ SCALABLE_DELIMITER LookupDelimiter(char *begin, char **del);
 void LookupCombining(PRSDEF P, unsigned int *comb, unsigned int *alt, unsigned int *altascii);
 int ReadLengthWidth(char *str);
 int ReadLengthHeight(char *str);
+
+/* macro expender struct basically implementa a regular expression search replace */
+typedef struct {
+    const char *command;    /* regex pattern */
+    int Narg;				/* number of mandatory arguments */
+    int Nopt;				/* number of optional arguments */
+    const char *replace;    /* replacement pattern */
+} macro_def;

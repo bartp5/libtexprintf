@@ -28,12 +28,13 @@ utftex
 The utftex program uses libtexprinf to implement a command-line utility 
 to format math. For example:  
 
-    > utftex '\frac{\alpha}{\beta+x}'  
+```
+$ utftex '\frac{\alpha}{\beta+x}'  
+```
+
 gives
- 
-     α   
-    ───  
-    β+x  
+
+<img src="example1.png" alt="example 1" style="width:34px;"/>
 
 
 The texprintf library provides a fairly full featured tex-like syntax
@@ -42,55 +43,41 @@ texprintf outputs UTF-8 and as such cannot change the fonts. However,
 Unicode does provide several font-styles like mathematical calligraphic
 style, or italic). For example:
 
-    > utftex -F mathnormal '\frac{1}{a+x}' 
-gives  
+```
+$ utftex -F mathnormal '\frac{1}{a+x}'  
+```
 
-     1
-    ───
-    𝑎+𝑥
+gives 
+
+<img src="example2.png" alt="example 1" style="width:34px;"/>
+
 
 It also supports some diacritical combining marks, to do things like
 
-    utftex '\vec x' 
+```
+$ utftex '\vec x'
+```
+
 to get
- 
-    x⃗.
+
+<img src="example3.png" alt="example 1" style="width:21px;"/>
 
 A bit more elaborate example is this small table of Laplace transforms:
 
-    > utftex '\begin{array}{|l|l|}  
-    \hline  
-    f(t) & \mathscr{L}[f(t)]=F(s) \\\hline  
-    1 & \frac{1}{s} \\\hline  
-    e^{at}f(t) & F(s-a) \\\hline  
-    \delta\left(t\right) & 1 \\\hline  
-    \delta\left(t-t_0\right) & e^{-st_0} \\\hline  
-    \int_0^t f(x)g(t-x)dx & F(s)G(s)\hline  
-    \end{array}'  
+```
+$ utftex '\begin{array}{|l|l|}  
+  \hline  
+  f(t) & \mathscr{L}[f(t)]=F(s) \\\hline  
+  1 & \frac{1}{s} \\\hline  
+  e^{at}f(t) & F(s-a) \\\hline  
+  \delta\left(t\right) & 1 \\\hline  
+  \delta\left(t-t_0\right) & e^{-st_0} \\\hline  
+  \int_0^t f(x)g(t-x)dx & F(s)G(s)\hline  
+  \end{array}'  
+```
 
-    ┌────────────────┬──────────────┐ 
-    │f(t)            │ 𝓛[f(t)]=F(s) │  
-    ├────────────────┼──────────────┤  
-    │                │ 1            │  
-    │1               │ ─            │  
-    │                │ s            │  
-    ├────────────────┼──────────────┤  
-    │ at             │              │  
-    │e  f(t)         │ F(s-a)       │  
-    ├────────────────┼──────────────┤  
-    │δ(t)            │ 1            │  
-    ├────────────────┼──────────────┤  
-    │                │  -st         │  
-    │                │     0        │  
-    │δ⎛t-t ⎞         │ e            │  
-    │ ⎝   0⎠         │              │  
-    ├────────────────┼──────────────┤  
-    │ t              │              │  
-    │⌠               │              │  
-    │⎮  f(x)g(t-x)dx │ F(s)G(s)     │  
-    │⌡               │              │  
-    │ 0              │              │  
-    └────────────────┴──────────────┘  
+
+<img src="example4.png" alt="example 1" style="width:371px;"/>
 
 
 Note that if the table borders do not properly align you are not viewing 

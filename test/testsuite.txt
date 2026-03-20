@@ -464,22 +464,32 @@ abc a̸ a̸
 
 <input> Lvec
 \Lvec{abc} \Lvec{a} \Lvec a
-<ref>   | -A | -S | -m
- ←
+<ref>   | -S | -m
+⮜——
+abc a⃖ a⃖
+<ref> -A
+<--
 abc a⃖ a⃖
 <end>
 
 <input> lvec
 \lvec{abc} \lvec{a} \lvec a
-<ref>   | -A | -S | -m
- ↼
+<ref>   | -S | -m
+↼——
 abc a⃐ a⃐
-<end>
+<ref> -A
+<--
+abc a⃐ a⃐
+<end>                      
 
+  
 <input> vec
 \vec{abc} \vec{a} \vec a
-<ref>   | -A | -S | -m
- →
+<ref>   | -S | -m
+——⮞
+abc a⃗ a⃗
+<ref> -A
+-->
 abc a⃗ a⃗
 <end>
 
@@ -500,8 +510,11 @@ abc a⃜ a⃜
 
 <input> overleftrightarrow
 \overleftrightarrow{abc} \overleftrightarrow{a} \overleftrightarrow a
-<ref>   | -A | -S | -m
- ↔
+<ref>   | -S | -m
+⮜—⮞
+abc a⃡ a⃡
+<ref> -A
+<->
 abc a⃡ a⃡
 <end>
 
@@ -512,17 +525,20 @@ abc a⃡ a⃡
 abc a̕ a̕
 <end>
 
-<input> ocommatopright
+<input> droang
 \droang{abc} \droang{a} \droang a
 <ref>   | -A | -S | -m
   ┐
 abc a̚ a̚
 <end>
 
-<input> ocommatopright
+<input> rightharpoon
 \rightharpoonaccent{abc} \rightharpoonaccent{a} \rightharpoonaccent a
-<ref>   | -A | -S | -m
- ⇀
+<ref>   | -S | -m
+——⇀
+abc a⃑ a⃑
+<ref> -A
+-->
 abc a⃑ a⃑
 <end>
 
@@ -570,38 +586,53 @@ abc a⃨ a⃨
 
 <input> underleftarrow
 \underleftarrow{abc} \underleftarrow{a} \underleftarrow a
-<ref>   | -A | -S | -m
+<ref>   | -S | -m
 abc a⃮ a⃮
- ↼
+⮜——
+<ref> -A
+abc a⃮ a⃮
+<--
 <end>
 
 
 <input> underrightarrow
 \underrightarrow{abc} \underrightarrow{a} \underrightarrow a
-<ref>   | -A | -S | -m
+<ref>   | -S | -m
 abc a⃯ a⃯
- →
+——⮞
+<ref> -A
+abc a⃯ a⃯
+-->
 <end>
 
 <input> underleftrightarrow
 \underleftrightarrow{abc} \underleftrightarrow{a} \underleftrightarrow a
-<ref>   | -A | -S | -m
+<ref>   | -S | -m
 abc a͍ a͍
- ↔
+⮜—⮞
+<ref> -A
+abc a͍ a͍
+<->
 <end>
 
 <input> underrightharpoondown
 \underrightharpoondown{abc} \underrightharpoondown{a} \underrightharpoondown a
-<ref>   | -A | -S | -m
+<ref>   | -S | -m
 abc a⃬ a⃬
- ⇁
+——⇀
+<ref> -A
+abc a⃬ a⃬
+-->
 <end>
 
 <input> underleftharpoondown
 \underleftharpoondown{abc} \underleftharpoondown{a} \underleftharpoondown a
-<ref>   | -A | -S | -m
+<ref>   | -S | -m
 abc a⃭ a⃭
- ↽
+↼——
+<ref> -A
+abc a⃭ a⃭
+<--
 <end>
 
 

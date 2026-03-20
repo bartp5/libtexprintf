@@ -562,7 +562,6 @@ void DrawScalableDelim(SCALABLE_DELIMITER D, box *b, int h)
 	}
 }
 
-
 void MakeLeftRight(TOKEN *T, box *b, int Font)
 /* make a box between brackets for the token T */
 {
@@ -1149,6 +1148,165 @@ void AddBoxBelowAbove(box *b, unsigned int u, boxalign A, int above, int rep, in
 	b->Y=FIX;
 }
 
+void AddArrowBelowAbove(box *b, PRSDEF  P, int above, int Font)
+{
+	// align CENTER
+	int w, nt;
+	int *Ncol;
+	char *tail=NULL, *lhead=NULL, *rhead=NULL, *ustr;
+	int n, i,j;
+	int m=0;
+	
+	switch(P)
+	{
+		case PD_COMB_LLVEC:
+		case PD_COMB_UNDERLEFTARROW:
+			if (style==&STYLE_ASC)
+			{
+				lhead=Unicode2Utf8(0x0003C);
+				tail=Unicode2Utf8(0x0002D);
+			}
+			else
+			{
+				lhead=Unicode2Utf8(0x02B9C);
+				tail=Unicode2Utf8(0x02014);
+			}
+			break;
+		case PD_COMB_VEC:
+		case PD_COMB_UNDERRIGHTARROW:
+			if (style==&STYLE_ASC)
+			{
+				rhead=Unicode2Utf8(0x0003E);
+				tail=Unicode2Utf8(0x0002D);
+			}
+			else
+			{
+				rhead=Unicode2Utf8(0x02B9E);
+				tail=Unicode2Utf8(0x02014);
+			}
+			break;
+		case PD_COMB_OVERLEFTRIGHTARROW:
+		case PD_COMB_UNDERLEFTRIGHTARROW:
+			if (style==&STYLE_ASC)
+			{
+				lhead=Unicode2Utf8(0x0003C);
+				rhead=Unicode2Utf8(0x0003E);
+				tail=Unicode2Utf8(0x0002D);
+			}
+			else
+			{
+				lhead=Unicode2Utf8(0x02B9C);
+				rhead=Unicode2Utf8(0x02B9E);
+				tail=Unicode2Utf8(0x02014);
+			}
+			break;
+		// large harpoons hard to draw nicely...
+		case PD_COMB_UNDERRIGHTHARPOONDOWN:
+		case PD_COMB_RIGHTHARPOONACCENT:
+			if (style==&STYLE_ASC)
+			{ // dunno how to make a harpoon in ASCII
+				rhead=Unicode2Utf8(0x0003E);
+				tail=Unicode2Utf8(0x0002D);
+			}
+			else
+			{
+				rhead=Unicode2Utf8(0x021C0);
+				tail=Unicode2Utf8(0x02014);
+			}
+			break;
+		case PD_COMB_LVEC:
+		case PD_COMB_UNDERLEFTHARPOONDOWN:
+			if (style==&STYLE_ASC)
+			{
+				lhead=Unicode2Utf8(0x0003C);
+				tail=Unicode2Utf8(0x0002D);
+			}
+			else
+			{
+				lhead=Unicode2Utf8(0x021BC);
+				tail=Unicode2Utf8(0x02014);
+			}
+			break;
+		default:
+			break;
+	}
+	
+	
+	
+	/* get the size of box b */
+	BoxPos(b);
+	w=b->w;
+	Ncol=malloc(sizeof(int));
+	Ncol[0]=1;
+	
+	
+	if (BoxInBox(b, B_ARRAY, (void *)Ncol))
+		return;/*BoxInBox failed, abort */
+	
+	b->child[b->Nc-1].X=CENTER;
+	b->child[b->Nc-1].S=INIT; // trigger recomputing xc after changing alignment
+	// build arrow
+	// compute size
+	n=1;
+	nt=w;
+	if (lhead)
+	{
+		n+=NumByte(lhead);
+		nt--;
+	}
+	if (rhead)
+	{
+		n+=NumByte(rhead);
+		nt--;
+	}
+	if (tail)
+		n+=NumByte(tail)*nt;
+	
+	ustr=malloc(n*sizeof(char));
+	// fill
+	i=0;
+	if (lhead)
+	{
+		n=NumByte(lhead);
+		for (j=0;j<n;j++)
+			ustr[i++]=lhead[j];
+		free(lhead);
+	}
+	if (tail)
+	{
+		n=NumByte(tail);
+		for(;nt>0;nt--)
+			for (j=0;j<n;j++)
+				ustr[i++]=tail[j];
+		free(tail);
+	}
+	if (rhead)
+	{
+		n=NumByte(rhead);
+		for (j=0;j<n;j++)
+			ustr[i++]=rhead[j];
+		free(rhead);
+	}
+	ustr[i++]='\0';
+	
+	AddChild(b, B_UNIT, ustr);
+	b->child[b->Nc-1].X=CENTER;
+	
+	if (above)
+	{ // swap children
+		box d;
+		d=b->child[0];
+		b->child[0]=b->child[1];
+		b->child[1]=d;
+		m=1;
+	}
+	
+	b->S=INIT;
+	BoxPos(b);
+	b->yc=(b->child+m)->ry;
+	b->Y=FIX;
+	
+}
 
 void MakeCombining(TOKEN *T, box *b, int Font)
 {
@@ -1202,16 +1360,25 @@ void MakeCombining(TOKEN *T, box *b, int Font)
 		case PD_COMB_UTILDE:
 		case PD_COMB_WIDEUTILDE:
 		case PD_COMB_THREEUNDERDOT:
-		case PD_COMB_UNDERLEFTARROW:
-		case PD_COMB_UNDERRIGHTARROW:
 		case PD_COMB_UNDERBAR:
-		case PD_COMB_UNDERLEFTRIGHTARROW:
-		case PD_COMB_UNDERRIGHTHARPOONDOWN:
-		case PD_COMB_UNDERLEFTHARPOONDOWN:
 		case PD_COMB_PALH:
 		case PD_COMB_RH:
 		case PD_COMB_SBBRG:
 			AddBoxBelowAbove(b, alt, CENTER, CM_BELOW, CM_SINGLE, Font);
+			break;
+		case PD_COMB_UNDERLEFTARROW:
+		case PD_COMB_UNDERRIGHTARROW:
+		case PD_COMB_UNDERLEFTRIGHTARROW:
+		case PD_COMB_UNDERRIGHTHARPOONDOWN:
+		case PD_COMB_UNDERLEFTHARPOONDOWN:
+			AddArrowBelowAbove(b,T->P, CM_BELOW, Font);
+			break;
+		case PD_COMB_LLVEC:
+		case PD_COMB_VEC:
+		case PD_COMB_OVERLEFTRIGHTARROW:
+		case PD_COMB_LVEC:
+		case PD_COMB_RIGHTHARPOONACCENT:
+			AddArrowBelowAbove(b,T->P, CM_ABOVE, Font);
 			break;
 		case PD_COMB_OCOMMATOPRIGHT:
 		case PD_COMB_DROANG:

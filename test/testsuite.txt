@@ -1135,30 +1135,47 @@ a
 a
 =
 <end>
-                                                                                  
-<input> xarrow
-\xrightarrow{A}
-<ref>   | -A | -S | -m
-A⃯
+
+<input> xrightarrow_option
+\xrightarrow[A]{abc} \xrightarrow[A]{a} \xrightarrow[A] a
+<ref>   | -S | -m
+abc
+——⮞ a⃯ a⃯
+ A  A A
+<ref> -A
+abc
+--> a⃯ a⃯
+ A  A A
+<end>   
+
+<input> xrightarrow_no_option
+\xrightarrow{abc} \xrightarrow{a} \xrightarrow a
+<ref>   | -S | -m
+abc
+——⮞ a⃯ a⃯
+<ref> -A
+abc
+--> a⃯ a⃯
 <end>
 
-<input> xarrow option
-\xrightarrow[B]{A}
-<ref>   | -A | -S | -m
-A⃯
-B
+<input> xleftarrow_no_option
+\xleftarrow{abc} \xleftarrow{a} \xleftarrow a
+<ref>   | -S | -m
+abc
+⮜—— a⃮ a⃮
+<ref> -A
+abc
+<-- a⃮ a⃮
 <end>
 
- 
-<input> xarrow left 
-\xleftarrow{A}
-<ref>   | -A | -S | -m
-A⃮
-<end>
-
-<input> xarrow left option
-\xleftarrow[B]{A}
-<ref>   | -A | -S | -m
-A⃮
-B
+<input> xleftarrow_option
+\xleftarrow[A]{abc} \xleftarrow[A]{a} \xleftarrow[A] a
+<ref>   | -S | -m
+abc
+⮜—— a⃮ a⃮
+ A  A A
+<ref> -A
+abc
+<-- a⃮ a⃮
+ A  A A
 <end>

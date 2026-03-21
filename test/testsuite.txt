@@ -464,10 +464,7 @@ abc a̸ a̸
 
 <input> Lvec
 \Lvec{abc} \Lvec{a} \Lvec a
-<ref>   | -S | -m
-⮜——
-abc a⃖ a⃖
-<ref> -A
+<ref>   | -A | -S | -m
 <--
 abc a⃖ a⃖
 <end>
@@ -485,10 +482,7 @@ abc a⃐ a⃐
   
 <input> vec
 \vec{abc} \vec{a} \vec a
-<ref>   | -S | -m
-——⮞
-abc a⃗ a⃗
-<ref> -A
+<ref>   | -A | -S | -m
 -->
 abc a⃗ a⃗
 <end>
@@ -510,10 +504,7 @@ abc a⃜ a⃜
 
 <input> overleftrightarrow
 \overleftrightarrow{abc} \overleftrightarrow{a} \overleftrightarrow a
-<ref>   | -S | -m
-⮜—⮞
-abc a⃡ a⃡
-<ref> -A
+<ref>   | -A | -S | -m
 <->
 abc a⃡ a⃡
 <end>
@@ -586,10 +577,7 @@ abc a⃨ a⃨
 
 <input> underleftarrow
 \underleftarrow{abc} \underleftarrow{a} \underleftarrow a
-<ref>   | -S | -m
-abc a⃮ a⃮
-⮜——
-<ref> -A
+<ref>   | -A | -S | -m
 abc a⃮ a⃮
 <--
 <end>
@@ -597,23 +585,18 @@ abc a⃮ a⃮
 
 <input> underrightarrow
 \underrightarrow{abc} \underrightarrow{a} \underrightarrow a
-<ref>   | -S | -m
-abc a⃯ a⃯
-——⮞
-<ref> -A
+<ref>   | -A | -S | -m
 abc a⃯ a⃯
 -->
 <end>
 
 <input> underleftrightarrow
 \underleftrightarrow{abc} \underleftrightarrow{a} \underleftrightarrow a
-<ref>   | -S | -m
-abc a͍ a͍
-⮜—⮞
-<ref> -A
+<ref>   | -A | -S | -m
 abc a͍ a͍
 <->
 <end>
+
 
 <input> underrightharpoondown
 \underrightharpoondown{abc} \underrightharpoondown{a} \underrightharpoondown a
@@ -1138,43 +1121,29 @@ a
 
 <input> xrightarrow_option
 \xrightarrow[A]{abc} \xrightarrow[A]{a} \xrightarrow[A] a
-<ref>   | -S | -m
-abc
-——⮞ a⃯ a⃯
- A  A A
-<ref> -A
+<ref>   | -A | -S | -m
 abc
 --> a⃯ a⃯
  A  A A
-<end>   
+<end>
 
 <input> xrightarrow_no_option
 \xrightarrow{abc} \xrightarrow{a} \xrightarrow a
-<ref>   | -S | -m
-abc
-——⮞ a⃯ a⃯
-<ref> -A
+<ref>   | -A | -S | -m
 abc
 --> a⃯ a⃯
 <end>
 
 <input> xleftarrow_no_option
 \xleftarrow{abc} \xleftarrow{a} \xleftarrow a
-<ref>   | -S | -m
-abc
-⮜—— a⃮ a⃮
-<ref> -A
+<ref>   | -A | -S | -m
 abc
 <-- a⃮ a⃮
 <end>
 
 <input> xleftarrow_option
 \xleftarrow[A]{abc} \xleftarrow[A]{a} \xleftarrow[A] a
-<ref>   | -S | -m
-abc
-⮜—— a⃮ a⃮
- A  A A
-<ref> -A
+<ref>   | -A | -S | -m
 abc
 <-- a⃮ a⃮
  A  A A

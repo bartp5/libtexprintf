@@ -1161,44 +1161,44 @@ void AddArrowBelowAbove(box *b, PRSDEF  P, int above, int Font)
 	{
 		case PD_COMB_LLVEC:
 		case PD_COMB_UNDERLEFTARROW:
-			if (style==&STYLE_ASC)
-			{
+			//if (style==&STYLE_ASC)
+			//{
 				lhead=Unicode2Utf8(0x0003C);
 				tail=Unicode2Utf8(0x0002D);
-			}
+			/*}
 			else
 			{
 				lhead=Unicode2Utf8(0x02B9C);
 				tail=Unicode2Utf8(0x02014);
-			}
+			}*/
 			break;
 		case PD_COMB_VEC:
 		case PD_COMB_UNDERRIGHTARROW:
-			if (style==&STYLE_ASC)
-			{
+			//if (style==&STYLE_ASC)
+			//{
 				rhead=Unicode2Utf8(0x0003E);
 				tail=Unicode2Utf8(0x0002D);
-			}
+			/*}
 			else
 			{
 				rhead=Unicode2Utf8(0x02B9E);
 				tail=Unicode2Utf8(0x02014);
-			}
+			}*/
 			break;
 		case PD_COMB_OVERLEFTRIGHTARROW:
 		case PD_COMB_UNDERLEFTRIGHTARROW:
-			if (style==&STYLE_ASC)
-			{
+			//if (style==&STYLE_ASC)
+			//{
 				lhead=Unicode2Utf8(0x0003C);
 				rhead=Unicode2Utf8(0x0003E);
 				tail=Unicode2Utf8(0x0002D);
-			}
+			/*}
 			else
 			{
 				lhead=Unicode2Utf8(0x02B9C);
 				rhead=Unicode2Utf8(0x02B9E);
 				tail=Unicode2Utf8(0x02014);
-			}
+			}*/
 			break;
 		// large harpoons hard to draw nicely...
 		case PD_COMB_UNDERRIGHTHARPOONDOWN:

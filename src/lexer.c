@@ -2701,6 +2701,7 @@ char * ApplyUserMacro(TOKEN *T)
 			new++;
 		macrolist[1]=m;
 		m.command=T->args[0]; 
+		
 		m.args=T->args[1];
 		m.replace=T->args[2];
 		macrolist[0]=m;
@@ -2709,37 +2710,52 @@ char * ApplyUserMacro(TOKEN *T)
 	}
 	return NULL;
 }
-
-char * PreProcessor(char *string)
+char * UserMacroProcesssor(char *string)
 {
-	char *res, *tmp;
-	char *prev_err_counter;	/* error counters */
 	TOKEN T;
 	FONT F=F_NOFONT;
-	
-	res=PreProcessorSymb(string);// allocates a new string res
-	tmp=res;
-	res=MacroProcessor(res, default_macros);
-	free(tmp);
-	
-	//process user macros
-	// errors from macro parsingh should be accounted for
-	// errors of the first non macro command should not be counted double
+	char *res, *tmp;
+    size_t len = strlen(string);
+    size_t bufsize = len + 1;          /* + NUL */
+		
+    tmp = malloc(bufsize);
+    if (!tmp) return NULL;
+    memcpy(tmp, string, len);
+    tmp[len] = '\0';
+	res=tmp;
 	StoreErrState();
 	T=Lexer(res, F);
 	while (T.P==PD_MACRO)
 	{
-		StoreErrState();
 		tmp=res;
 		res=ApplyUserMacro(&T);
 		free(tmp);
 		FreeToken(T);
+		StoreErrState();
 		T=Lexer(res, F);
 	}
 	FreeToken(T);
 	RestoreErrState();
+	return res;	
+}
+
+char * PreProcessor(char *string)
+{
+	char *res, *tmp;
+	// user macros override all other definitions
+	res=UserMacroProcesssor(string);
 	
+	// built-in macros follow
+	tmp=res;
+	res=MacroProcessor(res, default_macros);
+	free(tmp);
 	
+	// symbol processing
+	tmp=res;
+	res=PreProcessorSymb(res);// allocates a new string res
+	free(tmp);
+	
+	// greedy fix
 	res=PreProcessGreedyOverLikeOperator(res, "\\over", 5); // reallocates res if needed
 	res=PreProcessGreedyOverLikeOperator(res, "\\choose", 7);
 	return res;

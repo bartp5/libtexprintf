@@ -559,7 +559,7 @@ const Symbol  Symbols[] = {
 	{"\\circ", 0x02218},
 	{"\\bullet", 0x02219},	
 	{"\\utfsqrt", 0x0221A},
-	{"\\utfsqrt[3]", 0x0221B},
+	{"\\utfsqrt[3]", 0x0221B}, // this may have worked at some point in the past...
 	{"\\utfsqrt[4]", 0x0221C},
 	{"\\propto", 0x0221D},
 	{"\\infty", 0x0221E},

@@ -113,6 +113,7 @@ const KEYWORD   Keys[] = {
 	{"\\:",      	PD_SPACE    	, 0, 0},
 	{"\\quad",      PD_DSPACE    	, 0, 0},
 	{"\\qquad",     PD_TSPACE    	, 0, 0},
+	{"\\macro",     PD_MACRO    , 3, 0},
 	// combining stuff
 	{"\\overline",  PD_COMB_OVERLINE    , 1, 0},
 	{"\\underline", PD_COMB_UNDERLINE   , 1, 0},

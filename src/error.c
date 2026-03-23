@@ -7,6 +7,10 @@
 int ERRORSTATE=0;			/* single boolean indicating whether there were any errors */
 char ERRORS[NERR] = {0};	/* zero initialized error flags */
 
+char ERRORS_BACKUP[NERR] = {0};		/* zero initialized error flags */
+int ERRORSTATE_BACKUP=0;			/* single boolean indicating whether there were any errors */
+
+
 void AddErr(int ERRFLAG)
 {
 	ERRORSTATE=1;
@@ -56,4 +60,20 @@ void ResetErrors()
 	for (i=1;i<NERR;i++)
 		ERRORS[i]=0;
 	ERRORSTATE=0;
+}
+
+/* copy current error state */
+void StoreErrState()
+{
+	int i;
+	ERRORSTATE_BACKUP=ERRORSTATE;
+	for (i=1;i<NERR;i++)
+		ERRORS_BACKUP[i]=ERRORS[i];
+}
+void RestoreErrState()
+{
+	int i;
+	ERRORSTATE=ERRORSTATE_BACKUP;
+	for (i=1;i<NERR;i++)
+		ERRORS[i]=ERRORS_BACKUP[i];
 }

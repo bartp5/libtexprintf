@@ -2689,12 +2689,57 @@ char * PreProcessorSymb(char *string)
 	return res;
 }
 
+char * ApplyUserMacro(TOKEN *T)
+{
+	macro_def macrolist[2];
+	macro_def m={0};
+	if (T->next)
+	{
+		char *new;
+		new=T->next;
+		while (*new==' ') // skip whitespace
+			new++;
+		macrolist[1]=m;
+		m.command=T->args[0]; 
+		m.args=T->args[1];
+		m.replace=T->args[2];
+		macrolist[0]=m;
+		new=MacroProcessor(new, macrolist);
+		return new;
+	}
+	return NULL;
+}
+
 char * PreProcessor(char *string)
 {
 	char *res, *tmp;
-	tmp=MacroProcessor(string, default_macros);
-	res=PreProcessorSymb(tmp);// allocates a new string res
+	char *prev_err_counter;	/* error counters */
+	TOKEN T;
+	FONT F=F_NOFONT;
+	
+	res=PreProcessorSymb(string);// allocates a new string res
+	tmp=res;
+	res=MacroProcessor(res, default_macros);
 	free(tmp);
+	
+	//process user macros
+	// errors from macro parsingh should be accounted for
+	// errors of the first non macro command should not be counted double
+	StoreErrState();
+	T=Lexer(res, F);
+	while (T.P==PD_MACRO)
+	{
+		StoreErrState();
+		tmp=res;
+		res=ApplyUserMacro(&T);
+		free(tmp);
+		FreeToken(T);
+		T=Lexer(res, F);
+	}
+	FreeToken(T);
+	RestoreErrState();
+	
+	
 	res=PreProcessGreedyOverLikeOperator(res, "\\over", 5); // reallocates res if needed
 	res=PreProcessGreedyOverLikeOperator(res, "\\choose", 7);
 	return res;

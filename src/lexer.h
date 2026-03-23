@@ -131,6 +131,7 @@ typedef enum {
 	PD_TSPACE,
 	PD_NSPACE,
 	PD_PRIME,
+	PD_MACRO,
 	PD_NONE
 } PRSDEF;
 typedef enum {
@@ -201,3 +202,4 @@ typedef struct {
     char *args;   	  /* format "O{default}": optional argument, "m":mandatory argument */
     char *replace;    /* replacement pattern */
 } macro_def;
+char * MacroProcessor(char *string, const macro_def *macros);

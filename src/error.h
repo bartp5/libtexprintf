@@ -11,3 +11,5 @@ int QueryErr(int ERRFLAG);
 void E_Messages();
 char *E_Messages_str();
 void ResetErrors();
+void StoreErrState();
+void RestoreErrState();

@@ -2579,7 +2579,6 @@ void MakeArrayDoubleBrace(TOKEN *T, box *b, char *lbrace, char *rbrace, int Font
 	AddScripts(T->sub, T->super, b->child+b->Nc-1, T->limits, Font);
 }
 
-
 void ParseStringInBox(char *B, box *parent, int Font)
 {
 	int *Nc;
@@ -2843,6 +2842,11 @@ void ParseStringRecursive(char *B, box *parent, int Font)
 			case PD_COMB_VERTOVERLAY:
 				MakeCombining(&T, b, Font);
 				break;
+			case PD_MACRO:
+				/* The following comment line lets the gen_errorflags.sh script generate appropriate error flags and messages */
+				// ERRORFLAG MISPLACEDMACRO  "Macos must be defined at the start"
+				AddErr(MISPLACEDMACRO);
+				break;
 			default:
 				break;
 		
@@ -2860,11 +2864,12 @@ box ParseString(char *string, int LW, char *font)
 	box root;
 	B=PreProcessor(string);
 	//printf("preprosessor: %s\n", B);
-	
+
 	Ncol=malloc(sizeof(int));
 	Ncol[0]=LW;
 	root=InitBox(NULL, B_LINE, (void *)Ncol);
 	RootFont=LookupFont(font);
+
 	ParseStringRecursive(B, &root, RootFont);
 	/* BoxSetState(&root, INIT);*/
 	free(B);

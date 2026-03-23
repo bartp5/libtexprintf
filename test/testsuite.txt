@@ -1148,3 +1148,15 @@ abc
 <-- a⃮ a⃮
  A  A A
 <end>
+
+<input> user_macros
+\macro {foo}{O{default}m}{macro(%(0),$(0))} \macro {bar}{O{default}m}{macro2(%(0),$(0))} \foo{b}  \bar[a]{C}
+<ref>   | -A | -S | -m
+macro(default,b) macro2(a,C)
+<end>
+
+<input> user_macros2
+\macro {foo}{O{}m}{macro(%(0),$(0))} \foo{b}  \foo[bar]{C}
+<ref>   | -A | -S | -m
+macro(,b) macro(bar,C)
+<end>

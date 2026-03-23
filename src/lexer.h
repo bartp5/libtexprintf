@@ -195,10 +195,9 @@ void LookupCombining(PRSDEF P, unsigned int *comb, unsigned int *alt, unsigned i
 int ReadLengthWidth(char *str);
 int ReadLengthHeight(char *str);
 
-/* macro expender struct basically implementa a regular expression search replace */
+/* macro expender struct */
 typedef struct {
-    const char *command;    /* regex pattern */
-    int Narg;				/* number of mandatory arguments */
-    int Nopt;				/* number of optional arguments */
-    const char *replace;    /* replacement pattern */
+    char *command;    /* command name */
+    char *args;   	  /* format "O{default}": optional argument, "m":mandatory argument */
+    char *replace;    /* replacement pattern */
 } macro_def;

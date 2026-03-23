@@ -2043,7 +2043,98 @@ void FreeComArgs(commandargs *c)
 	}
 }
 
-int macro_parser(const char *input, const char *cmd, int nopt, int narg, commandargs *out, char **end)
+
+// parses the arge argument and returns a commandargs struct with the fields Narg, Nopt, and defaults defined. 
+commandargs macro_args_parser(char *args)
+{
+	char *p=args;
+	int Nao=0; // number of allocated optional default arguments
+	commandargs out={0};
+	while (*p)
+	{
+		switch(*p)
+		{
+			case 'O':// parse optional arg full opt arrays with defaults
+			{	
+				char **dummy, *dum;
+				int Na=256, i=0;
+				int brac=0;
+				if (Nao==out.Nopt)
+				{
+					Nao+=4;
+					if (!out.opt)
+					{
+						out.opt=malloc(Nao*sizeof(char *));
+						if (!out.opt)
+							return out;
+					}
+					else
+					{
+						dummy=realloc(out.opt, Nao*sizeof(char *));
+						if (dummy)
+							out.opt=dummy;
+						else
+							return out;
+					}
+				}
+				p++;
+				out.opt[out.Nopt]=malloc(Na*sizeof(char));
+				if (*p=='{')
+				{
+					brac++;
+					p++;
+					while (*p && brac)
+					{
+						if (*p=='}')
+							brac--;
+						if (*p=='{')
+							brac++;
+						if (brac)
+						{
+							out.opt[out.Nopt][i]=*p;
+							i++;
+							if (i==Na)
+							{
+								Na+=256;
+								dum=realloc(out.opt[out.Nopt], Na*sizeof(char));
+								if (dum)
+									out.opt[out.Nopt]=dum;
+								else
+								{
+									out.opt[out.Nopt][i-1]='\0';
+									return out;
+								}
+							}					
+							p++;						
+						}
+						else
+							out.opt[out.Nopt][i]='\0';		
+					}
+					if (brac)
+						AddErr(LEXPREMATUREEND); /* still within brackets! */
+				}
+				else
+				{
+					out.opt[out.Nopt][0]='\0';
+					p--;
+				}				
+				out.Nopt++;
+				break;
+			}
+			case 'm':// mandatory arg, no default values, keep args empty			
+				out.Narg++;
+				break;
+			default:
+				// we ignore all we do not understand
+				break;
+		}
+		p++;			
+	}
+	return out;
+}
+
+
+int macro_parser(const char *input, const char *cmd, char *args, commandargs *out, char **end)
 {	
 	char *p, *q, *tmp;
 	int i;	
@@ -2069,70 +2160,66 @@ int macro_parser(const char *input, const char *cmd, int nopt, int narg, command
 	if (!IsInSet(input[cmdlen+1], " [{_^")) // command does not end
 		return -1;
     p = input+cmdlen+1;                      /* advance past “\command” */
-    
-    out->Nopt = 0;
-    out->Narg = 0;
-    out->opt  = NULL;
-    out->args = NULL;
+    // init out struct;
+    (*out)=macro_args_parser(args);
 
-	i=nopt;
-	
-	while ((tmp=Option(p, &q))&&i)
+	i=0;	
+	while ((tmp=Option(p, &q))&&(i<out->Nopt))
 	{
-		/* we have an option */
-		if (!out->opt)
-			out->opt=malloc(nopt*sizeof(char *));
-		out->opt[out->Nopt]=tmp;
+		/* we have an option specified */
+		// remove the default
+		free(out->opt[i]);
+		// replace with what we got
+		out->opt[i]=tmp;
 		/* move begin forward (to beyond the brackets) */	
 		p=q;
-		out->Nopt++;
-		i--;			
+		i++;			
 	}
 	p=q;
-	tmp=Option(p, &q);
-	if (tmp)
+	if (i==out->Nopt)
 	{
-		AddErr(ERRTOOMANYOPTARG);
-		free(tmp);
-		while ((tmp=Option(p, &q))) /*skip excess optional arguments*/
+		tmp=Option(p, &q);
+		if (tmp)
 		{
+			AddErr(ERRTOOMANYOPTARG);
 			free(tmp);
-			p=q;
+			while ((tmp=Option(p, &q))) /*skip excess optional arguments*/
+			{
+				free(tmp);
+				p=q;
+			}
 		}
-	}
-			
-	i=narg;
-	while (i>0) 
+	}		
+	i=0;
+	while (i<out->Narg)
 	{
-		/* we have an argument */
 		if ((tmp=Argument(p, &q))!=NULL)
 		{
+			/* we have an argument */
 			if (!out->args)
-				out->args=malloc(narg*sizeof(char *));
-			out->args[out->Narg]=tmp;	
+				out->args=malloc(out->Narg*sizeof(char *));
+			out->args[i]=tmp;	
 			p=q;
-			out->Narg++;
-			i--;
 		}
-		else
-			i=-1;
+		i++;
 	}
-	if (!(i==0))
+	if (i<out->Narg)
 	{
 		AddErr(ERRTOOFEWMANDARG);
 		FreeComArgs(out);
 		return -1;
 	}
+	
 	*end=q;
 	return 0; //success.	
 }
 
-int MatchMacros(const char *begin, commandargs *out, char **end)
+int MatchMacros(const char *begin, commandargs *out, char **end, const macro_def *macros)
 {
 	int i=0, r;
 	while (macros[i].command)
 	{
-		r=macro_parser(begin, macros[i].command, macros[i].Nopt, macros[i].Narg, out, end);
+		r=macro_parser(begin, macros[i].command, macros[i].args, out, end);
 		if (r==0)
 			return i;
 		i++;
@@ -2171,17 +2258,20 @@ char *get_argument(const commandargs *ca, const char *s, char **end)
         *end = parse_number(p, &n);
         if (!*end || **end != ')') return NULL;
 		
-        if (n < 0 || n >= ca->Nopt) return "";
+        if (n < 0 || n >= ca->Nopt) return NULL;     /* out of range     */
         return ca->opt[(int)n];
     }
     return NULL;
 }
 
-char * MacroProcessor(char *string)
+/* MacroProcessor: Takes and input string and a list of macros
+ * Replaces all occurances of the macro functions with their 
+ * definitions */ 
+char * MacroProcessor(char *string, const macro_def *macros)
 {
 	char *res, *tmp, *p, *r, *s, *end;
 	char *dummy;
-	int na, i, q;
+	int na, i, q, j;
 	commandargs C;
 	
 	na=strlen(string)+1;
@@ -2194,10 +2284,11 @@ char * MacroProcessor(char *string)
 	{
 		if (*p=='\\')
 		{
-			if ((i=MatchMacros(p, &C, &end))>=0)
+			if ((i=MatchMacros(p, &C, &end, macros))>=0)
 			{
 				// need to insert replacement
-				r=macros[i].replace;
+				r=macros[i].replace;		
+				
 				while (*r)
 				{
 					if ((tmp=get_argument(&C, r, &s))==NULL)
@@ -2601,7 +2692,7 @@ char * PreProcessorSymb(char *string)
 char * PreProcessor(char *string)
 {
 	char *res, *tmp;
-	tmp=MacroProcessor(string);
+	tmp=MacroProcessor(string, default_macros);
 	res=PreProcessorSymb(tmp);// allocates a new string res
 	free(tmp);
 	res=PreProcessGreedyOverLikeOperator(res, "\\over", 5); // reallocates res if needed

@@ -2274,7 +2274,7 @@ char * MacroProcessor(char *string, const macro_def *macros)
 {
 	char *res, *tmp, *p, *r, *s, *end;
 	char *dummy;
-	int na, i, q, j;
+	int na, i, q;
 	commandargs C;
 	
 	na=strlen(string)+1;
@@ -2692,54 +2692,128 @@ char * PreProcessorSymb(char *string)
 	return res;
 }
 
-char * ApplyUserMacro(TOKEN *T)
+macro_def FetchMacro(TOKEN *T)
 {
-	macro_def macrolist[2];
 	macro_def m={0};
-	if (T->next)
+	if (T->P==PD_MACRO)
 	{
-		char *new;
-		new=T->next;
-		while (*new==' ') // skip whitespace
-			new++;
-		macrolist[1]=m;
-		m.command=T->args[0]; 
+		size_t len;
+		char *tmp;
+		len=strlen(T->args[0]);
+		tmp = malloc(len+1);
+		if (!tmp) return m;
+		memcpy(tmp, T->args[0], len+1);	
+		m.command=tmp;
 		
-		m.args=T->args[1];
-		m.replace=T->args[2];
-		macrolist[0]=m;
-		new=MacroProcessor(new, macrolist);
-		return new;
+		len=strlen(T->args[1]);
+		tmp = malloc(len+1);
+		if (!tmp)
+		{
+			free(m.command);
+			m.command=NULL;
+			return m;
+		}
+		memcpy(tmp, T->args[1], len+1);	
+		m.args=tmp;
+		
+		len=strlen(T->args[2]);
+		tmp = malloc(len+1);
+		if (!tmp)
+		{
+			free(m.command);
+			m.command=NULL;
+			free(m.args);
+			m.args=NULL;
+			return m;
+		}
+		memcpy(tmp, T->args[2], len+1);	
+		m.replace=tmp;
 	}
-	return NULL;
+	return m;
 }
-char * UserMacroProcesssor(char *string)
+
+void FreeMacros(macro_def *macrolist)
 {
+	macro_def *p;
+	macro_def nulmacro={0};
+	p=macrolist;
+	while(p->command)
+	{
+		free(p->command);
+		if (p->args)
+			free(p->args);
+		if (p->replace)
+			free(p->replace);
+		*p=nulmacro;
+		p=p+1;
+	}
+}
+		
+
+macro_def * CollectMacros(char *string, char **next)
+{
+	macro_def *macrolist;
+	int na=16, i=0;
+	macro_def nulmacro={0};
+	macro_def new={0};
 	TOKEN T;
 	FONT F=F_NOFONT;
-	char *res, *tmp;
-    size_t len = strlen(string);
-    size_t bufsize = len + 1;          /* + NUL */
-		
-    tmp = malloc(bufsize);
-    if (!tmp) return NULL;
-    memcpy(tmp, string, len);
-    tmp[len] = '\0';
-	res=tmp;
+	char *p;
+	
+	macrolist=malloc(na*sizeof(macro_def));
+	if (!macrolist)
+		return NULL;
+	macrolist[i]=nulmacro;
+	
 	StoreErrState();
-	T=Lexer(res, F);
+	p=string;
+	T=Lexer(p, F);
 	while (T.P==PD_MACRO)
 	{
-		tmp=res;
-		res=ApplyUserMacro(&T);
-		free(tmp);
-		FreeToken(T);
 		StoreErrState();
-		T=Lexer(res, F);
+		new=FetchMacro(&T);
+		if (new.command)
+		{
+			macrolist[i]=new;
+			i++;
+			if (i==na)
+			{
+				macro_def *dummy;
+				na+=16;
+				dummy=realloc(macrolist,na*sizeof(macro_def));
+				if (!dummy)
+				{
+					FreeMacros(macrolist);
+					free(macrolist);
+					RestoreErrState();
+					return NULL;
+				}
+				macrolist=dummy;
+			}	
+			macrolist[i]=nulmacro;	// keep list null terminated		
+		}
+		p=T.next;
+		while (*p==' ') // skip whitespace
+			p++;
+		FreeToken(T);
+		T=Lexer(p, F);
 	}
+	(*next)=p;
 	FreeToken(T);
 	RestoreErrState();
-	return res;	
+	return macrolist;
+}
+
+char * UserMacroProcesssor(char *string)
+{
+	macro_def * macrolist;
+	char *new;
+	
+	macrolist=CollectMacros(string, &new);
+	new=MacroProcessor(new, macrolist);// allocates and fills new
+	FreeMacros(macrolist);
+	free(macrolist);
+	return new;	
 }
 
 char * PreProcessor(char *string)

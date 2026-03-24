@@ -2158,7 +2158,8 @@ int macro_parser(const char *input, const char *cmd, char *args, commandargs *ou
 	}
 	free(tmp);
 	
-	if (!IsInSet(input[cmdlen+1], " [{_^\n\r\t")) // command does not end
+	
+	if (((input[cmdlen+1]>='A')&&(input[cmdlen+1]<='Z'))||((input[cmdlen+1]>='a')&&(input[cmdlen+1]<='z')))// command does not end here
 		return -1;
     p = input+cmdlen+1;                      /* advance past “\command” */
     q=p;

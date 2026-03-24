@@ -2157,9 +2157,11 @@ int macro_parser(const char *input, const char *cmd, char *args, commandargs *ou
 		return -1;                    /* command not found        */
 	}
 	free(tmp);
-	if (!IsInSet(input[cmdlen+1], " [{_^")) // command does not end
+	
+	if (!IsInSet(input[cmdlen+1], " [{_^\n\r\t")) // command does not end
 		return -1;
     p = input+cmdlen+1;                      /* advance past “\command” */
+    q=p;
     // init out struct;
     (*out)=macro_args_parser(args);
 

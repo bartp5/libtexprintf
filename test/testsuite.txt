@@ -1160,3 +1160,9 @@ macro(default,b) macro2(a,C)
 <ref>   | -A | -S | -m
 macro(,b) macro(bar,C)
 <end>
+
+<input> usermacrooverrules
+\macro{alpha}{}{\beta} \alpha
+<ref>   | -A | -S | -m
+β
+<end>
